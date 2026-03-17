@@ -9,31 +9,53 @@
 
 <h1>Bug Hunters</h1>
 
-<div id="game-container">
+<div id="game-container" style="position:relative; display:inline-block;">
   <canvas id="gameCanvas" width="900" height="500"></canvas>
-</div>
 
-<!-- POPUP MISSÃO -->
-<div id="missionPopup" class="hidden">
-  <div class="popup-content">
-    <p>Deseja iniciar a missão?</p>
-    <button onclick="startMission()">Sim</button>
-    <button onclick="closePopup()">Não</button>
+  <!-- POPUP DE APROXIMAÇÃO -->
+  <div id="missionPopup" class="hidden overlay">
+    <div class="popup-content">
+      <p id="popup-desc">Um bug foi encontrado no sistema!</p>
+      <button onclick="startMission()">Corrigir Bug</button>
+      <button onclick="closePopup()">Ignorar</button>
+    </div>
+  </div>
+
+  <!-- TELA DE MISSÃO -->
+  <div id="missionScreen" class="hidden overlay">
+    <div class="popup-content">
+      <h2 id="missionTitle">MISSÃO</h2>
+      <p id="missionDesc"></p>
+      <pre id="missionCode"></pre>
+      <p class="mission-question">Escolha a opção correta:</p>
+      <div id="choicesContainer"></div>
+      <div id="explanationBox" class="explanation hidden"></div>
+      <p id="feedbackMsg" class="feedback"></p>
+      <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
+      <button id="nextBtn" class="hidden" onclick="closeMission()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- TELA DE VITÓRIA -->
+  <div id="winScreen" class="hidden overlay">
+    <div class="popup-content">
+      <h2>Sistema Limpo!</h2>
+      <p>Todos os bugs foram eliminados.</p>
+      <p>Pontuação Final: <span id="finalScore"></span></p>
+      <button onclick="restartGame()">Jogar Novamente</button>
+    </div>
   </div>
 </div>
 
-<!-- TELA MISSÃO -->
-<div id="missionScreen" class="hidden">
-  <div class="popup-content">
-    <p id="missionText">Resolva: energia < 20 → retornar base</p>
-    <input id="answer" placeholder="Digite: if energia < 20">
-    <button onclick="checkAnswer()">Enviar</button>
-  </div>
+<!-- HUD -->
+<div id="hud">
+  <span>Pontos: <strong id="scoreVal">0</strong></span>
+  <span>Bugs: <strong id="bugsVal">0/5</strong></span>
+  <span>Vidas: <strong id="livesVal">♥♥♥</strong></span>
 </div>
 
 <script src="player.js"></script>
 <script src="mission.js"></script>
 <script src="game.js"></script>
-
 </body>
 </html>
