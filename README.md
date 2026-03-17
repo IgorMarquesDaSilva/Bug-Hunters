@@ -1,4 +1,5 @@
-🐞 Bug Hunters
+# Bug-Hunters
+
 Bug Hunters é um jogo educativo 2D desenvolvido para ensinar lógica de programação de forma simples, interativa e acessível.
 
 🎮 Sobre o Jogo
