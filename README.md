@@ -1,36 +1,57 @@
-# Bug-Hunters
+# Bug Hunters 🐛
 
-Bug Hunters é um jogo educativo 2D desenvolvido para ensinar lógica de programação de forma simples, interativa e acessível.
+Bug Hunters é um jogo educativo 2D desenvolvido para ensinar lógica de programação de forma simples, interativa e acessível. O projeto nasceu da ideia de tornar o aprendizado de programação mais dinâmico e divertido, usando elementos de jogos para engajar alunos que estão dando os primeiros passos na área.
 
-🎮 Sobre o Jogo
-No jogo, o jogador controla um personagem em um ambiente 2D e deve explorar o mapa em busca de falhas em sistemas digitais, representadas como bugs.
+## 🎮 Sobre o Jogo
 
-Ao encontrar um bug, o jogador pode escolher iniciar uma missão. Nessas missões, ele precisa resolver desafios relacionados à lógica de programação para corrigir o problema e continuar avançando no jogo.
+O jogador controla um robô em um mapa digital com estética cyberpunk e deve explorar o ambiente em busca de bugs — falhas em sistemas representadas por blocos vermelhos piscando no mapa. O cenário é composto por uma grade digital com nós conectados, criando a atmosfera de um sistema computacional infectado por erros.
 
-🧠 Proposta Educacional
-O jogo foi criado para introduzir conceitos básicos de programação para alunos iniciantes, utilizando uma abordagem prática e visual.
+Ao se aproximar de um bug, uma linha de radar aparece indicando a proximidade. O jogador pode então escolher iniciar a missão de correção. Cada missão apresenta um trecho de código com uma lacuna e quatro alternativas de resposta. Após responder, uma explicação é exibida para reforçar o conceito aprendido, independentemente de a resposta ter sido certa ou errada.
 
-Durante a experiência, o jogador desenvolve:
+## 🧠 Proposta Educacional
 
-Raciocínio lógico
+O jogo foi criado para introduzir conceitos básicos de programação para alunos iniciantes, utilizando uma abordagem prática e visual. Durante a experiência, o jogador aprende sobre:
 
-Pensamento computacional
+- Estruturas condicionais (`if`)
+- Laços de repetição (`for`)
+- Variáveis e tipos de dados
+- Operadores lógicos (`and`, `or`)
+- Definição de funções (`def`)
 
-Capacidade de resolver problemas
+Cada conceito é apresentado dentro de um contexto que faz sentido para o jogador, facilitando a compreensão e a memorização. O formato de múltipla escolha foi escolhido para reduzir a barreira de entrada, permitindo que alunos sem nenhum conhecimento prévio consigam jogar e aprender desde o primeiro contato.
 
-Noções iniciais de programação
+## 🕹️ Como Jogar
 
-🕹️ Funcionamento
-O jogador se movimenta livremente pelo mapa
+- **Mover:** WASD ou teclas de seta
+- **Iniciar missão:** aproxime-se de um bug vermelho no mapa
+- **Responder:** escolha uma das quatro alternativas apresentadas
+- Após responder, uma explicação é exibida para reforçar o aprendizado
+- Bugs resolvidos ficam marcados em verde no mapa
 
-Ao se aproximar de um ponto de missão, pode escolher iniciar o desafio
+## 📊 Sistema de Pontuação
 
-Cada missão apresenta um problema que deve ser resolvido
+- Cada missão concluída corretamente vale **100 pontos**
+- O jogador possui **3 vidas** — perde uma a cada resposta errada
+- A barra de progresso indica quantos bugs já foram resolvidos
+- Ao eliminar todos os bugs, a pontuação final é exibida
 
-Ao concluir, o jogador continua explorando o jogo
+## 📁 Estrutura do Projeto
+```
+bug-hunters/
+├── index.html   — estrutura da página e overlays do jogo
+├── style.css    — estilo visual do jogo
+├── player.js    — dados e desenho do personagem
+├── mission.js   — missões, lógica dos bugs e popups
+└── game.js      — loop principal, movimento e renderização
+```
 
-🎯 Objetivo
-Tornar o aprendizado de programação mais acessível e interessante, utilizando elementos de jogos para engajar os alunos e facilitar a compreensão dos conceitos.
+## 👥 Autores
 
-🚧 Status
+Desenvolvido por:
+
+- **Igor Marques da Silva**
+- **Maria Vitória Victor Brito**
+
+## 🚧 Status
+
 Projeto em desenvolvimento.
