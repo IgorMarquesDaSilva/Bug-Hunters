@@ -2,12 +2,13 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Bug Hunters</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Bug Hunters</h1>
+<h1>🐞 Bug Hunters</h1>
 
 <div id="game-container" style="position:relative; display:inline-block;">
   <canvas id="gameCanvas" width="900" height="500"></canvas>
@@ -16,8 +17,8 @@
   <div id="missionPopup" class="overlay" style="display:none;">
     <div class="popup-content">
       <p id="popup-desc">Um bug foi encontrado no sistema!</p>
-      <button onclick="startMission()">Corrigir Bug</button>
-      <button onclick="closePopup()">Ignorar</button>
+      <button onclick="startMission()">🔧 Corrigir Bug</button>
+      <button onclick="closePopup()">❌ Ignorar</button>
     </div>
   </div>
 
@@ -27,7 +28,7 @@
       <h2 id="missionTitle">MISSÃO</h2>
       <p id="missionDesc"></p>
       <pre id="missionCode"></pre>
-      <p class="mission-question">Escolha a opção correta:</p>
+      <p class="mission-question">📌 Escolha a opção correta:</p>
       <div id="choicesContainer"></div>
       <div id="explanationBox" class="explanation" style="display:none;"></div>
       <p id="feedbackMsg" class="feedback"></p>
@@ -83,10 +84,10 @@
 
 <!-- HUD -->
 <div id="hud">
-  <span>Pontos: <strong id="scoreVal">0</strong></span>
-  <span>Sala: <strong id="salaVal">1</strong></span>
-  <span>Bugs: <strong id="bugsVal">0/5</strong></span>
-  <span>Vidas: <strong id="livesVal">♥♥♥</strong></span>
+  <span>🔰 Pontos: <strong id="scoreVal">0</strong></span>
+  <span>🏢 Sala: <strong id="salaVal">1</strong></span>
+  <span>🐛 Bugs: <strong id="bugsVal">0/5</strong></span>
+  <span>❤️ Vidas: <strong id="livesVal">♥♥♥</strong></span>
 </div>
 
 <script src="player.js"></script>
