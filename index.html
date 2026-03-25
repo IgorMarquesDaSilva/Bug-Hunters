@@ -13,7 +13,7 @@
   <canvas id="gameCanvas" width="900" height="500"></canvas>
 
   <!-- POPUP DE APROXIMAÇÃO -->
-  <div id="missionPopup" class="hidden overlay">
+  <div id="missionPopup" class="overlay" style="display:none;">
     <div class="popup-content">
       <p id="popup-desc">Um bug foi encontrado no sistema!</p>
       <button onclick="startMission()">Corrigir Bug</button>
@@ -22,25 +22,45 @@
   </div>
 
   <!-- TELA DE MISSÃO -->
-  <div id="missionScreen" class="hidden overlay">
+  <div id="missionScreen" class="overlay" style="display:none;">
     <div class="popup-content">
       <h2 id="missionTitle">MISSÃO</h2>
       <p id="missionDesc"></p>
       <pre id="missionCode"></pre>
       <p class="mission-question">Escolha a opção correta:</p>
       <div id="choicesContainer"></div>
-      <div id="explanationBox" class="explanation hidden"></div>
+      <div id="explanationBox" class="explanation" style="display:none;"></div>
       <p id="feedbackMsg" class="feedback"></p>
       <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
-      <button id="nextBtn" class="hidden" onclick="closeMission()">Continuar →</button>
+      <button id="nextBtn" style="display:none;" onclick="closeMission()">Continuar →</button>
     </div>
   </div>
 
-  <!-- TELA DE VITÓRIA -->
-  <div id="winScreen" class="hidden overlay">
+  <!-- TELA CONCLUSÃO SALA 1 -->
+  <div id="roomClearScreen" class="overlay" style="display:none;">
     <div class="popup-content">
-      <h2>Sistema Limpo!</h2>
-      <p>Todos os bugs foram eliminados.</p>
+      <h2>✔ Sala 1 Concluída!</h2>
+      <p>Parabéns! Você eliminou todos os bugs da Sala 1.</p>
+      <p>Um portal para a próxima sala foi aberto no mapa.<br>Vá até ele para continuar!</p>
+      <button onclick="enterPortal()">Entendido →</button>
+    </div>
+  </div>
+
+  <!-- TELA IR PARA PRÓXIMO NÍVEL -->
+  <div id="nextLevelScreen" class="overlay" style="display:none;">
+    <div class="popup-content">
+      <h2>⚡ Portal da Sala 2</h2>
+      <p>Você chegou ao portal!</p>
+      <p>Prepare-se para novos desafios na <strong>Sala 2</strong>.</p>
+      <button onclick="goToNextRoom()">Entrar na Sala 2 →</button>
+    </div>
+  </div>
+
+  <!-- TELA DE VITÓRIA FINAL -->
+  <div id="winScreen" class="overlay" style="display:none;">
+    <div class="popup-content">
+      <h2>🏆 Sistema Totalmente Limpo!</h2>
+      <p>Você eliminou todos os bugs das duas salas!</p>
       <p>Pontuação Final: <span id="finalScore"></span></p>
       <button onclick="restartGame()">Jogar Novamente</button>
     </div>
@@ -50,6 +70,7 @@
 <!-- HUD -->
 <div id="hud">
   <span>Pontos: <strong id="scoreVal">0</strong></span>
+  <span>Sala: <strong id="salaVal">1</strong></span>
   <span>Bugs: <strong id="bugsVal">0/5</strong></span>
   <span>Vidas: <strong id="livesVal">♥♥♥</strong></span>
 </div>

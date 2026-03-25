@@ -1,4 +1,4 @@
-const MISSIONS = [
+const MISSIONS_SALA1 = [
   {
     title: "MISSÃO 01 — Condição de Energia",
     desc: "O robô deve retornar à base quando a energia estiver baixa. Qual palavra completa o código?",
@@ -41,19 +41,88 @@ const MISSIONS = [
   }
 ];
 
+const MISSIONS_SALA2 = [
+  {
+    title: "MISSÃO 06 — Saída do Programa",
+    desc: "O robô precisa exibir uma mensagem na tela. Qual função usamos em Python?",
+    code: '___ ("Sistema online!")',
+    choices: ["echo", "print", "show", "display"],
+    correct: 1,
+    explanation: '"print()" é a função do Python para exibir informações na tela.'
+  },
+  {
+    title: "MISSÃO 07 — Comparação",
+    desc: "O sistema verifica se dois valores são iguais. Qual operador usar?",
+    code: "if nivel ___ 3:\n    subir_nivel()",
+    choices: ["=", "=>", "==", "!="],
+    correct: 2,
+    explanation: '"==" compara se dois valores são iguais. "=" é usado para atribuir valor a uma variável.'
+  },
+  {
+    title: "MISSÃO 08 — Repetição com Condição",
+    desc: "O robô deve continuar patrulhando enquanto não encontrar um bug. Qual estrutura usar?",
+    code: "___ bug_encontrado == False:\n    patrulhar()",
+    choices: ["if", "for", "while", "def"],
+    correct: 2,
+    explanation: '"while" repete um bloco enquanto a condição for verdadeira — diferente do "for" que repete um número fixo de vezes.'
+  },
+  {
+    title: "MISSÃO 09 — Tipo de Dado",
+    desc: "O nome do jogador é um texto. Qual tipo de dado representa texto em Python?",
+    code: 'nome = ___("Igor")\nprint(nome)',
+    choices: ["int", "float", "str", "bool"],
+    correct: 2,
+    explanation: '"str" (string) representa texto. "int" é número inteiro, "float" é decimal e "bool" é verdadeiro/falso.'
+  },
+  {
+    title: "MISSÃO 10 — Valor Lógico",
+    desc: "O sistema precisa guardar se o jogador está ativo ou não. Qual valor representa 'verdadeiro' em Python?",
+    code: "ativo = ___\nif ativo:\n    jogar()",
+    choices: ["1", "sim", "True", "verdade"],
+    correct: 2,
+    explanation: '"True" é o valor lógico verdadeiro em Python. Faz parte do tipo "bool" (booleano).'
+  }
+];
+
+const POSITIONS_SALA1 = [
+  { x: 740, y: 60  },
+  { x: 600, y: 300 },
+  { x: 200, y: 340 },
+  { x: 440, y: 140 },
+  { x: 320, y: 220 }
+];
+
+const POSITIONS_SALA2 = [
+  { x: 700, y: 80  },
+  { x: 550, y: 320 },
+  { x: 180, y: 360 },
+  { x: 400, y: 160 },
+  { x: 280, y: 240 }
+];
+
+// portal para sala 2: aparece após sala 1 concluída
+const portal = {
+  x: 430, y: 220,
+  w: 40,  h: 40,
+  visible: false,
+  pulse: 0
+};
+
 const mission = {
   bugs: [],
   activeBugIdx: -1,
   missionActive: false,
   solvedCount: 0,
   score: 0,
-  lives: 3
+  lives: 3,
+  sala: 1,         // sala atual
+  portalReady: false,
+  portalTriggered: false
 };
 
 function hideAll() {
-  document.getElementById("missionPopup").style.display  = "none";
-  document.getElementById("missionScreen").style.display = "none";
-  document.getElementById("winScreen").style.display     = "none";
+  ["missionPopup","missionScreen","winScreen","roomClearScreen","nextLevelScreen"]
+    .forEach(id => document.getElementById(id).style.display = "none");
 }
 
 function showOverlay(id) {
@@ -61,26 +130,70 @@ function showOverlay(id) {
   if (id) document.getElementById(id).style.display = "flex";
 }
 
+function currentMissions() {
+  return mission.sala === 1 ? MISSIONS_SALA1 : MISSIONS_SALA2;
+}
+
 function initBugs() {
-  const positions = [
-    { x: 740, y: 60  },
-    { x: 600, y: 300 },
-    { x: 200, y: 340 },
-    { x: 440, y: 140 },
-    { x: 320, y: 220 }
-  ];
-  mission.bugs = MISSIONS.map((m, i) => ({
+  const positions = mission.sala === 1 ? POSITIONS_SALA1 : POSITIONS_SALA2;
+  const missions  = currentMissions();
+  mission.bugs = missions.map((m, i) => ({
     x: positions[i].x,
     y: positions[i].y,
-    w: 28,
-    h: 28,
+    w: 28, h: 28,
     solved: false,
     pulse: Math.random() * Math.PI * 2,
     missionIdx: i
   }));
+  mission.activeBugIdx   = -1;
+  mission.missionActive  = false;
+  mission.portalTriggered = false;
+  portal.visible = false;
+}
+
+function drawPortal(ctx) {
+  if (!portal.visible) return;
+  portal.pulse += 0.05;
+  const glow = Math.sin(portal.pulse) * 6;
+
+  ctx.save();
+  ctx.shadowColor = "#aa00ff";
+  ctx.shadowBlur  = 20 + glow;
+  ctx.fillStyle   = "rgba(120,0,255,0.25)";
+  ctx.strokeStyle = `rgba(180,80,255,${0.7 + Math.sin(portal.pulse) * 0.3})`;
+  ctx.lineWidth   = 2;
+  ctx.fillRect(portal.x, portal.y, portal.w, portal.h);
+  ctx.strokeRect(portal.x, portal.y, portal.w, portal.h);
+  ctx.shadowBlur  = 0;
+  ctx.fillStyle   = "rgba(200,120,255,0.9)";
+  ctx.font        = "11px monospace";
+  ctx.textAlign   = "center";
+  ctx.fillText("NEXT", portal.x + portal.w / 2, portal.y + portal.h / 2 - 2);
+  ctx.fillText(">>>",  portal.x + portal.w / 2, portal.y + portal.h / 2 + 10);
+  ctx.restore();
+
+  // label acima
+  ctx.fillStyle = "rgba(200,150,255,0.8)";
+  ctx.font      = "10px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText("Próxima Sala", portal.x + portal.w / 2, portal.y - 8);
+}
+
+function checkPortal(playerX, playerY, playerSize) {
+  if (!portal.visible || mission.portalTriggered) return;
+  const dist = Math.hypot(
+    (playerX + playerSize / 2) - (portal.x + portal.w / 2),
+    (playerY + playerSize / 2) - (portal.y + portal.h / 2)
+  );
+  if (dist < 40) {
+    mission.portalTriggered = true;
+    showOverlay("nextLevelScreen");
+  }
 }
 
 function drawMission(ctx, playerX, playerY, playerSize) {
+  drawPortal(ctx);
+
   mission.bugs.forEach(b => {
     if (b.solved) {
       ctx.fillStyle   = "rgba(0,255,136,0.15)";
@@ -134,6 +247,7 @@ function drawMission(ctx, playerX, playerY, playerSize) {
 
 function checkDistance(playerX, playerY, playerSize) {
   if (mission.missionActive) return;
+  checkPortal(playerX, playerY, playerSize);
   mission.bugs.forEach((b, i) => {
     if (b.solved) return;
     const dist = Math.hypot(
@@ -142,7 +256,7 @@ function checkDistance(playerX, playerY, playerSize) {
     );
     if (dist < 38 && mission.activeBugIdx === -1) {
       mission.activeBugIdx = i;
-      const m = MISSIONS[b.missionIdx];
+      const m = currentMissions()[b.missionIdx];
       document.getElementById("popup-desc").textContent =
         "Erro encontrado: " + m.title.split("—")[1].trim();
       showOverlay("missionPopup");
@@ -157,7 +271,7 @@ function closePopup() {
 
 function startMission() {
   const bug = mission.bugs[mission.activeBugIdx];
-  const m   = MISSIONS[bug.missionIdx];
+  const m   = currentMissions()[bug.missionIdx];
 
   document.getElementById("missionTitle").textContent = m.title;
   document.getElementById("missionDesc").textContent  = m.desc;
@@ -168,14 +282,14 @@ function startMission() {
   feedbackEl.className   = "feedback";
 
   const expBox = document.getElementById("explanationBox");
-  expBox.textContent    = "";
-  expBox.style.display  = "none";
+  expBox.textContent   = "";
+  expBox.style.display = "none";
 
-  const nextBtn = document.getElementById("nextBtn");
-  nextBtn.style.display = "none";
+  document.getElementById("nextBtn").style.display = "none";
 
+  const total = currentMissions().length;
   document.getElementById("progressBar").style.width =
-    ((mission.solvedCount / MISSIONS.length) * 100) + "%";
+    ((mission.solvedCount / total) * 100) + "%";
 
   const container = document.getElementById("choicesContainer");
   container.innerHTML = "";
@@ -192,8 +306,8 @@ function startMission() {
 }
 
 function selectChoice(idx, btn) {
-  const bug    = mission.bugs[mission.activeBugIdx];
-  const m      = MISSIONS[bug.missionIdx];
+  const bug     = mission.bugs[mission.activeBugIdx];
+  const m       = currentMissions()[bug.missionIdx];
   const allBtns = document.querySelectorAll(".choice-btn");
 
   allBtns.forEach(b => (b.disabled = true));
@@ -211,8 +325,9 @@ function selectChoice(idx, btn) {
     mission.score += 100;
     feedbackEl.textContent = "✓ Correto! +100 pts";
     feedbackEl.className   = "feedback ok";
+    const total = currentMissions().length;
     document.getElementById("progressBar").style.width =
-      ((mission.solvedCount / MISSIONS.length) * 100) + "%";
+      ((mission.solvedCount / total) * 100) + "%";
   } else {
     btn.classList.add("wrong");
     allBtns[m.correct].classList.add("correct");
@@ -229,25 +344,58 @@ function closeMission() {
   mission.missionActive = false;
   mission.activeBugIdx  = -1;
   showOverlay(null);
-  if (mission.solvedCount >= MISSIONS.length) {
-    document.getElementById("finalScore").textContent = mission.score;
-    showOverlay("winScreen");
+
+  const total = currentMissions().length;
+  if (mission.solvedCount >= total) {
+    if (mission.sala === 1) {
+      // sala 1 concluída: mostra tela de conclusão
+      showOverlay("roomClearScreen");
+    } else {
+      // sala 2 concluída: vitória final
+      document.getElementById("finalScore").textContent = mission.score;
+      showOverlay("winScreen");
+    }
   }
 }
 
+function goToNextRoom() {
+  // chamado pelo botão na tela nextLevelScreen
+  mission.sala = 2;
+  mission.solvedCount = 0;
+  player.x = 50;
+  player.y = 50;
+  initBugs();
+  updateHUD();
+  showOverlay(null);
+}
+
+function enterPortal() {
+  // chamado pelo botão na roomClearScreen
+  portal.visible = true;
+  showOverlay(null);
+}
+
 function updateHUD() {
+  const total = currentMissions().length;
   document.getElementById("scoreVal").textContent = mission.score;
-  document.getElementById("bugsVal").textContent  = mission.solvedCount + "/" + MISSIONS.length;
+  document.getElementById("bugsVal").textContent  = mission.solvedCount + "/" + total;
+  document.getElementById("salaVal").textContent  = mission.sala;
   document.getElementById("livesVal").textContent =
     ["♥","♥","♥"].map((h, i) => (i < mission.lives ? "♥" : "♡")).join("");
 }
 
 function restartGame() {
-  mission.solvedCount   = 0;
-  mission.score         = 0;
-  mission.lives         = 3;
-  mission.activeBugIdx  = -1;
-  mission.missionActive = false;
+  mission.solvedCount    = 0;
+  mission.score          = 0;
+  mission.lives          = 3;
+  mission.activeBugIdx   = -1;
+  mission.missionActive  = false;
+  mission.sala           = 1;
+  mission.portalReady    = false;
+  mission.portalTriggered = false;
+  portal.visible         = false;
+  player.x = 50;
+  player.y = 50;
   showOverlay(null);
   initBugs();
   updateHUD();
