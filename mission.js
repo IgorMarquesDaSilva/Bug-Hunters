@@ -100,6 +100,13 @@ const POSITIONS_SALA2 = [
   { x: 280, y: 240 }
 ];
 
+// ── Constantes de pontuação ────────────────────────────────────────────────
+const PONTOS_PERGUNTA = 5;   // +5 por resposta certa
+const BONUS_CONCLUSAO = 25;  // +25 ao concluir a sala inteira
+// Sala 1: 5×5 + 25 = 50 pts máx  |  Sala 2: 5×5 + 25 = 50 pts máx  →  TOTAL: 100
+const MIN_ACERTOS = { 1: 2, 2: 5 }; // mínimo de acertos para avançar por sala
+// ──────────────────────────────────────────────────────────────────────────
+
 // portal para sala 2: aparece após sala 1 concluída
 const portal = {
   x: 430, y: 220,
@@ -112,16 +119,19 @@ const mission = {
   bugs: [],
   activeBugIdx: -1,
   missionActive: false,
-  solvedCount: 0,
-  score: 0,
+  solvedCount: 0,       // acertos na sala atual
+  score: 0,             // pontuação total acumulada
   lives: 3,
-  sala: 1,         // sala atual
+  sala: 1,
   portalReady: false,
-  portalTriggered: false
+  portalTriggered: false,
+  retryUsed: false,     // jogador já usou o reinício de fase?
+  salaScore: 0          // pontos ganhos só na sala atual (para resetar ao reiniciar)
 };
 
 function hideAll() {
-  ["missionPopup","missionScreen","winScreen","roomClearScreen","nextLevelScreen"]
+  ["missionPopup","missionScreen","winScreen","roomClearScreen",
+   "nextLevelScreen","retryScreen"]
     .forEach(id => document.getElementById(id).style.display = "none");
 }
 
@@ -143,7 +153,7 @@ function initBugs() {
   portal.visible = false;
 
   const margem  = 60;
-  const minDist = 100; // distância mínima entre bugs
+  const minDist = 100;
   const maxW    = 900 - margem;
   const maxH    = 500 - margem;
 
@@ -190,7 +200,6 @@ function drawPortal(ctx) {
   ctx.fillText(">>>",  portal.x + portal.w / 2, portal.y + portal.h / 2 + 10);
   ctx.restore();
 
-  // label acima
   ctx.fillStyle = "rgba(200,150,255,0.8)";
   ctx.font      = "10px monospace";
   ctx.textAlign = "center";
@@ -340,8 +349,9 @@ function selectChoice(idx, btn) {
     btn.classList.add("correct");
     bug.solved = true;
     mission.solvedCount++;
-    mission.score += 100;
-    feedbackEl.textContent = "✓ Correto! +100 pts";
+    mission.score     += PONTOS_PERGUNTA;
+    mission.salaScore += PONTOS_PERGUNTA;
+    feedbackEl.textContent = "✓ Correto! +" + PONTOS_PERGUNTA + " pts";
     feedbackEl.className   = "feedback ok";
     const total = currentMissions().length;
     document.getElementById("progressBar").style.width =
@@ -363,22 +373,47 @@ function closeMission() {
   mission.activeBugIdx  = -1;
   showOverlay(null);
 
-  const total = currentMissions().length;
+  const total      = currentMissions().length;
+  const minAcertos = MIN_ACERTOS[mission.sala] || total;
+
   if (mission.solvedCount >= total) {
+    // Sala 100% concluída — dá bônus de conclusão
+    mission.score     += BONUS_CONCLUSAO;
+    mission.salaScore += BONUS_CONCLUSAO;
+    updateHUD();
+
     if (mission.sala === 1) {
-      // sala 1 concluída: mostra tela de conclusão
       showOverlay("roomClearScreen");
     } else {
-      // sala 2 concluída: vitória final
-      document.getElementById("finalScore").textContent = mission.score;
+      document.getElementById("finalScore").textContent = mission.score + " / 100";
       showOverlay("winScreen");
+    }
+  } else {
+    // Todos os bugs foram tentados mas não atingiu o mínimo → tela de retry
+    const bugsSolved = mission.bugs.filter(b => b.solved).length;
+    const bugsTotal  = mission.bugs.length;
+    if (bugsSolved >= bugsTotal && bugsSolved < minAcertos) {
+      showRetryScreen();
     }
   }
 }
 
-function goToNextRoom() {
-  // chamado pelo botão na tela nextLevelScreen
-  mission.sala = 2;
+function showRetryScreen() {
+  const minAcertos = MIN_ACERTOS[mission.sala];
+  document.getElementById("retryMsg").textContent =
+    "Você acertou " + mission.solvedCount + " de " + mission.bugs.length +
+    " perguntas. O mínimo para avançar é " + minAcertos + " acerto(s).";
+  document.getElementById("retryBtn").style.display =
+    mission.retryUsed ? "none" : "inline-block";
+  document.getElementById("retryUsedMsg").style.display =
+    mission.retryUsed ? "block" : "none";
+  showOverlay("retryScreen");
+}
+
+function retryPhase() {
+  mission.retryUsed   = true;
+  mission.score      -= mission.salaScore;  // reverte pontos da sala atual
+  mission.salaScore   = 0;
   mission.solvedCount = 0;
   player.x = 50;
   player.y = 50;
@@ -387,8 +422,18 @@ function goToNextRoom() {
   showOverlay(null);
 }
 
+function goToNextRoom() {
+  mission.sala        = 2;
+  mission.solvedCount = 0;
+  mission.salaScore   = 0;
+  player.x = 50;
+  player.y = 50;
+  initBugs();
+  updateHUD();
+  showOverlay(null);
+}
+
 function enterPortal() {
-  // chamado pelo botão na roomClearScreen
   portal.visible = true;
   showOverlay(null);
 }
@@ -403,15 +448,17 @@ function updateHUD() {
 }
 
 function restartGame() {
-  mission.solvedCount    = 0;
-  mission.score          = 0;
-  mission.lives          = 3;
-  mission.activeBugIdx   = -1;
-  mission.missionActive  = false;
-  mission.sala           = 1;
-  mission.portalReady    = false;
+  mission.solvedCount     = 0;
+  mission.score           = 0;
+  mission.salaScore       = 0;
+  mission.lives           = 3;
+  mission.activeBugIdx    = -1;
+  mission.missionActive   = false;
+  mission.sala            = 1;
+  mission.portalReady     = false;
   mission.portalTriggered = false;
-  portal.visible         = false;
+  mission.retryUsed       = false;
+  portal.visible          = false;
   player.x = 50;
   player.y = 50;
   showOverlay(null);
