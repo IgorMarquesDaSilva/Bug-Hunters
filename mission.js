@@ -135,20 +135,38 @@ function currentMissions() {
 }
 
 function initBugs() {
-  const positions = mission.sala === 1 ? POSITIONS_SALA1 : POSITIONS_SALA2;
-  const missions  = currentMissions();
-  mission.bugs = missions.map((m, i) => ({
-    x: positions[i].x,
-    y: positions[i].y,
-    w: 28, h: 28,
-    solved: false,
-    pulse: Math.random() * Math.PI * 2,
-    missionIdx: i
-  }));
+  const missions = currentMissions();
+  mission.bugs = [];
   mission.activeBugIdx   = -1;
   mission.missionActive  = false;
   mission.portalTriggered = false;
   portal.visible = false;
+
+  const margem  = 60;
+  const minDist = 100; // distância mínima entre bugs
+  const maxW    = 900 - margem;
+  const maxH    = 500 - margem;
+
+  missions.forEach((m, i) => {
+    let x, y, tentativas = 0, sobrepos;
+
+    do {
+      x = Math.floor(Math.random() * (maxW - margem) + margem);
+      y = Math.floor(Math.random() * (maxH - margem) + margem);
+      sobrepos = mission.bugs.some(b =>
+        Math.hypot(b.x - x, b.y - y) < minDist
+      );
+      tentativas++;
+    } while (sobrepos && tentativas < 50);
+
+    mission.bugs.push({
+      x, y,
+      w: 28, h: 28,
+      solved: false,
+      pulse: Math.random() * Math.PI * 2,
+      missionIdx: i
+    });
+  });
 }
 
 function drawPortal(ctx) {
