@@ -1,57 +1,113 @@
-# Bug Hunters 🐛
+# 🐛 Bug Hunters
 
-Bug Hunters é um jogo educativo 2D desenvolvido para ensinar lógica de programação de forma simples, interativa e acessível. O projeto nasceu da ideia de tornar o aprendizado de programação mais dinâmico e divertido, usando elementos de jogos para engajar alunos que estão dando os primeiros passos na área.
+**Bug Hunters** é um jogo educativo 2D focado no ensino de lógica de programação para iniciantes, utilizando uma abordagem interativa baseada em exploração e resolução de problemas.
+
+O objetivo do projeto é tornar o aprendizado mais acessível e envolvente, especialmente para alunos que estão tendo seu primeiro contato com programação.
+
+---
 
 ## 🎮 Sobre o Jogo
 
-O jogador controla um robô em um mapa digital com estética cyberpunk e deve explorar o ambiente em busca de bugs — falhas em sistemas representadas por blocos vermelhos piscando no mapa. O cenário é composto por uma grade digital com nós conectados, criando a atmosfera de um sistema computacional infectado por erros.
+No jogo, o jogador controla um personagem dentro de um sistema digital corrompido, onde precisa localizar e corrigir erros (bugs) espalhados pelo mapa.
 
-Ao se aproximar de um bug, uma linha de radar aparece indicando a proximidade. O jogador pode então escolher iniciar a missão de correção. Cada missão apresenta um trecho de código com uma lacuna e quatro alternativas de resposta. Após responder, uma explicação é exibida para reforçar o conceito aprendido, independentemente de a resposta ter sido certa ou errada.
+Ao se aproximar de um bug:
+- Uma missão é ativada
+- Um trecho de código com erro ou lacuna é apresentado
+- O jogador deve escolher a resposta correta
 
-## 🧠 Proposta Educacional
+Após cada resposta, o jogo fornece um feedback explicativo, reforçando o aprendizado.
 
-O jogo foi criado para introduzir conceitos básicos de programação para alunos iniciantes, utilizando uma abordagem prática e visual. Durante a experiência, o jogador aprende sobre:
+---
+
+## 🧠 Objetivo Educacional
+
+O jogo trabalha conceitos fundamentais de lógica de programação, como:
 
 - Estruturas condicionais (`if`)
-- Laços de repetição (`for`)
+- Laços de repetição (`for`, `while`)
 - Variáveis e tipos de dados
-- Operadores lógicos (`and`, `or`)
-- Definição de funções (`def`)
+- Operadores lógicos (`and`, `or`, `not`)
+- Funções
 
-Cada conceito é apresentado dentro de um contexto que faz sentido para o jogador, facilitando a compreensão e a memorização. O formato de múltipla escolha foi escolhido para reduzir a barreira de entrada, permitindo que alunos sem nenhum conhecimento prévio consigam jogar e aprender desde o primeiro contato.
+A proposta é desenvolver o raciocínio lógico através da análise de situações, e não apenas memorização.
+
+---
 
 ## 🕹️ Como Jogar
 
-- **Mover:** WASD ou teclas de seta
-- **Iniciar missão:** aproxime-se de um bug vermelho no mapa
-- **Responder:** escolha uma das quatro alternativas apresentadas
-- Após responder, uma explicação é exibida para reforçar o aprendizado
-- Bugs resolvidos ficam marcados em verde no mapa
+- **Movimento:** WASD ou setas
+- **Interação:** aproxime-se de um bug
+- **Missão:** escolha a alternativa correta
+- **Progresso:** avance resolvendo os bugs
 
-## 📊 Sistema de Pontuação
+---
 
-- Cada missão concluída corretamente vale **100 pontos**
-- O jogador possui **3 vidas** — perde uma a cada resposta errada
-- A barra de progresso indica quantos bugs já foram resolvidos
-- Ao eliminar todos os bugs, a pontuação final é exibida
+## 📊 Sistema de Progressão
 
-## 📁 Estrutura do Projeto
-```
-bug-hunters/
-├── index.html   — estrutura da página e overlays do jogo
-├── style.css    — estilo visual do jogo
-├── player.js    — dados e desenho do personagem
-├── mission.js   — missões, lógica dos bugs e popups
-└── game.js      — loop principal, movimento e renderização
-```
+O jogo é dividido em **2 salas**, com dificuldade progressiva:
+
+### 🟢 Sala 1 — Introdução
+- Conceitos básicos de programação
+- 5 missões
+
+### 🔴 Sala 2 — Intermediário
+- Conceitos mais avançados e análise de código
+- 5 missões
+
+---
+
+## 🏆 Pontuação
+
+- +5 pontos por resposta correta  
+- Pontuação máxima: **100 pontos**
+
+---
+
+## ❤️ Sistema de Vidas
+
+- O jogador começa com 3 vidas  
+- Cada erro reduz 1 vida  
+
+---
+
+## 🎯 Progressão no Jogo
+
+- Ao concluir todas as missões da sala:
+  - Um portal é liberado no mapa
+  - O jogador pode avançar para a próxima fase
+
+---
+
+## 🎨 Estilo Visual
+
+- Tema: sistema digital / cyberpunk
+- Bugs: blocos com destaque visual
+- Portal: elemento interativo para progressão
+- Interface simples e direta
+
+---
+
+## 🛠️ Tecnologias
+
+- HTML5
+- CSS3
+- JavaScript
+
+---
 
 ## 👥 Autores
 
-Desenvolvido por:
+- Igor Marques  
+- Maria Vitória Victor Brito  
 
-- **Igor Marques da Silva**
-- **Maria Vitória Victor Brito**
+---
 
 ## 🚧 Status
 
 Projeto em desenvolvimento.
+
+Possíveis melhorias futuras:
+- Novas fases
+- Sons e efeitos
+- Interface aprimorada
+- Sistema de progressão expandido
