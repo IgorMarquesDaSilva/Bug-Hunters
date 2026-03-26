@@ -3,91 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Bug Hunters</title>
+  <title>BUG HUNTERS // SYSTEM RECOVERY</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>🐞 Bug Hunters</h1>
+<div class="scanlines"></div>
+<div class="noise"></div>
 
-<div id="game-container" style="position:relative; display:inline-block;">
-  <canvas id="gameCanvas" width="900" height="500"></canvas>
-
-  <!-- POPUP DE APROXIMAÇÃO -->
-  <div id="missionPopup" class="overlay" style="display:none;">
-    <div class="popup-content">
-      <p id="popup-desc">Um bug foi encontrado no sistema!</p>
-      <button onclick="startMission()">🔧 Corrigir Bug</button>
-      <button onclick="closePopup()">❌ Ignorar</button>
-    </div>
-  </div>
-
-  <!-- TELA DE MISSÃO -->
-  <div id="missionScreen" class="overlay" style="display:none;">
-    <div class="popup-content">
-      <h2 id="missionTitle">MISSÃO</h2>
-      <p id="missionDesc"></p>
-      <pre id="missionCode"></pre>
-      <p class="mission-question">📌 Escolha a opção correta:</p>
-      <div id="choicesContainer"></div>
-      <div id="explanationBox" class="explanation" style="display:none;"></div>
-      <p id="feedbackMsg" class="feedback"></p>
-      <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
-      <button id="nextBtn" style="display:none;" onclick="closeMission()">Continuar →</button>
-    </div>
-  </div>
-
-  <!-- TELA CONCLUSÃO SALA 1 -->
-  <div id="roomClearScreen" class="overlay" style="display:none;">
-    <div class="popup-content">
-      <h2>✔ Sala 1 Concluída!</h2>
-      <p>Parabéns! Você eliminou todos os bugs da Sala 1.</p>
-      <p>Um portal para a próxima sala foi aberto no mapa.<br>Vá até ele para continuar!</p>
-      <button onclick="enterPortal()">Entendido →</button>
-    </div>
-  </div>
-
-  <!-- TELA IR PARA PRÓXIMO NÍVEL -->
-  <div id="nextLevelScreen" class="overlay" style="display:none;">
-    <div class="popup-content">
-      <h2>⚡ Portal da Sala 2</h2>
-      <p>Você chegou ao portal!</p>
-      <p>Prepare-se para novos desafios na <strong>Sala 2</strong>.</p>
-      <button onclick="goToNextRoom()">Entrar na Sala 2 →</button>
-    </div>
-  </div>
-
-  <!-- TELA DE PONTUAÇÃO INSUFICIENTE / RETRY -->
-  <div id="retryScreen" class="overlay" style="display:none;">
-    <div class="popup-content">
-      <h2>⚠ Pontuação Insuficiente</h2>
-      <p id="retryMsg"></p>
-      <p>Você pode reiniciar esta fase <strong>uma única vez</strong> por partida.<br>Os pontos desta sala serão zerados.</p>
-      <button id="retryBtn" onclick="retryPhase()">🔄 Reiniciar Fase</button>
-      <p id="retryUsedMsg" style="display:none; color:#ff6666; font-size:12px;">
-        Você já usou seu reinício. Não é possível avançar para a próxima sala.
-      </p>
-      <button onclick="restartGame()">↺ Recomeçar do Zero</button>
-    </div>
-  </div>
-
-  <!-- TELA DE VITÓRIA FINAL -->
-  <div id="winScreen" class="overlay" style="display:none;">
-    <div class="popup-content">
-      <h2>🏆 Sistema Totalmente Limpo!</h2>
-      <p>Você eliminou todos os bugs das duas salas!</p>
-      <p>Pontuação Final: <span id="finalScore"></span></p>
-      <button onclick="restartGame()">Jogar Novamente</button>
-    </div>
-  </div>
+<div class="terminal-header">
+  <span class="glitch">> BUG HUNTERS v2.0</span>
+  <span class="status-led active"></span>
 </div>
 
-<!-- HUD -->
-<div id="hud">
-  <span>🔰 Pontos: <strong id="scoreVal">0</strong></span>
-  <span>🏢 Sala: <strong id="salaVal">1</strong></span>
-  <span>🐛 Bugs: <strong id="bugsVal">0/5</strong></span>
-  <span>❤️ Vidas: <strong id="livesVal">♥♥♥</strong></span>
+<div class="game-container">
+  <div class="game-wrapper">
+    <div id="game-container">
+      <canvas id="gameCanvas" width="1000" height="600"></canvas>
+
+      <!-- POPUP DE APROXIMAÇÃO -->
+      <div id="missionPopup" class="overlay" style="display:none;">
+        <div class="popup-content">
+          <div class="popup-header">⚠ SYSTEM ALERT ⚠</div>
+          <p id="popup-desc">Anomalia detectada no setor</p>
+          <div class="popup-actions">
+            <button class="cyber-btn" onclick="startMission()">> CORRIGIR_ANOMALIA</button>
+            <button class="cyber-btn secondary" onclick="closePopup()">> IGNORAR</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TELA DE MISSÃO -->
+      <div id="missionScreen" class="overlay" style="display:none;">
+        <div class="popup-content mission-panel">
+          <div class="popup-header" id="missionTitle">MISSÃO // UNKNOWN</div>
+          <div class="mission-desc" id="missionDesc"></div>
+          <div class="code-block">
+            <pre id="missionCode"></pre>
+          </div>
+          <div class="question-block">> SELECIONE A ROTINA CORRETA:</div>
+          <div id="choicesContainer"></div>
+          <div id="explanationBox" class="explanation" style="display:none;"></div>
+          <div id="feedbackMsg" class="feedback"></div>
+          <div class="progress-wrap">
+            <div class="progress-label">PROGRESSO</div>
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+          <button id="nextBtn" class="cyber-btn" style="display:none;" onclick="closeMission()">> CONTINUAR</button>
+        </div>
+      </div>
+
+      <!-- TELA CONCLUSÃO SALA 1 -->
+      <div id="roomClearScreen" class="overlay" style="display:none;">
+        <div class="popup-content">
+          <div class="popup-header glitch">✔ SETOR LIMPO</div>
+          <p>Parabéns, Operador. O setor foi estabilizado.</p>
+          <p>Um portal de transmissão foi aberto. Prossiga para o próximo setor.</p>
+          <button class="cyber-btn" onclick="enterPortal()">> ACESSAR PORTAL</button>
+        </div>
+      </div>
+
+      <!-- TELA IR PARA PRÓXIMO NÍVEL -->
+      <div id="nextLevelScreen" class="overlay" style="display:none;">
+        <div class="popup-content">
+          <div class="popup-header">⚡ PORTAL DE TRANSMISSÃO</div>
+          <p>Você está prestes a entrar no <span class="highlight">SETOR 2</span>.</p>
+          <p>Prepare-se para novos desafios.</p>
+          <button class="cyber-btn" onclick="goToNextRoom()">> INICIAR TRANSMISSÃO</button>
+        </div>
+      </div>
+
+      <!-- TELA DE PONTUAÇÃO INSUFICIENTE / RETRY -->
+      <div id="retryScreen" class="overlay" style="display:none;">
+        <div class="popup-content">
+          <div class="popup-header">⚠ PONTUAÇÃO INSUFICIENTE</div>
+          <p id="retryMsg"></p>
+          <p>Você pode reiniciar este setor <strong>uma única vez</strong> por partida.</p>
+          <button id="retryBtn" class="cyber-btn" onclick="retryPhase()">> REINICIAR_SETOR</button>
+          <p id="retryUsedMsg" style="display:none; color:#ff6666; font-size:11px;">
+            Limite de reinício excedido.
+          </p>
+          <button class="cyber-btn secondary" onclick="restartGame()">> REINICIAR_SISTEMA</button>
+        </div>
+      </div>
+
+      <!-- TELA DE VITÓRIA FINAL -->
+      <div id="winScreen" class="overlay" style="display:none;">
+        <div class="popup-content">
+          <div class="popup-header glitch">🏆 SISTEMA PURIFICADO</div>
+          <p>Você eliminou todas as anomalias do sistema.</p>
+          <p>Pontuação Final: <span id="finalScore" class="score-highlight"></span></p>
+          <button class="cyber-btn" onclick="restartGame()">> NOVA_EXECUÇÃO</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD LATERAL - ESTILO PAINEL DE MONITOR -->
+    <div class="hud-panel">
+      <div class="panel-header">
+        <span>SYSTEM MONITOR</span>
+        <span class="led"></span>
+      </div>
+      <div class="panel-content">
+        <div class="stat">
+          <span class="stat-label">SCORE</span>
+          <span class="stat-value" id="scoreVal">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">SECTOR</span>
+          <span class="stat-value" id="salaVal">1</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">ANOMALIAS</span>
+          <span class="stat-value" id="bugsVal">0/5</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">INTEGRIDADE</span>
+          <span class="stat-value" id="livesVal">♥♥♥</span>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <span>STATUS: <span class="online">ONLINE</span></span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="player.js"></script>

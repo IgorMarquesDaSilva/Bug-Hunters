@@ -6,7 +6,6 @@ const keys = {};
 document.addEventListener("keydown", (e) => { keys[e.key] = true; });
 document.addEventListener("keyup", (e) => { keys[e.key] = false; });
 
-// ==================== Movimentação e Atualização ====================
 function update() {
   if (mission.missionActive) return;
 
@@ -16,9 +15,9 @@ function update() {
   if (keys["a"] || keys["ArrowLeft"])  { player.x -= player.speed; player.dir = -1; moving = true; }
   if (keys["d"] || keys["ArrowRight"]) { player.x += player.speed; player.dir = 1; moving = true; }
 
-  // Animação de caminhada
+  // Atualiza o ciclo de animação apenas quando está se movendo
   if (moving) {
-    player.walkCycle++;
+    player.walkCycle = (player.walkCycle + 1) % 360; // Ciclo contínuo para o seno
   } else {
     player.walkCycle = 0;
   }
@@ -31,23 +30,17 @@ function update() {
   checkDistance(player.x, player.y, player.size);
 }
 
-// ==================== Desenho do Fundo ====================
 function drawBackground() {
-  // Gradiente de fundo por sala
+  // Fundo com gradiente escuro
   const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  if (mission.sala === 1) {
-    gradient.addColorStop(0, '#0a1f2e');
-    gradient.addColorStop(1, '#0b2a3a');
-  } else {
-    gradient.addColorStop(0, '#1e0a2e');
-    gradient.addColorStop(1, '#2a0a3a');
-  }
+  gradient.addColorStop(0, '#03050a');
+  gradient.addColorStop(1, '#010208');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Grade sutil
-  ctx.strokeStyle = `rgba(0,212,255,0.15)`;
-  ctx.lineWidth = 0.5;
+  // Grid principal
+  ctx.strokeStyle = 'rgba(0, 255, 255, 0.12)';
+  ctx.lineWidth = 0.6;
   for (let x = 0; x < canvas.width; x += 40) {
     ctx.beginPath();
     ctx.moveTo(x, 0);
@@ -68,45 +61,43 @@ function drawBackground() {
 
   nodes.forEach((n, i) => {
     if (i < nodes.length - 1) {
-      ctx.strokeStyle = `rgba(0,212,255,0.2)`;
+      ctx.strokeStyle = 'rgba(0, 255, 255, 0.15)';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(n.x, n.y);
       ctx.lineTo(nodes[i+1].x, nodes[i+1].y);
       ctx.stroke();
     }
-    ctx.fillStyle = `rgba(0,212,255,0.1)`;
-    ctx.strokeStyle = `rgba(0,212,255,0.3)`;
+    ctx.fillStyle = 'rgba(0, 255, 255, 0.2)';
+    ctx.shadowBlur = 4;
+    ctx.shadowColor = '#0ff';
     ctx.beginPath();
-    ctx.arc(n.x, n.y, 4, 0, Math.PI * 2);
+    ctx.arc(n.x, n.y, 3, 0, Math.PI * 2);
     ctx.fill();
-    ctx.stroke();
+    ctx.shadowBlur = 0;
   });
 
-  // Número da sala com efeito neon
-  ctx.font = "bold 48px 'Inter', monospace";
-  ctx.shadowBlur = 10;
-  ctx.shadowColor = "#00d4ff";
-  ctx.fillStyle = `rgba(0,212,255,0.2)`;
-  ctx.fillText("SALA " + mission.sala, 20, canvas.height - 30);
+  // Texto da sala
+  ctx.font = "bold 42px 'Share Tech Mono', monospace";
+  ctx.shadowBlur = 6;
+  ctx.shadowColor = '#0ff';
+  ctx.fillStyle = 'rgba(0, 255, 255, 0.12)';
+  ctx.fillText("SECTOR " + mission.sala, 20, canvas.height - 30);
   ctx.shadowBlur = 0;
 }
 
-// ==================== Desenho Principal ====================
 function draw() {
   drawBackground();
   drawMission(ctx, player.x, player.y, player.size);
   drawPlayer(ctx);
 }
 
-// ==================== Game Loop ====================
 function gameLoop() {
   update();
   draw();
   requestAnimationFrame(gameLoop);
 }
 
-// ==================== Inicialização ====================
 initBugs();
 updateHUD();
 gameLoop();
