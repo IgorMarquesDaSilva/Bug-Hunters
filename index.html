@@ -21,6 +21,34 @@
     <div id="game-container">
       <canvas id="gameCanvas" width="1000" height="600"></canvas>
 
+      <!-- TELA INICIAL DE SELEÇÃO DE DIFICULDADE -->
+      <div id="difficultyScreen" class="overlay" style="display:flex;">
+        <div class="popup-content" style="text-align:center;">
+          <div class="popup-header glitch">> BUG HUNTERS v2.0</div>
+          <p style="color:#8ab; font-size:13px; margin-bottom:20px;">
+            Selecione o nível de dificuldade para iniciar a missão.
+          </p>
+          <div style="display:flex; flex-direction:column; gap:12px; align-items:center;">
+
+            <button class="cyber-btn diff-btn" onclick="selectDifficulty('facil')">
+              <span class="diff-label">> FÁCIL</span>
+              <span class="diff-desc">7° ano · Reconhecer palavras-chave · 3 vidas</span>
+            </button>
+
+            <button class="cyber-btn diff-btn" onclick="selectDifficulty('medio')">
+              <span class="diff-label" style="color:#ffaa44;">> MÉDIO</span>
+              <span class="diff-desc">8° ano · Entender o que o código faz · 2 vidas</span>
+            </button>
+
+            <button class="cyber-btn diff-btn" onclick="selectDifficulty('dificil')" style="border-color:#f0f;">
+              <span class="diff-label" style="color:#f0f;">> DIFÍCIL</span>
+              <span class="diff-desc">9° ano · Identificar erros e lógica avançada · 1 vida</span>
+            </button>
+
+          </div>
+        </div>
+      </div>
+
       <!-- POPUP DE APROXIMAÇÃO -->
       <div id="missionPopup" class="overlay" style="display:none;">
         <div class="popup-content">
@@ -73,32 +101,20 @@
         </div>
       </div>
 
-      <!-- TELA DE PONTUAÇÃO INSUFICIENTE / RETRY -->
-      <div id="retryScreen" class="overlay" style="display:none;">
-        <div class="popup-content">
-          <div class="popup-header">⚠ PONTUAÇÃO INSUFICIENTE</div>
-          <p id="retryMsg"></p>
-          <p>Você pode reiniciar este setor <strong>uma única vez</strong> por partida.</p>
-          <button id="retryBtn" class="cyber-btn" onclick="retryPhase()">> REINICIAR_SETOR</button>
-          <p id="retryUsedMsg" style="display:none; color:#ff6666; font-size:11px;">
-            Limite de reinício excedido.
-          </p>
-          <button class="cyber-btn secondary" onclick="restartGame()">> REINICIAR_SISTEMA</button>
-        </div>
-      </div>
-
       <!-- TELA DE VITÓRIA FINAL -->
       <div id="winScreen" class="overlay" style="display:none;">
         <div class="popup-content">
           <div class="popup-header glitch">🏆 SISTEMA PURIFICADO</div>
           <p>Você eliminou todas as anomalias do sistema.</p>
+          <p>Dificuldade: <span id="finalDiff" class="highlight"></span></p>
           <p>Pontuação Final: <span id="finalScore" class="score-highlight"></span></p>
-          <button class="cyber-btn" onclick="restartGame()">> NOVA_EXECUÇÃO</button>
+          <button class="cyber-btn" onclick="backToMenu()">> MENU PRINCIPAL</button>
+          <button class="cyber-btn secondary" onclick="restartGame()">> NOVA_EXECUÇÃO</button>
         </div>
       </div>
     </div>
 
-    <!-- HUD LATERAL - ESTILO PAINEL DE MONITOR -->
+    <!-- HUD LATERAL -->
     <div class="hud-panel">
       <div class="panel-header">
         <span>SYSTEM MONITOR</span>
@@ -118,8 +134,12 @@
           <span class="stat-value" id="bugsVal">0/5</span>
         </div>
         <div class="stat">
+          <span class="stat-label">DIFICULDADE</span>
+          <span class="stat-value" id="diffVal">—</span>
+        </div>
+        <div class="stat">
           <span class="stat-label">INTEGRIDADE</span>
-          <span class="stat-value" id="livesVal">♥♥♥</span>
+          <span class="stat-value" id="livesVal">—</span>
         </div>
       </div>
       <div class="panel-footer">
