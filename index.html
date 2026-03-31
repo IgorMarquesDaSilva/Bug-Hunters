@@ -29,22 +29,18 @@
             Selecione o nível de dificuldade para iniciar a missão.
           </p>
           <div style="display:flex; flex-direction:column; gap:12px; align-items:center;">
-
             <button class="cyber-btn diff-btn" onclick="selectDifficulty('facil')">
               <span class="diff-label">> FÁCIL</span>
               <span class="diff-desc">7° ano · Reconhecer palavras-chave · 3 vidas</span>
             </button>
-
             <button class="cyber-btn diff-btn" onclick="selectDifficulty('medio')">
               <span class="diff-label" style="color:#ffaa44;">> MÉDIO</span>
               <span class="diff-desc">8° ano · Entender o que o código faz · 2 vidas</span>
             </button>
-
             <button class="cyber-btn diff-btn" onclick="selectDifficulty('dificil')" style="border-color:#f0f;">
               <span class="diff-label" style="color:#f0f;">> DIFÍCIL</span>
               <span class="diff-desc">9° ano · Identificar erros e lógica avançada · 1 vida</span>
             </button>
-
           </div>
         </div>
       </div>
@@ -112,6 +108,23 @@
           <button class="cyber-btn secondary" onclick="restartGame()">> NOVA_EXECUÇÃO</button>
         </div>
       </div>
+
+      <!-- GLOSSÁRIO -->
+      <div id="glossaryScreen" class="glossary-overlay" style="display:none;">
+        <div class="glossary-header">
+          <h2>> GLOSSÁRIO // PYTHON REFERENCE</h2>
+          <button class="glossary-close" onclick="closeGlossary()">> FECHAR [ESC]</button>
+        </div>
+        <div class="glossary-body">
+          <div class="glossary-sidebar" id="glossarySidebar"></div>
+          <div class="glossary-detail" id="glossaryDetail">
+            <div class="glossary-detail-empty">
+              ← Selecione um termo<br>para ver a definição
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- HUD LATERAL -->
@@ -142,6 +155,7 @@
           <span class="stat-value" id="livesVal">—</span>
         </div>
       </div>
+      <button class="glossary-btn" onclick="openGlossary()">> GLOSSÁRIO</button>
       <div class="panel-footer">
         <span>STATUS: <span class="online">ONLINE</span></span>
       </div>

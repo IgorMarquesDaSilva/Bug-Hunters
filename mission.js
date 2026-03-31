@@ -676,3 +676,425 @@ function restartGame() {
   backToMenu();
   if (diff) selectDifficulty(diff);
 }
+// ============================================================
+// GLOSSÁRIO
+// ============================================================
+
+const GLOSSARY = [
+  {
+    category: "Estruturas de Controle",
+    terms: [
+      {
+        term: "if",
+        definition: "Executa um bloco de código somente se uma condição for verdadeira. É a estrutura mais básica de tomada de decisão em programação.",
+        tip: "Pense no 'if' como uma pergunta: 'SE isso for verdade, faça aquilo'. Se a resposta for não, o bloco é ignorado.",
+        examples: [
+          {
+            label: "Exemplo básico",
+            code: "energia = 15\nif energia < 20:\n    print('Bateria fraca!')"
+          },
+          {
+            label: "Com else",
+            code: "nota = 7\nif nota >= 6:\n    print('Aprovado')\nelse:\n    print('Reprovado')"
+          }
+        ],
+        related: ["else", "elif", "and", "or"]
+      },
+      {
+        term: "else",
+        definition: "Define o bloco que será executado quando a condição do 'if' for falsa. Sempre vem depois de um 'if'.",
+        tip: "O 'else' é o plano B: 'SE a condição for verdade, faça X. SENÃO, faça Y'.",
+        examples: [
+          {
+            label: "if / else",
+            code: "temperatura = 35\nif temperatura > 30:\n    print('Está quente')\nelse:\n    print('Temperatura ok')"
+          }
+        ],
+        related: ["if", "elif"]
+      },
+      {
+        term: "elif",
+        definition: "Abreviação de 'else if'. Permite verificar múltiplas condições em sequência, sem precisar aninhar vários 'if'.",
+        tip: "Use 'elif' quando tiver mais de duas possibilidades. Python verifica cada condição na ordem e executa apenas a primeira verdadeira.",
+        examples: [
+          {
+            label: "Múltiplas condições",
+            code: "nota = 8\nif nota >= 9:\n    print('Excelente')\nelif nota >= 7:\n    print('Bom')\nelif nota >= 5:\n    print('Regular')\nelse:\n    print('Insuficiente')"
+          }
+        ],
+        related: ["if", "else"]
+      },
+      {
+        term: "for",
+        definition: "Repete um bloco de código para cada item de uma sequência (lista, intervalo, string, etc.). Ideal quando você sabe quantas vezes quer repetir.",
+        tip: "O 'for' percorre uma coleção item por item. A variável de controle (geralmente 'i') recebe automaticamente cada valor a cada repetição.",
+        examples: [
+          {
+            label: "Com range()",
+            code: "for i in range(5):\n    print('Repetição', i)"
+          },
+          {
+            label: "Percorrendo lista",
+            code: "frutas = ['maçã', 'banana', 'uva']\nfor fruta in frutas:\n    print(fruta)"
+          }
+        ],
+        related: ["while", "range", "break", "continue"]
+      },
+      {
+        term: "while",
+        definition: "Repete um bloco de código enquanto uma condição for verdadeira. Útil quando não sabemos exatamente quantas repetições serão necessárias.",
+        tip: "Cuidado com loops infinitos! Sempre garanta que a condição do 'while' vai se tornar falsa em algum momento — geralmente incrementando uma variável.",
+        examples: [
+          {
+            label: "Contador",
+            code: "cont = 0\nwhile cont < 5:\n    print(cont)\n    cont += 1"
+          },
+          {
+            label: "Aguardando condição",
+            code: "energia = 100\nwhile energia > 0:\n    usar_energia()\n    energia -= 10"
+          }
+        ],
+        related: ["for", "break", "continue"]
+      },
+      {
+        term: "break",
+        definition: "Interrompe imediatamente um loop (for ou while), saindo dele mesmo que a condição ainda seja verdadeira.",
+        tip: "Use 'break' quando encontrar o que procura e não precisar continuar percorrendo. É como um botão de parada de emergência.",
+        examples: [
+          {
+            label: "Parar ao encontrar",
+            code: "numeros = [3, 7, 2, 9, 1]\nfor n in numeros:\n    if n == 9:\n        print('Encontrei o 9!')\n        break"
+          }
+        ],
+        related: ["for", "while", "continue"]
+      },
+      {
+        term: "continue",
+        definition: "Pula o restante do código dentro do loop para a iteração atual e vai para a próxima, sem sair do loop.",
+        tip: "Enquanto o 'break' sai do loop, o 'continue' apenas pula aquela rodada e continua na próxima.",
+        examples: [
+          {
+            label: "Pular ímpares",
+            code: "for i in range(10):\n    if i % 2 != 0:\n        continue\n    print(i)  # só pares"
+          }
+        ],
+        related: ["for", "while", "break"]
+      }
+    ]
+  },
+  {
+    category: "Funções e Variáveis",
+    terms: [
+      {
+        term: "def",
+        definition: "Palavra-chave para definir (criar) uma função em Python. Uma função é um bloco de código reutilizável que executa uma tarefa específica.",
+        tip: "Pense em uma função como uma receita: você a escreve uma vez e pode usar quantas vezes quiser, passando ingredientes (parâmetros) diferentes.",
+        examples: [
+          {
+            label: "Função simples",
+            code: "def saudar():\n    print('Olá, Operador!')\n\nsaudar()  # chamando a função"
+          },
+          {
+            label: "Com parâmetros",
+            code: "def somar(a, b):\n    return a + b\n\nresultado = somar(3, 5)\nprint(resultado)  # 8"
+          }
+        ],
+        related: ["return", "parâmetro"]
+      },
+      {
+        term: "return",
+        definition: "Encerra a execução de uma função e retorna um valor para quem a chamou. Uma função sem 'return' retorna None automaticamente.",
+        tip: "O 'return' é a resposta que a função dá. Sem ele, a função executa as ações mas não entrega nenhum resultado.",
+        examples: [
+          {
+            label: "Retornando valor",
+            code: "def dobrar(n):\n    return n * 2\n\nx = dobrar(4)\nprint(x)  # 8"
+          },
+          {
+            label: "Retorno condicional",
+            code: "def classificar(n):\n    if n > 0:\n        return 'positivo'\n    return 'negativo'"
+          }
+        ],
+        related: ["def", "None"]
+      },
+      {
+        term: "variável",
+        definition: "Um espaço na memória do computador com um nome, usado para armazenar um valor que pode mudar durante a execução do programa.",
+        tip: "Imagine uma variável como uma caixa com uma etiqueta. A etiqueta é o nome, e o conteúdo da caixa é o valor — que pode ser trocado a qualquer momento.",
+        examples: [
+          {
+            label: "Criando variáveis",
+            code: "nome = 'Igor'\nidade = 15\nativo = True\n\nprint(nome, idade)"
+          },
+          {
+            label: "Modificando valor",
+            code: "pontos = 0\npontos += 100  # pontos = 100\npontos += 50   # pontos = 150\nprint(pontos)"
+          }
+        ],
+        related: ["int", "str", "float", "bool"]
+      },
+      {
+        term: "print",
+        definition: "Função nativa do Python que exibe um valor ou mensagem na tela (saída padrão).",
+        tip: "print() é sua ferramenta para ver o que está acontecendo no programa. Use para verificar valores de variáveis e testar seu código.",
+        examples: [
+          {
+            label: "Usos do print",
+            code: 'print("Olá, mundo!")\nprint(42)\nprint("Valor:", 3 + 5)\n\nnome = "Maria"\nprint(f"Bem-vinda, {nome}!")'
+          }
+        ],
+        related: ["str", "variável"]
+      },
+      {
+        term: "range",
+        definition: "Função que gera uma sequência de números inteiros. Muito usada com o 'for' para controlar quantas vezes um loop repete.",
+        tip: "range(5) gera 0,1,2,3,4 (5 números começando em 0). range(1,6) gera 1,2,3,4,5. range(0,10,2) gera 0,2,4,6,8 (de 2 em 2).",
+        examples: [
+          {
+            label: "Formas de usar",
+            code: "range(5)       # 0,1,2,3,4\nrange(1, 6)    # 1,2,3,4,5\nrange(0, 10, 2) # 0,2,4,6,8\n\nfor i in range(3):\n    print(i)"
+          }
+        ],
+        related: ["for", "int"]
+      }
+    ]
+  },
+  {
+    category: "Tipos de Dados",
+    terms: [
+      {
+        term: "int",
+        definition: "Tipo de dado para números inteiros (sem parte decimal). Pode ser positivo, negativo ou zero.",
+        tip: "Use int para contar coisas: número de vidas, pontuação, posição em uma lista. Para números com vírgula, use float.",
+        examples: [
+          {
+            label: "Exemplos de int",
+            code: "vidas = 3\npontos = 150\ntemperatura = -5\n\nprint(type(vidas))  # <class 'int'>"
+          }
+        ],
+        related: ["float", "str", "bool", "variável"]
+      },
+      {
+        term: "float",
+        definition: "Tipo de dado para números com parte decimal (ponto flutuante). O separador decimal em Python é o ponto, não a vírgula.",
+        tip: "Use float para valores que precisam de precisão: notas, distâncias, médias. Em Python, 7.5 é float e 7 é int.",
+        examples: [
+          {
+            label: "Exemplos de float",
+            code: "nota = 8.5\npi = 3.14159\nvelocidade = 0.75\n\nprint(type(nota))  # <class 'float'>"
+          }
+        ],
+        related: ["int", "str"]
+      },
+      {
+        term: "str",
+        definition: "Tipo de dado para texto (string). Qualquer sequência de caracteres entre aspas simples ou duplas.",
+        tip: "Strings são para texto, não números. '7' é diferente de 7 — você não pode somar '7' + 3 diretamente. Para combinar strings use + (concatenação).",
+        examples: [
+          {
+            label: "Criando strings",
+            code: 'nome = "Igor"\nfrase = \'Bug Hunters\'\n\n# Concatenação\nprint(nome + " joga " + frase)\n\n# f-string\nprint(f"{nome} tem 15 anos")'
+          }
+        ],
+        related: ["int", "float", "print"]
+      },
+      {
+        term: "bool",
+        definition: "Tipo de dado lógico com apenas dois valores possíveis: True (verdadeiro) ou False (falso). Fundamental para condições e controle de fluxo.",
+        tip: "Booleanos são o resultado de comparações. 'energia > 10' retorna True ou False. Use-os em condições 'if' e como flags de estado.",
+        examples: [
+          {
+            label: "Valores booleanos",
+            code: "ativo = True\nmorto = False\n\n# Comparações geram bool\nprint(5 > 3)   # True\nprint(5 == 3)  # False\n\nif ativo:\n    print('Jogador ativo')"
+          }
+        ],
+        related: ["if", "and", "or", "not"]
+      },
+      {
+        term: "list",
+        definition: "Coleção ordenada e mutável de elementos. Pode guardar múltiplos valores em uma única variável, acessados por índice começando em 0.",
+        tip: "Listas são como armários numerados: o primeiro item fica no compartimento 0, o segundo no 1, e assim por diante. Cuidado: acessar um índice que não existe gera IndexError.",
+        examples: [
+          {
+            label: "Criando e acessando",
+            code: "setores = ['A', 'B', 'C', 'D']\n\nprint(setores[0])  # 'A'\nprint(setores[2])  # 'C'\n\nsetores.append('E')\nprint(len(setores))  # 5"
+          }
+        ],
+        related: ["for", "range", "int"]
+      }
+    ]
+  },
+  {
+    category: "Operadores",
+    terms: [
+      {
+        term: "and",
+        definition: "Operador lógico que retorna True somente se AMBAS as condições forem verdadeiras. Se qualquer uma for falsa, o resultado é False.",
+        tip: "Pense no 'and' como um portão duplo: as duas travas precisam estar abertas para passar. Uma trava fechada bloqueia tudo.",
+        examples: [
+          {
+            label: "Tabela verdade",
+            code: "# True and True  → True\n# True and False → False\n# False and True → False\n\nenergia = 80\nstatus = 'ativo'\n\nif energia > 50 and status == 'ativo':\n    print('Sistema operacional')"
+          }
+        ],
+        related: ["or", "not", "if", "bool"]
+      },
+      {
+        term: "or",
+        definition: "Operador lógico que retorna True se PELO MENOS UMA das condições for verdadeira. Só retorna False se ambas forem falsas.",
+        tip: "O 'or' é mais permissivo que o 'and'. Basta uma condição ser verdadeira para o resultado ser True.",
+        examples: [
+          {
+            label: "Tabela verdade",
+            code: "# True or True  → True\n# True or False → True\n# False or True → True\n# False or False → False\n\nif energia < 10 or temperatura > 80:\n    print('Alerta crítico!')"
+          }
+        ],
+        related: ["and", "not", "if", "bool"]
+      },
+      {
+        term: "not",
+        definition: "Operador lógico que inverte o valor booleano. True vira False e False vira True.",
+        tip: "Use 'not' para negar uma condição. 'not True' é False. 'not False' é True. Muito útil para deixar condições mais legíveis.",
+        examples: [
+          {
+            label: "Usando not",
+            code: "ativo = False\n\nif not ativo:\n    print('Jogador inativo')\n\n# Equivale a:\nif ativo == False:\n    print('Jogador inativo')"
+          }
+        ],
+        related: ["and", "or", "bool", "if"]
+      },
+      {
+        term: "==",
+        definition: "Operador de comparação que verifica se dois valores são iguais. Retorna True se forem iguais, False se forem diferentes.",
+        tip: "Não confunda '==' (comparação) com '=' (atribuição). 'x = 5' guarda o valor 5 em x. 'x == 5' pergunta se x é igual a 5.",
+        examples: [
+          {
+            label: "Comparação vs atribuição",
+            code: "x = 10        # atribuição: x recebe 10\nprint(x == 10)  # True: x é igual a 10?\nprint(x == 5)   # False: x é igual a 5?\n\nif x == 10:\n    print('x vale 10')"
+          }
+        ],
+        related: ["!=", "if", "bool"]
+      },
+      {
+        term: "!=",
+        definition: "Operador de comparação que verifica se dois valores são DIFERENTES. Retorna True se forem diferentes, False se forem iguais.",
+        tip: "'!=' é o oposto do '=='. O símbolo '!' significa 'não' em muitas linguagens. Então '!=' lê-se como 'não igual'.",
+        examples: [
+          {
+            label: "Verificando diferença",
+            code: "status = 'ativo'\n\nif status != 'pausado':\n    print('Jogo em andamento')\n\n# Números\nprint(5 != 3)   # True\nprint(5 != 5)   # False"
+          }
+        ],
+        related: ["==", "if", "bool"]
+      },
+      {
+        term: "+=",
+        definition: "Operador de atribuição composta que soma um valor à variável e guarda o resultado na própria variável. Atalho para 'x = x + valor'.",
+        tip: "'x += 1' é a mesma coisa que 'x = x + 1'. Muito usado para incrementar contadores em loops. Existem também -=, *=, /=.",
+        examples: [
+          {
+            label: "Incrementando",
+            code: "pontos = 0\npontos += 100  # pontos = 0 + 100 = 100\npontos += 50   # pontos = 100 + 50 = 150\n\ncont = 10\ncont -= 3  # cont = 10 - 3 = 7"
+          }
+        ],
+        related: ["variável", "while", "for"]
+      }
+    ]
+  }
+];
+
+let glossaryOpen = false;
+
+function openGlossary() {
+  if (!mission.difficulty) return; // só abre se o jogo tiver começado
+  glossaryOpen = true;
+  mission.missionActive = true; // pausa o jogo
+  buildGlossarySidebar();
+  document.getElementById("glossaryScreen").style.display = "flex";
+}
+
+function closeGlossary() {
+  glossaryOpen = false;
+  mission.missionActive = false; // despausa
+  document.getElementById("glossaryScreen").style.display = "none";
+}
+
+function buildGlossarySidebar() {
+  const sidebar = document.getElementById("glossarySidebar");
+  sidebar.innerHTML = "";
+
+  GLOSSARY.forEach(cat => {
+    const catLabel = document.createElement("div");
+    catLabel.className = "glossary-category";
+    catLabel.textContent = cat.category;
+    sidebar.appendChild(catLabel);
+
+    cat.terms.forEach(t => {
+      const btn = document.createElement("button");
+      btn.className = "glossary-term-btn";
+      btn.textContent = t.term;
+      btn.onclick = () => showTerm(t, btn);
+      sidebar.appendChild(btn);
+    });
+  });
+}
+
+function showTerm(termObj, btn) {
+  // remove active de todos
+  document.querySelectorAll(".glossary-term-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+
+  const detail = document.getElementById("glossaryDetail");
+
+  let examplesHTML = termObj.examples.map(ex => `
+    <div class="gd-code-block">
+      <div class="gd-code-label">${ex.label}</div>
+      <pre>${ex.code}</pre>
+    </div>
+  `).join("");
+
+  let relatedHTML = termObj.related.map(r => `
+    <button class="gd-related-tag" onclick="openTermByName('${r}')">${r}</button>
+  `).join("");
+
+  detail.innerHTML = `
+    <div class="gd-term">${termObj.term}</div>
+    <div class="gd-category-tag">${getCategoryOf(termObj.term)}</div>
+    <hr class="gd-divider">
+    <div class="gd-section-label">DEFINIÇÃO</div>
+    <div class="gd-definition">${termObj.definition}</div>
+    <div class="gd-tip">💡 ${termObj.tip}</div>
+    <hr class="gd-divider">
+    <div class="gd-section-label">EXEMPLOS DE CÓDIGO</div>
+    ${examplesHTML}
+    <div class="gd-related">
+      <div class="gd-related-label">VER TAMBÉM</div>
+      <div class="gd-related-tags">${relatedHTML}</div>
+    </div>
+  `;
+}
+
+function getCategoryOf(termName) {
+  for (const cat of GLOSSARY) {
+    if (cat.terms.some(t => t.term === termName)) return cat.category;
+  }
+  return "";
+}
+
+function openTermByName(name) {
+  for (const cat of GLOSSARY) {
+    const found = cat.terms.find(t => t.term === name);
+    if (found) {
+      const btns = document.querySelectorAll(".glossary-term-btn");
+      btns.forEach(b => {
+        if (b.textContent === name) showTerm(found, b);
+      });
+      return;
+    }
+  }
+}
+
+// Fechar glossário com ESC
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && glossaryOpen) closeGlossary();
+});
