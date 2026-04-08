@@ -7,84 +7,84 @@ const MISSIONS_FACIL = {
     {
       title: "MISSÃO 01 — Condição de Energia",
       desc: "O robô deve retornar à base quando a energia estiver baixa. Qual palavra completa o código?",
-      code: "___ energia < 20:\n    retornar_base()",
-      choices: ["if", "for", "while", "def"],
+      code: "___ energia < 20 entao\n    retornarBase()",
+      choices: ["se", "para", "enquanto", "procedimento"],
       correct: 0,
-      explanation: '"if" verifica uma condição. Se energia < 20 for verdadeiro, a ação é executada.'
+      explanation: '"se" verifica uma condição. Se energia < 20 for verdadeiro, a ação é executada.'
     },
     {
       title: "MISSÃO 02 — Loop de Escaneamento",
       desc: "O sistema precisa repetir o escaneamento 5 vezes. Qual estrutura usar?",
-      code: "___ i in range(5):\n    escanear(i)",
-      choices: ["if", "for", "def", "return"],
+      code: "___ i de 1 ate 5 faca\n    escanear(i)",
+      choices: ["se", "para", "procedimento", "retorne"],
       correct: 1,
-      explanation: '"for" repete um bloco de código várias vezes — ideal para percorrer listas ou intervalos.'
+      explanation: '"para" repete um bloco de código várias vezes — ideal para percorrer intervalos numéricos.'
     },
     {
       title: "MISSÃO 03 — Valor Inicial",
       desc: "O contador de bugs deve começar em zero. Qual opção está correta?",
-      code: "bugs = ___\nprint(bugs)",
-      choices: ['"zero"', "true", "0", "vazio"],
+      code: "inteiro bugs <- ___\nescreva(bugs)",
+      choices: ['"zero"', "verdadeiro", "0", "vazio"],
       correct: 2,
       explanation: 'Para guardar o número zero, usamos 0 (sem aspas). Aspas indicariam texto, não número.'
     },
     {
       title: "MISSÃO 04 — Operador Lógico",
-      desc: "O sistema só age se a energia estiver ok E o status for 'ativo'. Qual operador usar?",
-      code: "if energia > 10 ___ status == 'ativo':\n    continuar()",
-      choices: ["or", "not", "and", "+"],
+      desc: "O sistema só age se a energia estiver ok E o status for ativo. Qual operador usar?",
+      code: "se energia > 10 ___ status = \"ativo\" entao\n    continuar()",
+      choices: ["ou", "nao", "e", "+"],
       correct: 2,
-      explanation: '"and" exige que AMBAS as condições sejam verdadeiras. "or" bastaria apenas uma delas.'
+      explanation: '"e" exige que AMBAS as condições sejam verdadeiras. "ou" bastaria apenas uma delas.'
     },
     {
-      title: "MISSÃO 05 — Definindo Função",
-      desc: "O programador quer criar uma função chamada verificar_erro. Como começar?",
-      code: "___ verificar_erro():\n    return True",
-      choices: ["var", "function", "def", "create"],
+      title: "MISSÃO 05 — Definindo Procedimento",
+      desc: "O programador quer criar um procedimento chamado verificarErro. Como começar?",
+      code: "___ verificarErro()\n    retorne verdadeiro",
+      choices: ["var", "funcao", "procedimento", "criar"],
       correct: 2,
-      explanation: 'Em Python, usamos "def" para definir (criar) uma função. Em JavaScript seria "function".'
+      explanation: 'Em Portugol, usamos "procedimento" para definir um bloco de código reutilizável sem retorno de valor.'
     }
   ],
   sala2: [
     {
       title: "MISSÃO 06 — Saída do Programa",
-      desc: "O robô precisa exibir uma mensagem na tela. Qual função usamos em Python?",
+      desc: "O robô precisa exibir uma mensagem na tela. Qual comando usamos em Portugol?",
       code: '___ ("Sistema online!")',
-      choices: ["echo", "print", "show", "display"],
+      choices: ["imprima", "escreva", "mostre", "exiba"],
       correct: 1,
-      explanation: '"print()" é a função do Python para exibir informações na tela.'
+      explanation: '"escreva()" é o comando do Portugol para exibir informações na tela.'
     },
     {
       title: "MISSÃO 07 — Comparação",
       desc: "O sistema verifica se dois valores são iguais. Qual operador usar?",
-      code: "if nivel ___ 3:\n    subir_nivel()",
-      choices: ["=", "=>", "==", "!="],
+      code: "se nivel ___ 3 entao\n    subirNivel()",
+      choices: ["<-", "=>", "=", "<>"],
       correct: 2,
-      explanation: '"==" compara se dois valores são iguais. "=" é usado para atribuir valor a uma variável.'
+      explanation: '"=" compara se dois valores são iguais em Portugol. "<-" é usado para atribuir valor a uma variável.'
     },
     {
       title: "MISSÃO 08 — Repetição com Condição",
       desc: "O robô deve continuar patrulhando enquanto não encontrar um bug. Qual estrutura usar?",
-      code: "___ bug_encontrado == False:\n    patrulhar()",
-      choices: ["if", "for", "while", "def"],
+      code: "___ bugEncontrado = falso faca\n    patrulhar()",
+      choices: ["se", "para", "enquanto", "procedimento"],
       correct: 2,
-      explanation: '"while" repete um bloco enquanto a condição for verdadeira.'
+      explanation: '"enquanto" repete um bloco enquanto a condição for verdadeira.'
     },
     {
       title: "MISSÃO 09 — Tipo de Dado",
-      desc: "O nome do jogador é um texto. Qual tipo de dado representa texto em Python?",
-      code: 'nome = ___("Igor")\nprint(nome)',
-      choices: ["int", "float", "str", "bool"],
+      desc: "O nome do jogador é um texto. Qual tipo de dado representa texto em Portugol?",
+      code: '___ nome <- "Igor"\nescreva(nome)',
+      choices: ["inteiro", "real", "caractere", "logico"],
       correct: 2,
-      explanation: '"str" (string) representa texto. "int" é número inteiro, "float" é decimal e "bool" é verdadeiro/falso.'
+      explanation: '"caractere" representa texto em Portugol. "inteiro" é número inteiro, "real" é decimal e "logico" é verdadeiro/falso.'
     },
     {
       title: "MISSÃO 10 — Valor Lógico",
       desc: "O sistema precisa guardar se o jogador está ativo ou não. Qual valor representa 'verdadeiro'?",
-      code: "ativo = ___\nif ativo:\n    jogar()",
-      choices: ["1", "sim", "True", "verdade"],
+      code: "logico ativo <- ___\nse ativo entao\n    jogar()",
+      choices: ["1", "sim", "verdadeiro", "true"],
       correct: 2,
-      explanation: '"True" é o valor lógico verdadeiro em Python. Faz parte do tipo "bool" (booleano).'
+      explanation: '"verdadeiro" é o valor lógico verdadeiro em Portugol. Faz parte do tipo "logico" (booleano).'
     }
   ]
 };
@@ -93,32 +93,32 @@ const MISSIONS_MEDIO = {
   sala1: [
     {
       title: "MISSÃO 01 — O que esse código faz?",
-      desc: "Leia o código abaixo. O que será impresso quando energia for 15?",
-      code: "energia = 15\nif energia < 20:\n    print('Retornando')\nelse:\n    print('Operando')",
+      desc: "Leia o código abaixo. O que será exibido quando energia for 15?",
+      code: "inteiro energia <- 15\nse energia < 20 entao\n    escreva(\"Retornando\")\nsenao\n    escreva(\"Operando\")\nfimse",
       choices: ["Operando", "Retornando", "Nada", "Erro"],
       correct: 1,
-      explanation: 'Como energia (15) é menor que 20, a condição "if" é verdadeira e imprime "Retornando".'
+      explanation: 'Como energia (15) é menor que 20, a condição "se" é verdadeira e exibe "Retornando".'
     },
     {
       title: "MISSÃO 02 — Quantas vezes repete?",
       desc: "Quantas vezes a função escanear() será chamada?",
-      code: "for i in range(3):\n    escanear(i)\n    print(i)",
+      code: "para i de 1 ate 3 faca\n    escanear(i)\n    escreva(i)\nfimpara",
       choices: ["2 vezes", "3 vezes", "4 vezes", "1 vez"],
       correct: 1,
-      explanation: 'range(3) gera os valores 0, 1 e 2 — ou seja, 3 iterações no total.'
+      explanation: '"para i de 1 ate 3" gera os valores 1, 2 e 3 — ou seja, 3 iterações no total.'
     },
     {
       title: "MISSÃO 03 — Resultado da operação",
       desc: "Qual será o valor de resultado após executar o código?",
-      code: "x = 10\ny = 3\nresultado = x + y * 2",
+      code: "inteiro x <- 10\ninteiro y <- 3\ninteiro resultado <- x + y * 2",
       choices: ["26", "16", "13", "23"],
       correct: 1,
-      explanation: 'Em Python, multiplicação tem prioridade sobre soma. y * 2 = 6, depois 10 + 6 = 16.'
+      explanation: 'Em Portugol, multiplicação tem prioridade sobre soma. y * 2 = 6, depois 10 + 6 = 16.'
     },
     {
       title: "MISSÃO 04 — Condição composta",
-      desc: "Em quais casos o sistema vai executar 'alerta()'?",
-      code: "if energia < 10 or temperatura > 80:\n    alerta()",
+      desc: "Em quais casos o sistema vai executar alerta()?",
+      code: "se energia < 10 ou temperatura > 80 entao\n    alerta()\nfimse",
       choices: [
         "Só se energia < 10 E temperatura > 80",
         "Se energia < 10 OU temperatura > 80",
@@ -126,12 +126,12 @@ const MISSIONS_MEDIO = {
         "Sempre executa"
       ],
       correct: 1,
-      explanation: '"or" executa se QUALQUER uma das condições for verdadeira — basta uma delas ser satisfeita.'
+      explanation: '"ou" executa se QUALQUER uma das condições for verdadeira — basta uma delas ser satisfeita.'
     },
     {
       title: "MISSÃO 05 — Valor de retorno",
       desc: "O que a função retorna quando chamada com dobrar(4)?",
-      code: "def dobrar(n):\n    return n * 2\n\nresultado = dobrar(4)",
+      code: "funcao inteiro dobrar(inteiro n)\n    retorne n * 2\nfimfuncao\n\nresultado <- dobrar(4)",
       choices: ["4", "2", "8", "16"],
       correct: 2,
       explanation: 'A função multiplica n por 2. Passando 4, o retorno é 4 * 2 = 8.'
@@ -141,42 +141,42 @@ const MISSIONS_MEDIO = {
     {
       title: "MISSÃO 06 — Saída do loop",
       desc: "Quais números serão impressos por esse código?",
-      code: "for i in range(1, 5):\n    if i % 2 == 0:\n        print(i)",
+      code: "para i de 1 ate 4 faca\n    se i % 2 = 0 entao\n        escreva(i)\n    fimse\nfimpara",
       choices: ["1, 3", "2, 4", "1, 2, 3, 4", "0, 2, 4"],
       correct: 1,
-      explanation: 'range(1,5) gera 1,2,3,4. O "%" é o resto da divisão — só 2 e 4 têm resto 0 ao dividir por 2.'
+      explanation: '"para i de 1 ate 4" gera 1,2,3,4. O "%" é o resto da divisão — só 2 e 4 têm resto 0 ao dividir por 2.'
     },
     {
-      title: "MISSÃO 07 — While com contador",
-      desc: "Quantas vezes 'tick' será impresso?",
-      code: "cont = 0\nwhile cont < 3:\n    print('tick')\n    cont += 1",
+      title: "MISSÃO 07 — Enquanto com contador",
+      desc: "Quantas vezes 'tick' será exibido?",
+      code: "inteiro cont <- 0\nenquanto cont < 3 faca\n    escreva(\"tick\")\n    cont <- cont + 1\nfimenquanto",
       choices: ["2 vezes", "3 vezes", "4 vezes", "infinito"],
       correct: 1,
       explanation: 'cont começa em 0 e vai até 2 (menor que 3), executando 3 vezes: cont = 0, 1, 2.'
     },
     {
-      title: "MISSÃO 08 — Lista e índice",
-      desc: "Qual valor será impresso?",
-      code: "setores = ['A', 'B', 'C', 'D']\nprint(setores[2])",
+      title: "MISSÃO 08 — Vetor e índice",
+      desc: "Qual valor será exibido?",
+      code: "caractere setores[4] <- {\"A\", \"B\", \"C\", \"D\"}\nescreva(setores[3])",
       choices: ["A", "B", "C", "D"],
       correct: 2,
-      explanation: 'Listas em Python começam no índice 0. O índice 2 corresponde ao terceiro elemento: "C".'
+      explanation: 'Em Portugol, vetores geralmente começam no índice 1. O índice 3 corresponde ao terceiro elemento: "C".'
     },
     {
       title: "MISSÃO 09 — Função com condição",
       desc: "O que a função retorna quando chamada com verificar(5)?",
-      code: "def verificar(n):\n    if n > 10:\n        return 'alto'\n    return 'baixo'",
-      choices: ["alto", "baixo", "True", "None"],
+      code: "funcao caractere verificar(inteiro n)\n    se n > 10 entao\n        retorne \"alto\"\n    fimse\n    retorne \"baixo\"\nfimfuncao",
+      choices: ["alto", "baixo", "verdadeiro", "nulo"],
       correct: 1,
-      explanation: '5 não é maior que 10, então o "if" é falso e a função retorna "baixo".'
+      explanation: '5 não é maior que 10, então o "se" é falso e a função retorna "baixo".'
     },
     {
       title: "MISSÃO 10 — Concatenação",
       desc: "Qual será a saída do código?",
-      code: 'nome = "Bug"\ntipo = "Hunter"\nprint(nome + " " + tipo)',
+      code: 'caractere nome <- "Bug"\ncaractere tipo <- "Hunter"\nescreva(nome + " " + tipo)',
       choices: ["BugHunter", "Bug Hunter", "nome tipo", "Erro"],
       correct: 1,
-      explanation: 'O operador "+" junta strings. "Bug" + " " + "Hunter" resulta em "Bug Hunter".'
+      explanation: 'O operador "+" junta textos. "Bug" + " " + "Hunter" resulta em "Bug Hunter".'
     }
   ]
 };
@@ -186,69 +186,69 @@ const MISSIONS_DIFICIL = {
     {
       title: "MISSÃO 01 — Encontre o Bug",
       desc: "O código abaixo tem um erro. Qual linha está errada?",
-      code: "def somar(a, b):\n    resultado = a + b\n    Return resultado",
+      code: "funcao inteiro somar(inteiro a, inteiro b)\n    inteiro resultado <- a + b\n    Retorne resultado\nfimfuncao",
       choices: [
-        "def somar(a, b):",
-        "resultado = a + b",
-        '"Return" deveria ser "return"',
+        "funcao inteiro somar(inteiro a, inteiro b)",
+        "inteiro resultado <- a + b",
+        '"Retorne" deveria ser "retorne"',
         "Não há erro"
       ],
       correct: 2,
-      explanation: 'Python é case-sensitive. "Return" com R maiúsculo é inválido — o correto é "return" em minúsculo.'
+      explanation: 'Portugol é case-sensitive. "Retorne" com R maiúsculo é inválido — o correto é "retorne" em minúsculo.'
     },
     {
       title: "MISSÃO 02 — Loop Infinito",
       desc: "Por que esse código entra em loop infinito?",
-      code: "cont = 0\nwhile cont < 5:\n    print(cont)",
+      code: "inteiro cont <- 0\nenquanto cont < 5 faca\n    escreva(cont)\nfimenquanto",
       choices: [
-        "range() não foi usado",
+        "O intervalo não foi definido",
         "cont nunca é incrementado",
-        "while deveria ser for",
-        "print() causa o loop"
+        "enquanto deveria ser para",
+        "escreva() causa o loop"
       ],
       correct: 1,
-      explanation: 'cont sempre vale 0 pois nunca é incrementado. A condição cont < 5 nunca se torna falsa. Falta "cont += 1".'
+      explanation: 'cont sempre vale 0 pois nunca é incrementado. A condição cont < 5 nunca se torna falsa. Falta "cont <- cont + 1".'
     },
     {
       title: "MISSÃO 03 — Erro de Índice",
       desc: "O que acontece ao executar esse código?",
-      code: "lista = [10, 20, 30]\nprint(lista[3])",
+      code: "inteiro lista[3] <- {10, 20, 30}\nescreva(lista[4])",
       choices: [
-        'Imprime "30"',
-        'Imprime "None"',
-        "Gera um IndexError",
-        'Imprime "0"'
+        'Exibe "30"',
+        'Exibe "nulo"',
+        "Gera um erro de índice inválido",
+        'Exibe "0"'
       ],
       correct: 2,
-      explanation: 'A lista tem 3 elementos (índices 0, 1, 2). Acessar índice 3 gera IndexError: list index out of range.'
+      explanation: 'O vetor tem 3 elementos (índices 1, 2, 3). Acessar o índice 4 gera um erro de índice fora do intervalo.'
     },
     {
       title: "MISSÃO 04 — Escopo de Variável",
-      desc: "O que será impresso ao executar esse código?",
-      code: "x = 10\ndef alterar():\n    x = 99\n\nalterar()\nprint(x)",
-      choices: ["99", "10", "None", "Erro"],
+      desc: "O que será exibido ao executar esse código?",
+      code: "inteiro x <- 10\n\nprocedimento alterar()\n    inteiro x <- 99\nfimprocedimento\n\nalterar()\nescreva(x)",
+      choices: ["99", "10", "nulo", "Erro"],
       correct: 1,
-      explanation: 'O "x = 99" dentro da função cria uma variável LOCAL. O "x" global continua valendo 10.'
+      explanation: 'O "inteiro x <- 99" dentro do procedimento cria uma variável LOCAL. O "x" global continua valendo 10.'
     },
     {
       title: "MISSÃO 05 — Lógica Invertida",
-      desc: "O código deveria imprimir apenas números ímpares, mas está errado. Qual é o problema?",
-      code: "for i in range(1, 8):\n    if i % 2 == 0:\n        print(i)",
+      desc: "O código deveria exibir apenas números ímpares, mas está errado. Qual é o problema?",
+      code: "para i de 1 ate 7 faca\n    se i % 2 = 0 entao\n        escreva(i)\n    fimse\nfimpara",
       choices: [
-        "range(1, 8) está errado",
-        'Deveria ser "i % 2 != 0"',
-        'Deveria ser "i % 2 == 1"',
+        "O intervalo \"de 1 ate 7\" está errado",
+        'Deveria ser "i % 2 <> 0"',
+        'Deveria ser "i % 2 = 1"',
         "Não há problema"
       ],
       correct: 1,
-      explanation: '"i % 2 == 0" seleciona números PARES. Para ímpares, a condição correta é "i % 2 != 0" (resto diferente de zero).'
+      explanation: '"i % 2 = 0" seleciona números PARES. Para ímpares, a condição correta é "i % 2 <> 0" (resto diferente de zero).'
     }
   ],
   sala2: [
     {
       title: "MISSÃO 06 — Recursão",
       desc: "O que a função retorna quando chamada com fatorial(3)?",
-      code: "def fatorial(n):\n    if n == 0:\n        return 1\n    return n * fatorial(n - 1)",
+      code: "funcao inteiro fatorial(inteiro n)\n    se n = 0 entao\n        retorne 1\n    fimse\n    retorne n * fatorial(n - 1)\nfimfuncao",
       choices: ["3", "6", "9", "1"],
       correct: 1,
       explanation: 'fatorial(3) = 3 * fatorial(2) = 3 * 2 * fatorial(1) = 3 * 2 * 1 = 6.'
@@ -256,46 +256,46 @@ const MISSIONS_DIFICIL = {
     {
       title: "MISSÃO 07 — Erro de Atribuição",
       desc: "O código tenta comparar x com 5, mas tem um erro. Qual é?",
-      code: "x = 10\nif x = 5:\n    print('igual')",
+      code: "inteiro x <- 10\nse x <- 5 entao\n    escreva(\"igual\")\nfimse",
       choices: [
-        '"print" está errado',
-        '"=" deveria ser "=="',
+        '"escreva" está errado',
+        '"<-" deveria ser "="',
         '"x" não foi declarado',
         "Não há erro"
       ],
       correct: 1,
-      explanation: 'Dentro do "if", "=" é atribuição e causa SyntaxError. Para comparar, use "==" (dois sinais de igual).'
+      explanation: 'Dentro do "se", "<-" é atribuição e causa erro de sintaxe. Para comparar, use "=" (sinal de igual simples).'
     },
     {
-      title: "MISSÃO 08 — Dicionário",
-      desc: "Como acessar o valor da chave 'nome' no dicionário?",
-      code: 'jogador = {"nome": "Igor", "nivel": 3}\nprint(___)',
+      title: "MISSÃO 08 — Registro",
+      desc: "Como acessar o campo 'nome' em um registro em Portugol?",
+      code: 'tipo Jogador\n    caractere nome\n    inteiro nivel\nfimtipo\n\nJogador jogador\njogador.nome <- "Igor"\nescreva(___)',
       choices: [
-        'jogador.nome',
         'jogador["nome"]',
+        'jogador.nome',
         'jogador(nome)',
         'jogador->nome'
       ],
       correct: 1,
-      explanation: 'Em Python, dicionários são acessados com colchetes e a chave entre aspas: jogador["nome"].'
+      explanation: 'Em Portugol, os campos de um registro são acessados com ponto: jogador.nome'
     },
     {
-      title: "MISSÃO 09 — Try/Except",
-      desc: "O que o bloco 'except' faz nesse código?",
-      code: 'try:\n    x = int("abc")\nexcept ValueError:\n    print("Valor inválido")',
+      title: "MISSÃO 09 — Tratamento de Erro",
+      desc: "Qual é a forma correta de evitar que o programa quebre ao receber um valor inválido?",
+      code: "funcao inteiro converter(caractere valor)\n    se ___\n        retorne inteiro(valor)\n    senao\n        escreva(\"Valor invalido\")\n        retorne 0\n    fimse\nfimfuncao",
       choices: [
-        "Ignora o erro silenciosamente",
-        'Captura o erro e imprime "Valor inválido"',
-        "Faz o programa encerrar",
-        "Converte abc para 0"
+        "sempre verdadeiro entao",
+        "valor <> \"\" e ehNumero(valor) entao",
+        "valor = 0 entao",
+        "nao verdadeiro entao"
       ],
       correct: 1,
-      explanation: 'int("abc") gera um ValueError. O bloco "except" captura esse erro e executa o print — evitando que o programa quebre.'
+      explanation: 'Antes de converter, é necessário verificar se o valor não está vazio e se é um número válido — evitando erros em tempo de execução.'
     },
     {
-      title: "MISSÃO 10 — List Comprehension",
-      desc: "O que a variável 'quadrados' vai conter?",
-      code: "quadrados = [x**2 for x in range(1, 4)]",
+      title: "MISSÃO 10 — Vetor Dinâmico",
+      desc: "O que o vetor 'quadrados' vai conter após o código?",
+      code: "inteiro quadrados[3]\npara i de 1 ate 3 faca\n    quadrados[i] <- i * i\nfimpara",
       choices: [
         "[1, 2, 3]",
         "[1, 4, 9]",
@@ -303,7 +303,7 @@ const MISSIONS_DIFICIL = {
         "[0, 1, 4]"
       ],
       correct: 1,
-      explanation: 'range(1,4) gera 1,2,3. Cada valor é elevado ao quadrado: 1²=1, 2²=4, 3²=9. Resultado: [1, 4, 9].'
+      explanation: 'Para i de 1 até 3: 1²=1, 2²=4, 3²=9. O vetor ficará com os valores {1, 4, 9}.'
     }
   ]
 };
@@ -676,6 +676,7 @@ function restartGame() {
   backToMenu();
   if (diff) selectDifficulty(diff);
 }
+
 // ============================================================
 // GLOSSÁRIO
 // ============================================================
@@ -685,402 +686,290 @@ const GLOSSARY = [
     category: "Estruturas de Controle",
     terms: [
       {
-        term: "if",
-        definition: `O "if" é a estrutura de decisão mais fundamental da programação. Ele avalia uma condição e executa um bloco de código SOMENTE se essa condição for verdadeira (True). Se a condição for falsa, o bloco é completamente ignorado e o programa continua na próxima linha após o bloco.
+        term: "se",
+        definition: `O "se" é a estrutura de decisão mais fundamental do Portugol. Ele avalia uma condição e executa um bloco de código SOMENTE se essa condição for verdadeira. Se a condição for falsa, o bloco é completamente ignorado e o programa continua na próxima linha após o "fimse".
 
-Em Python, o bloco do "if" é definido pela indentação (recuo de 4 espaços ou 1 tab). Tudo que estiver indentado abaixo do "if:" faz parte daquele bloco.`,
-        tip: `Imagine que você está na portaria de um evento. O segurança verifica: "A pessoa tem ingresso?" SE sim, ela entra. SE não, fica do lado de fora. O "if" funciona exatamente assim — ele é o segurança do seu código, deixando passar apenas o que atende à condição.`,
+Em Portugol, o bloco do "se" é delimitado pelas palavras-chave "entao" e "fimse". Tudo que estiver entre elas faz parte daquele bloco.`,
+        tip: `Imagine que você está na portaria de um evento. O segurança verifica: "A pessoa tem ingresso?" SE sim, ela entra. SE não, fica do lado de fora. O "se" funciona exatamente assim — ele é o segurança do seu código, deixando passar apenas o que atende à condição.`,
         examples: [
           {
             label: "Estrutura básica",
-            code: `energia = 15
+            code: `inteiro energia <- 15
 
-if energia < 20:
-    print("Bateria fraca!")
-    print("Retornando à base...")
+se energia < 20 entao
+    escreva("Bateria fraca!")
+    escreva("Retornando à base...")
+fimse
 
-print("Esta linha sempre executa")`
+escreva("Esta linha sempre executa")`
           },
           {
-            label: "Com else (senão)",
-            code: `nota = 7
+            label: "Com senao",
+            code: `inteiro nota <- 7
 
-if nota >= 6:
-    print("Aprovado!")
-else:
-    print("Reprovado.")
-    print("Tente novamente.")`
+se nota >= 6 entao
+    escreva("Aprovado!")
+senao
+    escreva("Reprovado.")
+    escreva("Tente novamente.")
+fimse`
           },
           {
-            label: "Comparando strings",
-            code: `status = "ativo"
+            label: "Comparando textos",
+            code: `caractere status <- "ativo"
 
-if status == "ativo":
-    print("Sistema ligado")
-else:
-    print("Sistema desligado")`
+se status = "ativo" entao
+    escreva("Sistema ligado")
+senao
+    escreva("Sistema desligado")
+fimse`
           }
         ],
         errors: [
           {
-            label: "❌ Erro: esquecer os dois pontos",
-            code: `# ERRADO
-if energia < 20
-    print("Baixa!")
+            label: "❌ Erro: esquecer o entao ou fimse",
+            code: `// ERRADO
+se energia < 20
+    escreva("Baixa!")
 
-# CORRETO
-if energia < 20:
-    print("Baixa!")`
+// CORRETO
+se energia < 20 entao
+    escreva("Baixa!")
+fimse`
           },
           {
-            label: "❌ Erro: indentação incorreta",
-            code: `# ERRADO — print não está indentado
-if energia < 20:
-print("Baixa!")
+            label: "❌ Erro: usar <- dentro do se para comparar",
+            code: `// ERRADO — <- é atribuição, não comparação
+se energia <- 20 entao
+    escreva("Baixa!")
+fimse
 
-# CORRETO
-if energia < 20:
-    print("Baixa!")`
+// CORRETO — use = para comparar
+se energia = 20 entao
+    escreva("Baixa!")
+fimse`
           }
         ],
-        related: ["else", "elif", "and", "or", "bool"]
+        related: ["senao", "senaose", "e", "ou", "logico"]
       },
       {
-        term: "else",
-        definition: `O "else" é sempre usado em conjunto com o "if". Ele define o bloco de código que será executado quando a condição do "if" for FALSA. É o "caso contrário" do seu código.
+        term: "senao",
+        definition: `O "senao" é sempre usado em conjunto com o "se". Ele define o bloco de código que será executado quando a condição do "se" for FALSA. É o "caso contrário" do seu código.
 
-O "else" não tem condição própria — ele simplesmente captura tudo que não passou pelo "if". Por isso, nunca escreva uma condição após o "else".
+O "senao" não tem condição própria — ele simplesmente captura tudo que não passou pelo "se". Por isso, nunca escreva uma condição após o "senao".
 
-Você pode ter um "if" sem "else", mas nunca um "else" sem "if".`,
-        tip: `Pense no "if/else" como um interruptor de luz: SE o interruptor estiver para cima, a luz acende. SENÃO (else), a luz apaga. Sempre um dos dois acontece, nunca os dois ao mesmo tempo.`,
+Você pode ter um "se" sem "senao", mas nunca um "senao" sem "se".`,
+        tip: `Pense no "se/senao" como um interruptor de luz: SE o interruptor estiver para cima, a luz acende. SENÃO, a luz apaga. Sempre um dos dois acontece, nunca os dois ao mesmo tempo.`,
         examples: [
           {
-            label: "if / else simples",
-            code: `temperatura = 35
+            label: "se / senao simples",
+            code: `inteiro temperatura <- 35
 
-if temperatura > 30:
-    print("Está muito quente hoje!")
-else:
-    print("Temperatura agradável.")`
+se temperatura > 30 entao
+    escreva("Está muito quente hoje!")
+senao
+    escreva("Temperatura agradável.")
+fimse`
           },
           {
             label: "Verificando login",
-            code: `senha_correta = "python123"
-senha_digitada = "abc"
+            code: `caractere senhaCorreta <- "portugol123"
+caractere senhaDigitada <- "abc"
 
-if senha_digitada == senha_correta:
-    print("Acesso liberado!")
-else:
-    print("Senha incorreta. Tente novamente.")`
+se senhaDigitada = senhaCorreta entao
+    escreva("Acesso liberado!")
+senao
+    escreva("Senha incorreta. Tente novamente.")
+fimse`
           }
         ],
         errors: [
           {
-            label: "❌ Erro: colocar condição no else",
-            code: `# ERRADO — else não recebe condição
-if nota >= 6:
-    print("Aprovado")
-else nota < 6:
-    print("Reprovado")
+            label: "❌ Erro: colocar condição no senao",
+            code: `// ERRADO — senao não recebe condição
+se nota >= 6 entao
+    escreva("Aprovado")
+senao nota < 6 entao
+    escreva("Reprovado")
+fimse
 
-# CORRETO
-if nota >= 6:
-    print("Aprovado")
-else:
-    print("Reprovado")`
+// CORRETO
+se nota >= 6 entao
+    escreva("Aprovado")
+senao
+    escreva("Reprovado")
+fimse`
           }
         ],
-        related: ["if", "elif"]
+        related: ["se", "senaose"]
       },
       {
-        term: "elif",
-        definition: `O "elif" (abreviação de "else if") permite verificar múltiplas condições em sequência. É usado quando você tem mais de duas possibilidades e precisa tratar cada uma de forma diferente.
+        term: "senaose",
+        definition: `O "senaose" permite verificar múltiplas condições em sequência. É usado quando você tem mais de duas possibilidades e precisa tratar cada uma de forma diferente.
 
-Python verifica as condições NA ORDEM em que aparecem e executa APENAS o primeiro bloco cuja condição for verdadeira. Depois disso, pula todos os outros elif/else.
+Portugol verifica as condições NA ORDEM em que aparecem e executa APENAS o primeiro bloco cuja condição for verdadeira. Depois disso, pula todos os outros senaose/senao.
 
-Você pode ter quantos "elif" quiser entre um "if" e um "else".`,
-        tip: `Imagine uma triagem médica: PRIMEIRO o médico verifica se é emergência → SE não, verifica se é urgente → SE não, verifica se é consulta normal → SENÃO, manda para casa. O "elif" funciona exatamente como essa fila de verificações.`,
+Você pode ter quantos "senaose" quiser entre um "se" e um "senao".`,
+        tip: `Imagine uma triagem médica: PRIMEIRO o médico verifica se é emergência → SE não, verifica se é urgente → SE não, verifica se é consulta normal → SENÃO, manda para casa. O "senaose" funciona exatamente como essa fila de verificações.`,
         examples: [
           {
             label: "Sistema de notas",
-            code: `nota = 7.5
+            code: `real nota <- 7.5
 
-if nota >= 9:
-    print("Excelente!")
-elif nota >= 7:
-    print("Bom!")
-elif nota >= 5:
-    print("Regular.")
-else:
-    print("Insuficiente.")`
+se nota >= 9 entao
+    escreva("Excelente!")
+senaose nota >= 7 entao
+    escreva("Bom!")
+senaose nota >= 5 entao
+    escreva("Regular.")
+senao
+    escreva("Insuficiente.")
+fimse`
           },
           {
             label: "Nível do jogador",
-            code: `pontos = 850
+            code: `inteiro pontos <- 850
+caractere nivel
 
-if pontos >= 1000:
-    nivel = "Mestre"
-elif pontos >= 500:
-    nivel = "Avançado"
-elif pontos >= 100:
-    nivel = "Iniciante"
-else:
-    nivel = "Novato"
+se pontos >= 1000 entao
+    nivel <- "Mestre"
+senaose pontos >= 500 entao
+    nivel <- "Avançado"
+senaose pontos >= 100 entao
+    nivel <- "Iniciante"
+senao
+    nivel <- "Novato"
+fimse
 
-print("Nível:", nivel)`
+escreva("Nível: " + nivel)`
           }
         ],
         errors: [
           {
             label: "❌ Erro: ordem errada das condições",
-            code: `nota = 9.5
+            code: `inteiro nota <- 9
 
-# ERRADO — a condição >= 5 captura tudo antes
-if nota >= 5:
-    print("Regular")  # sempre cai aqui!
-elif nota >= 7:
-    print("Bom")
-elif nota >= 9:
-    print("Excelente")
+// ERRADO — a condição >= 5 captura tudo antes
+se nota >= 5 entao
+    escreva("Regular")  // sempre cai aqui!
+senaose nota >= 7 entao
+    escreva("Bom")
+senaose nota >= 9 entao
+    escreva("Excelente")
+fimse
 
-# CORRETO — do maior para o menor
-if nota >= 9:
-    print("Excelente")
-elif nota >= 7:
-    print("Bom")
-elif nota >= 5:
-    print("Regular")`
+// CORRETO — do maior para o menor
+se nota >= 9 entao
+    escreva("Excelente")
+senaose nota >= 7 entao
+    escreva("Bom")
+senaose nota >= 5 entao
+    escreva("Regular")
+fimse`
           }
         ],
-        related: ["if", "else"]
+        related: ["se", "senao"]
       },
       {
-        term: "for",
-        definition: `O "for" é uma estrutura de repetição usada para percorrer sequências: listas, strings, intervalos numéricos, e qualquer objeto iterável. A cada repetição (iteração), a variável de controle recebe automaticamente o próximo valor da sequência.
+        term: "para",
+        definition: `O "para" é uma estrutura de repetição usada para percorrer intervalos numéricos. A cada repetição (iteração), a variável de controle é incrementada automaticamente até atingir o valor final.
 
-A sintaxe é: for VARIÁVEL in SEQUÊNCIA:
+A sintaxe é: para VARIÁVEL de INÍCIO ate FIM faca
 
-Diferente do "while", o "for" é ideal quando você SABE quantas vezes quer repetir ou quando quer percorrer todos os elementos de uma coleção.
-
-O bloco do "for" também é definido por indentação.`,
-        tip: `Imagine que você tem uma pilha de provas para corrigir. Você pega a PRIMEIRA prova, corrige, coloca de lado. Pega a SEGUNDA, corrige, coloca de lado. Repete até acabar a pilha. O "for" faz exatamente isso: pega cada item da sequência, processa, e vai para o próximo automaticamente.`,
+Diferente do "enquanto", o "para" é ideal quando você SABE quantas vezes quer repetir. O bloco do "para" é delimitado por "faca" e "fimpara".`,
+        tip: `Imagine que você tem uma pilha de provas para corrigir. Você pega a PRIMEIRA prova, corrige, coloca de lado. Pega a SEGUNDA, corrige, coloca de lado. Repete até acabar a pilha. O "para" faz exatamente isso: percorre cada número do intervalo e executa o bloco automaticamente.`,
         examples: [
           {
-            label: "Com range() — repetir N vezes",
-            code: `# Repete 5 vezes (0, 1, 2, 3, 4)
-for i in range(5):
-    print("Repetição número", i)
-
-# range(início, fim, passo)
-for i in range(1, 11, 2):
-    print(i)  # 1, 3, 5, 7, 9`
+            label: "Repetir N vezes",
+            code: `// Repete 5 vezes (1, 2, 3, 4, 5)
+para i de 1 ate 5 faca
+    escreva("Repetição número " + i)
+fimpara`
           },
           {
-            label: "Percorrendo uma lista",
-            code: `setores = ["Alpha", "Beta", "Gamma", "Delta"]
-
-for setor in setores:
-    print("Escaneando setor:", setor)
-
-print("Escaneamento concluído!")`
-          },
-          {
-            label: "Percorrendo uma string",
-            code: `palavra = "Python"
-
-for letra in palavra:
-    print(letra)
-# Imprime cada letra em uma linha`
+            label: "Com passo personalizado",
+            code: `// Conta de 2 em 2
+para i de 0 ate 10 passo 2 faca
+    escreva(i)  // 0, 2, 4, 6, 8, 10
+fimpara`
           },
           {
             label: "Acumulando resultado",
-            code: `numeros = [10, 20, 30, 40, 50]
-total = 0
+            code: `inteiro total <- 0
 
-for n in numeros:
-    total += n
+para i de 1 ate 5 faca
+    total <- total + i
+fimpara
 
-print("Soma total:", total)  # 150`
+escreva("Soma total: " + total)  // 15`
           }
         ],
         errors: [
           {
-            label: "❌ Erro: modificar a lista durante o loop",
-            code: `# ERRADO — pode causar comportamento inesperado
-lista = [1, 2, 3, 4, 5]
-for item in lista:
-    lista.remove(item)  # perigoso!
+            label: "❌ Erro: esquecer o fimpara",
+            code: `// ERRADO
+para i de 1 ate 5 faca
+    escreva(i)
 
-# CORRETO — use uma cópia ou outra abordagem
-lista = [1, 2, 3, 4, 5]
-nova_lista = []
-for item in lista:
-    if item % 2 == 0:
-        nova_lista.append(item)`
+// CORRETO
+para i de 1 ate 5 faca
+    escreva(i)
+fimpara`
           }
         ],
-        related: ["while", "range", "break", "continue", "list"]
+        related: ["enquanto", "fimpara", "inteiro"]
       },
       {
-        term: "while",
-        definition: `O "while" repete um bloco de código enquanto uma condição for verdadeira. A condição é verificada ANTES de cada repetição — se já começar falsa, o bloco nunca executa.
+        term: "enquanto",
+        definition: `O "enquanto" repete um bloco de código enquanto uma condição for verdadeira. A condição é verificada ANTES de cada repetição — se já começar falsa, o bloco nunca executa.
 
-Diferente do "for", o "while" é usado quando NÃO sabemos quantas repetições serão necessárias. O número de repetições depende de quando a condição se torna falsa.
+Diferente do "para", o "enquanto" é usado quando NÃO sabemos quantas repetições serão necessárias. O bloco é delimitado por "faca" e "fimenquanto".
 
 ATENÇÃO: se a condição nunca se tornar falsa, o programa entra em loop infinito e trava. Sempre garanta que algo dentro do loop vai eventualmente tornar a condição falsa.`,
-        tip: `Pense no "while" como uma cancela automática de estacionamento. ENQUANTO a fila de carros não estiver vazia, a cancela continua abrindo para o próximo carro. Quando não há mais carros, a cancela para. O while para quando não há mais "carros" (condição falsa).`,
+        tip: `Pense no "enquanto" como uma cancela automática de estacionamento. ENQUANTO a fila de carros não estiver vazia, a cancela continua abrindo para o próximo carro. Quando não há mais carros, a cancela para.`,
         examples: [
           {
             label: "Contador básico",
-            code: `cont = 0
+            code: `inteiro cont <- 0
 
-while cont < 5:
-    print("Contagem:", cont)
-    cont += 1  # IMPORTANTE: incrementar!
+enquanto cont < 5 faca
+    escreva("Contagem: " + cont)
+    cont <- cont + 1  // IMPORTANTE: incrementar!
+fimenquanto
 
-print("Loop encerrado")`
+escreva("Loop encerrado")`
           },
           {
             label: "Aguardando condição",
-            code: `energia = 100
+            code: `inteiro energia <- 100
 
-while energia > 0:
-    print("Energia:", energia)
-    energia -= 25
+enquanto energia > 0 faca
+    escreva("Energia: " + energia)
+    energia <- energia - 25
+fimenquanto
 
-print("Sem energia! Game over.")`
-          },
-          {
-            label: "Loop com break",
-            code: `tentativas = 0
-senha = "1234"
-
-while True:  # loop infinito controlado
-    digitada = input("Digite a senha: ")
-    tentativas += 1
-    
-    if digitada == senha:
-        print("Acesso liberado!")
-        break
-    
-    if tentativas >= 3:
-        print("Bloqueado!")
-        break`
+escreva("Sem energia! Game over.")`
           }
         ],
         errors: [
           {
             label: "❌ Erro: loop infinito",
-            code: `# ERRADO — cont nunca muda, loop infinito!
-cont = 0
-while cont < 5:
-    print(cont)
-    # esqueceu o cont += 1
+            code: `// ERRADO — cont nunca muda, loop infinito!
+inteiro cont <- 0
+enquanto cont < 5 faca
+    escreva(cont)
+    // esqueceu cont <- cont + 1
+fimenquanto
 
-# CORRETO
-cont = 0
-while cont < 5:
-    print(cont)
-    cont += 1`
+// CORRETO
+inteiro cont <- 0
+enquanto cont < 5 faca
+    escreva(cont)
+    cont <- cont + 1
+fimenquanto`
           }
         ],
-        related: ["for", "break", "continue", "bool"]
-      },
-      {
-        term: "break",
-        definition: `O "break" interrompe imediatamente a execução de um loop (for ou while), saindo dele independentemente da condição. O programa continua na primeira linha após o loop.
-
-O "break" é útil quando você encontrou o que procurava e não precisa continuar percorrendo, ou quando uma condição especial exige parar tudo imediatamente.
-
-Em loops aninhados (loop dentro de loop), o "break" sai apenas do loop mais interno.`,
-        tip: `O "break" é o botão de parada de emergência do loop. Imagine uma busca numa lista de suspeitos: assim que você encontra o culpado, para de procurar imediatamente — não precisa verificar o restante da lista.`,
-        examples: [
-          {
-            label: "Busca em lista",
-            code: `bugs = ["erro_404", "null_pointer", "overflow", "syntax_err"]
-
-for bug in bugs:
-    print("Verificando:", bug)
-    if bug == "overflow":
-        print("Bug crítico encontrado! Parando.")
-        break
-
-print("Busca encerrada")`
-          },
-          {
-            label: "Limite de tentativas",
-            code: `max_tentativas = 3
-
-for tentativa in range(max_tentativas):
-    resposta = "errada"  # simulando resposta
-    
-    if resposta == "correta":
-        print("Acertou!")
-        break
-    
-    print(f"Tentativa {tentativa + 1} incorreta")
-else:
-    # executa se o for terminar SEM break
-    print("Esgotou as tentativas!")`
-          }
-        ],
-        errors: [
-          {
-            label: "❌ Erro: break fora de loop",
-            code: `# ERRADO — break só funciona dentro de loops
-x = 10
-if x > 5:
-    break  # SyntaxError!
-
-# CORRETO — use return em funções ou
-# reestruture a lógica com if/else`
-          }
-        ],
-        related: ["for", "while", "continue"]
-      },
-      {
-        term: "continue",
-        definition: `O "continue" pula o restante do código da iteração atual e vai direto para a próxima repetição do loop. Diferente do "break" que sai do loop, o "continue" apenas pula aquela rodada.
-
-Quando o Python encontra um "continue", ignora todo o código abaixo dele dentro do bloco e volta para verificar a condição (while) ou pegar o próximo item (for).`,
-        tip: `Imagine que você está revisando redações. Você pega uma redação, olha o nome, e percebe que já corrigiu esta. Você pula (continue) para a próxima redação sem ler novamente. O loop continua — você só pulou aquela redação específica.`,
-        examples: [
-          {
-            label: "Pular valores específicos",
-            code: `for i in range(10):
-    if i % 2 != 0:  # se for ímpar
-        continue    # pula para o próximo
-    print(i)  # só imprime pares: 0,2,4,6,8`
-          },
-          {
-            label: "Filtrar lista",
-            code: `setores = ["Alpha", "", "Beta", "", "Gamma"]
-
-for setor in setores:
-    if setor == "":  # ignora vazios
-        continue
-    print("Processando:", setor)`
-          }
-        ],
-        errors: [
-          {
-            label: "❌ Diferença entre break e continue",
-            code: `numeros = [1, 2, 3, 4, 5]
-
-# COM break — para no 3:
-for n in numeros:
-    if n == 3:
-        break
-    print(n)  # imprime: 1, 2
-
-# COM continue — pula o 3:
-for n in numeros:
-    if n == 3:
-        continue
-    print(n)  # imprime: 1, 2, 4, 5`
-          }
-        ],
-        related: ["for", "while", "break"]
+        related: ["para", "logico", "fimenquanto"]
       }
     ]
   },
@@ -1088,327 +977,284 @@ for n in numeros:
     category: "Funções e Variáveis",
     terms: [
       {
-        term: "def",
-        definition: `O "def" é a palavra-chave usada para DEFINIR (criar) uma função em Python. Uma função é um bloco de código reutilizável que executa uma tarefa específica e pode ser chamado quantas vezes for necessário.
+        term: "procedimento",
+        definition: `O "procedimento" é usado para definir um bloco de código reutilizável que executa uma tarefa específica, mas NÃO retorna nenhum valor. É o equivalente ao "def" sem retorno.
 
-Estrutura: def NOME(parâmetros):
+Estrutura: procedimento NOME(parâmetros)
 
-Vantagens de usar funções:
+Vantagens de usar procedimentos:
 - Reutilização: escreva uma vez, use em qualquer lugar
 - Organização: divide o código em partes menores e compreensíveis
-- Manutenção: ao corrigir a função, todos os usos são corrigidos automaticamente
+- Manutenção: ao corrigir o procedimento, todos os usos são corrigidos automaticamente
 
-A função só executa quando é CHAMADA — apenas defini-la não faz nada.`,
-        tip: `Pense em uma função como uma máquina de café. Você configura a máquina uma vez (def). Depois, sempre que quiser café, aperta o botão (chama a função). Você pode pedir café com leite (passando parâmetros diferentes) sem precisar reconfigurar tudo — a máquina já sabe o que fazer.`,
+O procedimento só executa quando é CHAMADO — apenas defini-lo não faz nada.`,
+        tip: `Pense em um procedimento como uma receita de bolo. Você escreve a receita uma vez (procedimento). Depois, sempre que quiser fazer o bolo, você segue a receita (chama o procedimento). Você pode fazer bolos diferentes passando ingredientes diferentes (parâmetros).`,
         examples: [
           {
-            label: "Função sem parâmetros",
-            code: `def saudar():
-    print("Olá, Operador!")
-    print("Sistema inicializado.")
+            label: "Procedimento sem parâmetros",
+            code: `procedimento saudar()
+    escreva("Olá, Operador!")
+    escreva("Sistema inicializado.")
+fimprocedimento
 
-# Chamando a função
+// Chamando o procedimento
 saudar()
-saudar()  # pode chamar várias vezes`
+saudar()  // pode chamar várias vezes`
           },
           {
-            label: "Com parâmetros e retorno",
-            code: `def calcular_dano(ataque, defesa):
-    dano = ataque - defesa
-    if dano < 0:
-        dano = 0
-    return dano
+            label: "Com parâmetros",
+            code: `procedimento exibirJogador(caractere nome, inteiro vidas)
+    escreva("Jogador: " + nome)
+    escreva("Vidas: " + vidas)
+fimprocedimento
 
-resultado = calcular_dano(50, 20)
-print("Dano causado:", resultado)  # 30`
-          },
-          {
-            label: "Parâmetro com valor padrão",
-            code: `def criar_jogador(nome, vidas=3, nivel=1):
-    print(f"Jogador: {nome}")
-    print(f"Vidas: {vidas}, Nível: {nivel}")
-
-criar_jogador("Igor")          # usa padrão
-criar_jogador("Maria", 5, 2)   # personalizado`
+exibirJogador("Igor", 3)
+exibirJogador("Maria", 5)`
           }
         ],
         errors: [
           {
-            label: "❌ Erros comuns com def",
-            code: `# ERRO 1: chamar antes de definir
-saudar()  # NameError!
-def saudar():
-    print("Olá")
+            label: "❌ Erros comuns com procedimento",
+            code: `// ERRO: chamar antes de definir
+saudar()  // erro!
+procedimento saudar()
+    escreva("Olá")
+fimprocedimento
 
-# ERRO 2: esquecer parênteses na chamada
-def saudar():
-    print("Olá")
+// ERRO: esquecer os parênteses na chamada
+procedimento saudar()
+    escreva("Olá")
+fimprocedimento
 
-saudar   # não chama! só referencia
-saudar() # correto!`
+saudar   // não chama! só referencia
+saudar() // correto!`
           }
         ],
-        related: ["return", "variável", "parâmetro"]
+        related: ["funcao", "retorne", "variavel"]
       },
       {
-        term: "return",
-        definition: `O "return" encerra a execução de uma função e opcionalmente retorna um valor para quem a chamou. Após o "return", nenhuma linha da função é executada.
+        term: "funcao",
+        definition: `A "funcao" é usada para definir um bloco de código reutilizável que executa uma tarefa e RETORNA um valor para quem a chamou. Diferente do procedimento, a função sempre devolve um resultado.
 
-Uma função pode ter vários "return" (por exemplo, dentro de condicionais), mas apenas um será executado por chamada.
+Estrutura: funcao TIPO nomeDaFuncao(parâmetros)
 
-Se uma função não tiver "return" (ou tiver "return" sem valor), ela retorna automaticamente o valor especial "None".
+O tipo antes do nome indica qual tipo de dado a função vai retornar: inteiro, real, caractere, logico.
+
+A função precisa obrigatoriamente ter pelo menos um "retorne" dentro dela.`,
+        tip: `Imagine que você pediu um relatório para um colega. A "funcao" é ele te entregando o relatório (retorne) — você pode ler, guardar numa variável ou usar em outra parte do código. O "procedimento" seria ele fazendo uma tarefa sem te entregar nada.`,
+        examples: [
+          {
+            label: "Função com retorno inteiro",
+            code: `funcao inteiro dobrar(inteiro n)
+    retorne n * 2
+fimfuncao
+
+inteiro resultado <- dobrar(4)
+escreva(resultado)  // 8`
+          },
+          {
+            label: "Função com condição",
+            code: `funcao caractere classificar(inteiro nota)
+    se nota >= 9 entao
+        retorne "Excelente"
+    senaose nota >= 7 entao
+        retorne "Bom"
+    senaose nota >= 5 entao
+        retorne "Regular"
+    senao
+        retorne "Insuficiente"
+    fimse
+fimfuncao
+
+escreva(classificar(8))  // Bom`
+          }
+        ],
+        errors: [
+          {
+            label: "❌ Esquecer o retorne",
+            code: `// ERRADO — função sem retorne
+funcao inteiro dobrar(inteiro n)
+    inteiro resultado <- n * 2
+    // esqueceu o retorne!
+fimfuncao
+
+// CORRETO
+funcao inteiro dobrar(inteiro n)
+    retorne n * 2
+fimfuncao`
+          }
+        ],
+        related: ["retorne", "procedimento", "variavel"]
+      },
+      {
+        term: "retorne",
+        definition: `O "retorne" encerra a execução de uma função e devolve um valor para quem a chamou. Após o "retorne", nenhuma linha da função é executada.
+
+Uma função pode ter vários "retorne" (por exemplo, dentro de condicionais), mas apenas um será executado por chamada.
 
 Diferença importante:
-- print() apenas MOSTRA o valor na tela
-- return ENTREGA o valor para ser usado no código`,
-        tip: `Imagine que você pediu um relatório para um colega. O "return" é ele te entregando o relatório — você pode ler, guardar numa pasta ou mandar para outra pessoa. Já o "print" seria ele lendo o relatório em voz alta — você ouve, mas não fica com nada nas mãos.`,
+- escreva() apenas MOSTRA o valor na tela
+- retorne ENTREGA o valor para ser usado no código`,
+        tip: `O "retorne" é a função te entregando o resultado nas mãos. Sem ele, a função faz o trabalho mas você nunca recebe o produto final — como um padeiro que assa o pão mas não te entrega.`,
         examples: [
           {
-            label: "Return vs Print",
-            code: `# Com print — só exibe, não guarda
-def dobrar_print(n):
-    print(n * 2)
+            label: "Retorne vs Escreva",
+            code: `// Com escreva — só exibe, não guarda
+procedimento dobrarExibe(inteiro n)
+    escreva(n * 2)
+fimprocedimento
 
-resultado = dobrar_print(5)  # exibe 10
-print(resultado)  # None! não retornou nada
+// Com retorne — entrega o valor
+funcao inteiro dobrarRetorna(inteiro n)
+    retorne n * 2
+fimfuncao
 
-# Com return — entrega o valor
-def dobrar_return(n):
-    return n * 2
-
-resultado = dobrar_return(5)  # guarda 10
-print(resultado)  # 10`
+inteiro resultado <- dobrarRetorna(5)
+escreva(resultado)  // 10`
           },
           {
-            label: "Múltiplos returns",
-            code: `def classificar_nota(nota):
-    if nota >= 9:
-        return "Excelente"
-    elif nota >= 7:
-        return "Bom"
-    elif nota >= 5:
-        return "Regular"
-    else:
-        return "Insuficiente"
-
-print(classificar_nota(8.5))  # Bom`
-          },
-          {
-            label: "Usando o valor retornado",
-            code: `def area_retangulo(largura, altura):
-    return largura * altura
-
-area = area_retangulo(5, 3)  # 15
-dobro = area_retangulo(4, 4) * 2  # 32
-print(area, dobro)`
+            label: "Múltiplos retornes",
+            code: `funcao caractere verificar(inteiro n)
+    se n > 0 entao
+        retorne "positivo"
+    senaose n < 0 entao
+        retorne "negativo"
+    senao
+        retorne "zero"
+    fimse
+fimfuncao`
           }
         ],
         errors: [
           {
-            label: "❌ Código após return é ignorado",
-            code: `def verificar(n):
-    if n > 0:
-        return "positivo"
-        print("isso nunca executa!")  # ignorado!
-    return "negativo"
-
-# return encerra a função imediatamente`
+            label: "❌ Código após retorne é ignorado",
+            code: `funcao inteiro verificar(inteiro n)
+    se n > 0 entao
+        retorne 1
+        escreva("isso nunca executa!")  // ignorado!
+    fimse
+    retorne 0
+fimfuncao`
           }
         ],
-        related: ["def", "None", "variável"]
+        related: ["funcao", "procedimento", "variavel"]
       },
       {
-        term: "variável",
+        term: "variavel",
         definition: `Uma variável é um espaço nomeado na memória do computador usado para armazenar dados que podem ser usados e modificados ao longo do programa.
 
-Em Python, você cria uma variável simplesmente atribuindo um valor a um nome com o operador "=". Não é necessário declarar o tipo — Python descobre automaticamente.
+Em Portugol, você DEVE declarar o tipo da variável antes de usá-la, e o operador de atribuição é "<-" (seta para a esquerda).
+
+Tipos disponíveis: inteiro, real, caractere, logico
 
 Regras para nomes de variáveis:
 - Pode conter letras, números e underscore (_)
-- Deve começar com letra ou underscore (não com número)
-- Não pode ser uma palavra reservada (if, for, def, etc.)
-- Python diferencia maiúsculas de minúsculas (nome ≠ Nome)
-
-Convenção: use snake_case (palavras separadas por underscore).`,
-        tip: `Uma variável é como uma caixa com uma etiqueta. A etiqueta é o nome (pontos, vidas, nome_jogador), e o conteúdo é o valor. Você pode abrir a caixa para ver o conteúdo (ler a variável), trocar o conteúdo por outro (modificar), ou usar o conteúdo em uma receita (usar em expressões).`,
+- Deve começar com letra
+- Não pode ser uma palavra reservada (se, para, enquanto, etc.)
+- Portugol diferencia maiúsculas de minúsculas`,
+        tip: `Uma variável é como uma caixa com uma etiqueta. A etiqueta é o nome (pontos, vidas, nomeJogador), e o conteúdo é o valor. O tipo da variável define que tipo de coisa pode ficar dentro da caixa — uma caixa "inteiro" só aceita números inteiros.`,
         examples: [
           {
-            label: "Criando e modificando",
-            code: `# Criando variáveis
-nome = "Igor"
-vidas = 3
-energia = 100.0
-ativo = True
+            label: "Declarando e atribuindo",
+            code: `inteiro vidas <- 3
+real energia <- 100.0
+caractere nome <- "Igor"
+logico ativo <- verdadeiro
 
-# Modificando
-vidas -= 1
-energia = energia - 25.0
-nome = "Igor Marques"
+// Modificando
+vidas <- vidas - 1
+energia <- energia - 25.0
+nome <- "Igor Marques"
 
-print(nome, vidas, energia)`
+escreva(nome + " tem " + vidas + " vidas")`
           },
           {
             label: "Nomes válidos e inválidos",
-            code: `# VÁLIDOS
-pontuacao = 100
-nome_jogador = "Ana"
-nivel2 = 5
-_privado = "interno"
+            code: `// VÁLIDOS
+inteiro pontuacao <- 100
+caractere nomeJogador <- "Ana"
+inteiro nivel2 <- 5
 
-# INVÁLIDOS
-# 2nivel = 5      (começa com número)
-# meu-nome = "x" (hífen não é permitido)
-# if = 10         (palavra reservada)`
-          },
-          {
-            label: "Variáveis são case-sensitive",
-            code: `nome = "Igor"
-Nome = "Maria"
-NOME = "João"
-
-# Três variáveis DIFERENTES!
-print(nome)   # Igor
-print(Nome)   # Maria
-print(NOME)   # João`
+// INVÁLIDOS
+// inteiro 2nivel <- 5    (começa com número)
+// inteiro meu-nome <- 0  (hífen não é permitido)
+// inteiro se <- 10       (palavra reservada)`
           }
         ],
         errors: [
           {
-            label: "❌ Usar antes de criar",
-            code: `# ERRADO — variável não existe ainda
-print(pontos)  # NameError!
+            label: "❌ Usar antes de declarar",
+            code: `// ERRADO — variável não existe ainda
+escreva(pontos)  // erro!
 
-# CORRETO — crie antes de usar
-pontos = 0
-print(pontos)`
+// CORRETO — declare antes de usar
+inteiro pontos <- 0
+escreva(pontos)`
           }
         ],
-        related: ["int", "str", "float", "bool", "def"]
+        related: ["inteiro", "real", "caractere", "logico", "funcao"]
       },
       {
-        term: "print",
-        definition: `A função print() exibe valores na tela (saída padrão). É uma das funções mais usadas em Python e fundamental para depurar código e comunicar resultados.
+        term: "escreva",
+        definition: `O comando escreva() exibe valores na tela (saída padrão). É um dos comandos mais usados em Portugol e fundamental para comunicar resultados ao usuário.
 
-Recursos do print():
-- Aceita múltiplos valores separados por vírgula
-- O parâmetro sep define o separador (padrão: espaço)
-- O parâmetro end define o que vem após (padrão: nova linha)
-- Com f-strings, você pode inserir variáveis diretamente no texto`,
-        tip: `O print() é sua janela para o mundo dentro do programa. Durante o desenvolvimento, use-o para "espiar" o valor das variáveis em diferentes momentos — é a forma mais simples de entender o que seu código está fazendo. Programadores chamam isso de "debug com print".`,
+Variantes:
+- escreva() — exibe sem pular linha
+- escreval() — exibe e pula para a próxima linha automaticamente
+
+Para combinar texto com variáveis, use o operador "+" para concatenar.`,
+        tip: `O escreva() é sua janela para o mundo dentro do programa. Durante o desenvolvimento, use-o para "espiar" o valor das variáveis em diferentes momentos — é a forma mais simples de entender o que seu código está fazendo.`,
         examples: [
           {
             label: "Formas de usar",
-            code: `# Texto simples
-print("Olá, mundo!")
+            code: `// Texto simples
+escreva("Olá, mundo!")
 
-# Variáveis
-nome = "Bug Hunter"
-print(nome)
+// Variáveis
+caractere nome <- "Bug Hunter"
+escreva(nome)
 
-# Múltiplos valores
-print("Nome:", nome, "| Nível:", 5)
-
-# f-string (mais moderno e legível)
-nivel = 5
-print(f"Jogador {nome} está no nível {nivel}")`
+// Combinando texto e variável
+inteiro nivel <- 5
+escreva("Jogador " + nome + " está no nível " + nivel)`
           },
           {
-            label: "Parâmetros especiais",
-            code: `# sep: muda o separador entre valores
-print("A", "B", "C", sep="-")  # A-B-C
+            label: "Escreva vs Escreval",
+            code: `escreva("Carregando")
+escreva("...")
+// Saída: Carregando...
 
-# end: muda o que vem no final
-print("Carregando", end="")
-print("...")  # Carregando...
-
-# Linha em branco
-print()`
+escreval("Linha 1")
+escreval("Linha 2")
+// Saída:
+// Linha 1
+// Linha 2`
           },
           {
-            label: "Expressões dentro do print",
-            code: `x = 10
-y = 3
+            label: "Expressões dentro do escreva",
+            code: `inteiro x <- 10
+inteiro y <- 3
 
-print(x + y)        # 13
-print(x * y)        # 30
-print(x > y)        # True
-print(f"{x} / {y} = {x/y:.2f}")  # 10 / 3 = 3.33`
+escreva(x + y)        // 13
+escreva(x * y)        // 30
+escreva(x > y)        // verdadeiro`
           }
         ],
         errors: [
           {
-            label: "❌ Confundir print com return",
-            code: `# print apenas MOSTRA — não guarda valor
-def somar(a, b):
-    print(a + b)  # exibe mas não retorna
+            label: "❌ Confundir escreva com retorne",
+            code: `// escreva apenas MOSTRA — não guarda valor
+procedimento somar(inteiro a, inteiro b)
+    escreva(a + b)  // exibe mas não retorna
+fimprocedimento
 
-resultado = somar(3, 5)  # exibe 8
-print(resultado)  # None! (função não retornou)
-
-# CORRETO para guardar o resultado:
-def somar(a, b):
-    return a + b`
+// Para guardar o resultado, use funcao + retorne:
+funcao inteiro somar(inteiro a, inteiro b)
+    retorne a + b
+fimfuncao`
           }
         ],
-        related: ["str", "variável", "return", "def"]
-      },
-      {
-        term: "range",
-        definition: `range() é uma função nativa que gera uma sequência de números inteiros. É amplamente usada com o "for" para controlar repetições.
-
-Três formas de usar:
-- range(fim) → de 0 até fim-1
-- range(início, fim) → de início até fim-1
-- range(início, fim, passo) → de início até fim-1, pulando de "passo" em passo
-
-O range() não cria uma lista na memória — ele gera os números um por vez conforme necessário, o que é muito eficiente para sequências grandes.`,
-        tip: `Pense no range como régua numerada. range(5) é uma régua de 0 a 4. range(1, 6) começa no 1. range(0, 10, 2) é uma régua que pula de 2 em 2. O número final NUNCA é incluído — pense que você vai até a última marcação mas não pisa nela.`,
-        examples: [
-          {
-            label: "As três formas",
-            code: `# range(fim) — começa em 0
-for i in range(5):
-    print(i)  # 0, 1, 2, 3, 4
-
-# range(início, fim)
-for i in range(1, 6):
-    print(i)  # 1, 2, 3, 4, 5
-
-# range(início, fim, passo)
-for i in range(0, 11, 2):
-    print(i)  # 0, 2, 4, 6, 8, 10`
-          },
-          {
-            label: "Contagem regressiva",
-            code: `# Passo negativo para contar de trás
-for i in range(10, 0, -1):
-    print(i)  # 10, 9, 8, ..., 1
-
-print("Lançamento!")`
-          },
-          {
-            label: "Convertendo para lista",
-            code: `# range não é lista, mas pode virar uma
-sequencia = list(range(1, 6))
-print(sequencia)  # [1, 2, 3, 4, 5]
-
-pares = list(range(0, 11, 2))
-print(pares)  # [0, 2, 4, 6, 8, 10]`
-          }
-        ],
-        errors: [
-          {
-            label: "❌ Confundir início e fim",
-            code: `# range(5) vai de 0 a 4, NÃO de 1 a 5!
-for i in range(5):
-    print(i)  # 0, 1, 2, 3, 4
-
-# Para ir de 1 a 5:
-for i in range(1, 6):
-    print(i)  # 1, 2, 3, 4, 5`
-          }
-        ],
-        related: ["for", "int", "list"]
+        related: ["caractere", "variavel", "retorne", "funcao"]
       }
     ]
   },
@@ -1416,315 +1262,245 @@ for i in range(1, 6):
     category: "Tipos de Dados",
     terms: [
       {
-        term: "int",
-        definition: `int (integer = inteiro) é o tipo de dado para números inteiros: sem vírgula, sem ponto decimal. Pode ser positivo, negativo ou zero, com tamanho praticamente ilimitado em Python.
+        term: "inteiro",
+        definition: `inteiro é o tipo de dado para números inteiros: sem vírgula, sem ponto decimal. Pode ser positivo, negativo ou zero.
 
-Operações com int:
+Operações com inteiro:
 - + (soma), - (subtração), * (multiplicação)
-- // (divisão inteira — descarta a parte decimal)
-- % (módulo — resto da divisão)
+- div (divisão inteira — descarta a parte decimal)
+- mod (módulo — resto da divisão)
 - ** (potenciação)
 
-Quando você divide dois inteiros com /, o resultado é float. Use // para manter o resultado como inteiro.`,
-        tip: `Use int para qualquer coisa que você conta: número de vidas, pontuação, posição em uma lista, quantidade de itens. Se o valor nunca vai ter vírgula, provavelmente é int. Se tiver dúvida entre int e float, pergunte-se: "Este valor pode ser 7.5?" Se não, use int.`,
+Quando você divide dois inteiros com /, o resultado pode ser real. Use div para manter o resultado como inteiro.`,
+        tip: `Use inteiro para qualquer coisa que você conta: número de vidas, pontuação, posição em um vetor, quantidade de itens. Se o valor nunca vai ter vírgula, provavelmente é inteiro.`,
         examples: [
           {
-            label: "Operações com int",
-            code: `vidas = 3
-pontos = 150
-nivel = -2  # pode ser negativo
+            label: "Operações com inteiro",
+            code: `inteiro vidas <- 3
+inteiro pontos <- 150
+inteiro nivel <- -2  // pode ser negativo
 
-# Operações
-print(pontos + 50)   # 200
-print(vidas * 2)     # 6
-print(pontos // 7)   # 21 (divisão inteira)
-print(pontos % 7)    # 3  (resto)
-print(2 ** 8)        # 256 (potência)`
+// Operações
+escreva(pontos + 50)      // 200
+escreva(vidas * 2)        // 6
+escreva(pontos div 7)     // 21 (divisão inteira)
+escreva(pontos mod 7)     // 3  (resto)`
           },
           {
-            label: "Divisão: / vs //",
-            code: `a = 10
-b = 3
+            label: "Divisão: / vs div",
+            code: `inteiro a <- 10
+inteiro b <- 3
 
-print(a / b)   # 3.3333... (float!)
-print(a // b)  # 3 (inteiro — descarta decimal)
-print(a % b)   # 1 (resto da divisão)`
-          },
-          {
-            label: "Convertendo tipos",
-            code: `texto = "42"
-numero = int(texto)  # converte str para int
-print(numero + 8)    # 50
-
-# Cuidado: não funciona com texto não numérico
-# int("abc")  → ValueError!`
+escreva(a / b)    // 3.333... (real!)
+escreva(a div b)  // 3 (inteiro)
+escreva(a mod b)  // 1 (resto da divisão)`
           }
         ],
         errors: [
           {
-            label: "❌ Confundir / e //",
-            code: `# Se você quer um inteiro como resultado:
-print(10 / 2)   # 5.0 (float! não int)
-print(10 // 2)  # 5   (int — correto)`
+            label: "❌ Confundir / e div",
+            code: `// Se você quer um inteiro como resultado:
+escreva(10 / 2)    // 5.0 (pode virar real!)
+escreva(10 div 2)  // 5   (inteiro — correto)`
           }
         ],
-        related: ["float", "str", "bool", "variável"]
+        related: ["real", "caractere", "logico", "variavel"]
       },
       {
-        term: "float",
-        definition: `float (floating point = ponto flutuante) é o tipo de dado para números com parte decimal. Em Python, o separador decimal é o PONTO, não a vírgula.
+        term: "real",
+        definition: `real é o tipo de dado para números com parte decimal. Em Portugol, o separador decimal é o PONTO, não a vírgula.
 
-O nome "ponto flutuante" vem da forma como computadores representam números decimais internamente — o ponto decimal pode "flutuar" para diferentes posições.
+Use "real" para medidas, médias, porcentagens e qualquer valor que possa ter casas decimais.
 
-Atenção: operações com float podem ter pequenas imprecisões devido à forma como computadores representam decimais em binário. Por isso, evite comparar floats diretamente com ==.`,
-        tip: `Use float para medidas, médias, porcentagens e qualquer valor que possa ter casas decimais. Notas de escola (7.5), distâncias (3.14 km), velocidades (60.5 km/h). Se o valor pode ter vírgula, provavelmente é float.`,
-        examples: [
-          {
-            label: "Criando floats",
-            code: `nota = 8.5
-pi = 3.14159
-temperatura = -2.7
-velocidade = 0.0  # zero também pode ser float
-
-print(type(nota))  # <class 'float'>`
-          },
-          {
-            label: "Operações",
-            code: `a = 10.5
-b = 3.2
-
-print(a + b)   # 13.7
-print(a * b)   # 33.6
-print(a / b)   # 3.28125
-print(round(a / b, 2))  # 3.28 (arredondado)`
-          },
-          {
-            label: "Convertendo para float",
-            code: `inteiro = 5
-decimal = float(inteiro)  # 5.0
-
-texto = "3.14"
-numero = float(texto)     # 3.14
-
-media = (7 + 8 + 9) / 3
-print(media)  # 8.0`
-          }
-        ],
-        errors: [
-          {
-            label: "❌ Imprecisão de ponto flutuante",
-            code: `# Cuidado com comparações diretas!
-print(0.1 + 0.2)         # 0.30000000000000004
-print(0.1 + 0.2 == 0.3)  # False! (imprecisão)
-
-# CORRETO — use round() para comparar
-print(round(0.1 + 0.2, 1) == 0.3)  # True`
-          }
-        ],
-        related: ["int", "str", "variável"]
-      },
-      {
-        term: "str",
-        definition: `str (string) é o tipo de dado para texto. Uma string é uma sequência de caracteres (letras, números, símbolos, espaços) delimitada por aspas simples ('') ou duplas ("").
-
-Strings são imutáveis — você não pode alterar um caractere específico. Qualquer operação que "modifica" uma string na verdade cria uma nova string.
-
-Operações com strings:
-- + (concatenação — junta duas strings)
-- * (repetição — repete a string N vezes)
-- len() (tamanho — número de caracteres)
-- .upper(), .lower() (maiúsculas/minúsculas)
-- .strip() (remove espaços das bordas)
-- .split() (divide em lista)`,
-        tip: `Tudo entre aspas é texto, mesmo que pareça número. "42" é uma string, não um número — você não pode somar "42" + 8. Para converter, use int("42") ou float("42"). F-strings (f"...") são a forma mais moderna e legível de combinar texto com variáveis.`,
+Operações com real funcionam da mesma forma que com inteiro, mas os resultados preservam as casas decimais.`,
+        tip: `Use real para notas de escola (7.5), distâncias (3.14 km), velocidades (60.5 km/h). Se o valor pode ter vírgula, provavelmente é real. Se tiver dúvida entre inteiro e real, pergunte-se: "Este valor pode ser 7.5?" Se sim, use real.`,
         examples: [
           {
             label: "Criando e operando",
-            code: `nome = "Bug Hunter"
-titulo = 'Operador'
+            code: `real nota <- 8.5
+real pi <- 3.14159
+real temperatura <- -2.7
 
-# Concatenação
-print(nome + " // " + titulo)
-
-# Repetição
-print("-" * 20)
-
-# Tamanho
-print(len(nome))  # 10`
+escreva(nota + 1.5)    // 10.0
+escreva(pi * 2.0)      // 6.28318
+escreva(temperatura)   // -2.7`
           },
           {
-            label: "Métodos de string",
-            code: `texto = "  Python é incrível!  "
+            label: "Calculando média",
+            code: `inteiro n1 <- 7
+inteiro n2 <- 8
+inteiro n3 <- 9
 
-print(texto.strip())    # remove espaços
-print(texto.upper())    # TUDO MAIÚSCULO
-print(texto.lower())    # tudo minúsculo
-print(texto.replace("incrível", "poderoso"))
-
-palavras = "a,b,c,d".split(",")
-print(palavras)  # ['a', 'b', 'c', 'd']`
-          },
-          {
-            label: "F-strings",
-            code: `nome = "Igor"
-nivel = 7
-energia = 85.5
-
-# Forma antiga (menos legível)
-print("Jogador: " + nome + ", Nível: " + str(nivel))
-
-# F-string (moderno e legível)
-print(f"Jogador: {nome}, Nível: {nivel}")
-print(f"Energia: {energia:.1f}%")  # 1 decimal`
+real media <- (n1 + n2 + n3) / 3.0
+escreva("Média: " + media)  // 8.0`
           }
         ],
         errors: [
           {
-            label: "❌ Misturar str com números",
-            code: `idade = 15
-# ERRADO — não pode somar str com int
-print("Idade: " + idade)  # TypeError!
+            label: "❌ Usar vírgula no lugar de ponto",
+            code: `// ERRADO — vírgula não é aceita
+real nota <- 8,5  // erro de sintaxe!
 
-# CORRETO — opção 1: converter com str()
-print("Idade: " + str(idade))
-
-# CORRETO — opção 2: f-string (mais fácil)
-print(f"Idade: {idade}")`
+// CORRETO — use ponto decimal
+real nota <- 8.5`
           }
         ],
-        related: ["int", "float", "print", "variável"]
+        related: ["inteiro", "caractere", "logico", "variavel"]
       },
       {
-        term: "bool",
-        definition: `bool (booleano) é o tipo de dado lógico com apenas dois valores possíveis: True (verdadeiro) ou False (falso). O nome vem do matemático George Boole, criador da álgebra lógica.
+        term: "caractere",
+        definition: `caractere é o tipo de dado para texto. Uma variável do tipo caractere armazena uma sequência de letras, números, símbolos e espaços, delimitada por aspas duplas ("").
 
-Em Python, True e False são escritos com a primeira letra maiúscula.
-
-Qualquer valor em Python pode ser avaliado como True ou False em um contexto booleano:
-- São False: 0, 0.0, "" (string vazia), [] (lista vazia), None
-- Todo o resto é considerado True`,
-        tip: `Booleanos são como interruptores: ligado (True) ou desligado (False). Toda comparação que você faz (>, <, ==, !=) retorna um booleano. Use variáveis booleanas como "bandeiras" (flags) para controlar o estado do programa: jogo_ativo = True, missao_concluida = False.`,
+Operações com caractere:
+- + (concatenação — junta dois textos)
+- comprimento() (tamanho — número de caracteres)
+- maiusculo() / minusculo() (conversão de caixa)
+- subcadeia() (extrai parte do texto)`,
+        tip: `Tudo entre aspas duplas é texto, mesmo que pareça número. "42" é um caractere, não um número — você não pode somar "42" com 8 diretamente. Para exibir variáveis junto com texto, use o operador "+" para concatenar.`,
         examples: [
           {
-            label: "Valores booleanos",
-            code: `ativo = True
-morto = False
+            label: "Criando e operando",
+            code: `caractere nome <- "Bug Hunter"
+caractere titulo <- "Operador"
 
-print(type(ativo))  # <class 'bool'>
-print(5 > 3)        # True
-print(5 == 3)       # False
-print(10 != 10)     # False`
+// Concatenação
+escreva(nome + " // " + titulo)
+
+// Tamanho
+escreva(comprimento(nome))  // 10`
           },
           {
-            label: "Valores truthy e falsy",
-            code: `# São False (falsy):
-print(bool(0))     # False
-print(bool(""))    # False
-print(bool([]))    # False
-print(bool(None))  # False
+            label: "Combinando com outras variáveis",
+            code: `caractere nomeJogador <- "Igor"
+inteiro nivel <- 7
+real energia <- 85.5
 
-# São True (truthy):
-print(bool(1))     # True
-print(bool("a"))   # True
-print(bool([1]))   # True`
+escreva("Jogador: " + nomeJogador)
+escreva("Nível: " + nivel)
+escreva("Energia: " + energia + "%")`
+          }
+        ],
+        errors: [
+          {
+            label: "❌ Usar aspas simples",
+            code: `// ERRADO — Portugol usa aspas duplas
+caractere nome <- 'Igor'  // pode causar erro
+
+// CORRETO
+caractere nome <- "Igor"`
+          }
+        ],
+        related: ["inteiro", "real", "escreva", "variavel"]
+      },
+      {
+        term: "logico",
+        definition: `logico é o tipo de dado para valores verdadeiro ou falso. Uma variável do tipo logico só pode assumir dois valores: verdadeiro ou falso.
+
+O nome vem da lógica booleana, criada pelo matemático George Boole.
+
+Em Portugol, verdadeiro e falso são escritos em minúsculo.
+
+Qualquer comparação que você faz (>, <, =, <>) retorna um valor logico.`,
+        tip: `Variáveis logicas são como interruptores: ligado (verdadeiro) ou desligado (falso). Use-as como "bandeiras" para controlar o estado do programa: jogoAtivo <- verdadeiro, missaoConcluida <- falso.`,
+        examples: [
+          {
+            label: "Valores lógicos",
+            code: `logico ativo <- verdadeiro
+logico morto <- falso
+
+escreva(ativo)       // verdadeiro
+escreva(5 > 3)       // verdadeiro
+escreva(5 = 3)       // falso
+escreva(10 <> 10)    // falso`
           },
           {
             label: "Usando como flag",
-            code: `jogo_ativo = True
-boss_derrotado = False
+            code: `logico jogoAtivo <- verdadeiro
+logico bossDerrotado <- falso
 
-while jogo_ativo:
-    print("Jogando...")
-    
-    if boss_derrotado:
-        print("Você venceu!")
-        jogo_ativo = False  # encerra o loop`
+enquanto jogoAtivo faca
+    escreva("Jogando...")
+
+    se bossDerrotado entao
+        escreva("Você venceu!")
+        jogoAtivo <- falso
+    fimse
+fimenquanto`
           }
         ],
         errors: [
           {
             label: "❌ Maiúsculas importam",
-            code: `# ERRADO — Python não reconhece
-ativo = true   # NameError!
-ativo = false  # NameError!
+            code: `// ERRADO — Portugol não reconhece
+logico ativo <- Verdadeiro   // erro!
+logico ativo <- FALSO        // erro!
 
-# CORRETO
-ativo = True
-ativo = False`
+// CORRETO
+logico ativo <- verdadeiro
+logico ativo <- falso`
           }
         ],
-        related: ["if", "and", "or", "not", "variável"]
+        related: ["se", "e", "ou", "nao", "variavel"]
       },
       {
-        term: "list",
-        definition: `list (lista) é uma coleção ordenada e mutável que pode armazenar múltiplos valores em uma única variável. Os elementos ficam entre colchetes [], separados por vírgulas.
+        term: "vetor",
+        definition: `Um vetor é uma coleção de variáveis do mesmo tipo, armazenadas em sequência na memória. Em Portugol, vetores são declarados com o tipo, nome e tamanho entre colchetes.
 
 Características importantes:
-- Ordenada: os elementos mantêm a ordem em que foram inseridos
-- Mutável: você pode adicionar, remover e modificar elementos
-- Índices começam em 0: o primeiro elemento é lista[0]
-- Aceita tipos mistos: pode ter int, str, bool na mesma lista
-- Índices negativos: lista[-1] acessa o último elemento
+- Todos os elementos devem ser do mesmo tipo
+- Em Portugol, os índices geralmente começam em 1
+- O tamanho deve ser definido na declaração
+- Acesse os elementos com o nome e o índice entre colchetes
 
-Métodos principais:
-- .append(item) — adiciona ao final
-- .remove(item) — remove primeira ocorrência
-- .pop(índice) — remove e retorna pelo índice
-- len(lista) — quantidade de elementos`,
-        tip: `Uma lista é como uma fila numerada. A fila começa na posição 0 (não 1!). O último da fila tem índice len(lista)-1. Você pode ver quem está em qualquer posição, chamar alguém para sair da fila (remove/pop), ou colocar alguém no final (append).`,
+Sintaxe: tipo nome[tamanho]`,
+        tip: `Um vetor é como uma estante com prateleiras numeradas. Cada prateleira guarda um item do mesmo tipo. A prateleira 1 é a primeira, a prateleira 2 é a segunda, e assim por diante. Você acessa uma prateleira específica pelo número dela.`,
         examples: [
           {
             label: "Criando e acessando",
-            code: `setores = ["Alpha", "Beta", "Gamma", "Delta"]
+            code: `caractere setores[4] <- {"Alpha", "Beta", "Gamma", "Delta"}
 
-print(setores[0])   # Alpha (primeiro)
-print(setores[2])   # Gamma (terceiro)
-print(setores[-1])  # Delta (último)
-print(len(setores)) # 4`
+escreva(setores[1])  // Alpha (primeiro)
+escreva(setores[3])  // Gamma (terceiro)
+escreva(setores[4])  // Delta (último)`
           },
           {
-            label: "Modificando a lista",
-            code: `bugs = ["erro_404", "null_ptr", "overflow"]
+            label: "Percorrendo com para",
+            code: `inteiro notas[5] <- {85, 92, 78, 96, 88}
+inteiro total <- 0
 
-# Adicionar
-bugs.append("timeout")
-print(bugs)  # 4 bugs agora
+para i de 1 ate 5 faca
+    total <- total + notas[i]
+fimpara
 
-# Remover
-bugs.remove("null_ptr")
-print(bugs)  # 3 bugs
-
-# Modificar
-bugs[0] = "erro_500"
-print(bugs)`
+real media <- total / 5.0
+escreva("Média: " + media)`
           },
           {
-            label: "Percorrendo com for",
-            code: `pontuacoes = [85, 92, 78, 96, 88]
-total = 0
+            label: "Modificando elementos",
+            code: `inteiro valores[3]
+valores[1] <- 10
+valores[2] <- 20
+valores[3] <- 30
 
-for p in pontuacoes:
-    total += p
-
-media = total / len(pontuacoes)
-print(f"Média: {media:.1f}")`
+valores[1] <- 99  // modifica o primeiro
+escreva(valores[1])  // 99`
           }
         ],
         errors: [
           {
-            label: "❌ IndexError — índice fora do range",
-            code: `lista = ["A", "B", "C"]  # índices: 0, 1, 2
+            label: "❌ Índice fora do intervalo",
+            code: `inteiro lista[3] <- {10, 20, 30}
+// índices válidos: 1, 2, 3
 
-# ERRADO
-print(lista[3])   # IndexError! não existe
-print(lista[-4])  # IndexError!
+// ERRADO
+escreva(lista[4])  // erro! índice inválido
+escreva(lista[0])  // erro! índice inválido
 
-# CORRETO
-print(lista[2])   # "C" (último válido)
-print(lista[-1])  # "C" (último pelo negativo)`
+// CORRETO
+escreva(lista[3])  // 30 (último válido)`
           }
         ],
-        related: ["for", "range", "int", "variável"]
+        related: ["para", "inteiro", "caractere", "variavel"]
       }
     ]
   },
@@ -1732,387 +1508,334 @@ print(lista[-1])  # "C" (último pelo negativo)`
     category: "Operadores",
     terms: [
       {
-        term: "and",
-        definition: `"and" é um operador lógico que retorna True SOMENTE SE ambas as condições forem verdadeiras. Se qualquer uma for falsa, o resultado é False.
+        term: "e",
+        definition: `"e" é um operador lógico que retorna verdadeiro SOMENTE SE ambas as condições forem verdadeiras. Se qualquer uma for falsa, o resultado é falso.
 
-Tabela verdade do AND:
-- True  and True  → True
-- True  and False → False
-- False and True  → False
-- False and False → False
-
-Python usa avaliação em curto-circuito: se a primeira condição já for False, a segunda nem é verificada (pois o resultado já será False de qualquer forma).`,
-        tip: `O "and" é exigente: TODOS precisam ser verdadeiros. É como precisar de duas chaves para abrir um cofre — ter apenas uma não adianta. Se uma condição falhar, não importa o resultado das outras.`,
+Tabela verdade do E:
+- verdadeiro e verdadeiro → verdadeiro
+- verdadeiro e falso      → falso
+- falso e verdadeiro      → falso
+- falso e falso           → falso`,
+        tip: `O "e" é exigente: TODOS precisam ser verdadeiros. É como precisar de duas chaves para abrir um cofre — ter apenas uma não adianta. Se uma condição falhar, não importa o resultado das outras.`,
         examples: [
           {
             label: "Uso básico",
-            code: `energia = 80
-status = "ativo"
-nivel = 5
+            code: `inteiro energia <- 80
+caractere status <- "ativo"
+inteiro nivel <- 5
 
-if energia > 50 and status == "ativo":
-    print("Sistema operacional")
+se energia > 50 e status = "ativo" entao
+    escreva("Sistema operacional")
+fimse
 
-if energia > 50 and status == "ativo" and nivel >= 3:
-    print("Pode acessar área restrita")`
+se energia > 50 e status = "ativo" e nivel >= 3 entao
+    escreva("Pode acessar área restrita")
+fimse`
           },
           {
             label: "Tabela verdade",
-            code: `print(True and True)   # True
-print(True and False)  # False
-print(False and True)  # False
-print(False and False) # False
+            code: `escreva(verdadeiro e verdadeiro)  // verdadeiro
+escreva(verdadeiro e falso)      // falso
+escreva(falso e verdadeiro)      // falso
+escreva(falso e falso)           // falso
 
-# Comparações
-x = 10
-print(x > 5 and x < 20)  # True (5 < 10 < 20)
-print(x > 5 and x < 8)   # False (10 não < 8)`
-          },
-          {
-            label: "Validação de dados",
-            code: `nome = "Igor"
-idade = 15
-senha = "abc123"
-
-if len(nome) > 0 and idade >= 13 and len(senha) >= 6:
-    print("Cadastro válido!")
-else:
-    print("Dados inválidos.")`
+inteiro x <- 10
+escreva(x > 5 e x < 20)  // verdadeiro
+escreva(x > 5 e x < 8)   // falso`
           }
         ],
         errors: [
           {
-            label: "❌ Usar & em vez de and",
-            code: `x = 5
+            label: "❌ Confundir e com ou",
+            code: `inteiro x <- 15
 
-# ERRADO para lógica booleana
-if x > 0 & x < 10:  # & é bitwise, não lógico!
-    print("ok")
+// Queremos verificar se x está FORA do intervalo [5,10]
+// ERRADO — impossível ser os dois ao mesmo tempo!
+se x < 5 e x > 10 entao
+    escreva("Fora do intervalo")
+fimse
 
-# CORRETO
-if x > 0 and x < 10:
-    print("ok")`
+// CORRETO — use ou para "fora do intervalo"
+se x < 5 ou x > 10 entao
+    escreva("Fora do intervalo")
+fimse`
           }
         ],
-        related: ["or", "not", "if", "bool"]
+        related: ["ou", "nao", "se", "logico"]
       },
       {
-        term: "or",
-        definition: `"or" é um operador lógico que retorna True se PELO MENOS UMA das condições for verdadeira. Só retorna False quando TODAS as condições são falsas.
+        term: "ou",
+        definition: `"ou" é um operador lógico que retorna verdadeiro se PELO MENOS UMA das condições for verdadeira. Só retorna falso quando TODAS as condições são falsas.
 
-Tabela verdade do OR:
-- True  or True  → True
-- True  or False → True
-- False or True  → True
-- False or False → False
-
-Assim como o "and", Python usa curto-circuito: se a primeira condição for True, a segunda nem é verificada.`,
-        tip: `O "or" é generoso: QUALQUER UM pode ser verdadeiro para passar. É como uma catraca que aceita cartão OU dinheiro OU QR code — basta ter uma das formas de pagamento. Só bloqueia quem não tem nenhuma.`,
+Tabela verdade do OU:
+- verdadeiro ou verdadeiro → verdadeiro
+- verdadeiro ou falso      → verdadeiro
+- falso ou verdadeiro      → verdadeiro
+- falso ou falso           → falso`,
+        tip: `O "ou" é generoso: QUALQUER UM pode ser verdadeiro para passar. É como uma catraca que aceita cartão OU dinheiro OU QR code — basta ter uma das formas de pagamento. Só bloqueia quem não tem nenhuma.`,
         examples: [
           {
             label: "Uso básico",
-            code: `energia = 8
-temperatura = 90
+            code: `inteiro energia <- 8
+inteiro temperatura <- 90
 
-if energia < 10 or temperatura > 80:
-    print("ALERTA CRÍTICO!")
-    print("Verificar sistema imediatamente")`
-          },
-          {
-            label: "Tabela verdade",
-            code: `print(True or True)    # True
-print(True or False)   # True
-print(False or True)   # True
-print(False or False)  # False
-
-x = 15
-print(x < 5 or x > 10)   # True (10 < 15)
-print(x < 5 or x > 20)   # False`
+se energia < 10 ou temperatura > 80 entao
+    escreva("ALERTA CRÍTICO!")
+    escreva("Verificar sistema imediatamente")
+fimse`
           },
           {
             label: "Verificando múltiplas opções",
-            code: `dia = "sábado"
+            code: `caractere dia <- "sabado"
 
-if dia == "sábado" or dia == "domingo":
-    print("Final de semana! Sem aula.")
-else:
-    print("Dia de semana. Hora de estudar!")`
+se dia = "sabado" ou dia = "domingo" entao
+    escreva("Final de semana! Sem aula.")
+senao
+    escreva("Dia de semana. Hora de estudar!")
+fimse`
           }
         ],
         errors: [
           {
-            label: "❌ Confundir and com or",
-            code: `# Queremos verificar se x está FORA do intervalo [5, 10]
-x = 15
+            label: "❌ Confundir ou com e",
+            code: `inteiro x <- 15
 
-# ERRADO — essa condição nunca é True para nenhum x!
-if x < 5 and x > 10:  # impossível ser os dois!
-    print("Fora do intervalo")
+// ERRADO — nunca True para nenhum x!
+se x < 5 e x > 10 entao  // impossível!
+    escreva("Fora do intervalo")
+fimse
 
-# CORRETO — use or para "fora do intervalo"
-if x < 5 or x > 10:
-    print("Fora do intervalo")`
+// CORRETO
+se x < 5 ou x > 10 entao
+    escreva("Fora do intervalo")
+fimse`
           }
         ],
-        related: ["and", "not", "if", "bool"]
+        related: ["e", "nao", "se", "logico"]
       },
       {
-        term: "not",
-        definition: `"not" é um operador lógico unário que inverte o valor booleano. True vira False e False vira True. É o operador de negação lógica.
+        term: "nao",
+        definition: `"nao" é um operador lógico unário que inverte o valor lógico. verdadeiro vira falso e falso vira verdadeiro. É o operador de negação lógica.
 
-Tabela verdade do NOT:
-- not True  → False
-- not False → True
-
-O "not" tem precedência maior que "and" e "or", mas menor que operadores de comparação. Em expressões complexas, use parênteses para deixar a intenção clara.`,
-        tip: `O "not" é o "ao contrário de". "not True" é "ao contrário de verdadeiro" = falso. Use-o para tornar condições mais legíveis: "if not conectado:" é mais natural que "if conectado == False:". Ambos funcionam, mas o primeiro parece mais com linguagem humana.`,
+Tabela verdade do NAO:
+- nao verdadeiro → falso
+- nao falso      → verdadeiro`,
+        tip: `O "nao" é o "ao contrário de". "nao verdadeiro" é "ao contrário de verdadeiro" = falso. Use-o para tornar condições mais legíveis: "se nao conectado entao" é mais natural que "se conectado = falso entao".`,
         examples: [
           {
             label: "Uso básico",
-            code: `conectado = False
-pausado = True
+            code: `logico conectado <- falso
+logico pausado <- verdadeiro
 
-if not conectado:
-    print("Sem conexão! Verificando rede...")
+se nao conectado entao
+    escreva("Sem conexão! Verificando rede...")
+fimse
 
-if not pausado:
-    print("Jogo em andamento")
-else:
-    print("Jogo pausado")`
+se nao pausado entao
+    escreva("Jogo em andamento")
+senao
+    escreva("Jogo pausado")
+fimse`
           },
           {
             label: "Equivalências",
-            code: `x = 10
+            code: `inteiro x <- 10
 
-# Estas expressões são equivalentes:
-print(not (x > 5))   # False
-print(x <= 5)         # False
+// Estas expressões são equivalentes:
+escreva(nao (x > 5))  // falso
+escreva(x <= 5)        // falso
 
-print(not (x == 10))  # False
-print(x != 10)        # False`
-          },
-          {
-            label: "Com and e or",
-            code: `logado = True
-admin = False
-
-# Verifica se logado mas NÃO é admin
-if logado and not admin:
-    print("Usuário comum logado")
-
-# not tem precedência, use parênteses
-if not (logado and admin):
-    print("Não é admin logado")`
+escreva(nao (x = 10))  // falso
+escreva(x <> 10)       // falso`
           }
         ],
         errors: [
           {
             label: "❌ Dupla negação confusa",
-            code: `ativo = True
+            code: `logico ativo <- verdadeiro
 
-# Confuso — dupla negação
-if not not ativo:
-    print("ativo é True")
+// Confuso — dupla negação
+se nao (nao ativo) entao
+    escreva("ativo é verdadeiro")
+fimse
 
-# Simplificado — muito mais claro
-if ativo:
-    print("ativo é True")`
+// Simplificado — muito mais claro
+se ativo entao
+    escreva("ativo é verdadeiro")
+fimse`
           }
         ],
-        related: ["and", "or", "bool", "if"]
+        related: ["e", "ou", "logico", "se"]
       },
       {
-        term: "==",
-        definition: `"==" é o operador de igualdade. Compara dois valores e retorna True se forem iguais, False se forem diferentes.
+        term: "=",
+        definition: `Em Portugol, o sinal "=" é usado para COMPARAÇÃO — para verificar se dois valores são iguais. Ele retorna verdadeiro se os valores forem iguais, e falso caso contrário.
 
-ATENÇÃO: não confunda "==" com "=":
-- = é o operador de ATRIBUIÇÃO (guarda um valor em uma variável)
-- == é o operador de COMPARAÇÃO (verifica se dois valores são iguais)
+ATENÇÃO: não confunda "=" com "<-":
+- <- é o operador de ATRIBUIÇÃO (guarda um valor em uma variável)
+- = é o operador de COMPARAÇÃO (verifica se dois valores são iguais)
 
-Esta é uma das confusões mais comuns para iniciantes em programação. Usar "=" dentro de um "if" causa um erro de sintaxe em Python.
-
-O "==" compara o VALOR, não a identidade do objeto. Para verificar se dois objetos são exatamente o mesmo na memória, use "is".`,
-        tip: `Lembre assim: um "=" significa "recebe" (atribuição). Dois "==" significa "é igual a?" (pergunta/comparação). Toda vez que você estiver PERGUNTANDO algo no if, use dois sinais.`,
+Esta é uma das diferenças mais importantes do Portugol em relação a outras linguagens como Python, onde "==" é usado para comparar.`,
+        tip: `Lembre assim: a setinha "<-" recebe um valor (atribuição). O sinal "=" pergunta se dois valores são iguais (comparação). Toda vez que você estiver DENTRO de um "se" verificando algo, use "=".`,
         examples: [
           {
             label: "Atribuição vs Comparação",
-            code: `# = (atribuição) — guarda valor
-x = 10
-nome = "Igor"
-ativo = True
+            code: `// <- (atribuição) — guarda valor
+inteiro x <- 10
+caractere nome <- "Igor"
+logico ativo <- verdadeiro
 
-# == (comparação) — faz uma pergunta
-print(x == 10)      # True
-print(x == 5)       # False
-print(nome == "Igor")  # True`
-          },
-          {
-            label: "Comparando diferentes tipos",
-            code: `print(5 == 5)      # True
-print(5 == 5.0)    # True (int e float)
-print(5 == "5")    # False (int e str)
-print("" == False) # False
-print(0 == False)  # True (0 é False)`
+// = (comparação) — faz uma pergunta
+se x = 10 entao
+    escreva("x é dez")    // verdadeiro
+fimse
+
+se nome = "Igor" entao
+    escreva("Olá Igor!")  // verdadeiro
+fimse`
           },
           {
             label: "Em condicionais",
-            code: `dificuldade = "medio"
+            code: `caractere dificuldade <- "medio"
 
-if dificuldade == "facil":
-    vidas = 3
-elif dificuldade == "medio":
-    vidas = 2
-elif dificuldade == "dificil":
-    vidas = 1
-
-print(f"Vidas: {vidas}")`
+se dificuldade = "facil" entao
+    inteiro vidas <- 3
+senaose dificuldade = "medio" entao
+    inteiro vidas <- 2
+senaose dificuldade = "dificil" entao
+    inteiro vidas <- 1
+fimse`
           }
         ],
         errors: [
           {
-            label: "❌ Usar = no lugar de ==",
-            code: `x = 5
+            label: "❌ Usar <- no lugar de = para comparar",
+            code: `inteiro x <- 5
 
-# ERRADO — causa SyntaxError em Python
-if x = 10:
-    print("igual")
+// ERRADO — <- é atribuição, não comparação!
+se x <- 10 entao
+    escreva("igual")
+fimse
 
-# CORRETO
-if x == 10:
-    print("igual")`
+// CORRETO
+se x = 10 entao
+    escreva("igual")
+fimse`
           }
         ],
-        related: ["!=", "if", "bool", "variável"]
+        related: ["<>", "se", "logico", "variavel"]
       },
       {
-        term: "!=",
-        definition: `"!=" é o operador de diferença (não igual). Compara dois valores e retorna True se forem DIFERENTES, False se forem iguais. É o oposto exato do "==".
+        term: "<>",
+        definition: `"<>" é o operador de diferença (diferente de). Compara dois valores e retorna verdadeiro se forem DIFERENTES, falso se forem iguais. É o oposto exato do "=".
 
-O símbolo "!" em muitas linguagens significa "não" ou "negação". Então "!=" se lê como "não igual" ou "diferente de".
+O símbolo "<>" é lido como "diferente de" ou "não igual". Em outras linguagens como Python, o equivalente é "!=".
 
-É matematicamente equivalente a usar "not" com "==": (a != b) é o mesmo que (not a == b).`,
-        tip: `Use "!=" quando quiser verificar que algo é diferente do esperado. É muito útil para criar condições de saída: "enquanto status != 'concluido'" ou "se resposta != 'sair'". Leia em voz alta: "se resposta é DIFERENTE de sair".`,
+É matematicamente equivalente a usar "nao" com "=": (a <> b) é o mesmo que (nao (a = b)).`,
+        tip: `Use "<>" quando quiser verificar que algo é diferente do esperado. É muito útil para criar condições de saída: "enquanto status <> 'concluido' faca" ou "se resposta <> 'sair' entao".`,
         examples: [
           {
             label: "Uso básico",
-            code: `status = "ativo"
+            code: `caractere status <- "ativo"
 
-if status != "pausado":
-    print("Sistema em execução")
+se status <> "pausado" entao
+    escreva("Sistema em execução")
+fimse
 
-# Equivalente com not
-if not (status == "pausado"):
-    print("Sistema em execução")`
+// Equivalente com nao
+se nao (status = "pausado") entao
+    escreva("Sistema em execução")
+fimse`
           },
           {
             label: "Em loops",
-            code: `resposta = ""
+            code: `caractere resposta <- ""
 
-while resposta != "sair":
-    resposta = input("Digite um comando: ")
-    
-    if resposta != "sair":
-        print(f"Executando: {resposta}")
+enquanto resposta <> "sair" faca
+    leia(resposta)
 
-print("Sistema encerrado.")`
-          },
-          {
-            label: "Filtrando valores",
-            code: `notas = [7, 0, 9, 0, 8, 5, 0]
+    se resposta <> "sair" entao
+        escreva("Executando: " + resposta)
+    fimse
+fimenquanto
 
-validas = []
-for n in notas:
-    if n != 0:  # ignora zeros
-        validas.append(n)
-
-print(validas)  # [7, 9, 8, 5]`
+escreva("Sistema encerrado.")`
           }
         ],
         errors: [
           {
-            label: "❌ Confundir != com not ==",
-            code: `x = 5
-y = 10
+            label: "❌ Usar != em vez de <>",
+            code: `// ERRADO — != não é Portugol
+se x != 5 entao  // erro de sintaxe!
+    escreva("diferente")
+fimse
 
-# Estas expressões são equivalentes:
-print(x != y)         # True — mais comum
-print(not (x == y))   # True — mais verboso
-print(not x == y)     # True — cuidado com precedência!
-
-# A mais legível é a primeira: x != y`
+// CORRETO — use <> em Portugol
+se x <> 5 entao
+    escreva("diferente")
+fimse`
           }
         ],
-        related: ["==", "if", "bool", "not"]
+        related: ["=", "se", "logico", "nao"]
       },
       {
-        term: "+=",
-        definition: `"+=" é um operador de atribuição composta que soma um valor à variável e guarda o resultado na própria variável. É um atalho para a operação "x = x + valor".
+        term: "<-",
+        definition: `"<-" é o operador de atribuição do Portugol. Ele guarda um valor em uma variável. Lê-se como "recebe".
 
-Existem operadores similares para outras operações:
-- -= : subtração composta (x -= 1 → x = x - 1)
-- *= : multiplicação composta (x *= 2 → x = x * 2)
-- /= : divisão composta (x /= 2 → x = x / 2)
-- //= : divisão inteira composta
-- %= : módulo composto
-- **= : potenciação composta`,
-        tip: `O "+=" é o operador favorito dos loops! Toda vez que você precisa "adicionar à variável e guardar", use +=. É mais curto, mais legível e menos propenso a erros do que escrever "pontos = pontos + 100" toda hora.`,
+Formas de atribuição acumulada:
+Em Portugol não existe "+=" como em Python, então você deve escrever a forma completa:
+- x <- x + 1   (incrementar)
+- x <- x - 1   (decrementar)
+- x <- x * 2   (multiplicar)
+
+O valor do lado direito é calculado primeiro, depois guardado na variável do lado esquerdo.`,
+        tip: `O "<-" é como uma caixa recebendo um novo conteúdo. "x <- 10" se lê "x recebe 10". Sempre que você quiser guardar algo em uma variável, use "<-". Nunca use "<-" dentro de um "se" para comparar — isso é erro!`,
         examples: [
           {
-            label: "Formas equivalentes",
-            code: `pontos = 0
-
-# Forma longa (equivalente)
-pontos = pontos + 100
-
-# Forma curta com +=
-pontos += 100
-pontos += 50
-
-print(pontos)  # 250`
-          },
-          {
-            label: "Todos os operadores compostos",
-            code: `x = 10
-
-x += 5    # x = 15
-print(x)
-
-x -= 3    # x = 12
-print(x)
-
-x *= 2    # x = 24
-print(x)
-
-x //= 5   # x = 4
-print(x)
-
-x **= 3   # x = 64
-print(x)`
+            label: "Atribuições básicas",
+            code: `inteiro pontos <- 0
+pontos <- pontos + 100
+pontos <- pontos + 50
+escreva(pontos)  // 150`
           },
           {
             label: "Acumulando em loop",
-            code: `notas = [7, 8, 9, 6, 10]
-total = 0
+            code: `inteiro total <- 0
 
-for nota in notas:
-    total += nota  # acumula a soma
+para i de 1 ate 5 faca
+    total <- total + i
+fimpara
 
-media = total / len(notas)
-print(f"Média: {media}")  # 8.0`
+escreva("Soma: " + total)  // 15`
+          },
+          {
+            label: "Formas de incremento",
+            code: `inteiro x <- 10
+
+x <- x + 5    // x agora é 15
+escreva(x)
+
+x <- x - 3    // x agora é 12
+escreva(x)
+
+x <- x * 2    // x agora é 24
+escreva(x)
+
+x <- x div 5  // x agora é 4
+escreva(x)`
           }
         ],
         errors: [
           {
-            label: "❌ Usar antes de inicializar",
-            code: `# ERRADO — variável não existe ainda
-pontos += 100  # UnboundLocalError!
+            label: "❌ Usar antes de declarar",
+            code: `// ERRADO — variável não foi declarada
+pontos <- 100  // erro!
 
-# CORRETO — inicialize antes
-pontos = 0
-pontos += 100  # agora funciona`
+// CORRETO — declare o tipo primeiro
+inteiro pontos <- 100  // correto!`
           }
         ],
-        related: ["variável", "while", "for", "int"]
+        related: ["variavel", "enquanto", "para", "inteiro"]
       }
     ]
   }
@@ -2121,16 +1844,16 @@ pontos += 100  # agora funciona`
 let glossaryOpen = false;
 
 function openGlossary() {
-  if (!mission.difficulty) return; // só abre se o jogo tiver começado
+  if (!mission.difficulty) return;
   glossaryOpen = true;
-  mission.missionActive = true; // pausa o jogo
+  mission.missionActive = true;
   buildGlossarySidebar();
   document.getElementById("glossaryScreen").style.display = "flex";
 }
 
 function closeGlossary() {
   glossaryOpen = false;
-  mission.missionActive = false; // despausa
+  mission.missionActive = false;
   document.getElementById("glossaryScreen").style.display = "none";
 }
 
@@ -2155,7 +1878,6 @@ function buildGlossarySidebar() {
 }
 
 function showTerm(termObj, btn) {
-  // remove active de todos
   document.querySelectorAll(".glossary-term-btn").forEach(b => b.classList.remove("active"));
   btn.classList.add("active");
 
@@ -2209,7 +1931,6 @@ function openTermByName(name) {
   }
 }
 
-// Fechar glossário com ESC
 document.addEventListener("keydown", e => {
   if (e.key === "Escape" && glossaryOpen) closeGlossary();
 });
