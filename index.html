@@ -4,167 +4,200 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>BUG HUNTERS // SYSTEM RECOVERY</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
 
-<div class="scanlines"></div>
-<div class="noise"></div>
+  <div class="scanlines" aria-hidden="true"></div>
 
-<div class="terminal-header">
-  <span class="glitch">> BUG HUNTERS v2.0</span>
-  <span class="status-led active"></span>
-</div>
+  <header class="terminal-header" role="banner">
+    <span class="game-title" aria-label="Bug Hunters versão 2.0">BUG HUNTERS v2.0</span>
+    <span class="status-led" aria-label="Sistema online" role="status"></span>
+  </header>
 
-<div class="game-container">
-  <div class="game-wrapper">
-    <div id="game-container">
-      <canvas id="gameCanvas" width="1000" height="600"></canvas>
+  <main class="game-container" role="main">
+    <div class="game-wrapper">
 
-      <!-- TELA INICIAL DE SELEÇÃO DE DIFICULDADE -->
-      <div id="difficultyScreen" class="overlay" style="display:flex;">
-        <div class="popup-content" style="text-align:center;">
-          <div class="popup-header glitch">> BUG HUNTERS v2.0</div>
-          <p style="color:#8ab; font-size:13px; margin-bottom:20px;">
-            Selecione o nível de dificuldade para iniciar a missão.
-          </p>
-          <div style="display:flex; flex-direction:column; gap:12px; align-items:center;">
-            <button class="cyber-btn diff-btn" onclick="selectDifficulty('facil')">
-              <span class="diff-label">> FÁCIL</span>
-              <span class="diff-desc">7° ano · Reconhecer palavras-chave · 3 vidas</span>
-            </button>
-            <button class="cyber-btn diff-btn" onclick="selectDifficulty('medio')">
-              <span class="diff-label" style="color:#ffaa44;">> MÉDIO</span>
-              <span class="diff-desc">8° ano · Entender o que o código faz · 2 vidas</span>
-            </button>
-            <button class="cyber-btn diff-btn" onclick="selectDifficulty('dificil')" style="border-color:#f0f;">
-              <span class="diff-label" style="color:#f0f;">> DIFÍCIL</span>
-              <span class="diff-desc">9° ano · Identificar erros e lógica avançada · 1 vida</span>
-            </button>
-          </div>
+      <!-- ══ CANVAS + OVERLAYS ══════════════════════════════ -->
+      <div id="game-container" role="application" aria-label="Área do jogo">
+        <canvas id="gameCanvas" width="1000" height="600" role="img" aria-label="Mapa do jogo"></canvas>
+
+        <!-- D-PAD MOBILE (só aparece em telas pequenas via CSS) -->
+        <div class="dpad" aria-label="Controles de movimento" role="group">
+          <button id="btn-up"    class="dpad-btn dpad-up"    aria-label="Mover para cima">▲</button>
+          <button id="btn-left"  class="dpad-btn dpad-left"  aria-label="Mover para esquerda">◀</button>
+          <button id="btn-right" class="dpad-btn dpad-right" aria-label="Mover para direita">▶</button>
+          <button id="btn-down"  class="dpad-btn dpad-down"  aria-label="Mover para baixo">▼</button>
         </div>
-      </div>
 
-      <!-- POPUP DE APROXIMAÇÃO -->
-      <div id="missionPopup" class="overlay" style="display:none;">
-        <div class="popup-content">
-          <div class="popup-header">⚠ SYSTEM ALERT ⚠</div>
-          <p id="popup-desc">Anomalia detectada no setor</p>
-          <div class="popup-actions">
-            <button class="cyber-btn" onclick="startMission()">> CORRIGIR_ANOMALIA</button>
-            <button class="cyber-btn secondary" onclick="closePopup()">> IGNORAR</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- TELA DE MISSÃO -->
-      <div id="missionScreen" class="overlay" style="display:none;">
-        <div class="popup-content mission-panel">
-          <div class="popup-header" id="missionTitle">MISSÃO // UNKNOWN</div>
-          <div class="mission-desc" id="missionDesc"></div>
-          <div class="code-block">
-            <pre id="missionCode"></pre>
-          </div>
-          <div class="question-block">> SELECIONE A ROTINA CORRETA:</div>
-          <div id="choicesContainer"></div>
-          <div id="explanationBox" class="explanation" style="display:none;"></div>
-          <div id="feedbackMsg" class="feedback"></div>
-          <div class="progress-wrap">
-            <div class="progress-label">PROGRESSO</div>
-            <div id="progressBar" class="progress-bar"></div>
-          </div>
-          <button id="nextBtn" class="cyber-btn" style="display:none;" onclick="closeMission()">> CONTINUAR</button>
-        </div>
-      </div>
-
-      <!-- TELA CONCLUSÃO SALA 1 -->
-      <div id="roomClearScreen" class="overlay" style="display:none;">
-        <div class="popup-content">
-          <div class="popup-header glitch">✔ SETOR LIMPO</div>
-          <p>Parabéns, Operador. O setor foi estabilizado.</p>
-          <p>Um portal de transmissão foi aberto. Prossiga para o próximo setor.</p>
-          <button class="cyber-btn" onclick="enterPortal()">> ACESSAR PORTAL</button>
-        </div>
-      </div>
-
-      <!-- TELA IR PARA PRÓXIMO NÍVEL -->
-      <div id="nextLevelScreen" class="overlay" style="display:none;">
-        <div class="popup-content">
-          <div class="popup-header">⚡ PORTAL DE TRANSMISSÃO</div>
-          <p>Você está prestes a entrar no <span class="highlight">SETOR 2</span>.</p>
-          <p>Prepare-se para novos desafios.</p>
-          <button class="cyber-btn" onclick="goToNextRoom()">> INICIAR TRANSMISSÃO</button>
-        </div>
-      </div>
-
-      <!-- TELA DE VITÓRIA FINAL -->
-      <div id="winScreen" class="overlay" style="display:none;">
-        <div class="popup-content">
-          <div class="popup-header glitch">🏆 SISTEMA PURIFICADO</div>
-          <p>Você eliminou todas as anomalias do sistema.</p>
-          <p>Dificuldade: <span id="finalDiff" class="highlight"></span></p>
-          <p>Pontuação Final: <span id="finalScore" class="score-highlight"></span></p>
-          <button class="cyber-btn" onclick="backToMenu()">> MENU PRINCIPAL</button>
-          <button class="cyber-btn secondary" onclick="restartGame()">> NOVA_EXECUÇÃO</button>
-        </div>
-      </div>
-
-      <!-- GLOSSÁRIO -->
-      <div id="glossaryScreen" class="glossary-overlay" style="display:none;">
-        <div class="glossary-header">
-          <h2>> GLOSSÁRIO // PYTHON REFERENCE</h2>
-          <button class="glossary-close" onclick="closeGlossary()">> FECHAR [ESC]</button>
-        </div>
-        <div class="glossary-body">
-          <div class="glossary-sidebar" id="glossarySidebar"></div>
-          <div class="glossary-detail" id="glossaryDetail">
-            <div class="glossary-detail-empty">
-              ← Selecione um termo<br>para ver a definição
+        <!-- ── Seleção de dificuldade ── -->
+        <div id="screen-difficulty" class="overlay" role="dialog" aria-modal="true" aria-label="Seleção de dificuldade" style="display:flex;">
+          <div class="popup-content center">
+            <div class="popup-header">BUG HUNTERS</div>
+            <p class="subtitle">Selecione a dificuldade para iniciar a missão.</p>
+            <div class="diff-list">
+              <button class="cyber-btn diff-btn easy"   onclick="selectDifficulty('facil')"   aria-label="Fácil: 3 vidas">
+                <span class="diff-label color-green">▶ FÁCIL</span>
+                <span class="diff-desc">7° ano · Reconhecer palavras-chave · 3 vidas</span>
+              </button>
+              <button class="cyber-btn diff-btn medium" onclick="selectDifficulty('medio')"   aria-label="Médio: 2 vidas">
+                <span class="diff-label color-amber">▶ MÉDIO</span>
+                <span class="diff-desc">8° ano · Entender o que o código faz · 2 vidas</span>
+              </button>
+              <button class="cyber-btn diff-btn hard"   onclick="selectDifficulty('dificil')" aria-label="Difícil: 1 vida">
+                <span class="diff-label color-red">▶ DIFÍCIL</span>
+                <span class="diff-desc">9° ano · Identificar erros e lógica avançada · 1 vida</span>
+              </button>
             </div>
           </div>
         </div>
-      </div>
 
-    </div>
+        <!-- ── Popup de bug detectado ── -->
+        <div id="screen-bug-popup" class="overlay" role="dialog" aria-modal="true" style="display:none;">
+          <div class="popup-content">
+            <div class="popup-header">⚠ BUG DETECTADO!</div>
+            <p id="popup-bug-desc" class="mission-desc" aria-live="polite">Anomalia detectada no setor</p>
+            <div class="popup-actions">
+              <button class="cyber-btn"          onclick="MissionSystem.startMission()" aria-label="Corrigir bug">▶ CORRIGIR BUG</button>
+              <button class="cyber-btn secondary" onclick="UI.closePopup()"             aria-label="Ignorar">✕ IGNORAR</button>
+            </div>
+          </div>
+        </div>
 
-    <!-- HUD LATERAL -->
-    <div class="hud-panel">
-      <div class="panel-header">
-        <span>SYSTEM MONITOR</span>
-        <span class="led"></span>
-      </div>
-      <div class="panel-content">
-        <div class="stat">
-          <span class="stat-label">SCORE</span>
-          <span class="stat-value" id="scoreVal">0</span>
+        <!-- ── Tela de missão (quiz) ── -->
+        <div id="screen-mission" class="overlay" role="dialog" aria-modal="true" style="display:none;">
+          <div class="popup-content mission-panel">
+            <div class="popup-header" id="mission-title" aria-live="polite">MISSÃO</div>
+            <p class="mission-desc" id="mission-desc"></p>
+            <div class="code-block" role="region" aria-label="Código">
+              <pre id="mission-code" tabindex="0"></pre>
+            </div>
+            <div class="question-label" id="question-label">▶ SELECIONE A RESPOSTA CORRETA:</div>
+            <div id="choices-container" role="group" aria-labelledby="question-label"></div>
+            <div id="explanation-box" class="explanation" role="note" aria-live="polite" style="display:none;"></div>
+            <div id="feedback-msg" class="feedback" aria-live="assertive"></div>
+            <div class="progress-wrap" role="progressbar" aria-label="Progresso" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-label">◆ PROGRESSO DA MISSÃO</div>
+              <div class="progress-bar-track">
+                <div id="progress-bar" class="progress-bar"></div>
+              </div>
+            </div>
+            <button id="btn-next" class="cyber-btn" style="display:none;" aria-label="Continuar">▶ CONTINUAR</button>
+          </div>
         </div>
-        <div class="stat">
-          <span class="stat-label">SECTOR</span>
-          <span class="stat-value" id="salaVal">1</span>
-        </div>
-        <div class="stat">
-          <span class="stat-label">ANOMALIAS</span>
-          <span class="stat-value" id="bugsVal">0/5</span>
-        </div>
-        <div class="stat">
-          <span class="stat-label">DIFICULDADE</span>
-          <span class="stat-value" id="diffVal">—</span>
-        </div>
-        <div class="stat">
-          <span class="stat-label">INTEGRIDADE</span>
-          <span class="stat-value" id="livesVal">—</span>
-        </div>
-      </div>
-      <button class="glossary-btn" onclick="openGlossary()">> GLOSSÁRIO</button>
-      <div class="panel-footer">
-        <span>STATUS: <span class="online">ONLINE</span></span>
-      </div>
-    </div>
-  </div>
-</div>
 
-<script src="player.js"></script>
-<script src="mission.js"></script>
-<script src="game.js"></script>
+        <!-- ── Setor 1 limpo ── -->
+        <div id="screen-room-clear" class="overlay" role="dialog" aria-modal="true" style="display:none;">
+          <div class="popup-content center">
+            <div class="popup-header">✔ SETOR 1 LIMPO!</div>
+            <p class="mission-desc">Todos os bugs foram eliminados!<br><br>Um portal foi aberto.<br>Vá até ele para avançar.</p>
+            <div class="popup-actions">
+              <button class="cyber-btn" onclick="MissionSystem.openPortal()" aria-label="Abrir portal">▶ ACESSAR PORTAL</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Portal / próximo nível ── -->
+        <div id="screen-next-level" class="overlay" role="dialog" aria-modal="true" style="display:none;">
+          <div class="popup-content center">
+            <div class="popup-header">⚡ PORTAL DE TRANSMISSÃO</div>
+            <p class="mission-desc">Você está entrando no<br><br><span class="highlight">◆ SETOR 2 ◆</span><br><br>Prepare-se para novos desafios!</p>
+            <div class="popup-actions">
+              <button class="cyber-btn" onclick="MissionSystem.goToNextRoom()" aria-label="Avançar para setor 2">▶ AVANÇAR</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Vitória final ── -->
+        <div id="screen-win" class="overlay" role="dialog" aria-modal="true" style="display:none;">
+          <div class="popup-content center">
+            <div class="popup-header">★ MISSÃO CONCLUÍDA!</div>
+            <p class="mission-desc">Todos os bugs foram eliminados do sistema!</p>
+            <p class="mission-desc">Dificuldade: <span id="final-diff" class="highlight" aria-live="polite"></span></p>
+            <p class="mission-desc">Pontuação Final:</p>
+            <p style="margin:10px 0 20px;"><span id="final-score" class="score-highlight" aria-live="polite">0</span><span class="highlight"> / 100</span></p>
+            <div class="popup-actions">
+              <button class="cyber-btn"          onclick="backToMenu()"   aria-label="Menu principal">▶ MENU</button>
+              <button class="cyber-btn secondary" onclick="restartGame()" aria-label="Jogar novamente">↺ JOGAR NOVAMENTE</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Game Over ── -->
+        <div id="screen-gameover" class="overlay" role="dialog" aria-modal="true" style="display:none;">
+          <div class="popup-content center">
+            <div class="popup-header" style="color:#ff4444; border-color:#ff4444;">✖ GAME OVER</div>
+            <p class="mission-desc">Você ficou sem vidas!</p>
+            <p class="mission-desc">Pontuação: <span id="gameover-score" class="highlight">0</span></p>
+            <div class="popup-actions">
+              <button class="cyber-btn"          onclick="backToMenu()"   aria-label="Menu principal">▶ MENU</button>
+              <button class="cyber-btn secondary" onclick="restartGame()" aria-label="Tentar novamente">↺ TENTAR NOVAMENTE</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /game-container -->
+
+      <!-- ══ HUD LATERAL ════════════════════════════════════ -->
+      <aside class="hud-panel" aria-label="Painel de status">
+        <div class="panel-header">
+          <span>SISTEMA</span>
+          <span class="panel-led" aria-hidden="true"></span>
+        </div>
+        <div class="panel-content">
+          <div class="stat">
+            <span class="stat-label" id="l-score">SCORE</span>
+            <span class="stat-value" id="hud-score"  aria-labelledby="l-score">0</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label" id="l-sector">SETOR</span>
+            <span class="stat-value" id="hud-sector" aria-labelledby="l-sector">1</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label" id="l-bugs">BUGS</span>
+            <span class="stat-value" id="hud-bugs"   aria-labelledby="l-bugs">0/5</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label" id="l-diff">MODO</span>
+            <span class="stat-value" id="hud-diff"   aria-labelledby="l-diff">—</span>
+          </div>
+          <div class="stat" style="border-bottom:none; margin-bottom:0;">
+            <span class="stat-label" id="l-lives">VIDAS</span>
+            <span class="stat-value" id="hud-lives"  aria-labelledby="l-lives" aria-live="polite">—</span>
+          </div>
+        </div>
+        <div class="panel-footer">
+          STATUS: <span class="online" role="status">ONLINE</span>
+        </div>
+      </aside>
+
+    </div><!-- /game-wrapper -->
+  </main>
+
+  <!-- ══ SCRIPTS — ordem obrigatória ══════════════════════════
+       1. dados inline (fallback sem servidor)
+       2. config e state (sem dependências)
+       3. plataforma
+       4. sistemas de jogo
+       5. ui
+       6. game loop (último)
+  ══════════════════════════════════════════════════════════ -->
+  <script src="assets/js/data/inline-data.js"></script>
+
+  <script src="assets/js/core/config.js"></script>
+  <script src="assets/js/core/state.js"></script>
+  <script src="assets/js/core/platform.js"></script>
+
+  <script src="assets/js/systems/collision.js"></script>
+  <script src="assets/js/systems/player.js"></script>
+  <script src="assets/js/systems/bugs.js"></script>
+  <script src="assets/js/systems/renderer.js"></script>
+
+  <script src="assets/js/ui/hud.js"></script>
+  <script src="assets/js/ui/ui.js"></script>
+  <script src="assets/js/ui/mission.js"></script>
+
+  <script src="assets/js/core/game.js"></script>
+
 </body>
 </html>
