@@ -21,6 +21,30 @@
       <!-- ══ CANVAS + OVERLAYS ══════════════════════════════ -->
       <div id="game-container" role="application" aria-label="Área do jogo">
         <canvas id="gameCanvas" width="1000" height="600" role="img" aria-label="Mapa do jogo"></canvas>
+        <!-- ── Tutorial ── -->
+        <div id="screen-tutorial" class="overlay" role="dialog" aria-modal="true" aria-label="Tutorial do jogo" style="display:none;">
+          <div class="popup-content tutorial-panel">
+            <div class="popup-header" id="tut-title">TUTORIAL</div>
+              <div class="tut-text-wrap">
+                <p id="tut-text" class="mission-desc tut-text"></p>
+              </div>
+              <div id="tut-dots" class="tut-dots"></div>
+            <div class="popup-actions">
+              <button id="tut-btn-prev" class="cyber-btn secondary"
+                      onclick="TutorialSystem.prev()" aria-label="Slide anterior">
+                ◀ ANTERIOR
+              </button>
+              <button id="tut-btn-next" class="cyber-btn"
+                      onclick="TutorialSystem.next()" aria-label="Próximo slide">
+                PRÓXIMO ▶
+              </button>
+            </div>
+            <button class="tut-skip-btn" onclick="TutorialSystem.close()"
+                  aria-label="Pular tutorial">
+            [ PULAR TUTORIAL ]
+            </button>
+          </div>
+        </div>
 
         <!-- D-PAD MOBILE (só aparece em telas pequenas via CSS) -->
         <div class="dpad" aria-label="Controles de movimento" role="group">
@@ -166,6 +190,13 @@
             <span class="stat-value" id="hud-lives"  aria-labelledby="l-lives" aria-live="polite">—</span>
           </div>
         </div>
+        <div class="hud-tutorial-btn">
+          <button class="cyber-btn" style="width:100%; font-size:6px; margin:0;"
+                  onclick="TutorialSystem.open(true)"
+                  aria-label="Ver tutorial">
+            ? TUTORIAL
+          </button>
+        </div>
         <div class="panel-footer">
           STATUS: <span class="online" role="status">ONLINE</span>
         </div>
@@ -196,6 +227,9 @@
   <script src="assets/js/ui/hud.js"></script>
   <script src="assets/js/ui/ui.js"></script>
   <script src="assets/js/ui/mission.js"></script>
+
+  <script src="assets/js/systems/transition.js"></script>
+  <script src="assets/js/ui/tutorial.js"></script>  
 
   <script src="assets/js/core/game.js"></script>
 

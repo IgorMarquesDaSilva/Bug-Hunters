@@ -131,18 +131,23 @@ const MissionSystem = (() => {
   }
 
   function goToNextRoom() {
-    GameState.currentRoom   = "sala2";
-    GameState.solvedCount   = 0;
-    GameState.portal        = { visible: false, triggered: false, pulse: 0 };
-    GameState.activeIdx     = -1;
-    GameState.popupCooldown = 0;
-
-    CollisionSystem.loadZones();
-    Renderer.loadRoomBackground();
-    BugSystem.spawnBugs();
-    Player.resetToRoomStart();
-    HUD.update();
+    // Fecha a tela de transição HTML
     UI.showScreen(null);
+  
+    // Dispara a animação no canvas, executa a troca no meio
+    TransitionSystem.play(() => {
+      GameState.currentRoom   = "sala2";
+      GameState.solvedCount   = 0;
+      GameState.portal        = { visible: false, triggered: false, pulse: 0 };
+      GameState.activeIdx     = -1;
+      GameState.popupCooldown = 0;
+  
+      CollisionSystem.loadZones();
+      Renderer.loadRoomBackground();
+      BugSystem.spawnBugs();
+      Player.resetToRoomStart();
+      HUD.update();
+    });
   }
 
   function _finishGame() {

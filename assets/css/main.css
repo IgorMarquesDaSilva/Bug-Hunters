@@ -356,3 +356,71 @@ canvas {
 @media (max-width: 900px) {
   .dpad { display: block; }
 }
+/* ══ TUTORIAL ══════════════════════════════════════════════ */
+
+.tutorial-panel {
+  max-width: 500px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tut-text-wrap {
+  flex: 1;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.tut-text {
+  text-align: center;
+  line-height: 2.4;
+  font-size: 7px;
+}
+
+/* Bolinhas de progresso do tutorial */
+.tut-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.tut-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--px-border);
+  border: 2px solid var(--px-blue-light);
+  border-radius: 0;   /* pixel — sem arredondamento */
+  transition: background 0.1s;
+}
+
+.tut-dot.active {
+  background: var(--px-blue-bright);
+  box-shadow: 0 0 6px var(--px-blue-bright);
+}
+
+/* Botão de pular tutorial */
+.tut-skip-btn {
+  background: transparent;
+  border: none;
+  color: var(--px-grey);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 4px;
+  letter-spacing: 1px;
+  text-align: center;
+  width: 100%;
+  transition: color 0.15s;
+}
+
+.tut-skip-btn:hover { color: var(--px-red); }
+
+/* Botão de tutorial no HUD */
+.hud-tutorial-btn {
+  padding: 0 12px 10px;
+}

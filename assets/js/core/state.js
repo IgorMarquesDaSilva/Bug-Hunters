@@ -35,6 +35,7 @@ const GameState = {
     this.portal         = { visible: false, triggered: false, pulse: 0 };
     this.collisionZones = [];
     this.bgImage        = null;
+    this.transitioning  = false;
   },
 
   resetFull() {
