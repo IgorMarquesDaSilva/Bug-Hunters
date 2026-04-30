@@ -1,37 +1,32 @@
 /* ============================================================
    assets/js/systems/player.js
-
-   USA: assets/img/player_final2.png  (384x512px)
-   Grade: 4 colunas x 4 linhas | cada frame: 96x128px
-   Linha 0=baixo | 1=esquerda | 2=cima | 3=direita
    ============================================================ */
 
 const Player = (() => {
 
   const sprite   = new Image();
-  sprite.src     = "assets/img/player_final2.png";
-  sprite.onerror = () => console.error("[Player] player_final2.png não encontrado!");
+  sprite.src     = "assets/img/player_clean5.png";
+  sprite.onerror = () => console.error("[Player] player_clean5.png não encontrado!");
 
-  const FRAME_W   = 96;
-  const FRAME_H   = 128;
+  const FRAME_W   = 193;
+  const FRAME_H   = 316;
   const COL_COUNT = 4;
 
   const ROW = {
-    down:  0,
-    left:  1,
-    up:    2,
+    up:    0,
+    down:  1,
+    left:  2,
     right: 3
   };
 
-  const DRAW_W = 48;
-  const DRAW_H = 64;
-
+  const DRAW_W = 72;
+  const DRAW_H = 120;
   const ANIM_SPEED = 10;
 
   const state = {
     x:         80,
     y:         80,
-    size:      DRAW_W,
+    size:      60,
     speed:     CONFIG.player.speed,
     facing:    "down",
     frame:     0,
@@ -44,6 +39,7 @@ const Player = (() => {
 
   document.addEventListener("keydown", e => {
     keys[e.key] = true;
+    // Previne scroll com setas e espaço
     if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key))
       e.preventDefault();
   });
@@ -62,6 +58,8 @@ const Player = (() => {
     let ny      = state.y;
     let moving  = false;
 
+    // Sem else if — permite movimento diagonal
+    // Prioridade de direção: vertical tem prioridade sobre horizontal
     if (keys["w"] || keys["W"] || keys["ArrowUp"])    { ny -= state.speed; state.facing = "up";    moving = true; }
     if (keys["s"] || keys["S"] || keys["ArrowDown"])  { ny += state.speed; state.facing = "down";  moving = true; }
     if (keys["a"] || keys["A"] || keys["ArrowLeft"])  { nx -= state.speed; state.facing = "left";  moving = true; }
@@ -102,17 +100,14 @@ const Player = (() => {
 
     const { x, y, facing, frame } = state;
 
-    const safeFrame = Math.min(frame, COL_COUNT - 1);
-
-    // +1px de margem para evitar vazamento dos pixels da linha adjacente
-    const srcX = safeFrame   * FRAME_W + 1;
-    const srcY = ROW[facing] * FRAME_H + 1;
+    const srcX = frame         * FRAME_W;
+    const srcY = ROW[facing]   * FRAME_H;
 
     ctx.drawImage(
       sprite,
-      srcX, srcY,             // recorte com margem de 1px
-      FRAME_W - 2, FRAME_H - 2, // 2px a menos (1px de cada lado)
-      x, y,
+      srcX, srcY,
+      FRAME_W, FRAME_H,
+      Math.floor(x), Math.floor(y),
       DRAW_W, DRAW_H
     );
   }
