@@ -1,22 +1,26 @@
 /* ============================================================
    assets/js/systems/player.js
+   AJUSTADO PARA: player_SF.png (800x1328px)
    ============================================================ */
 
 const Player = (() => {
 
   const sprite   = new Image();
-  sprite.src     = "assets/img/player_clean5.png";
-  sprite.onerror = () => console.error("[Player] player_clean5.png não encontrado!");
+  sprite.src     = "assets/img/player.png";
+  sprite.onerror = () => console.error("[Player] player.png não encontrado!");
 
-  const FRAME_W   = 193;
-  const FRAME_H   = 316;
+  // CÁLCULO: 800px largura / 4 colunas = 200px
+  const FRAME_W   = 200; 
+  // CÁLCULO: 1328px altura / 4 linhas = 332px
+  const FRAME_H   = 332; 
+  
   const COL_COUNT = 4;
 
   const ROW = {
     up:    0,
     down:  1,
-    left:  2,
-    right: 3
+    right: 2,
+    left:  3,
   };
 
   const DRAW_W = 72;
@@ -34,12 +38,10 @@ const Player = (() => {
     isMoving:  false
   };
 
-  // ── Input ─────────────────────────────────────────────────
   const keys = {};
 
   document.addEventListener("keydown", e => {
     keys[e.key] = true;
-    // Previne scroll com setas e espaço
     if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key))
       e.preventDefault();
   });
@@ -48,7 +50,6 @@ const Player = (() => {
     keys[e.key] = false;
   });
 
-  // ── Update ────────────────────────────────────────────────
   function update() {
     if (GameState.isPaused) return;
 
@@ -58,14 +59,15 @@ const Player = (() => {
     let ny      = state.y;
     let moving  = false;
 
-    // Sem else if — permite movimento diagonal
-    // Prioridade de direção: vertical tem prioridade sobre horizontal
+    // Prioridade de animação: o último pressionado define a direção visual
     if (keys["w"] || keys["W"] || keys["ArrowUp"])    { ny -= state.speed; state.facing = "up";    moving = true; }
     if (keys["s"] || keys["S"] || keys["ArrowDown"])  { ny += state.speed; state.facing = "down";  moving = true; }
     if (keys["a"] || keys["A"] || keys["ArrowLeft"])  { nx -= state.speed; state.facing = "left";  moving = true; }
     if (keys["d"] || keys["D"] || keys["ArrowRight"]) { nx += state.speed; state.facing = "right"; moving = true; }
 
     const resolved = CollisionSystem.resolve(nx, ny, prevX, prevY, state.size);
+    
+    // Mantém dentro do canvas e evita o corte visual nas bordas
     state.x = Math.max(0, Math.min(CONFIG.canvas.width  - DRAW_W, resolved.x));
     state.y = Math.max(0, Math.min(CONFIG.canvas.height - DRAW_H, resolved.y));
 
@@ -83,7 +85,6 @@ const Player = (() => {
     }
   }
 
-  // ── Reset ─────────────────────────────────────────────────
   function resetToRoomStart() {
     const start     = GameState.currentRoomData()?.playerStart ?? { x: 80, y: 80 };
     state.x         = start.x;
@@ -94,14 +95,14 @@ const Player = (() => {
     state.isMoving  = false;
   }
 
-  // ── Draw ──────────────────────────────────────────────────
   function draw(ctx) {
     if (!sprite.complete || sprite.naturalWidth === 0) return;
 
     const { x, y, facing, frame } = state;
 
-    const srcX = frame         * FRAME_W;
-    const srcY = ROW[facing]   * FRAME_H;
+    // Agora o corte será exato em 200px e 332px
+    const srcX = frame     * FRAME_W;
+    const srcY = ROW[facing] * FRAME_H;
 
     ctx.drawImage(
       sprite,
