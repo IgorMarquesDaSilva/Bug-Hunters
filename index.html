@@ -11,15 +11,18 @@
   <div class="scanlines" aria-hidden="true"></div>
 
   <header class="terminal-header" role="banner">
-    <span class="game-title" aria-label="Bug Hunters versão 2.0">BUG HUNTERS v2.0</span>
+    <span class="game-title" aria-label="Bug Hunters versão 2.0">
+      BUG HUNTERS v2.0
+    </span>
     <span class="status-led" aria-label="Sistema online" role="status"></span>
   </header>
 
   <main class="game-container" role="main">
     <div class="game-wrapper">
 
-      <!-- ══ CANVAS + OVERLAYS ══════════════════════════════ -->
       <div id="game-container" role="application" aria-label="Área do jogo">
+
+        <!-- MAPA HTML/CSS -->
         <div id="room-map" class="sala1" aria-hidden="true">
 
           <!-- PAREDES -->
@@ -27,121 +30,235 @@
           <div class="map-wall wall-bottom collision"></div>
           <div class="map-wall wall-left collision"></div>
           <div class="map-wall wall-right collision"></div>
-        
+
           <div class="floor-grid"></div>
-        
-          <!-- MESAS SUPERIORES (MISSÕES) -->
+
+          <!-- ==================================================
+               OBJETOS DA SALA 1
+          =================================================== -->
+
+          <!-- MISSÃO 1 -->
           <div class="desk desk-top-1 collision mission-point">
             <div class="monitor"></div>
             <div class="keyboard"></div>
           </div>
-        
-          <div class="desk desk-top-2 collision mission-point">
+
+          <div class="desk desk-top-2 collision">
             <div class="monitor"></div>
             <div class="keyboard"></div>
           </div>
-        
-          <!-- SERVIDORES (MISSÕES) -->
-          <div class="server-rack server-1 collision mission-point"></div>
-        
+
+          <div class="server-rack server-1 collision"></div>
+
+          <!-- MISSÃO 3 -->
           <div class="server-rack server-2 collision mission-point"></div>
-        
-          <!-- MESAS ESQUERDA -->
+
           <div class="desk desk-left-1 collision">
             <div class="monitor"></div>
             <div class="keyboard"></div>
           </div>
-        
-          <div class="desk desk-left-2 collision">
+
+          <!-- MISSÃO 2 -->
+          <div class="desk desk-left-2 collision mission-point">
             <div class="monitor"></div>
             <div class="keyboard"></div>
           </div>
-        
-          <!-- MESAS DIREITA -->
-          <div class="desk desk-right-1 collision">
+
+          <!-- MISSÃO 4 -->
+          <div class="desk desk-right-1 collision mission-point">
             <div class="monitor"></div>
             <div class="keyboard"></div>
           </div>
-        
+
           <div class="desk desk-right-2 collision">
             <div class="monitor"></div>
             <div class="keyboard"></div>
           </div>
-        
-          <!-- MESA CENTRAL -->
+
           <div class="main-table collision"></div>
-        
-          <!-- CAIXAS -->
+
           <div class="box box-1 collision"></div>
           <div class="box box-2 collision"></div>
-        
-          <!-- IMPRESSORA (MISSÃO) -->
+
+          <!-- MISSÃO 5 -->
           <div class="printer collision mission-point"></div>
-        
-          <!-- PLANTAS -->
+
           <div class="plant plant-1 collision"></div>
           <div class="plant plant-2 collision"></div>
           <div class="plant plant-3 collision"></div>
-        
-          <!-- PORTA -->
+
+          <!-- PORTA / SAÍDA -->
           <div class="door collision"></div>
-        
+
+          <!-- ==================================================
+               OBJETOS EXCLUSIVOS DA SALA 2
+               Eles ficam escondidos na sala1 pelo CSS
+          =================================================== -->
+
+          <div class="lab-desk collision mission-point">
+            <div class="lab-screen screen-main"></div>
+            <div class="lab-screen screen-left"></div>
+            <div class="lab-screen screen-right"></div>
+            <div class="lab-keyboard"></div>
+          </div>
+
+         <!-- ==================================================
+     OBJETOS DA SALA 1
+=================================================== -->
+
+<!-- MISSÃO 1 -->
+<div class="desk desk-top-1 collision mission-point sala1-mission">
+  <div class="monitor"></div>
+  <div class="keyboard"></div>
+</div>
+
+<div class="desk desk-top-2 collision">
+  <div class="monitor"></div>
+  <div class="keyboard"></div>
+</div>
+
+<div class="server-rack server-1 collision"></div>
+
+<!-- MISSÃO 2 -->
+<div class="server-rack server-2 collision mission-point sala1-mission"></div>
+
+<div class="desk desk-left-1 collision">
+  <div class="monitor"></div>
+  <div class="keyboard"></div>
+</div>
+
+<!-- MISSÃO 3 -->
+<div class="desk desk-left-2 collision mission-point sala1-mission">
+  <div class="monitor"></div>
+  <div class="keyboard"></div>
+</div>
+
+<!-- MISSÃO 4 -->
+<div class="desk desk-right-1 collision mission-point sala1-mission">
+  <div class="monitor"></div>
+  <div class="keyboard"></div>
+</div>
+
+<div class="desk desk-right-2 collision">
+  <div class="monitor"></div>
+  <div class="keyboard"></div>
+</div>
+
+<div class="main-table collision"></div>
+
+<div class="box box-1 collision"></div>
+<div class="box box-2 collision"></div>
+
+<!-- MISSÃO 5 -->
+<div class="printer collision mission-point sala1-mission"></div>
+
+<div class="plant plant-1 collision"></div>
+<div class="plant plant-2 collision"></div>
+<div class="plant plant-3 collision"></div>
+
+<!-- PORTA -->
+<div class="door collision"></div>
+
+<!-- ==================================================
+     OBJETOS EXCLUSIVOS DA SALA 2
+=================================================== -->
+
+        <!-- MISSÃO 6 -->
+        <div class="lab-desk collision mission-point sala2-mission">
+          <div class="lab-screen screen-main"></div>
+          <div class="lab-screen screen-left"></div>
+          <div class="lab-screen screen-right"></div>
+          <div class="lab-keyboard"></div>
         </div>
-        
-        <canvas id="gameCanvas"
-                width="1000"
-                height="600"
-                role="img"
-                aria-label="Mapa do jogo">
+
+        <!-- MISSÃO 7 -->
+        <div class="energy-meter collision mission-point sala2-mission"></div>
+
+        <!-- MISSÃO 8 -->
+        <div class="reactor collision mission-point sala2-mission"></div>
+
+        <div class="energy-box energy-box-1 collision"></div>
+
+        <!-- MISSÃO 9 -->
+        <div class="energy-box energy-box-2 collision mission-point sala2-mission"></div>
+
+        <!-- MISSÃO 10 -->
+        <div class="energy-terminal terminal-1 collision mission-point sala2-mission"></div>
+
+        <div class="energy-terminal terminal-2 collision"></div>
+        <div class="energy-terminal terminal-3 collision"></div>
+
+        <div class="cable cable-1"></div>
+        <div class="cable cable-2"></div>
+        <div class="cable cable-3"></div>
+        <div class="cable cable-4"></div>
+
+        </div>
+
+        <canvas
+          id="gameCanvas"
+          width="1000"
+          height="600"
+          role="img"
+          aria-label="Mapa do jogo">
         </canvas>
-        <!-- ── Tutorial ── -->
+
+        <!-- TUTORIAL -->
         <div id="screen-tutorial" class="overlay" role="dialog" aria-modal="true" aria-label="Tutorial do jogo" style="display:none;">
           <div class="popup-content tutorial-panel">
             <div class="popup-header" id="tut-title">TUTORIAL</div>
-              <div class="tut-text-wrap">
-                <p id="tut-text" class="mission-desc tut-text"></p>
-              </div>
-              <div id="tut-dots" class="tut-dots"></div>
+
+            <div class="tut-text-wrap">
+              <p id="tut-text" class="mission-desc tut-text"></p>
+            </div>
+
+            <div id="tut-dots" class="tut-dots"></div>
+
             <div class="popup-actions">
-              <button id="tut-btn-prev" class="cyber-btn secondary"
-                      onclick="TutorialSystem.prev()" aria-label="Slide anterior">
+              <button id="tut-btn-prev" class="cyber-btn secondary" onclick="TutorialSystem.prev()">
                 ◀ ANTERIOR
               </button>
-              <button id="tut-btn-next" class="cyber-btn"
-                      onclick="TutorialSystem.next()" aria-label="Próximo slide">
+
+              <button id="tut-btn-next" class="cyber-btn" onclick="TutorialSystem.next()">
                 PRÓXIMO ▶
               </button>
             </div>
-            <button class="tut-skip-btn" onclick="TutorialSystem.close()"
-                  aria-label="Pular tutorial">
-            [ PULAR TUTORIAL ]
+
+            <button class="tut-skip-btn" onclick="TutorialSystem.close()">
+              [ PULAR TUTORIAL ]
             </button>
           </div>
         </div>
 
-        <!-- D-PAD MOBILE (só aparece em telas pequenas via CSS) -->
+        <!-- D-PAD MOBILE -->
         <div class="dpad" aria-label="Controles de movimento" role="group">
-          <button id="btn-up"    class="dpad-btn dpad-up"    aria-label="Mover para cima">▲</button>
-          <button id="btn-left"  class="dpad-btn dpad-left"  aria-label="Mover para esquerda">◀</button>
-          <button id="btn-right" class="dpad-btn dpad-right" aria-label="Mover para direita">▶</button>
-          <button id="btn-down"  class="dpad-btn dpad-down"  aria-label="Mover para baixo">▼</button>
+          <button id="btn-up" class="dpad-btn dpad-up">▲</button>
+          <button id="btn-left" class="dpad-btn dpad-left">◀</button>
+          <button id="btn-right" class="dpad-btn dpad-right">▶</button>
+          <button id="btn-down" class="dpad-btn dpad-down">▼</button>
         </div>
 
-        <!-- ── Seleção de dificuldade ── -->
-        <div id="screen-difficulty" class="overlay" role="dialog" aria-modal="true" aria-label="Seleção de dificuldade" style="display:flex;">
+        <!-- SELEÇÃO DE DIFICULDADE -->
+        <div id="screen-difficulty" class="overlay" role="dialog" aria-modal="true" style="display:flex;">
           <div class="popup-content center">
             <div class="popup-header">BUG HUNTERS</div>
-            <p class="subtitle">Selecione a dificuldade para iniciar a missão.</p>
+
+            <p class="subtitle">
+              Selecione a dificuldade para iniciar a missão.
+            </p>
+
             <div class="diff-list">
-              <button class="cyber-btn diff-btn easy"   onclick="selectDifficulty('facil')"   aria-label="Fácil: 3 vidas">
+              <button class="cyber-btn diff-btn easy" onclick="selectDifficulty('facil')">
                 <span class="diff-label color-green">▶ FÁCIL</span>
                 <span class="diff-desc">7° ano · Reconhecer palavras-chave · 3 vidas</span>
               </button>
-              <button class="cyber-btn diff-btn medium" onclick="selectDifficulty('medio')"   aria-label="Médio: 2 vidas">
+
+              <button class="cyber-btn diff-btn medium" onclick="selectDifficulty('medio')">
                 <span class="diff-label color-amber">▶ MÉDIO</span>
                 <span class="diff-desc">8° ano · Entender o que o código faz · 2 vidas</span>
               </button>
-              <button class="cyber-btn diff-btn hard"   onclick="selectDifficulty('dificil')" aria-label="Difícil: 1 vida">
+
+              <button class="cyber-btn diff-btn hard" onclick="selectDifficulty('dificil')">
                 <span class="diff-label color-red">▶ DIFÍCIL</span>
                 <span class="diff-desc">9° ano · Identificar erros e lógica avançada · 1 vida</span>
               </button>
@@ -149,143 +266,212 @@
           </div>
         </div>
 
-        <!-- ── Popup de bug detectado ── -->
+        <!-- POPUP BUG -->
         <div id="screen-bug-popup" class="overlay" role="dialog" aria-modal="true" style="display:none;">
           <div class="popup-content">
             <div class="popup-header">⚠ BUG DETECTADO!</div>
-            <p id="popup-bug-desc" class="mission-desc" aria-live="polite">Anomalia detectada no setor</p>
+
+            <p id="popup-bug-desc" class="mission-desc">
+              Anomalia detectada no setor
+            </p>
+
             <div class="popup-actions">
-              <button class="cyber-btn"          onclick="MissionSystem.startMission()" aria-label="Corrigir bug">▶ CORRIGIR BUG</button>
-              <button class="cyber-btn secondary" onclick="UI.closePopup()"             aria-label="Ignorar">✕ IGNORAR</button>
+              <button class="cyber-btn" onclick="MissionSystem.startMission()">
+                ▶ CORRIGIR BUG
+              </button>
+
+              <button class="cyber-btn secondary" onclick="UI.closePopup()">
+                ✕ IGNORAR
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- ── Tela de missão (quiz) ── -->
+        <!-- MISSÃO -->
         <div id="screen-mission" class="overlay" role="dialog" aria-modal="true" style="display:none;">
           <div class="popup-content mission-panel">
-            <div class="popup-header" id="mission-title" aria-live="polite">MISSÃO</div>
+            <div class="popup-header" id="mission-title">MISSÃO</div>
+
             <p class="mission-desc" id="mission-desc"></p>
-            <div class="code-block" role="region" aria-label="Código">
+
+            <div class="code-block">
               <pre id="mission-code" tabindex="0"></pre>
             </div>
-            <div class="question-label" id="question-label">▶ SELECIONE A RESPOSTA CORRETA:</div>
-            <div id="choices-container" role="group" aria-labelledby="question-label"></div>
-            <div id="explanation-box" class="explanation" role="note" aria-live="polite" style="display:none;"></div>
-            <div id="feedback-msg" class="feedback" aria-live="assertive"></div>
-            <div class="progress-wrap" role="progressbar" aria-label="Progresso" aria-valuemin="0" aria-valuemax="100">
+
+            <div class="question-label" id="question-label">
+              ▶ SELECIONE A RESPOSTA CORRETA:
+            </div>
+
+            <div id="choices-container"></div>
+
+            <div id="explanation-box" class="explanation" style="display:none;"></div>
+            <div id="feedback-msg" class="feedback"></div>
+
+            <div class="progress-wrap">
               <div class="progress-label">◆ PROGRESSO DA MISSÃO</div>
               <div class="progress-bar-track">
                 <div id="progress-bar" class="progress-bar"></div>
               </div>
             </div>
-            <button id="btn-next" class="cyber-btn" style="display:none;" aria-label="Continuar">▶ CONTINUAR</button>
+
+            <button id="btn-next" class="cyber-btn" style="display:none;">
+              ▶ CONTINUAR
+            </button>
           </div>
         </div>
 
-        <!-- ── Setor 1 limpo ── -->
+        <!-- SETOR LIMPO -->
         <div id="screen-room-clear" class="overlay" role="dialog" aria-modal="true" style="display:none;">
           <div class="popup-content center">
             <div class="popup-header">✔ SETOR 1 LIMPO!</div>
-            <p class="mission-desc">Todos os bugs foram eliminados!<br><br>Um portal foi aberto.<br>Vá até ele para avançar.</p>
+
+            <p class="mission-desc">
+              Todos os bugs foram eliminados!<br><br>
+              A porta foi liberada.<br>
+              Vá até ela para avançar.
+            </p>
+
             <div class="popup-actions">
-              <button class="cyber-btn" onclick="MissionSystem.openPortal()" aria-label="Abrir portal">▶ ACESSAR PORTAL</button>
+              <button class="cyber-btn" onclick="MissionSystem.openPortal()">
+                ▶ LIBERAR PORTA
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- ── Portal / próximo nível ── -->
+        <!-- PRÓXIMO NÍVEL -->
         <div id="screen-next-level" class="overlay" role="dialog" aria-modal="true" style="display:none;">
           <div class="popup-content center">
-            <div class="popup-header">⚡ PORTAL DE TRANSMISSÃO</div>
-            <p class="mission-desc">Você está entrando no<br><br><span class="highlight">◆ SETOR 2 ◆</span><br><br>Prepare-se para novos desafios!</p>
+            <div class="popup-header">⚡ ACESSO LIBERADO</div>
+
+            <p class="mission-desc">
+              Você está entrando no<br><br>
+              <span class="highlight">◆ SETOR 2 ◆</span><br><br>
+              Prepare-se para novos desafios!
+            </p>
+
             <div class="popup-actions">
-              <button class="cyber-btn" onclick="MissionSystem.goToNextRoom()" aria-label="Avançar para setor 2">▶ AVANÇAR</button>
+              <button class="cyber-btn" onclick="MissionSystem.goToNextRoom()">
+                ▶ AVANÇAR
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- ── Vitória final ── -->
+        <!-- VITÓRIA -->
         <div id="screen-win" class="overlay" role="dialog" aria-modal="true" style="display:none;">
           <div class="popup-content center">
             <div class="popup-header">★ MISSÃO CONCLUÍDA!</div>
-            <p class="mission-desc">Todos os bugs foram eliminados do sistema!</p>
-            <p class="mission-desc">Dificuldade: <span id="final-diff" class="highlight" aria-live="polite"></span></p>
+
+            <p class="mission-desc">
+              Todos os bugs foram eliminados do sistema!
+            </p>
+
+            <p class="mission-desc">
+              Dificuldade:
+              <span id="final-diff" class="highlight"></span>
+            </p>
+
             <p class="mission-desc">Pontuação Final:</p>
-            <p style="margin:10px 0 20px;"><span id="final-score" class="score-highlight" aria-live="polite">0</span><span class="highlight"> / 100</span></p>
+
+            <p style="margin:10px 0 20px;">
+              <span id="final-score" class="score-highlight">0</span>
+              <span class="highlight"> / 100</span>
+            </p>
+
             <div class="popup-actions">
-              <button class="cyber-btn"          onclick="backToMenu()"   aria-label="Menu principal">▶ MENU</button>
-              <button class="cyber-btn secondary" onclick="restartGame()" aria-label="Jogar novamente">↺ JOGAR NOVAMENTE</button>
+              <button class="cyber-btn" onclick="backToMenu()">
+                ▶ MENU
+              </button>
+
+              <button class="cyber-btn secondary" onclick="restartGame()">
+                ↺ JOGAR NOVAMENTE
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- ── Game Over ── -->
+        <!-- GAME OVER -->
         <div id="screen-gameover" class="overlay" role="dialog" aria-modal="true" style="display:none;">
           <div class="popup-content center">
-            <div class="popup-header" style="color:#ff4444; border-color:#ff4444;">✖ GAME OVER</div>
-            <p class="mission-desc">Você ficou sem vidas!</p>
-            <p class="mission-desc">Pontuação: <span id="gameover-score" class="highlight">0</span></p>
+            <div class="popup-header" style="color:#ff4444; border-color:#ff4444;">
+              ✖ GAME OVER
+            </div>
+
+            <p class="mission-desc">
+              Você ficou sem vidas!
+            </p>
+
+            <p class="mission-desc">
+              Pontuação:
+              <span id="gameover-score" class="highlight">0</span>
+            </p>
+
             <div class="popup-actions">
-              <button class="cyber-btn"          onclick="backToMenu()"   aria-label="Menu principal">▶ MENU</button>
-              <button class="cyber-btn secondary" onclick="restartGame()" aria-label="Tentar novamente">↺ TENTAR NOVAMENTE</button>
+              <button class="cyber-btn" onclick="backToMenu()">
+                ▶ MENU
+              </button>
+
+              <button class="cyber-btn secondary" onclick="restartGame()">
+                ↺ TENTAR NOVAMENTE
+              </button>
             </div>
           </div>
         </div>
 
-      </div><!-- /game-container -->
+      </div>
 
-      <!-- ══ HUD LATERAL ════════════════════════════════════ -->
+      <!-- HUD -->
       <aside class="hud-panel" aria-label="Painel de status">
         <div class="panel-header">
           <span>SISTEMA</span>
-          <span class="panel-led" aria-hidden="true"></span>
+          <span class="panel-led"></span>
         </div>
+
         <div class="panel-content">
           <div class="stat">
-            <span class="stat-label" id="l-score">SCORE</span>
-            <span class="stat-value" id="hud-score"  aria-labelledby="l-score">0</span>
+            <span class="stat-label">SCORE</span>
+            <span class="stat-value" id="hud-score">0</span>
           </div>
+
           <div class="stat">
-            <span class="stat-label" id="l-sector">SETOR</span>
-            <span class="stat-value" id="hud-sector" aria-labelledby="l-sector">1</span>
+            <span class="stat-label">SETOR</span>
+            <span class="stat-value" id="hud-sector">1</span>
           </div>
+
           <div class="stat">
-            <span class="stat-label" id="l-bugs">BUGS</span>
-            <span class="stat-value" id="hud-bugs"   aria-labelledby="l-bugs">0/5</span>
+            <span class="stat-label">BUGS</span>
+            <span class="stat-value" id="hud-bugs">0/5</span>
           </div>
+
           <div class="stat">
-            <span class="stat-label" id="l-diff">MODO</span>
-            <span class="stat-value" id="hud-diff"   aria-labelledby="l-diff">—</span>
+            <span class="stat-label">MODO</span>
+            <span class="stat-value" id="hud-diff">—</span>
           </div>
+
           <div class="stat" style="border-bottom:none; margin-bottom:0;">
-            <span class="stat-label" id="l-lives">VIDAS</span>
-            <span class="stat-value" id="hud-lives"  aria-labelledby="l-lives" aria-live="polite">—</span>
+            <span class="stat-label">VIDAS</span>
+            <span class="stat-value" id="hud-lives">—</span>
           </div>
         </div>
+
         <div class="hud-tutorial-btn">
-          <button class="cyber-btn" style="width:100%; font-size:6px; margin:0;"
-                  onclick="TutorialSystem.open(true)"
-                  aria-label="Ver tutorial">
+          <button
+            class="cyber-btn"
+            style="width:100%; font-size:6px; margin:0;"
+            onclick="TutorialSystem.open(true)">
             ? TUTORIAL
           </button>
         </div>
+
         <div class="panel-footer">
-          STATUS: <span class="online" role="status">ONLINE</span>
+          STATUS: <span class="online">ONLINE</span>
         </div>
       </aside>
 
-    </div><!-- /game-wrapper -->
+    </div>
   </main>
 
-  <!-- ══ SCRIPTS — ordem obrigatória ══════════════════════════
-       1. dados inline (fallback sem servidor)
-       2. config e state (sem dependências)
-       3. plataforma
-       4. sistemas de jogo
-       5. ui
-       6. game loop (último)
-  ══════════════════════════════════════════════════════════ -->
   <script src="assets/js/data/inline-data.js"></script>
 
   <script src="assets/js/core/config.js"></script>
@@ -302,7 +488,7 @@
   <script src="assets/js/ui/mission.js"></script>
 
   <script src="assets/js/systems/transition.js"></script>
-  <script src="assets/js/ui/tutorial.js"></script>  
+  <script src="assets/js/ui/tutorial.js"></script>
 
   <script src="assets/js/core/game.js"></script>
 

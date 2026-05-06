@@ -879,3 +879,415 @@ canvas {
     0 0 12px rgba(0, 255, 120, 0.45),
     4px 4px 0 rgba(0,0,0,0.25);
 }
+/* PORTA ATIVA PARA PRÓXIMA FASE */
+
+.door.portal-door-active {
+  animation: portal-door-green-pulse 0.75s infinite alternate;
+  filter: brightness(1.35) saturate(1.5);
+  box-shadow:
+    0 0 14px rgba(105, 255, 71, 0.95),
+    0 0 30px rgba(105, 255, 71, 0.7),
+    0 0 48px rgba(105, 255, 71, 0.45);
+}
+
+@keyframes portal-door-green-pulse {
+  from {
+    filter: brightness(1);
+    box-shadow:
+      0 0 0 rgba(105, 255, 71, 0),
+      inset 0 0 0 8px rgba(255,255,255,0.15);
+  }
+
+  to {
+    filter: brightness(1.45) saturate(1.7);
+    box-shadow:
+      0 0 16px rgba(105, 255, 71, 1),
+      0 0 34px rgba(105, 255, 71, 0.75),
+      0 0 54px rgba(105, 255, 71, 0.5),
+      inset 0 0 0 8px rgba(255,255,255,0.22);
+  }
+}
+/* ============================================================
+   SALA 2 — LABORATÓRIO DE ENERGIA MELHORADO
+============================================================ */
+
+.lab-desk,
+.lab-screen,
+.lab-keyboard,
+.energy-meter,
+.reactor,
+.energy-box,
+.energy-terminal,
+.cable {
+  display: none;
+}
+
+.sala2 .desk,
+.sala2 .main-table,
+.sala2 .box,
+.sala2 .printer,
+.sala2 .server-rack {
+  display: none;
+}
+
+.sala2 {
+  background:
+    linear-gradient(rgba(90, 45, 10, 0.22) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(90, 45, 10, 0.22) 2px, transparent 2px),
+    radial-gradient(circle at 50% 65%, rgba(255, 230, 90, 0.25), transparent 230px),
+    #c9822c !important;
+  background-size: 58px 58px, 58px 58px, 100% 100%;
+}
+
+.sala2 .map-wall {
+  background: #0f6762;
+  border-color: #073937;
+  box-shadow: inset 0 0 0 5px #178f87;
+}
+
+/* PORTA */
+
+.sala2 .door {
+  top: 64px;
+  right: 155px;
+  width: 90px;
+  height: 130px;
+  background: #e9a050;
+  border-color: #6b3517;
+  box-shadow:
+    inset -16px 0 0 rgba(255,255,255,0.18),
+    5px 5px 0 rgba(0,0,0,0.28);
+}
+
+.sala2 .door::before {
+  left: 23px;
+  top: 22px;
+  width: 38px;
+  height: 34px;
+  background: #ffe2a5;
+  border-color: #6b3517;
+}
+
+.sala2 .door::after {
+  background: #f7cf45;
+}
+
+/* PLANTAS */
+
+.sala2 .plant-1,
+.sala2 .plant-3 {
+  display: none;
+}
+
+.sala2 .plant-2 {
+  display: block;
+  top: 72px;
+  right: 65px;
+}
+
+/* MESA GRANDE */
+
+.sala2 .lab-desk {
+  display: block;
+  position: absolute;
+  top: 95px;
+  left: 115px;
+  width: 350px;
+  height: 82px;
+  background: #56243d;
+  border: 5px solid #29101f;
+  box-shadow:
+    0 7px 0 #2b1322,
+    7px 7px 0 rgba(0,0,0,0.35);
+  z-index: 8;
+}
+
+.sala2 .lab-desk::before {
+  content: "Energy\A Status";
+  white-space: pre;
+  position: absolute;
+  left: 125px;
+  top: 95px;
+  width: 120px;
+  height: 52px;
+  background: #1a2c3d;
+  border: 5px solid #111;
+  color: #69ff47;
+  font-size: 10px;
+  line-height: 1.7;
+  text-align: center;
+  padding-top: 8px;
+  text-shadow: 0 0 8px #69ff47;
+}
+
+.sala2 .lab-screen {
+  display: block;
+  position: absolute;
+  background: #1a2c3d;
+  border: 5px solid #d7d8a8;
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
+}
+
+.sala2 .screen-main {
+  width: 120px;
+  height: 72px;
+  left: 95px;
+  top: -72px;
+}
+
+.sala2 .screen-left {
+  width: 72px;
+  height: 84px;
+  left: 5px;
+  top: -58px;
+  transform: rotate(-8deg);
+}
+
+.sala2 .screen-right {
+  width: 72px;
+  height: 84px;
+  right: 5px;
+  top: -58px;
+  transform: rotate(8deg);
+}
+
+.sala2 .lab-screen::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  background:
+    linear-gradient(#ffb347 4px, transparent 4px),
+    linear-gradient(90deg, #ff4ccf 4px, transparent 4px);
+  background-size: 22px 16px;
+}
+
+.sala2 .lab-keyboard {
+  display: block;
+  position: absolute;
+  left: 145px;
+  bottom: 24px;
+  width: 75px;
+  height: 16px;
+  background: #d7d8c8;
+  border: 3px solid #777;
+}
+
+/* MEDIDOR */
+
+.sala2 .energy-meter {
+  display: block;
+  position: absolute;
+  top: 70px;
+  left: 500px;
+  width: 130px;
+  height: 65px;
+  background: #b8732d;
+  border: 6px solid #5a3217;
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
+  z-index: 8;
+}
+
+.sala2 .energy-meter::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  width: 82px;
+  height: 36px;
+  background: conic-gradient(#69ff47 0deg, #ffeb3b 90deg, #ff4444 150deg, transparent 150deg);
+  border-radius: 90px 90px 0 0;
+}
+
+.sala2 .energy-meter::after {
+  content: "";
+  position: absolute;
+  left: 63px;
+  top: 39px;
+  width: 42px;
+  height: 5px;
+  background: #1a2c3d;
+  transform: rotate(-25deg);
+  transform-origin: left center;
+}
+
+/* REATOR CENTRAL */
+
+.sala2 .reactor {
+  display: block;
+  position: absolute;
+  left: 425px;
+  top: 245px;
+  width: 150px;
+  height: 220px;
+  background: #35d99b;
+  border: 9px solid #6b421f;
+  box-shadow:
+    0 0 28px rgba(105,255,120,0.85),
+    0 0 65px rgba(255,220,70,0.35),
+    inset 0 0 22px rgba(255,255,255,0.55);
+  z-index: 10;
+}
+
+.sala2 .reactor::before {
+  content: "";
+  position: absolute;
+  left: -32px;
+  top: -48px;
+  width: 195px;
+  height: 70px;
+  background: #8a5328;
+  border: 8px solid #4f2510;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.25);
+}
+
+.sala2 .reactor::after {
+  content: "";
+  position: absolute;
+  inset: 20px;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(105,255,71,0.95) 0,
+    rgba(105,255,71,0.95) 20px,
+    rgba(0,229,255,0.75) 20px,
+    rgba(0,229,255,0.75) 40px
+  );
+  animation: reactor-glow 0.8s infinite alternate;
+}
+
+@keyframes reactor-glow {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.35); }
+}
+
+/* CAIXAS ENERGY */
+
+.sala2 .energy-box {
+  display: block;
+  position: absolute;
+  bottom: 55px;
+  width: 125px;
+  height: 78px;
+  background: #4d4a3c;
+  border: 6px solid #8c7b55;
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
+  z-index: 8;
+}
+
+.sala2 .energy-box::before {
+  content: "ENERGY";
+  position: absolute;
+  left: 15px;
+  top: 18px;
+  color: #ffdf70;
+  font-size: 11px;
+  text-shadow: 0 0 8px #ffdf70;
+}
+
+.sala2 .energy-box::after {
+  content: "";
+  position: absolute;
+  left: 26px;
+  bottom: 12px;
+  width: 70px;
+  height: 9px;
+  background: #7a7a63;
+  border: 2px solid #222;
+}
+
+.sala2 .energy-box-1 {
+  left: 70px;
+}
+
+.sala2 .energy-box-2 {
+  left: 225px;
+}
+
+/* TERMINAIS DIREITA */
+
+.sala2 .energy-terminal {
+  display: block;
+  position: absolute;
+  right: 72px;
+  width: 80px;
+  height: 64px;
+  background: #5a3217;
+  border: 5px solid #8a5328;
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
+  z-index: 8;
+}
+
+.sala2 .energy-terminal::before {
+  content: "?";
+  position: absolute;
+  left: 15px;
+  top: -35px;
+  width: 50px;
+  height: 44px;
+  background: #1a2c3d;
+  border: 5px solid #111;
+  color: #69ff47;
+  font-size: 22px;
+  text-align: center;
+  line-height: 44px;
+  text-shadow: 0 0 8px #69ff47;
+}
+
+.sala2 .energy-terminal::after {
+  content: "?";
+  position: absolute;
+  left: 25px;
+  bottom: 10px;
+  color: #ffdf70;
+  font-size: 16px;
+}
+
+.sala2 .terminal-1 {
+  top: 305px;
+}
+
+.sala2 .terminal-2 {
+  top: 420px;
+}
+
+.sala2 .terminal-3 {
+  top: 520px;
+}
+
+/* CABOS */
+
+.sala2 .cable {
+  display: block;
+  position: absolute;
+  background: #7a3f1d;
+  border: 3px solid #3b1c0d;
+  z-index: 5;
+  box-shadow: inset 4px 0 0 rgba(255,180,80,0.25);
+}
+
+.sala2 .cable-1 {
+  left: 165px;
+  top: 177px;
+  width: 20px;
+  height: 285px;
+}
+
+.sala2 .cable-2 {
+  left: 190px;
+  top: 177px;
+  width: 20px;
+  height: 285px;
+}
+
+.sala2 .cable-3 {
+  left: 500px;
+  top: 455px;
+  width: 22px;
+  height: 95px;
+}
+
+.sala2 .cable-4 {
+  left: 528px;
+  top: 455px;
+  width: 22px;
+  height: 95px;
+}
