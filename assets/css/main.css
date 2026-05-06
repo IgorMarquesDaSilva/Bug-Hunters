@@ -424,3 +424,458 @@ canvas {
 .hud-tutorial-btn {
   padding: 0 12px 10px;
 }
+/* ============================================================
+   MAPA HTML/CSS — BUG HUNTERS
+   ============================================================ */
+
+   #game-container {
+    width: 1000px;
+    height: 600px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  #room-map {
+    position: absolute;
+    inset: 0;
+    width: 1000px;
+    height: 600px;
+    overflow: hidden;
+    z-index: 1;
+    background:
+      linear-gradient(rgba(255,255,255,0.08) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(255,255,255,0.08) 2px, transparent 2px),
+      #9bd8e2;
+    background-size: 50px 50px;
+  }
+  
+  #room-map.sala1 {
+    background-color: #c98942;
+  }
+  
+  #room-map.sala2 {
+    background-color: #9bd8e2;
+  }
+  
+  #gameCanvas {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    background: transparent !important;
+    pointer-events: none;
+  }
+  
+  .overlay,
+  .dpad {
+    z-index: 300;
+  }
+  
+  /* PAREDES */
+  
+  .map-wall {
+    position: absolute;
+    background: #5b8fd9;
+    border: 4px solid #315ca8;
+    z-index: 5;
+  }
+  
+  .wall-top {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 32px;
+  }
+  
+  .wall-bottom {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 32px;
+  }
+  
+  .wall-left {
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 100%;
+  }
+  
+  .wall-right {
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 100%;
+  }
+  
+  .sala1 .map-wall {
+    background: #1e4020;
+    border-color: #2d6e1f;
+  }
+  
+  /* MESAS */
+  
+  .desk {
+    position: absolute;
+    width: 120px;
+    height: 78px;
+    background: #e8eef4;
+    border: 4px solid #7c86a5;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.25);
+    z-index: 8;
+  }
+  
+  .monitor {
+    position: absolute;
+    top: 8px;
+    left: 32px;
+    width: 56px;
+    height: 36px;
+    background: #1a2c3d;
+    border: 4px solid #111;
+  }
+  
+  .monitor::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    background: #00e5ff;
+    box-shadow:
+      6px 6px 0 rgba(0,0,0,0.25),
+      18px 14px 0 rgba(0,0,0,0.25),
+      30px 8px 0 rgba(0,0,0,0.25);
+  }
+  
+  .keyboard {
+    position: absolute;
+    left: 28px;
+    bottom: 10px;
+    width: 64px;
+    height: 14px;
+    background: #b7c0ce;
+    border: 2px solid #6e788c;
+  }
+  
+  .desk-top-1 {
+    top: 95px;
+    left: 105px;
+  }
+  
+  .desk-top-2 {
+    top: 95px;
+    left: 255px;
+  }
+  
+  .desk-left-1 {
+    top: 250px;
+    left: 55px;
+  }
+  
+  .desk-left-2 {
+    top: 400px;
+    left: 55px;
+  }
+  
+  .desk-right-1 {
+    top: 250px;
+    right: 55px;
+  }
+  
+  .desk-right-2 {
+    top: 400px;
+    right: 55px;
+  }
+  
+  /* SERVIDORES */
+  
+  .server-rack {
+    position: absolute;
+    width: 58px;
+    height: 120px;
+    top: 85px;
+    background: #2d3142;
+    border: 4px solid #646b8a;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.25);
+    z-index: 8;
+  }
+  
+  .server-rack::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    width: 24px;
+    height: 8px;
+    background: #00ff88;
+    box-shadow:
+      0 18px #00e5ff,
+      0 36px #ffb347,
+      0 54px #00ff88,
+      0 72px #00e5ff;
+  }
+  
+  .server-1 {
+    left: 460px;
+  }
+  
+  .server-2 {
+    left: 530px;
+  }
+  
+  /* MESA CENTRAL */
+  
+  .main-table {
+    position: absolute;
+    left: 410px;
+    top: 300px;
+    width: 180px;
+    height: 90px;
+    background: #d8e0e8;
+    border: 5px solid #778099;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
+    z-index: 8;
+  }
+  
+  .main-table::before {
+    content: "";
+    position: absolute;
+    left: 55px;
+    top: 18px;
+    width: 70px;
+    height: 40px;
+    background: #1a2c3d;
+    border: 4px solid #111;
+  }
+  
+  .main-table::after {
+    content: "";
+    position: absolute;
+    left: 65px;
+    top: 28px;
+    width: 50px;
+    height: 20px;
+    background: #69ff47;
+  }
+  
+  /* CAIXAS */
+  
+  .box {
+    position: absolute;
+    width: 70px;
+    height: 60px;
+    background: #c97e2a;
+    border: 4px solid #8a5328;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.25);
+    z-index: 8;
+  }
+  
+  .box::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 22px;
+    width: 100%;
+    height: 4px;
+    background: #8a5328;
+  }
+  
+  .box-1 {
+    left: 55px;
+    bottom: 48px;
+  }
+  
+  .box-2 {
+    left: 140px;
+    bottom: 48px;
+  }
+  
+  /* IMPRESSORA */
+  
+  .printer {
+    position: absolute;
+    right: 60px;
+    bottom: 92px;
+    width: 90px;
+    height: 82px;
+    background: #7d86a8;
+    border: 4px solid #545b73;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.25);
+    z-index: 8;
+  }
+  
+  .printer::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 12px;
+    width: 60px;
+    height: 20px;
+    background: #dce5ef;
+    border: 3px solid #454b60;
+  }
+  
+  .printer::after {
+    content: "";
+    position: absolute;
+    left: 18px;
+    bottom: -22px;
+    width: 54px;
+    height: 26px;
+    background: white;
+    border: 3px solid #454b60;
+  }
+  
+  /* PLANTAS */
+  
+  .plant {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    background: #49b96d;
+    border: 4px solid #2e7a47;
+    z-index: 8;
+  }
+  
+  .plant::before {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: -10px;
+    width: 20px;
+    height: 20px;
+    background: #65d985;
+    border: 4px solid #2e7a47;
+  }
+  
+  .plant::after {
+    content: "";
+    position: absolute;
+    left: 7px;
+    bottom: -20px;
+    width: 26px;
+    height: 20px;
+    background: #9d6437;
+    border: 3px solid #6d3f20;
+  }
+  
+  .plant-1 {
+    top: 85px;
+    left: 45px;
+  }
+  
+  .plant-2 {
+    top: 85px;
+    right: 55px;
+  }
+  
+  .plant-3 {
+    bottom: 65px;
+    right: 210px;
+  }
+  
+  /* PORTA */
+  
+  .door {
+    position: absolute;
+    top: 52px;
+    right: 170px;
+    width: 92px;
+    height: 132px;
+    background: #4f8fff;
+    border: 5px solid #315ca8;
+    box-shadow: inset 0 0 0 8px rgba(255,255,255,0.15);
+    z-index: 7;
+  }
+  
+  .door::before {
+    content: "";
+    position: absolute;
+    left: 22px;
+    top: 18px;
+    width: 42px;
+    height: 34px;
+    background: rgba(255,255,255,0.55);
+    border: 4px solid #315ca8;
+  }
+  
+  .door::after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 66px;
+    width: 10px;
+    height: 10px;
+    background: #ffb347;
+  }
+  
+  /* SALA 1 — TONS LARANJA */
+  
+  .sala1 .desk,
+  .sala1 .main-table {
+    background: #7a3f1d;
+    border-color: #4f2510;
+  }
+  
+  .sala1 .monitor::after {
+    background: #9933ff;
+  }
+  
+  .sala1 .server-rack {
+    background: #4f321c;
+    border-color: #8a5328;
+  }
+  
+  .sala1 .door {
+    background: #c97e2a;
+    border-color: #8a5328;
+  }
+  
+  /* RESPONSIVO */
+  
+  @media (max-width: 900px) {
+    #game-container,
+    #room-map,
+    #gameCanvas {
+      width: 1000px;
+      height: 600px;
+    }
+  
+    #game-container {
+      transform: scale(0.38);
+      transform-origin: top center;
+      margin-bottom: -360px;
+    }
+  }
+  /* MISSÕES FIXAS NOS OBJETOS */
+
+.mission-point {
+  position: absolute;
+}
+
+.mission-point.mission-available {
+  animation: mission-pulse-red 0.8s infinite alternate;
+}
+
+@keyframes mission-pulse-red {
+  from {
+    filter: brightness(1);
+    box-shadow:
+      0 0 0 rgba(255, 0, 0, 0),
+      4px 4px 0 rgba(0,0,0,0.25);
+  }
+
+  to {
+    filter: brightness(1.35);
+    box-shadow:
+      0 0 14px rgba(255, 0, 0, 0.95),
+      0 0 28px rgba(255, 0, 0, 0.65),
+      4px 4px 0 rgba(0,0,0,0.25);
+  }
+}
+
+.mission-point.mission-solved {
+  animation: none;
+  filter: brightness(0.85) saturate(0.7);
+  box-shadow:
+    0 0 12px rgba(0, 255, 120, 0.45),
+    4px 4px 0 rgba(0,0,0,0.25);
+}

@@ -20,7 +20,80 @@
 
       <!-- ══ CANVAS + OVERLAYS ══════════════════════════════ -->
       <div id="game-container" role="application" aria-label="Área do jogo">
-        <canvas id="gameCanvas" width="1000" height="600" role="img" aria-label="Mapa do jogo"></canvas>
+        <div id="room-map" class="sala1" aria-hidden="true">
+
+          <!-- PAREDES -->
+          <div class="map-wall wall-top collision"></div>
+          <div class="map-wall wall-bottom collision"></div>
+          <div class="map-wall wall-left collision"></div>
+          <div class="map-wall wall-right collision"></div>
+        
+          <div class="floor-grid"></div>
+        
+          <!-- MESAS SUPERIORES (MISSÕES) -->
+          <div class="desk desk-top-1 collision mission-point">
+            <div class="monitor"></div>
+            <div class="keyboard"></div>
+          </div>
+        
+          <div class="desk desk-top-2 collision mission-point">
+            <div class="monitor"></div>
+            <div class="keyboard"></div>
+          </div>
+        
+          <!-- SERVIDORES (MISSÕES) -->
+          <div class="server-rack server-1 collision mission-point"></div>
+        
+          <div class="server-rack server-2 collision mission-point"></div>
+        
+          <!-- MESAS ESQUERDA -->
+          <div class="desk desk-left-1 collision">
+            <div class="monitor"></div>
+            <div class="keyboard"></div>
+          </div>
+        
+          <div class="desk desk-left-2 collision">
+            <div class="monitor"></div>
+            <div class="keyboard"></div>
+          </div>
+        
+          <!-- MESAS DIREITA -->
+          <div class="desk desk-right-1 collision">
+            <div class="monitor"></div>
+            <div class="keyboard"></div>
+          </div>
+        
+          <div class="desk desk-right-2 collision">
+            <div class="monitor"></div>
+            <div class="keyboard"></div>
+          </div>
+        
+          <!-- MESA CENTRAL -->
+          <div class="main-table collision"></div>
+        
+          <!-- CAIXAS -->
+          <div class="box box-1 collision"></div>
+          <div class="box box-2 collision"></div>
+        
+          <!-- IMPRESSORA (MISSÃO) -->
+          <div class="printer collision mission-point"></div>
+        
+          <!-- PLANTAS -->
+          <div class="plant plant-1 collision"></div>
+          <div class="plant plant-2 collision"></div>
+          <div class="plant plant-3 collision"></div>
+        
+          <!-- PORTA -->
+          <div class="door collision"></div>
+        
+        </div>
+        
+        <canvas id="gameCanvas"
+                width="1000"
+                height="600"
+                role="img"
+                aria-label="Mapa do jogo">
+        </canvas>
         <!-- ── Tutorial ── -->
         <div id="screen-tutorial" class="overlay" role="dialog" aria-modal="true" aria-label="Tutorial do jogo" style="display:none;">
           <div class="popup-content tutorial-panel">
