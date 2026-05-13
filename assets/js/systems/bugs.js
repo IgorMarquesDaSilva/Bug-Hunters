@@ -6,7 +6,6 @@
 const BugSystem = (() => {
 
   function spawnBugs() {
-
     const missions = GameState.currentMissions();
 
     if (!missions.length) {
@@ -22,32 +21,29 @@ const BugSystem = (() => {
       return;
     }
 
-    roomMap.classList.remove("sala1", "sala2");
+    roomMap.classList.remove("sala1", "sala2", "sala3");
     roomMap.classList.add(GameState.currentRoom);
 
-    const missionSelector =
-      GameState.currentRoom === "sala1"
-        ? "#room-map .sala1-mission"
-        : "#room-map .sala2-mission";
-
-    const points = Array.from(
-      document.querySelectorAll(missionSelector)
-    );
-
-    points.forEach(point => {
-      point.classList.remove(
-        "mission-available",
-        "mission-solved"
-      );
+    document.querySelectorAll("#room-map .mission-point").forEach(point => {
+      point.classList.remove("mission-available", "mission-solved");
     });
 
-    const mapRect = roomMap.getBoundingClientRect();
+    const missionSelectorMap = {
+      sala1: "#room-map .sala1-mission",
+      sala2: "#room-map .sala2-mission",
+      sala3: "#room-map .sala3-mission"
+    };
 
+    const missionSelector =
+      missionSelectorMap[GameState.currentRoom] || "#room-map .sala1-mission";
+
+    const points = Array.from(document.querySelectorAll(missionSelector));
+
+    const mapRect = roomMap.getBoundingClientRect();
     const scaleX = canvas.width / mapRect.width;
     const scaleY = canvas.height / mapRect.height;
 
     GameState.bugs = missions.map((mission, i) => {
-
       const el = points[i];
 
       if (!el) {
@@ -75,25 +71,20 @@ const BugSystem = (() => {
         missionIdx: i,
         el
       };
-
     });
-
   }
 
   function refreshMissionPositions() {
-
     const roomMap = document.getElementById("room-map");
     const canvas = document.getElementById("gameCanvas");
 
     if (!roomMap || !canvas || !GameState.bugs.length) return;
 
     const mapRect = roomMap.getBoundingClientRect();
-
     const scaleX = canvas.width / mapRect.width;
     const scaleY = canvas.height / mapRect.height;
 
     GameState.bugs.forEach(bug => {
-
       if (!bug.el) return;
 
       const rect = bug.el.getBoundingClientRect();
@@ -102,13 +93,10 @@ const BugSystem = (() => {
       bug.y = Math.round((rect.top - mapRect.top) * scaleY);
       bug.w = Math.round(rect.width * scaleX);
       bug.h = Math.round(rect.height * scaleY);
-
     });
-
   }
 
   function getPlayerBox(extra = 10) {
-
     const p = Player.state;
 
     return {
@@ -117,22 +105,18 @@ const BugSystem = (() => {
       w: p.hitboxW + extra * 2,
       h: p.hitboxH + extra * 2
     };
-
   }
 
   function rectsOverlap(a, b) {
-
     return (
       a.x < b.x + b.w &&
       a.x + a.w > b.x &&
       a.y < b.y + b.h &&
       a.y + a.h > b.y
     );
-
   }
 
   function checkProximity() {
-
     if (GameState.isPaused) return;
     if (GameState.activeIdx !== -1) return;
 
@@ -146,7 +130,6 @@ const BugSystem = (() => {
     const playerBox = getPlayerBox(12);
 
     for (let i = 0; i < GameState.bugs.length; i++) {
-
       const bug = GameState.bugs[i];
 
       if (bug.solved) continue;
@@ -159,33 +142,24 @@ const BugSystem = (() => {
       };
 
       if (rectsOverlap(playerBox, objectBox)) {
-
         GameState.activeIdx = i;
 
-        const mission =
-          GameState.currentMissions()[bug.missionIdx];
+        const mission = GameState.currentMissions()[bug.missionIdx];
 
         const title =
           mission.title.split("—")[1]?.trim()
           ?? mission.title;
 
-        document.getElementById(
-          "popup-bug-desc"
-        ).textContent =
+        document.getElementById("popup-bug-desc").textContent =
           "BUG DETECTADO: " + title;
 
         UI.showScreen("screen-bug-popup");
-
         break;
-
       }
-
     }
-
   }
 
   function markSolved(index) {
-
     const bug = GameState.bugs[index];
 
     if (!bug) return;
@@ -193,18 +167,13 @@ const BugSystem = (() => {
     bug.solved = true;
 
     if (bug.el) {
-
       bug.el.classList.remove("mission-available");
       bug.el.classList.add("mission-solved");
-
     }
-
   }
 
   function drawPortal(ctx) {
-
-    const door =
-      document.querySelector("#room-map .door");
+    const door = document.querySelector("#room-map .door");
 
     if (!door) return;
 
@@ -213,11 +182,9 @@ const BugSystem = (() => {
     } else {
       door.classList.remove("portal-door-active");
     }
-
   }
 
   function checkPortal() {
-
     if (
       !GameState.portal.visible ||
       GameState.portal.triggered ||
@@ -226,14 +193,9 @@ const BugSystem = (() => {
       return;
     }
 
-    const door =
-      document.querySelector("#room-map .door");
-
-    const canvas =
-      document.getElementById("gameCanvas");
-
-    const roomMap =
-      document.getElementById("room-map");
+    const door = document.querySelector("#room-map .door");
+    const canvas = document.getElementById("gameCanvas");
+    const roomMap = document.getElementById("room-map");
 
     if (!door || !canvas || !roomMap) return;
 
@@ -244,10 +206,10 @@ const BugSystem = (() => {
     const scaleY = canvas.height / mapRect.height;
 
     const doorBox = {
-      x: Math.round((doorRect.left - mapRect.left) * scaleX) - 35,
-      y: Math.round((doorRect.top - mapRect.top) * scaleY) - 35,
-      w: Math.round(doorRect.width * scaleX) + 70,
-      h: Math.round(doorRect.height * scaleY) + 70
+      x: Math.round((doorRect.left - mapRect.left) * scaleX) - 45,
+      y: Math.round((doorRect.top - mapRect.top) * scaleY) - 45,
+      w: Math.round(doorRect.width * scaleX) + 90,
+      h: Math.round(doorRect.height * scaleY) + 90
     };
 
     const p = Player.state;
@@ -260,20 +222,14 @@ const BugSystem = (() => {
     };
 
     if (rectsOverlap(playerBox, doorBox)) {
-
       GameState.portal.triggered = true;
-
       UI.showScreen("screen-next-level");
-
     }
-
   }
 
   function draw(ctx) {
-
     drawPortal(ctx);
     checkPortal();
-
   }
 
   return {

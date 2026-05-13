@@ -1,43 +1,38 @@
 /* ============================================================
-   assets/js/ui/ui.js  —  Gerencia telas e overlays
-   FIX: isPaused só é false quando null (gameplay livre)
-        Tela de bug-popup não pausa o gameloop completamente —
-        apenas bloqueia movimento; assim o player não "trava".
-   ============================================================ */
+   assets/js/ui/ui.js
+   Controle das telas e popups do jogo
+============================================================ */
 
-const UI = (() => {
+window.UI = (() => {
 
-  const ALL_SCREENS = [
-    "screen-difficulty",
-    "screen-bug-popup",
-    "screen-mission",
-    "screen-room-clear",
-    "screen-next-level",
-    "screen-win",
-    "screen-gameover"
-  ];
-
-  function showScreen(id) {
-    ALL_SCREENS.forEach(s => {
-      const el = document.getElementById(s);
-      if (el) el.style.display = "none";
+  function showScreen(screenId) {
+    document.querySelectorAll(".overlay").forEach(screen => {
+      screen.style.display = "none";
     });
 
-    if (id) {
-      const el = document.getElementById(id);
-      if (el) el.style.display = "flex";
+    if (screenId) {
+      const screen = document.getElementById(screenId);
+
+      if (screen) {
+        screen.style.display = "flex";
+        GameState.isPaused = true;
+      }
+
+      return;
     }
 
-    // Pausa MOVIMENTO do player sempre que qualquer tela está aberta
-    GameState.isPaused = !!id;
+    GameState.isPaused = false;
   }
 
-  // Fecha popup de aproximação — RESETA activeIdx para não retravar
   function closePopup() {
-    GameState.activeIdx    = -1;
-    GameState.popupCooldown = 120; // 2 segundos de cooldown antes de reativar
     showScreen(null);
+    GameState.activeIdx = -1;
+    GameState.popupCooldown = 60;
   }
 
-  return { showScreen, closePopup };
+  return {
+    showScreen,
+    closePopup
+  };
+
 })();

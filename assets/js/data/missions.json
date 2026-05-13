@@ -23,7 +23,7 @@
         "code": "inteiro bugs <- ___\nescreva(bugs)",
         "choices": ["\"zero\"", "verdadeiro", "0", "vazio"],
         "correct": 2,
-        "explanation": "Para guardar o número zero, usamos 0 (sem aspas). Aspas indicariam texto, não número."
+        "explanation": "Para guardar o número zero, usamos 0 sem aspas."
       },
       {
         "title": "MISSÃO 04 — Operador Lógico",
@@ -31,7 +31,7 @@
         "code": "se energia > 10 ___ status = \"ativo\" entao\n    continuar()",
         "choices": ["ou", "nao", "e", "+"],
         "correct": 2,
-        "explanation": "\"e\" exige que AMBAS as condições sejam verdadeiras. \"ou\" bastaria apenas uma delas."
+        "explanation": "\"e\" exige que ambas as condições sejam verdadeiras."
       },
       {
         "title": "MISSÃO 05 — Definindo Procedimento",
@@ -39,7 +39,7 @@
         "code": "___ verificarErro()\n    retorne verdadeiro",
         "choices": ["var", "funcao", "procedimento", "criar"],
         "correct": 2,
-        "explanation": "Em Portugol, usamos \"procedimento\" para definir um bloco de código reutilizável sem retorno de valor."
+        "explanation": "Em Portugol, usamos procedimento para definir um bloco reutilizável sem retorno."
       }
     ],
     "sala2": [
@@ -57,7 +57,7 @@
         "code": "se nivel ___ 3 entao\n    subirNivel()",
         "choices": ["<-", "=>", "=", "<>"],
         "correct": 2,
-        "explanation": "\"=\" compara se dois valores são iguais em Portugol. \"<-\" é usado para atribuir valor a uma variável."
+        "explanation": "\"=\" compara se dois valores são iguais em Portugol. \"<-\" atribui valor."
       },
       {
         "title": "MISSÃO 08 — Repetição com Condição",
@@ -73,18 +73,61 @@
         "code": "___ nome <- \"Igor\"\nescreva(nome)",
         "choices": ["inteiro", "real", "caractere", "logico"],
         "correct": 2,
-        "explanation": "\"caractere\" representa texto em Portugol. \"inteiro\" é número inteiro, \"real\" é decimal e \"logico\" é verdadeiro/falso."
+        "explanation": "\"caractere\" representa texto em Portugol."
       },
       {
         "title": "MISSÃO 10 — Valor Lógico",
-        "desc": "O sistema precisa guardar se o jogador está ativo ou não. Qual valor representa 'verdadeiro'?",
+        "desc": "O sistema precisa guardar se o jogador está ativo ou não. Qual valor representa verdadeiro?",
         "code": "logico ativo <- ___\nse ativo entao\n    jogar()",
         "choices": ["1", "sim", "verdadeiro", "true"],
         "correct": 2,
-        "explanation": "\"verdadeiro\" é o valor lógico verdadeiro em Portugol. Faz parte do tipo \"logico\" (booleano)."
+        "explanation": "\"verdadeiro\" é o valor lógico verdadeiro em Portugol."
+      }
+    ],
+    "sala3": [
+      {
+        "title": "MISSÃO 11 — Decisão Simples",
+        "desc": "O sistema de quarentena só deve ativar se o risco for maior que 50. Qual estrutura completa o código?",
+        "code": "___ risco > 50 entao\n    ativarQuarentena()\nfimse",
+        "choices": ["se", "para", "enquanto", "funcao"],
+        "correct": 0,
+        "explanation": "Usamos \"se\" quando o programa precisa tomar uma decisão com base em uma condição."
+      },
+      {
+        "title": "MISSÃO 12 — Caminho Alternativo",
+        "desc": "Se o acesso for negado, o sistema deve bloquear. Caso contrário, deve liberar. Qual palavra cria o caminho alternativo?",
+        "code": "se acesso = falso entao\n    bloquear()\n___\n    liberar()\nfimse",
+        "choices": ["senao", "enquanto", "para", "retorne"],
+        "correct": 0,
+        "explanation": "\"senao\" define o que acontece quando a condição do \"se\" é falsa."
+      },
+      {
+        "title": "MISSÃO 13 — Operador E",
+        "desc": "A porta só libera se o cartão for válido e a senha estiver correta.",
+        "code": "se cartaoValido = verdadeiro ___ senhaCorreta = verdadeiro entao\n    liberarPorta()\nfimse",
+        "choices": ["ou", "e", "+", "<-"],
+        "correct": 1,
+        "explanation": "O operador \"e\" exige que as duas condições sejam verdadeiras ao mesmo tempo."
+      },
+      {
+        "title": "MISSÃO 14 — Operador OU",
+        "desc": "O reator deve emitir alerta se a temperatura estiver alta ou se houver falha no núcleo.",
+        "code": "se temperatura > 90 ___ falhaNucleo = verdadeiro entao\n    emitirAlerta()\nfimse",
+        "choices": ["e", "ou", "*", "senao"],
+        "correct": 1,
+        "explanation": "O operador \"ou\" executa a ação se pelo menos uma condição for verdadeira."
+      },
+      {
+        "title": "MISSÃO 15 — Condição Correta",
+        "desc": "Complete a condição para recuperar os dados apenas quando o backup estiver disponível.",
+        "code": "se backupDisponivel = ___ entao\n    recuperarDados()\nfimse",
+        "choices": ["\"verdadeiro\"", "verdadeiro", "10", "texto"],
+        "correct": 1,
+        "explanation": "Em Portugol, verdadeiro é um valor lógico e não deve estar entre aspas."
       }
     ]
   },
+
   "medio": {
     "sala1": [
       {
@@ -93,7 +136,7 @@
         "code": "inteiro energia <- 15\nse energia < 20 entao\n    escreva(\"Retornando\")\nsenao\n    escreva(\"Operando\")\nfimse",
         "choices": ["Operando", "Retornando", "Nada", "Erro"],
         "correct": 1,
-        "explanation": "Como energia (15) é menor que 20, a condição \"se\" é verdadeira e exibe \"Retornando\"."
+        "explanation": "Como energia 15 é menor que 20, a condição é verdadeira e exibe \"Retornando\"."
       },
       {
         "title": "MISSÃO 02 — Quantas vezes repete?",
@@ -101,7 +144,7 @@
         "code": "para i de 1 ate 3 faca\n    escanear(i)\n    escreva(i)\nfimpara",
         "choices": ["2 vezes", "3 vezes", "4 vezes", "1 vez"],
         "correct": 1,
-        "explanation": "\"para i de 1 ate 3\" gera os valores 1, 2 e 3 — ou seja, 3 iterações no total."
+        "explanation": "\"para i de 1 ate 3\" executa 3 vezes."
       },
       {
         "title": "MISSÃO 03 — Resultado da operação",
@@ -109,15 +152,15 @@
         "code": "inteiro x <- 10\ninteiro y <- 3\ninteiro resultado <- x + y * 2",
         "choices": ["26", "16", "13", "23"],
         "correct": 1,
-        "explanation": "Em Portugol, multiplicação tem prioridade sobre soma. y * 2 = 6, depois 10 + 6 = 16."
+        "explanation": "Multiplicação vem antes da soma. y * 2 = 6, então 10 + 6 = 16."
       },
       {
         "title": "MISSÃO 04 — Condição composta",
         "desc": "Em quais casos o sistema vai executar alerta()?",
         "code": "se energia < 10 ou temperatura > 80 entao\n    alerta()\nfimse",
-        "choices": ["Só se energia < 10 E temperatura > 80", "Se energia < 10 OU temperatura > 80", "Nunca executa", "Sempre executa"],
+        "choices": ["Só se as duas forem verdadeiras", "Se energia < 10 OU temperatura > 80", "Nunca executa", "Sempre executa"],
         "correct": 1,
-        "explanation": "\"ou\" executa se QUALQUER uma das condições for verdadeira — basta uma delas ser satisfeita."
+        "explanation": "\"ou\" executa se qualquer uma das condições for verdadeira."
       },
       {
         "title": "MISSÃO 05 — Valor de retorno",
@@ -125,7 +168,7 @@
         "code": "funcao inteiro dobrar(inteiro n)\n    retorne n * 2\nfimfuncao\n\nresultado <- dobrar(4)",
         "choices": ["4", "2", "8", "16"],
         "correct": 2,
-        "explanation": "A função multiplica n por 2. Passando 4, o retorno é 4 * 2 = 8."
+        "explanation": "A função multiplica n por 2. Com n = 4, retorna 8."
       }
     ],
     "sala2": [
@@ -135,7 +178,7 @@
         "code": "para i de 1 ate 4 faca\n    se i % 2 = 0 entao\n        escreva(i)\n    fimse\nfimpara",
         "choices": ["1, 3", "2, 4", "1, 2, 3, 4", "0, 2, 4"],
         "correct": 1,
-        "explanation": "\"para i de 1 ate 4\" gera 1,2,3,4. O \"%\" é o resto da divisão — só 2 e 4 têm resto 0 ao dividir por 2."
+        "explanation": "2 e 4 são os números pares entre 1 e 4."
       },
       {
         "title": "MISSÃO 07 — Enquanto com contador",
@@ -143,7 +186,7 @@
         "code": "inteiro cont <- 0\nenquanto cont < 3 faca\n    escreva(\"tick\")\n    cont <- cont + 1\nfimenquanto",
         "choices": ["2 vezes", "3 vezes", "4 vezes", "infinito"],
         "correct": 1,
-        "explanation": "cont começa em 0 e vai até 2 (menor que 3), executando 3 vezes: cont = 0, 1, 2."
+        "explanation": "cont assume 0, 1 e 2. Portanto, executa 3 vezes."
       },
       {
         "title": "MISSÃO 08 — Vetor e índice",
@@ -151,7 +194,7 @@
         "code": "caractere setores[4] <- {\"A\", \"B\", \"C\", \"D\"}\nescreva(setores[3])",
         "choices": ["A", "B", "C", "D"],
         "correct": 2,
-        "explanation": "Em Portugol, vetores geralmente começam no índice 1. O índice 3 corresponde ao terceiro elemento: \"C\"."
+        "explanation": "Considerando índice inicial em 1, setores[3] é \"C\"."
       },
       {
         "title": "MISSÃO 09 — Função com condição",
@@ -159,7 +202,7 @@
         "code": "funcao caractere verificar(inteiro n)\n    se n > 10 entao\n        retorne \"alto\"\n    fimse\n    retorne \"baixo\"\nfimfuncao",
         "choices": ["alto", "baixo", "verdadeiro", "nulo"],
         "correct": 1,
-        "explanation": "5 não é maior que 10, então o \"se\" é falso e a função retorna \"baixo\"."
+        "explanation": "5 não é maior que 10, então a função retorna \"baixo\"."
       },
       {
         "title": "MISSÃO 10 — Concatenação",
@@ -167,10 +210,53 @@
         "code": "caractere nome <- \"Bug\"\ncaractere tipo <- \"Hunter\"\nescreva(nome + \" \" + tipo)",
         "choices": ["BugHunter", "Bug Hunter", "nome tipo", "Erro"],
         "correct": 1,
-        "explanation": "O operador \"+\" junta textos. \"Bug\" + \" \" + \"Hunter\" resulta em \"Bug Hunter\"."
+        "explanation": "O operador + junta textos. O resultado é \"Bug Hunter\"."
+      }
+    ],
+    "sala3": [
+      {
+        "title": "MISSÃO 11 — Análise de Condição",
+        "desc": "Com risco igual a 70, o que será executado?",
+        "code": "inteiro risco <- 70\nse risco > 50 entao\n    escreva(\"Quarentena ativa\")\nsenao\n    escreva(\"Área segura\")\nfimse",
+        "choices": ["Área segura", "Quarentena ativa", "Nada", "Erro de sintaxe"],
+        "correct": 1,
+        "explanation": "Como 70 é maior que 50, a condição é verdadeira."
+      },
+      {
+        "title": "MISSÃO 12 — Condição com E",
+        "desc": "Quando o acesso será liberado?",
+        "code": "se cartao = verdadeiro e senha = verdadeiro entao\n    liberar()\nfimse",
+        "choices": ["Quando apenas o cartão for verdadeiro", "Quando apenas a senha for verdadeira", "Quando cartão e senha forem verdadeiros", "Sempre será liberado"],
+        "correct": 2,
+        "explanation": "Com o operador \"e\", todas as condições precisam ser verdadeiras."
+      },
+      {
+        "title": "MISSÃO 13 — Condição com OU",
+        "desc": "Em qual caso o alerta será ativado?",
+        "code": "se temperatura > 90 ou falha = verdadeiro entao\n    alerta()\nfimse",
+        "choices": ["Somente se as duas forem verdadeiras", "Se pelo menos uma condição for verdadeira", "Nunca será ativado", "Apenas se temperatura for menor que 90"],
+        "correct": 1,
+        "explanation": "Com \"ou\", basta uma das condições ser verdadeira."
+      },
+      {
+        "title": "MISSÃO 14 — Fluxo Se/Senão",
+        "desc": "Qual mensagem será exibida se energia for 3?",
+        "code": "inteiro energia <- 3\nse energia < 5 entao\n    escreva(\"Recarregar\")\nsenao\n    escreva(\"Continuar\")\nfimse",
+        "choices": ["Continuar", "Recarregar", "Ambas", "Nenhuma"],
+        "correct": 1,
+        "explanation": "Como energia é menor que 5, executa o bloco do \"se\"."
+      },
+      {
+        "title": "MISSÃO 15 — Decisão Encadeada",
+        "desc": "Qual estrutura permite testar uma condição e depois uma alternativa?",
+        "code": "se risco > 80 entao\n    alertaMaximo()\nsenao\n    verificarSistema()\nfimse",
+        "choices": ["se/senao", "para", "funcao", "escreva"],
+        "correct": 0,
+        "explanation": "A estrutura se/senao permite criar caminhos diferentes."
       }
     ]
   },
+
   "dificil": {
     "sala1": [
       {
@@ -179,7 +265,7 @@
         "code": "funcao inteiro somar(inteiro a, inteiro b)\n    inteiro resultado <- a + b\n    Retorne resultado\nfimfuncao",
         "choices": ["funcao inteiro somar(inteiro a, inteiro b)", "inteiro resultado <- a + b", "\"Retorne\" deveria ser \"retorne\"", "Não há erro"],
         "correct": 2,
-        "explanation": "Portugol é case-sensitive. \"Retorne\" com R maiúsculo é inválido — o correto é \"retorne\" em minúsculo."
+        "explanation": "\"Retorne\" com R maiúsculo está incorreto. O correto é \"retorne\"."
       },
       {
         "title": "MISSÃO 02 — Loop Infinito",
@@ -187,15 +273,15 @@
         "code": "inteiro cont <- 0\nenquanto cont < 5 faca\n    escreva(cont)\nfimenquanto",
         "choices": ["O intervalo não foi definido", "cont nunca é incrementado", "enquanto deveria ser para", "escreva() causa o loop"],
         "correct": 1,
-        "explanation": "cont sempre vale 0 pois nunca é incrementado. A condição cont < 5 nunca se torna falsa. Falta \"cont <- cont + 1\"."
+        "explanation": "cont nunca aumenta, então a condição cont < 5 nunca fica falsa."
       },
       {
         "title": "MISSÃO 03 — Erro de Índice",
         "desc": "O que acontece ao executar esse código?",
         "code": "inteiro lista[3] <- {10, 20, 30}\nescreva(lista[4])",
-        "choices": ["Exibe \"30\"", "Exibe \"nulo\"", "Gera um erro de índice inválido", "Exibe \"0\""],
+        "choices": ["Exibe 30", "Exibe nulo", "Gera erro de índice inválido", "Exibe 0"],
         "correct": 2,
-        "explanation": "O vetor tem 3 elementos (índices 1, 2, 3). Acessar o índice 4 gera um erro de índice fora do intervalo."
+        "explanation": "O vetor possui apenas 3 posições. Acessar lista[4] gera erro."
       },
       {
         "title": "MISSÃO 04 — Escopo de Variável",
@@ -203,15 +289,15 @@
         "code": "inteiro x <- 10\n\nprocedimento alterar()\n    inteiro x <- 99\nfimprocedimento\n\nalterar()\nescreva(x)",
         "choices": ["99", "10", "nulo", "Erro"],
         "correct": 1,
-        "explanation": "O \"inteiro x <- 99\" dentro do procedimento cria uma variável LOCAL. O \"x\" global continua valendo 10."
+        "explanation": "O x dentro do procedimento é local. O x externo continua valendo 10."
       },
       {
         "title": "MISSÃO 05 — Lógica Invertida",
-        "desc": "O código deveria exibir apenas números ímpares, mas está errado. Qual é o problema?",
+        "desc": "O código deveria exibir apenas números ímpares. Qual é o problema?",
         "code": "para i de 1 ate 7 faca\n    se i % 2 = 0 entao\n        escreva(i)\n    fimse\nfimpara",
-        "choices": ["O intervalo \"de 1 ate 7\" está errado", "Deveria ser \"i % 2 <> 0\"", "Deveria ser \"i % 2 = 1\"", "Não há problema"],
+        "choices": ["O intervalo está errado", "Deveria ser i % 2 <> 0", "Deveria ser i % 2 = 1", "Não há problema"],
         "correct": 1,
-        "explanation": "\"i % 2 = 0\" seleciona números PARES. Para ímpares, a condição correta é \"i % 2 <> 0\" (resto diferente de zero)."
+        "explanation": "i % 2 = 0 seleciona pares. Para ímpares, use i % 2 <> 0."
       }
     ],
     "sala2": [
@@ -221,39 +307,86 @@
         "code": "funcao inteiro fatorial(inteiro n)\n    se n = 0 entao\n        retorne 1\n    fimse\n    retorne n * fatorial(n - 1)\nfimfuncao",
         "choices": ["3", "6", "9", "1"],
         "correct": 1,
-        "explanation": "fatorial(3) = 3 * fatorial(2) = 3 * 2 * fatorial(1) = 3 * 2 * 1 = 6."
+        "explanation": "fatorial(3) = 3 * 2 * 1 = 6."
       },
       {
         "title": "MISSÃO 07 — Erro de Atribuição",
         "desc": "O código tenta comparar x com 5, mas tem um erro. Qual é?",
         "code": "inteiro x <- 10\nse x <- 5 entao\n    escreva(\"igual\")\nfimse",
-        "choices": ["\"escreva\" está errado", "\"<-\" deveria ser \"=\"", "\"x\" não foi declarado", "Não há erro"],
+        "choices": ["escreva está errado", "\"<-\" deveria ser \"=\"", "x não foi declarado", "Não há erro"],
         "correct": 1,
-        "explanation": "Dentro do \"se\", \"<-\" é atribuição e causa erro de sintaxe. Para comparar, use \"=\" (sinal de igual simples)."
+        "explanation": "Dentro do se, use comparação. \"<-\" é atribuição."
       },
       {
         "title": "MISSÃO 08 — Registro",
-        "desc": "Como acessar o campo 'nome' em um registro em Portugol?",
+        "desc": "Como acessar o campo nome em um registro em Portugol?",
         "code": "tipo Jogador\n    caractere nome\n    inteiro nivel\nfimtipo\n\nJogador jogador\njogador.nome <- \"Igor\"\nescreva(___)",
         "choices": ["jogador[\"nome\"]", "jogador.nome", "jogador(nome)", "jogador->nome"],
         "correct": 1,
-        "explanation": "Em Portugol, os campos de um registro são acessados com ponto: jogador.nome"
+        "explanation": "Campos de registro são acessados com ponto: jogador.nome."
       },
       {
         "title": "MISSÃO 09 — Tratamento de Erro",
-        "desc": "Qual é a forma correta de evitar que o programa quebre ao receber um valor inválido?",
+        "desc": "Qual é a forma correta de evitar erro ao receber um valor inválido?",
         "code": "funcao inteiro converter(caractere valor)\n    se ___\n        retorne inteiro(valor)\n    senao\n        escreva(\"Valor invalido\")\n        retorne 0\n    fimse\nfimfuncao",
         "choices": ["sempre verdadeiro entao", "valor <> \"\" e ehNumero(valor) entao", "valor = 0 entao", "nao verdadeiro entao"],
         "correct": 1,
-        "explanation": "Antes de converter, é necessário verificar se o valor não está vazio e se é um número válido — evitando erros em tempo de execução."
+        "explanation": "Antes de converter, verifique se o valor não está vazio e é numérico."
       },
       {
         "title": "MISSÃO 10 — Vetor Dinâmico",
-        "desc": "O que o vetor 'quadrados' vai conter após o código?",
+        "desc": "O que o vetor quadrados vai conter após o código?",
         "code": "inteiro quadrados[3]\npara i de 1 ate 3 faca\n    quadrados[i] <- i * i\nfimpara",
         "choices": ["[1, 2, 3]", "[1, 4, 9]", "[2, 4, 6]", "[0, 1, 4]"],
         "correct": 1,
-        "explanation": "Para i de 1 até 3: 1²=1, 2²=4, 3²=9. O vetor ficará com os valores {1, 4, 9}."
+        "explanation": "1² = 1, 2² = 4 e 3² = 9."
+      }
+    ],
+    "sala3": [
+      {
+        "title": "MISSÃO 11 — Correção de Fluxo",
+        "desc": "O sistema só deve ativar a quarentena se risco for alto e o setor estiver contaminado.",
+        "code": "se risco > 70 ___ contaminado = verdadeiro entao\n    ativarQuarentena()\nfimse",
+        "choices": ["ou", "e", "senao", "<-"],
+        "correct": 1,
+        "explanation": "Como as duas condições são obrigatórias, o operador correto é \"e\"."
+      },
+      {
+        "title": "MISSÃO 12 — Falha na Condição",
+        "desc": "Qual é o problema neste código?",
+        "code": "se energia <- 10 entao\n    recarregar()\nfimse",
+        "choices": ["O correto seria usar comparação, não atribuição", "O comando recarregar está errado", "A variável energia não pode ser número", "O fimse deveria vir antes"],
+        "correct": 0,
+        "explanation": "\"<-\" atribui valor. Para testar uma condição, use comparação."
+      },
+      {
+        "title": "MISSÃO 13 — Condição Composta",
+        "desc": "Qual condição libera o acesso se o usuário for admin ou se tiver autorização?",
+        "code": "se admin = verdadeiro ___ autorizado = verdadeiro entao\n    liberarAcesso()\nfimse",
+        "choices": ["e", "ou", "+", "senao"],
+        "correct": 1,
+        "explanation": "Como existem duas possibilidades de liberação, usamos \"ou\"."
+      },
+      {
+        "title": "MISSÃO 14 — Interpretação de Código",
+        "desc": "Com energia = 6 e ativo = falso, o que acontece?",
+        "code": "se energia > 5 e ativo = verdadeiro entao\n    iniciar()\nsenao\n    bloquear()\nfimse",
+        "choices": ["iniciar()", "bloquear()", "os dois comandos", "nenhum comando"],
+        "correct": 1,
+        "explanation": "Com \"e\", tudo precisa ser verdadeiro. Como ativo é falso, executa o senao."
+      },
+      {
+        "title": "MISSÃO 15 — Condição Encadeada",
+        "desc": "Qual trecho representa melhor uma decisão com alternativa?",
+        "code": "Se risco alto, isolar. Senão, monitorar.",
+        "choices": [
+          "se risco > 80 entao\n    isolar()\nsenao\n    monitorar()\nfimse",
+          "para risco de 1 ate 80 faca\n    isolar()\nfimpara",
+          "funcao risco()\n    monitorar()\nfimfuncao",
+          "escreva(risco)"
+        ],
+        "correct": 0,
+        "explanation": "A estrutura se/senao é ideal quando existem dois caminhos possíveis."
       }
     ]
   }

@@ -32,7 +32,8 @@ const Glossary = (() => {
     function getCurrentPhaseKey() {
       if (GameState.currentRoom === "sala1") return "fase1";
       if (GameState.currentRoom === "sala2") return "fase2";
-  
+      if (GameState.currentRoom === "sala3") return "fase3";
+    
       return currentKey;
     }
   
