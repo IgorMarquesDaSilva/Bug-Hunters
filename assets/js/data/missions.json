@@ -125,6 +125,48 @@
         "correct": 1,
         "explanation": "Em Portugol, verdadeiro é um valor lógico e não deve estar entre aspas."
       }
+    ],
+    "sala4": [
+      {
+        "title": "MISSÃO 16 — Criar Função",
+        "desc": "A central precisa organizar a checagem de energia em uma função. Qual palavra inicia corretamente esse bloco?",
+        "code": "___ verificarEnergia()\n    escreva(\"Energia verificada\")\nfimfuncao",
+        "choices": ["funcao", "variavel", "enquanto", "senao"],
+        "correct": 0,
+        "explanation": "Usamos \"funcao\" para criar um bloco reutilizável de comandos."
+      },
+      {
+        "title": "MISSÃO 17 — Chamar Rotina",
+        "desc": "A função ja foi criada. Qual comando executa verificarEnergia?",
+        "code": "funcao verificarEnergia()\n    escreva(\"OK\")\nfimfuncao\n\n___",
+        "choices": ["verificarEnergia()", "funcao verificarEnergia", "variavel verificarEnergia", "se verificarEnergia"],
+        "correct": 0,
+        "explanation": "Para executar uma função, chamamos seu nome seguido de parênteses."
+      },
+      {
+        "title": "MISSÃO 18 — Guardar Resultado",
+        "desc": "O sistema precisa guardar a quantidade de falhas encontradas. Qual declaração está correta?",
+        "code": "___ falhas <- 0",
+        "choices": ["inteiro", "texto", "logico", "funcao"],
+        "correct": 0,
+        "explanation": "Como falhas guarda uma quantidade numérica inteira, o tipo correto é inteiro."
+      },
+      {
+        "title": "MISSÃO 19 — Usar Parâmetro",
+        "desc": "A função deve receber o setor que será analisado. Qual chamada envia o valor \"ponte\"?",
+        "code": "funcao analisarSetor(caractere setor)\n    escreva(setor)\nfimfuncao\n\n___",
+        "choices": ["analisarSetor(\"ponte\")", "analisarSetor()", "funcao analisarSetor(\"ponte\")", "setor <- analisarSetor"],
+        "correct": 0,
+        "explanation": "O valor enviado para uma função fica dentro dos parênteses da chamada."
+      },
+      {
+        "title": "MISSÃO 20 — Função com Decisão",
+        "desc": "Complete a decisão para chamar reparo() apenas se houver erro no sistema.",
+        "code": "funcao verificarErro(logico erro)\n    se erro = ___ entao\n        reparo()\n    fimse\nfimfuncao",
+        "choices": ["verdadeiro", "\"verdadeiro\"", "0", "texto"],
+        "correct": 0,
+        "explanation": "verdadeiro é um valor lógico. Ele não deve ficar entre aspas."
+      }
     ]
   },
 
@@ -253,6 +295,48 @@
         "choices": ["se/senao", "para", "funcao", "escreva"],
         "correct": 0,
         "explanation": "A estrutura se/senao permite criar caminhos diferentes."
+      }
+    ],
+    "sala4": [
+      {
+        "title": "MISSÃO 16 — Retorno da Função",
+        "desc": "O que será exibido ao chamar calcularBonus(10)?",
+        "code": "funcao inteiro calcularBonus(inteiro pontos)\n    retorne pontos + 5\nfimfuncao\n\nescreva(calcularBonus(10))",
+        "choices": ["10", "15", "5", "Erro"],
+        "correct": 1,
+        "explanation": "A função recebe 10, soma 5 e retorna 15."
+      },
+      {
+        "title": "MISSÃO 17 — Variável Atualizada",
+        "desc": "Após executar o código, qual será o valor de energia?",
+        "code": "inteiro energia <- 20\nenergia <- energia - 5\nverificarEnergia(energia)",
+        "choices": ["25", "20", "15", "5"],
+        "correct": 2,
+        "explanation": "A variável começa em 20 e depois recebe 20 - 5, ficando com 15."
+      },
+      {
+        "title": "MISSÃO 18 — Parâmetro Correto",
+        "desc": "Qual assinatura permite receber um número inteiro chamado nivel?",
+        "code": "___",
+        "choices": ["funcao verificarNivel(inteiro nivel)", "funcao verificarNivel(caractere nivel)", "inteiro verificarNivel()", "chamar verificarNivel(nivel)"],
+        "correct": 0,
+        "explanation": "O parâmetro precisa informar o tipo e o nome: inteiro nivel."
+      },
+      {
+        "title": "MISSÃO 19 — Organizando Ações",
+        "desc": "Qual trecho reutiliza corretamente uma função para recuperar dois setores?",
+        "code": "funcao recuperar(caractere setor)\n    escreva(setor)\nfimfuncao\n\n___",
+        "choices": ["recuperar(\"ponte\")\nrecuperar(\"motor\")", "funcao recuperar(\"ponte\")", "setor recuperar()", "recuperar <- \"ponte\""],
+        "correct": 0,
+        "explanation": "Uma mesma função pode ser chamada várias vezes com valores diferentes."
+      },
+      {
+        "title": "MISSÃO 20 — Integrando Conceitos",
+        "desc": "Com energia = 12 e ativo = verdadeiro, o que a função deve retornar?",
+        "code": "funcao logico podeAtivar(inteiro energia, logico ativo)\n    se energia > 10 e ativo = verdadeiro entao\n        retorne verdadeiro\n    senao\n        retorne falso\n    fimse\nfimfuncao",
+        "choices": ["verdadeiro", "falso", "12", "ativo"],
+        "correct": 0,
+        "explanation": "As duas condições são verdadeiras, então a função retorna verdadeiro."
       }
     ]
   },
@@ -387,6 +471,48 @@
         ],
         "correct": 0,
         "explanation": "A estrutura se/senao é ideal quando existem dois caminhos possíveis."
+      }
+    ],
+    "sala4": [
+      {
+        "title": "MISSÃO 16 — Bug na Função",
+        "desc": "A função deveria devolver um valor inteiro, mas há um erro. Qual linha precisa ser corrigida?",
+        "code": "funcao inteiro totalizar(inteiro a, inteiro b)\n    inteiro total <- a + b\n    escreva(total)\nfimfuncao",
+        "choices": ["Trocar escreva(total) por retorne total", "Remover os parâmetros", "Trocar inteiro por caractere", "Não há erro"],
+        "correct": 0,
+        "explanation": "Uma função inteira deve retornar um valor. escreva apenas exibe na tela."
+      },
+      {
+        "title": "MISSÃO 17 — Escopo de Variável",
+        "desc": "Qual valor será exibido no final?",
+        "code": "inteiro energia <- 50\n\nfuncao inteiro ajustar()\n    inteiro energia <- 10\n    retorne energia\nfimfuncao\n\najustar()\nescreva(energia)",
+        "choices": ["10", "50", "60", "Erro"],
+        "correct": 1,
+        "explanation": "A energia criada dentro da função é local. A variável externa continua valendo 50."
+      },
+      {
+        "title": "MISSÃO 18 — Parâmetros Invertidos",
+        "desc": "A chamada comparar(3, 8) retorna o quê?",
+        "code": "funcao caractere comparar(inteiro minimo, inteiro valor)\n    se valor >= minimo entao\n        retorne \"ok\"\n    senao\n        retorne \"falha\"\n    fimse\nfimfuncao",
+        "choices": ["ok", "falha", "3", "8"],
+        "correct": 0,
+        "explanation": "valor recebe 8 e minimo recebe 3. Como 8 >= 3, o retorno é \"ok\"."
+      },
+      {
+        "title": "MISSÃO 19 — Reutilização com Condição",
+        "desc": "Qual correção evita repetir o mesmo cálculo em dois lugares?",
+        "code": "se setorA > 80 entao\n    alerta(setorA + 10)\nfimse\nse setorB > 80 entao\n    alerta(setorB + 10)\nfimse",
+        "choices": ["Criar uma função avaliarSetor(valor)", "Remover os dois se", "Trocar + por -", "Usar texto no lugar dos números"],
+        "correct": 0,
+        "explanation": "Uma função com parâmetro permite reaproveitar a mesma regra para setorA e setorB."
+      },
+      {
+        "title": "MISSÃO 20 — Falha Final da Central",
+        "desc": "Qual alternativa corrige a função para retornar verdadeiro somente quando todos os sistemas estiverem prontos?",
+        "code": "funcao logico liberarPonte(logico motor, logico energia, logico rota)\n    se motor = verdadeiro ___ energia = verdadeiro ___ rota = verdadeiro entao\n        retorne verdadeiro\n    senao\n        retorne falso\n    fimse\nfimfuncao",
+        "choices": ["e / e", "ou / ou", "e / ou", "ou / e"],
+        "correct": 0,
+        "explanation": "Como todos os sistemas precisam estar prontos, as condições devem ser ligadas por \"e\"."
       }
     ]
   }

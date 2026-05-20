@@ -37,6 +37,7 @@ window.Glossary = (() => {
     if (GameState.currentRoom === "sala1") return "fase1";
     if (GameState.currentRoom === "sala2") return "fase2";
     if (GameState.currentRoom === "sala3") return "fase3";
+    if (GameState.currentRoom === "sala4") return "fase4";
 
     return currentKey;
   }

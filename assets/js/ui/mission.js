@@ -162,7 +162,7 @@ const MissionSystem = (() => {
   }
 
   function getNextRoom() {
-    const order = ["sala1", "sala2", "sala3"];
+    const order = ["sala1", "sala2", "sala3", "sala4"];
     const currentIndex = order.indexOf(GameState.currentRoom);
 
     return order[currentIndex + 1] || null;

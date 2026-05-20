@@ -39,5 +39,19 @@
     },
     "collisionZones": [],
     "bugPositions": []
+  },
+
+  "sala4": {
+    "backgroundImage": "",
+    "playerStart": {
+      "x": 480,
+      "y": 430
+    },
+    "portalPosition": {
+      "x": 500,
+      "y": 540
+    },
+    "collisionZones": [],
+    "bugPositions": []
   }
 }

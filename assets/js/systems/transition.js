@@ -187,7 +187,8 @@
             const sectorMap = {
               sala1: 1,
               sala2: 2,
-              sala3: 3
+              sala3: 3,
+              sala4: 4
             };
             const sectorNumber = sectorMap[GameState.currentRoom] || 1;
 
