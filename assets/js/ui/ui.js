@@ -30,9 +30,35 @@ window.UI = (() => {
     GameState.popupCooldown = 60;
   }
 
+  function showMainMenu() {
+    GameState.isPaused = true;
+    showScreen("screen-main-menu");
+  }
+
   return {
     showScreen,
-    closePopup
+    closePopup,
+    showMainMenu
   };
 
 })();
+
+/* ============================================================
+   Funções globais usadas pelos botões da tela inicial
+============================================================ */
+
+function startGameFromMenu() {
+  UI.showScreen("screen-difficulty");
+}
+
+function openSettingsMenu() {
+  UI.showScreen("screen-settings");
+}
+
+function openAccessibilityMenu() {
+  UI.showScreen("screen-accessibility");
+}
+
+function backToMainMenu() {
+  UI.showScreen("screen-main-menu");
+}

@@ -22,9 +22,12 @@
    
      HUD.update();
    
-     const platformDiff = getPlatformDifficulty();
-     if (platformDiff) selectDifficulty(platformDiff);
-     else              UI.showScreen("screen-difficulty");
+     /*
+      * A tela inicial deve aparecer antes da escolha de dificuldade.
+      * O mapa já fica renderizado ao fundo, e o menu funciona como
+      * uma camada transparente sobre a primeira sala.
+      */
+     UI.showMainMenu();
    }
    
    // ── Dificuldade ───────────────────────────────────────────────
@@ -49,7 +52,7 @@
    function backToMenu() {
      GameState.resetFull();
      HUD.update();
-     UI.showScreen("screen-difficulty");
+     UI.showScreen("screen-main-menu");
    }
    
    function restartGame() {

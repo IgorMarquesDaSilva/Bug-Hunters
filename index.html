@@ -263,6 +263,144 @@
         </canvas>
 
         <!-- =========================================================
+             TELA INICIAL
+        ========================================================== -->
+
+        <div
+          id="screen-main-menu"
+          class="overlay main-menu-overlay"
+          style="display:flex;">
+
+          <div class="main-menu-panel">
+
+            <div class="menu-system-label">
+              SYSTEM RECOVERY // ONLINE
+            </div>
+
+            <h1 class="main-menu-title">
+              <span>BUG</span>
+              HUNTERS
+            </h1>
+
+            <p class="main-menu-subtitle">
+              Infiltre-se no sistema, encontre os bugs e restaure os setores.
+            </p>
+
+            <div class="main-menu-actions">
+
+              <button
+                class="cyber-btn main-menu-btn play"
+                onclick="startGameFromMenu()">
+
+                ▶ JOGAR
+
+              </button>
+
+              <button
+                class="cyber-btn main-menu-btn"
+                onclick="openSettingsMenu()">
+
+                ⚙ CONFIGURAÇÕES
+
+              </button>
+
+              <button
+                class="cyber-btn main-menu-btn secondary"
+                onclick="openAccessibilityMenu()">
+
+                ♿ ACESSIBILIDADE
+
+              </button>
+
+            </div>
+
+            <div class="main-menu-footer">
+              Use WASD ou setas para explorar • Resolva missões para avançar
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- =========================================================
+             CONFIGURAÇÕES
+        ========================================================== -->
+
+        <div
+          id="screen-settings"
+          class="overlay main-menu-overlay"
+          style="display:none;">
+
+          <div class="popup-content center menu-info-panel">
+
+            <div class="popup-header">
+              ⚙ CONFIGURAÇÕES
+            </div>
+
+            <p class="mission-desc">
+              Área reservada para ajustes do jogo, como volume, controles e preferências visuais.
+            </p>
+
+            <p class="mission-desc">
+              A estrutura já está pronta para você conectar novas opções depois.
+            </p>
+
+            <div class="popup-actions">
+
+              <button
+                class="cyber-btn"
+                onclick="backToMainMenu()">
+
+                ◀ VOLTAR
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- =========================================================
+             ACESSIBILIDADE
+        ========================================================== -->
+
+        <div
+          id="screen-accessibility"
+          class="overlay main-menu-overlay"
+          style="display:none;">
+
+          <div class="popup-content center menu-info-panel">
+
+            <div class="popup-header">
+              ♿ ACESSIBILIDADE
+            </div>
+
+            <p class="mission-desc">
+              Área reservada para opções como alto contraste, navegação por teclado e leitura facilitada.
+            </p>
+
+            <p class="mission-desc">
+              O botão já está integrado para receber as futuras funções de acessibilidade.
+            </p>
+
+            <div class="popup-actions">
+
+              <button
+                class="cyber-btn"
+                onclick="backToMainMenu()">
+
+                ◀ VOLTAR
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- =========================================================
              GLOSSÁRIO
         ========================================================== -->
 
@@ -409,7 +547,7 @@
         <div
           id="screen-difficulty"
           class="overlay"
-          style="display:flex;">
+          style="display:none;">
 
           <div class="popup-content center">
 
