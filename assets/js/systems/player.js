@@ -114,12 +114,15 @@
     }
   
     function resetToRoomStart() {
+      const roomStart = GameState.currentRoomData()?.playerStart;
+
       const safeStarts = {
         sala1: { x: 500, y: 420 },
-        sala2: { x: 500, y: 420 }
+        sala2: { x: 500, y: 420 },
+        sala3: { x: 305, y: 430 }
       };
-  
-      const start = safeStarts[GameState.currentRoom] || { x: 500, y: 420 };
+
+      const start = roomStart || safeStarts[GameState.currentRoom] || { x: 500, y: 420 };
   
       state.x = start.x;
       state.y = start.y;
