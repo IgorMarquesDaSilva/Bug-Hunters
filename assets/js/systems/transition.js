@@ -184,7 +184,14 @@
             ctx.fillStyle = `rgba(0,229,255,${Math.min(1, (p-0.3)*3)})`;
             ctx.font      = "bold 8px 'Press Start 2P', monospace";
             ctx.textAlign = "center";
-            ctx.fillText("CARREGANDO SETOR " + (GameState.currentRoom === "sala2" ? "2" : "1") + "...",
+            const sectorMap = {
+              sala1: 1,
+              sala2: 2,
+              sala3: 3
+            };
+            const sectorNumber = sectorMap[GameState.currentRoom] || 1;
+
+            ctx.fillText("CARREGANDO SETOR " + sectorNumber + "...",
               W/2, H/2 + 40);
           }
           break;

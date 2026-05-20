@@ -1805,8 +1805,7 @@ canvas {
   z-index: 9;
 }
 
-.sala3 .recovery-reactor::before {
-  content: "";
+.sala3 .reactor-top {
   position: absolute;
   left: -18px;
   top: -34px;
@@ -1864,8 +1863,7 @@ canvas {
   text-align: center;
 }
 
-.sala3 .data-tower::after {
-  content: "";
+.sala3 .data-base {
   position: absolute;
   left: 18px;
   bottom: -42px;

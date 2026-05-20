@@ -104,3 +104,38 @@ const MISSIONS_INLINE = {
     ]
   }
 };
+
+// Complemento do fallback para o mapa HTML/CSS atual.
+ROOMS_INLINE.sala1.playerStart = { x: 500, y: 420 };
+ROOMS_INLINE.sala2.playerStart = { x: 500, y: 420 };
+ROOMS_INLINE.sala3 = {
+  backgroundImage: "",
+  playerStart: { x: 305, y: 430 },
+  portalPosition: { x: 760, y: 90 },
+  collisionZones: [],
+  bugPositions: []
+};
+
+MISSIONS_INLINE.facil.sala3 = [
+  { title: "MISSÃO 11 — Decisão Simples", desc: "O sistema de quarentena só deve ativar se o risco for maior que 50. Qual estrutura completa o código?", code: "___ risco > 50 entao\n    ativarQuarentena()\nfimse", choices: ["se", "para", "enquanto", "funcao"], correct: 0, explanation: "Usamos \"se\" quando o programa precisa tomar uma decisão com base em uma condição." },
+  { title: "MISSÃO 12 — Caminho Alternativo", desc: "Se o acesso for negado, o sistema deve bloquear. Caso contrário, deve liberar. Qual palavra cria o caminho alternativo?", code: "se acesso = falso entao\n    bloquear()\n___\n    liberar()\nfimse", choices: ["senao", "enquanto", "para", "retorne"], correct: 0, explanation: "\"senao\" define o que acontece quando a condição do \"se\" é falsa." },
+  { title: "MISSÃO 13 — Operador E", desc: "A porta só libera se o cartão for válido e a senha estiver correta.", code: "se cartaoValido = verdadeiro ___ senhaCorreta = verdadeiro entao\n    liberarPorta()\nfimse", choices: ["ou", "e", "+", "<-"], correct: 1, explanation: "O operador \"e\" exige que as duas condições sejam verdadeiras ao mesmo tempo." },
+  { title: "MISSÃO 14 — Operador OU", desc: "O reator deve emitir alerta se a temperatura estiver alta ou se houver falha no núcleo.", code: "se temperatura > 90 ___ falhaNucleo = verdadeiro entao\n    emitirAlerta()\nfimse", choices: ["e", "ou", "*", "senao"], correct: 1, explanation: "O operador \"ou\" executa a ação se pelo menos uma condição for verdadeira." },
+  { title: "MISSÃO 15 — Condição Correta", desc: "Complete a condição para recuperar os dados apenas quando o backup estiver disponível.", code: "se backupDisponivel = ___ entao\n    recuperarDados()\nfimse", choices: ["\"verdadeiro\"", "verdadeiro", "10", "texto"], correct: 1, explanation: "Em Portugol, verdadeiro é um valor lógico e não deve estar entre aspas." }
+];
+
+MISSIONS_INLINE.medio.sala3 = [
+  { title: "MISSÃO 11 — Análise de Condição", desc: "Com risco igual a 70, o que será executado?", code: "inteiro risco <- 70\nse risco > 50 entao\n    escreva(\"Quarentena ativa\")\nsenao\n    escreva(\"Área segura\")\nfimse", choices: ["Área segura", "Quarentena ativa", "Nada", "Erro de sintaxe"], correct: 1, explanation: "Como 70 é maior que 50, a condição é verdadeira." },
+  { title: "MISSÃO 12 — Condição com E", desc: "Quando o acesso será liberado?", code: "se cartao = verdadeiro e senha = verdadeiro entao\n    liberar()\nfimse", choices: ["Quando apenas o cartão for verdadeiro", "Quando apenas a senha for verdadeira", "Quando cartão e senha forem verdadeiros", "Sempre será liberado"], correct: 2, explanation: "Com o operador \"e\", todas as condições precisam ser verdadeiras." },
+  { title: "MISSÃO 13 — Condição com OU", desc: "Em qual caso o alerta será ativado?", code: "se temperatura > 90 ou falha = verdadeiro entao\n    alerta()\nfimse", choices: ["Somente se as duas forem verdadeiras", "Se pelo menos uma condição for verdadeira", "Nunca será ativado", "Apenas se temperatura for menor que 90"], correct: 1, explanation: "Com \"ou\", basta uma das condições ser verdadeira." },
+  { title: "MISSÃO 14 — Fluxo Se/Senão", desc: "Qual mensagem será exibida se energia for 3?", code: "inteiro energia <- 3\nse energia < 5 entao\n    escreva(\"Recarregar\")\nsenao\n    escreva(\"Continuar\")\nfimse", choices: ["Continuar", "Recarregar", "Ambas", "Nenhuma"], correct: 1, explanation: "Como energia é menor que 5, executa o bloco do \"se\"." },
+  { title: "MISSÃO 15 — Decisão Encadeada", desc: "Qual estrutura permite testar uma condição e depois uma alternativa?", code: "se risco > 80 entao\n    alertaMaximo()\nsenao\n    verificarSistema()\nfimse", choices: ["se/senao", "para", "funcao", "escreva"], correct: 0, explanation: "A estrutura se/senao permite criar caminhos diferentes." }
+];
+
+MISSIONS_INLINE.dificil.sala3 = [
+  { title: "MISSÃO 11 — Correção de Fluxo", desc: "O sistema só deve ativar a quarentena se risco for alto e o setor estiver contaminado.", code: "se risco > 70 ___ contaminado = verdadeiro entao\n    ativarQuarentena()\nfimse", choices: ["ou", "e", "senao", "<-"], correct: 1, explanation: "Como as duas condições são obrigatórias, o operador correto é \"e\"." },
+  { title: "MISSÃO 12 — Falha na Condição", desc: "Qual é o problema neste código?", code: "se energia <- 10 entao\n    recarregar()\nfimse", choices: ["O correto seria usar comparação, não atribuição", "O comando recarregar está errado", "A variável energia não pode ser número", "O fimse deveria vir antes"], correct: 0, explanation: "\"<-\" atribui valor. Para testar uma condição, use comparação." },
+  { title: "MISSÃO 13 — Condição Composta", desc: "Qual condição libera o acesso se o usuário for admin ou se tiver autorização?", code: "se admin = verdadeiro ___ autorizado = verdadeiro entao\n    liberarAcesso()\nfimse", choices: ["e", "ou", "+", "senao"], correct: 1, explanation: "Como existem duas possibilidades de liberação, usamos \"ou\"." },
+  { title: "MISSÃO 14 — Interpretação de Código", desc: "Com energia = 6 e ativo = falso, o que acontece?", code: "se energia > 5 e ativo = verdadeiro entao\n    iniciar()\nsenao\n    bloquear()\nfimse", choices: ["iniciar()", "bloquear()", "os dois comandos", "nenhum comando"], correct: 1, explanation: "Com \"e\", tudo precisa ser verdadeiro. Como ativo é falso, executa o senao." },
+  { title: "MISSÃO 15 — Condição Encadeada", desc: "Qual trecho representa melhor uma decisão com alternativa?", code: "Se risco alto, isolar. Senão, monitorar.", choices: ["se risco > 80 entao\n    isolar()\nsenao\n    monitorar()\nfimse", "para risco de 1 ate 80 faca\n    isolar()\nfimpara", "funcao risco()\n    monitorar()\nfimfuncao", "escreva(risco)"], correct: 0, explanation: "A estrutura se/senao é ideal quando existem dois caminhos possíveis." }
+];

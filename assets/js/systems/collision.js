@@ -32,7 +32,7 @@
           w: Math.round(rect.width * scaleX),
           h: Math.round(rect.height * scaleY)
         };
-      });
+      }).filter(zone => zone.w > 0 && zone.h > 0);
     }
   
     function rectsOverlap(a, b) {
