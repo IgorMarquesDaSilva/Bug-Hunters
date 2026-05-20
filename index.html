@@ -8,9 +8,11 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-  <title>BUG HUNTERS // SYSTEM RECOVERY</title>
+  <title>BUG HUNTERS</title>
 
   <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/tela_inicial.css">
 </head>
 
 <body>
@@ -277,13 +279,15 @@
 
           <div class="main-menu-panel">
 
-            <div class="menu-system-label">
-              SYSTEM RECOVERY // ONLINE
+            <div class="main-menu-emblem" aria-hidden="true">
+              <span class="emblem-dot"></span>
+              <span class="emblem-line"></span>
+              <span class="emblem-dot"></span>
             </div>
 
-            <h1 class="main-menu-title">
-              <span>BUG</span>
-              HUNTERS
+            <h1 class="main-menu-title" aria-label="Bug Hunters">
+              <span class="title-bug">BUG</span>
+              <span class="title-hunters">HUNTERS</span>
             </h1>
 
             <p class="main-menu-subtitle">
@@ -296,7 +300,8 @@
                 class="cyber-btn main-menu-btn play"
                 onclick="startGameFromMenu()">
 
-                ▶ JOGAR
+                <i class="bi bi-play" aria-hidden="true"></i>
+                <span>JOGAR</span>
 
               </button>
 
@@ -304,7 +309,8 @@
                 class="cyber-btn main-menu-btn"
                 onclick="openSettingsMenu()">
 
-                ⚙ CONFIGURAÇÕES
+                <i class="bi bi-gear" aria-hidden="true"></i>
+                <span>CONFIGURAÇÕES</span>
 
               </button>
 
@@ -312,7 +318,8 @@
                 class="cyber-btn main-menu-btn secondary"
                 onclick="openAccessibilityMenu()">
 
-                ♿ ACESSIBILIDADE
+                <i class="bi bi-universal-access-circle" aria-hidden="true"></i>
+                <span>ACESSIBILIDADE</span>
 
               </button>
 
