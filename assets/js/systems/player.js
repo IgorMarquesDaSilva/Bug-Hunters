@@ -119,7 +119,8 @@
       const safeStarts = {
         sala1: { x: 500, y: 420 },
         sala2: { x: 500, y: 420 },
-        sala3: { x: 305, y: 430 }
+        sala3: { x: 305, y: 430 },
+        sala4: { x: 480, y: 430 }
       };
 
       const start = roomStart || safeStarts[GameState.currentRoom] || { x: 500, y: 420 };

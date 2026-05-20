@@ -21,7 +21,7 @@ const BugSystem = (() => {
       return;
     }
 
-    roomMap.classList.remove("sala1", "sala2", "sala3");
+    roomMap.classList.remove("sala1", "sala2", "sala3", "sala4");
     roomMap.classList.add(GameState.currentRoom);
 
     document.querySelectorAll("#room-map .mission-point").forEach(point => {
@@ -31,7 +31,8 @@ const BugSystem = (() => {
     const missionSelectorMap = {
       sala1: "#room-map .sala1-mission",
       sala2: "#room-map .sala2-mission",
-      sala3: "#room-map .sala3-mission"
+      sala3: "#room-map .sala3-mission",
+      sala4: "#room-map .sala4-mission"
     };
 
     const missionSelector =

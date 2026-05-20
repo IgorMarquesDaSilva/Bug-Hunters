@@ -12,7 +12,7 @@ const Renderer = (() => {
 
     if (!map) return;
 
-    map.classList.remove("sala1", "sala2", "sala3");
+    map.classList.remove("sala1", "sala2", "sala3", "sala4");
     map.classList.add(GameState.currentRoom);
   }
 
@@ -25,7 +25,8 @@ const Renderer = (() => {
     const roomNumMap = {
       sala1: 1,
       sala2: 2,
-      sala3: 3
+      sala3: 3,
+      sala4: 4
     };
 
     const roomNum = roomNumMap[GameState.currentRoom] || 1;

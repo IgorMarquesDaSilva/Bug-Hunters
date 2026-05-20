@@ -116,6 +116,14 @@ ROOMS_INLINE.sala3 = {
   bugPositions: []
 };
 
+ROOMS_INLINE.sala4 = {
+  backgroundImage: "",
+  playerStart: { x: 480, y: 430 },
+  portalPosition: { x: 500, y: 540 },
+  collisionZones: [],
+  bugPositions: []
+};
+
 MISSIONS_INLINE.facil.sala3 = [
   { title: "MISSÃO 11 — Decisão Simples", desc: "O sistema de quarentena só deve ativar se o risco for maior que 50. Qual estrutura completa o código?", code: "___ risco > 50 entao\n    ativarQuarentena()\nfimse", choices: ["se", "para", "enquanto", "funcao"], correct: 0, explanation: "Usamos \"se\" quando o programa precisa tomar uma decisão com base em uma condição." },
   { title: "MISSÃO 12 — Caminho Alternativo", desc: "Se o acesso for negado, o sistema deve bloquear. Caso contrário, deve liberar. Qual palavra cria o caminho alternativo?", code: "se acesso = falso entao\n    bloquear()\n___\n    liberar()\nfimse", choices: ["senao", "enquanto", "para", "retorne"], correct: 0, explanation: "\"senao\" define o que acontece quando a condição do \"se\" é falsa." },
@@ -138,4 +146,28 @@ MISSIONS_INLINE.dificil.sala3 = [
   { title: "MISSÃO 13 — Condição Composta", desc: "Qual condição libera o acesso se o usuário for admin ou se tiver autorização?", code: "se admin = verdadeiro ___ autorizado = verdadeiro entao\n    liberarAcesso()\nfimse", choices: ["e", "ou", "+", "senao"], correct: 1, explanation: "Como existem duas possibilidades de liberação, usamos \"ou\"." },
   { title: "MISSÃO 14 — Interpretação de Código", desc: "Com energia = 6 e ativo = falso, o que acontece?", code: "se energia > 5 e ativo = verdadeiro entao\n    iniciar()\nsenao\n    bloquear()\nfimse", choices: ["iniciar()", "bloquear()", "os dois comandos", "nenhum comando"], correct: 1, explanation: "Com \"e\", tudo precisa ser verdadeiro. Como ativo é falso, executa o senao." },
   { title: "MISSÃO 15 — Condição Encadeada", desc: "Qual trecho representa melhor uma decisão com alternativa?", code: "Se risco alto, isolar. Senão, monitorar.", choices: ["se risco > 80 entao\n    isolar()\nsenao\n    monitorar()\nfimse", "para risco de 1 ate 80 faca\n    isolar()\nfimpara", "funcao risco()\n    monitorar()\nfimfuncao", "escreva(risco)"], correct: 0, explanation: "A estrutura se/senao é ideal quando existem dois caminhos possíveis." }
+];
+
+MISSIONS_INLINE.facil.sala4 = [
+  { title: "MISSÃO 16 — Criar Função", desc: "A central precisa reaproveitar a rotina que verifica a energia da ponte. Qual palavra inicia uma função em Portugol?", code: "___ verificarEnergia()\n    escreva(\"Energia verificada\")\nfimfuncao", choices: ["funcao", "para", "se", "variavel"], correct: 0, explanation: "Usamos \"funcao\" para criar um bloco reutilizável que pode executar comandos e retornar valores." },
+  { title: "MISSÃO 17 — Chamar Rotina", desc: "A função já existe. Qual comando chama a verificação no painel principal?", code: "funcao verificarEnergia()\n    escreva(\"ok\")\nfimfuncao\n\n___", choices: ["verificarEnergia()", "funcao verificarEnergia", "chamar verificarEnergia", "retorne verificarEnergia"], correct: 0, explanation: "Para executar uma função, escrevemos o nome dela seguido de parênteses." },
+  { title: "MISSÃO 18 — Guardar Resultado", desc: "O sistema precisa guardar o nível de energia como número inteiro.", code: "___ energia <- 80\nescreva(energia)", choices: ["inteiro", "caractere", "logico", "texto"], correct: 0, explanation: "\"inteiro\" guarda números sem casas decimais, como 80." },
+  { title: "MISSÃO 19 — Usar Parâmetro", desc: "A função analisarSetor recebe o nome do setor. Qual chamada envia o setor ponte?", code: "funcao analisarSetor(caractere setor)\n    escreva(setor)\nfimfuncao\n\n___", choices: ["analisarSetor(\"ponte\")", "analisarSetor()", "analisarSetor <- ponte", "funcao analisarSetor(\"ponte\")"], correct: 0, explanation: "O valor do parâmetro entra dentro dos parênteses na chamada da função." },
+  { title: "MISSÃO 20 — Função com Decisão", desc: "Complete o retorno para liberar a ponte quando todos os sistemas estiverem estáveis.", code: "funcao logico ponteLiberada()\n    retorne ___\nfimfuncao", choices: ["verdadeiro", "\"verdadeiro\"", "inteiro", "funcao"], correct: 0, explanation: "\"verdadeiro\" sem aspas é um valor lógico em Portugol." }
+];
+
+MISSIONS_INLINE.medio.sala4 = [
+  { title: "MISSÃO 16 — Retorno da Função", desc: "Qual valor fica em bonus depois da chamada?", code: "funcao inteiro calcularBonus(inteiro pontos)\n    retorne pontos + 5\nfimfuncao\n\ninteiro bonus <- calcularBonus(10)", choices: ["5", "10", "15", "50"], correct: 2, explanation: "A função recebe 10 e retorna 10 + 5, portanto bonus recebe 15." },
+  { title: "MISSÃO 17 — Variável Atualizada", desc: "Qual valor será exibido ao final?", code: "inteiro energia <- 20\nenergia <- energia - 5\nescreva(energia)", choices: ["5", "15", "20", "25"], correct: 1, explanation: "A variável energia começa em 20 e depois recebe 20 - 5, ficando com 15." },
+  { title: "MISSÃO 18 — Parâmetro Correto", desc: "Qual cabeçalho permite receber um número inteiro chamado nivel?", code: "___\n    escreva(nivel)\nfimfuncao", choices: ["funcao verificarNivel(inteiro nivel)", "funcao verificarNivel(caractere nivel)", "inteiro verificarNivel()", "parametro verificarNivel(nivel)"], correct: 0, explanation: "O parâmetro deve aparecer entre parênteses com seu tipo: inteiro nivel." },
+  { title: "MISSÃO 19 — Organizando Ações", desc: "A mesma função deve recuperar dois setores. Qual trecho evita repetir a lógica interna?", code: "funcao recuperar(caractere setor)\n    escreva(\"Recuperando \" + setor)\nfimfuncao\n\n___", choices: ["recuperar(\"ponte\")\nrecuperar(\"motor\")", "funcao recuperar duas vezes", "setor <- recuperar", "retorne recuperar"], correct: 0, explanation: "Uma função pode ser chamada várias vezes com parâmetros diferentes." },
+  { title: "MISSÃO 20 — Integrando Conceitos", desc: "Com energia 90 e alerta falso, o que a função retorna?", code: "funcao logico podeAtivar(inteiro energia, logico alerta)\n    se energia > 50 e alerta = falso entao\n        retorne verdadeiro\n    fimse\n    retorne falso\nfimfuncao\n\npodeAtivar(90, falso)", choices: ["verdadeiro", "falso", "90", "erro"], correct: 0, explanation: "As duas condições são verdadeiras: energia é maior que 50 e alerta é falso." }
+];
+
+MISSIONS_INLINE.dificil.sala4 = [
+  { title: "MISSÃO 16 — Bug na Função", desc: "A função deveria devolver o total para quem a chamou. Qual linha corrige o erro?", code: "funcao inteiro somar(inteiro a, inteiro b)\n    inteiro total <- a + b\n    escreva(total)\nfimfuncao", choices: ["retorne total", "leia(total)", "total <- escreva", "fimse"], correct: 0, explanation: "Quando uma função tem tipo de retorno, ela deve usar \"retorne\" para devolver o valor." },
+  { title: "MISSÃO 17 — Escopo de Variável", desc: "O que será exibido pelo código?", code: "inteiro sinal <- 50\n\nfuncao ajustar()\n    inteiro sinal <- 10\n    retorne sinal\nfimfuncao\n\najustar()\nescreva(sinal)", choices: ["10", "50", "60", "erro"], correct: 1, explanation: "A variável sinal criada dentro da função é local. A variável externa continua valendo 50." },
+  { title: "MISSÃO 18 — Parâmetros Invertidos", desc: "A função deve retornar ok quando minimo for menor que maximo. Qual chamada está correta?", code: "funcao caractere comparar(inteiro minimo, inteiro maximo)\n    se minimo < maximo entao\n        retorne \"ok\"\n    fimse\n    retorne \"falha\"\nfimfuncao", choices: ["comparar(3, 8)", "comparar(8, 3)", "comparar(\"3\", \"8\")", "comparar()"], correct: 0, explanation: "A ordem dos parâmetros importa: minimo recebe 3 e maximo recebe 8." },
+  { title: "MISSÃO 19 — Reutilização com Condição", desc: "Qual função evita repetir o mesmo teste para vários setores?", code: "se valor > 70 entao\n    escreva(\"critico\")\nsenao\n    escreva(\"estavel\")\nfimse", choices: ["funcao avaliarSetor(inteiro valor)\n    se valor > 70 entao\n        retorne \"critico\"\n    senao\n        retorne \"estavel\"\n    fimse\nfimfuncao", "para valor de 1 ate 70 faca\n    escreva(valor)\nfimpara", "inteiro valor <- 70", "escreva(\"critico\")"], correct: 0, explanation: "A função concentra a decisão e permite reutilizar o mesmo teste para qualquer setor." },
+  { title: "MISSÃO 20 — Falha Final da Central", desc: "A ponte só deve ativar se energia, comunicação e navegação estiverem corretas. Qual expressão completa o código?", code: "se energia = verdadeiro ___ comunicacao = verdadeiro ___ navegacao = verdadeiro entao\n    ativarPonte()\nfimse", choices: ["e / e", "ou / ou", "e / ou", "ou / e"], correct: 0, explanation: "Como todas as condições são obrigatórias, usamos \"e\" entre elas." }
 ];
