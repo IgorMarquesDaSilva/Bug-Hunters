@@ -338,6 +338,25 @@
           class="overlay main-menu-overlay"
           style="display:flex;">
 
+          <div class="main-menu-shortcuts" aria-label="Atalhos do menu inicial">
+
+            <div class="shortcut-item">
+              <span class="shortcut-key">A</span>
+              <span class="shortcut-label">JOGAR</span>
+            </div>
+
+            <div class="shortcut-item">
+              <span class="shortcut-key">W</span>
+              <span class="shortcut-label">CONFIG</span>
+            </div>
+
+            <div class="shortcut-item">
+              <span class="shortcut-key">D</span>
+              <span class="shortcut-label">ACESSO</span>
+            </div>
+
+          </div>
+
           <div class="main-menu-panel">
 
             <div class="main-menu-emblem" aria-hidden="true">
@@ -358,29 +377,47 @@
             <div class="main-menu-actions">
 
               <button
+                id="btn-main-play"
                 class="cyber-btn main-menu-btn play"
+                data-menu-key="A"
                 onclick="startGameFromMenu()">
 
-                <i class="bi bi-play" aria-hidden="true"></i>
-                <span>JOGAR</span>
+                <span class="menu-btn-content">
+                  <i class="bi bi-play" aria-hidden="true"></i>
+                  <span class="menu-btn-text">JOGAR</span>
+                </span>
+
+                <span class="menu-key-badge" aria-label="Tecla A">A</span>
 
               </button>
 
               <button
+                id="btn-main-settings"
                 class="cyber-btn main-menu-btn"
+                data-menu-key="W"
                 onclick="openSettingsMenu()">
 
-                <i class="bi bi-gear" aria-hidden="true"></i>
-                <span>CONFIGURAÇÕES</span>
+                <span class="menu-btn-content">
+                  <i class="bi bi-gear" aria-hidden="true"></i>
+                  <span class="menu-btn-text">CONFIGURAÇÕES</span>
+                </span>
+
+                <span class="menu-key-badge" aria-label="Tecla W">W</span>
 
               </button>
 
               <button
+                id="btn-main-accessibility"
                 class="cyber-btn main-menu-btn secondary"
+                data-menu-key="D"
                 onclick="openAccessibilityMenu()">
 
-                <i class="bi bi-universal-access-circle" aria-hidden="true"></i>
-                <span>ACESSIBILIDADE</span>
+                <span class="menu-btn-content">
+                  <i class="bi bi-universal-access-circle" aria-hidden="true"></i>
+                  <span class="menu-btn-text">ACESSIBILIDADE</span>
+                </span>
+
+                <span class="menu-key-badge" aria-label="Tecla D">D</span>
 
               </button>
 
@@ -394,44 +431,7 @@
 
         </div>
 
-        <!-- =========================================================
-             CONFIGURAÇÕES
-        ========================================================== -->
-
-        <div
-          id="screen-settings"
-          class="overlay main-menu-overlay"
-          style="display:none;">
-
-          <div class="popup-content center menu-info-panel">
-
-            <div class="popup-header">
-              ⚙ CONFIGURAÇÕES
-            </div>
-
-            <p class="mission-desc">
-              Área reservada para ajustes do jogo, como volume, controles e preferências visuais.
-            </p>
-
-            <p class="mission-desc">
-              A estrutura já está pronta para você conectar novas opções depois.
-            </p>
-
-            <div class="popup-actions">
-
-              <button
-                class="cyber-btn"
-                onclick="backToMainMenu()">
-
-                ◀ VOLTAR
-
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
+        
 
         <!-- =========================================================
              ACESSIBILIDADE
@@ -1185,6 +1185,7 @@
   <script src="assets/js/ui/glossary.js"></script>
   
   <script src="assets/js/core/game.js"></script>
+  <script src="assets/js/ui/tela_inicial.js"></script>
 </body>
 
 </html>
