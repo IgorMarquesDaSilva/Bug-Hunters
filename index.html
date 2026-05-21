@@ -431,7 +431,114 @@
 
         </div>
 
-        
+        <!-- =========================================================
+             CONFIGURAÇÕES
+        ========================================================== -->
+
+        <div
+          id="screen-settings"
+          class="overlay main-menu-overlay"
+          style="display:none;">
+
+          <div class="popup-content center menu-info-panel settings-panel">
+
+            <div class="settings-header">
+              <div class="settings-header-icon">
+                <i class="bi bi-gear" aria-hidden="true"></i>
+              </div>
+
+              <div>
+                <span class="settings-kicker">PAINEL DO SISTEMA</span>
+                <h2 class="settings-title">CONFIGURAÇÕES</h2>
+              </div>
+            </div>
+
+            <p class="mission-desc settings-intro">
+              Ajuste o som e a leitura do menu antes de iniciar a caçada aos bugs.
+            </p>
+
+            <div class="settings-list">
+
+              <section class="settings-card music-card">
+
+                <div class="settings-card-header">
+                  <div class="settings-card-title-wrap">
+                    <span class="settings-card-icon">
+                      <i class="bi bi-volume-up" aria-hidden="true"></i>
+                    </span>
+
+                    <div>
+                      <span class="settings-label">VOLUME DA MÚSICA</span>
+                      <p class="settings-help">
+                        Controle preparado para a trilha sonora do jogo quando ela for adicionada.
+                      </p>
+                    </div>
+                  </div>
+
+                  <strong id="music-volume-value" class="settings-value">50%</strong>
+                </div>
+
+                <input
+                  id="music-volume-control"
+                  class="settings-range"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="50"
+                  aria-label="Volume da música">
+
+              </section>
+
+              <section class="settings-card font-card">
+
+                <div class="settings-card-header">
+                  <div class="settings-card-title-wrap">
+                    <span class="settings-card-icon">
+                      <i class="bi bi-type" aria-hidden="true"></i>
+                    </span>
+
+                    <div>
+                      <span class="settings-label">TAMANHO DA FONTE</span>
+                      <p class="settings-help">
+                        Escolha uma leitura menor, padrão ou ampliada para os textos da interface.
+                      </p>
+                    </div>
+                  </div>
+
+                  <strong id="font-size-value" class="settings-value">NORMAL</strong>
+                </div>
+
+                <div class="font-options" role="group" aria-label="Tamanho da fonte">
+
+                  <button class="font-option-btn" type="button" data-font-size="small">
+                    PEQUENA
+                  </button>
+
+                  <button class="font-option-btn active" type="button" data-font-size="normal">
+                    NORMAL
+                  </button>
+
+                  <button class="font-option-btn" type="button" data-font-size="large">
+                    GRANDE
+                  </button>
+
+                </div>
+
+              </section>
+
+            </div>
+
+            <div class="popup-actions settings-actions">
+
+              <button class="cyber-btn" onclick="backToMainMenu()">
+                ◀ VOLTAR
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
 
         <!-- =========================================================
              ACESSIBILIDADE
