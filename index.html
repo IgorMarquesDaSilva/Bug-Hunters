@@ -454,7 +454,7 @@
             </div>
 
             <p class="mission-desc settings-intro">
-              Ajuste o som e a leitura do menu antes de iniciar a caçada aos bugs.
+              Ajuste o volume geral, o som ambiente das fases e os efeitos dos botões antes de iniciar a caçada aos bugs.
             </p>
 
             <div class="settings-list">
@@ -468,61 +468,100 @@
                     </span>
 
                     <div>
-                      <span class="settings-label">VOLUME DA MÚSICA</span>
+                      <span class="settings-label">VOLUME GERAL</span>
                       <p class="settings-help">
-                        Controle preparado para a trilha sonora do jogo quando ela for adicionada.
+                        Controla todo o áudio do jogo: ambiente das fases e efeitos dos botões.
                       </p>
                     </div>
                   </div>
 
-                  <strong id="music-volume-value" class="settings-value">50%</strong>
+                  <strong id="master-volume-value" class="settings-value">80%</strong>
                 </div>
 
                 <input
-                  id="music-volume-control"
+                  id="master-volume-control"
                   class="settings-range"
                   type="range"
                   min="0"
                   max="100"
-                  value="50"
-                  aria-label="Volume da música">
+                  value="80"
+                  aria-label="Volume geral do jogo">
 
               </section>
 
-              <section class="settings-card font-card">
+              <section class="settings-card music-card audio-card">
 
                 <div class="settings-card-header">
                   <div class="settings-card-title-wrap">
                     <span class="settings-card-icon">
-                      <i class="bi bi-type" aria-hidden="true"></i>
+                      <i class="bi bi-soundwave" aria-hidden="true"></i>
                     </span>
 
                     <div>
-                      <span class="settings-label">TAMANHO DA FONTE</span>
+                      <span class="settings-label">SOM DE FUNDO</span>
                       <p class="settings-help">
-                        Escolha uma leitura menor, padrão ou ampliada para os textos da interface.
+                        Música ambiente automática em todas as fases, com clima diferente para cada setor.
                       </p>
                     </div>
                   </div>
 
-                  <strong id="font-size-value" class="settings-value">NORMAL</strong>
+                  <strong id="background-volume-value" class="settings-value">45%</strong>
                 </div>
 
-                <div class="font-options" role="group" aria-label="Tamanho da fonte">
+                <input
+                  id="background-volume-control"
+                  class="settings-range"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="45"
+                  aria-label="Volume do som de fundo">
 
-                  <button class="font-option-btn" type="button" data-font-size="small">
-                    PEQUENA
-                  </button>
+                <button
+                  id="toggle-background-sound"
+                  class="cyber-btn audio-toggle-btn"
+                  type="button"
+                  aria-pressed="true">
+                  REMOVER SOM DE FUNDO
+                </button>
 
-                  <button class="font-option-btn active" type="button" data-font-size="normal">
-                    NORMAL
-                  </button>
+              </section>
 
-                  <button class="font-option-btn" type="button" data-font-size="large">
-                    GRANDE
-                  </button>
+              <section class="settings-card music-card audio-card">
 
+                <div class="settings-card-header">
+                  <div class="settings-card-title-wrap">
+                    <span class="settings-card-icon">
+                      <i class="bi bi-mouse2" aria-hidden="true"></i>
+                    </span>
+
+                    <div>
+                      <span class="settings-label">SOM DOS BOTÕES</span>
+                      <p class="settings-help">
+                        Efeitos curtos para cliques, confirmação, erro e troca de telas do jogo.
+                      </p>
+                    </div>
+                  </div>
+
+                  <strong id="button-volume-value" class="settings-value">70%</strong>
                 </div>
+
+                <input
+                  id="button-volume-control"
+                  class="settings-range"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="70"
+                  aria-label="Volume dos sons dos botões">
+
+                <button
+                  id="toggle-button-sound"
+                  class="cyber-btn audio-toggle-btn"
+                  type="button"
+                  aria-pressed="true">
+                  REMOVER SOM DOS BOTÕES
+                </button>
 
               </section>
 
@@ -1448,6 +1487,7 @@
   <script src="assets/js/ui/mission.js"></script>
   <script src="assets/js/ui/tutorial.js"></script>
   <script src="assets/js/ui/glossary.js"></script>
+  <script src="assets/js/systems/audio.js"></script>
   
   <script src="assets/js/core/game.js"></script>
   <script src="assets/js/ui/tela_inicial.js"></script>

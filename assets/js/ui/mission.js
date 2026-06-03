@@ -95,6 +95,7 @@ const MissionSystem = (() => {
 
       feedback.textContent = `✓ CORRETO! +${pts} pts`;
       feedback.className = "feedback ok";
+      if (window.GameAudio) GameAudio.playConfirm();
 
       const total = GameState.currentMissions().length;
 
@@ -121,6 +122,7 @@ const MissionSystem = (() => {
           : "✗ ERRADO! Veja a resposta correta.";
 
       feedback.className = "feedback err";
+      if (window.GameAudio) GameAudio.playError();
 
       if (GameState.lives === 0) {
         HUD.update();
@@ -195,6 +197,7 @@ const MissionSystem = (() => {
       BugSystem.spawnBugs();
       Player.resetToRoomStart();
       HUD.update();
+      if (window.GameAudio) GameAudio.playRoom(GameState.currentRoom);
     });
   }
 
@@ -209,6 +212,8 @@ const MissionSystem = (() => {
       difficulty: CONFIG.difficulties[GameState.difficulty].label
     });
 
+    if (window.GameAudio) GameAudio.playVictory();
+
     UI.showScreen("screen-win");
   }
 
@@ -222,6 +227,8 @@ const MissionSystem = (() => {
     });
 
     document.getElementById("gameover-score").textContent = GameState.score;
+
+    if (window.GameAudio) GameAudio.playGameOver();
 
     UI.showScreen("screen-gameover");
   }

@@ -5,7 +5,7 @@
 
 (() => {
   const STORAGE_KEYS = {
-    musicVolume: "bugHunters.musicVolume",
+    musicVolume: "bugHunters.audio.master",
     fontSize: "bugHunters.fontSize"
   };
 
@@ -93,27 +93,19 @@
     const numericValue = Number(value);
     const safeValue = Number.isFinite(numericValue)
       ? Math.min(100, Math.max(0, numericValue))
-      : 50;
+      : 80;
 
-    const normalizedVolume = safeValue / 100;
-    const valueText = document.getElementById("music-volume-value");
+    const valueText = document.getElementById("master-volume-value");
 
     if (valueText) {
       valueText.textContent = `${safeValue}%`;
     }
 
-    document
-      .querySelectorAll("#game-music, audio[data-music], audio")
-      .forEach(audio => {
-        audio.volume = normalizedVolume;
-      });
-
-    window.GameAudioSettings = {
-      ...(window.GameAudioSettings || {}),
-      musicVolume: normalizedVolume
-    };
-
-    localStorage.setItem(STORAGE_KEYS.musicVolume, String(safeValue));
+    if (window.GameAudio && typeof window.GameAudio.setMaster === "function") {
+      window.GameAudio.setMaster(safeValue / 100);
+    } else {
+      localStorage.setItem(STORAGE_KEYS.musicVolume, String(safeValue / 100));
+    }
   }
 
   function applyFontSize(size) {
@@ -151,10 +143,10 @@
   }
 
   function setupSettingsControls() {
-    const savedVolume = localStorage.getItem(STORAGE_KEYS.musicVolume) ?? "50";
+    const savedVolume = String(Math.round((Number(localStorage.getItem(STORAGE_KEYS.musicVolume)) || 0.8) * 100));
     const savedFontSize = localStorage.getItem(STORAGE_KEYS.fontSize) ?? "normal";
 
-    const volumeControl = document.getElementById("music-volume-control");
+    const volumeControl = document.getElementById("master-volume-control");
 
     if (volumeControl) {
       volumeControl.value = savedVolume;

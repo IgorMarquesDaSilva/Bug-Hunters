@@ -24,6 +24,33 @@
     fontSize: "normal"
   };
 
+  const speechControl = {
+    token: 0,
+    lastText: "",
+    lastTime: 0
+  };
+
+  function canUseBrowserVoice() {
+    return (
+      "speechSynthesis" in window &&
+      "SpeechSynthesisUtterance" in window
+    );
+  }
+
+  function stopBrowserVoice() {
+    speechControl.token++;
+
+    if (!canUseBrowserVoice()) return;
+
+    window.speechSynthesis.cancel();
+
+    // Alguns navegadores mantêm a fila por alguns milissegundos.
+    // Esses cancelamentos extras garantem que a voz pare mesmo se houver fala pendente.
+    window.setTimeout(() => window.speechSynthesis.cancel(), 30);
+    window.setTimeout(() => window.speechSynthesis.cancel(), 120);
+    window.setTimeout(() => window.speechSynthesis.cancel(), 300);
+  }
+
   function getById(id) {
     return document.getElementById(id);
   }
@@ -71,25 +98,77 @@
     setText("accessibility-status", message);
   }
 
+  function getBestPortugueseVoice() {
+    if (!canUseBrowserVoice()) return null;
+
+    const voices = window.speechSynthesis.getVoices();
+
+    return (
+      voices.find(voice => voice.lang?.toLowerCase() === "pt-br") ||
+      voices.find(voice => voice.lang?.toLowerCase().startsWith("pt")) ||
+      voices[0] ||
+      null
+    );
+  }
+
   function speak(message, force = false) {
-    updateLiveRegion(message);
+    const cleanMessage = String(message || "").replace(/\s+/g, " ").trim();
 
-    if (!state.screenReader && !force) return;
+    if (!cleanMessage) return;
 
-    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+    updateLiveRegion(cleanMessage);
+
+    // Se o leitor estiver desligado, nenhuma voz deve continuar ou iniciar.
+    if (!state.screenReader && !force) {
+      stopBrowserVoice();
+      return;
+    }
+
+    if (!canUseBrowserVoice()) {
       updateLiveRegion("Seu navegador não liberou a narração automática. O aviso foi enviado como texto acessível na tela.");
       return;
     }
 
-    window.speechSynthesis.cancel();
+    const now = Date.now();
 
-    const utterance = new SpeechSynthesisUtterance(message);
-    utterance.lang = "pt-BR";
-    utterance.rate = 0.92;
-    utterance.pitch = 1;
-    utterance.volume = 1;
+    // Evita repetir a mesma fala muitas vezes quando o foco fica oscilando.
+    if (speechControl.lastText === cleanMessage && now - speechControl.lastTime < 450) {
+      return;
+    }
 
-    window.speechSynthesis.speak(utterance);
+    speechControl.lastText = cleanMessage;
+    speechControl.lastTime = now;
+
+    stopBrowserVoice();
+
+    const currentToken = speechControl.token;
+
+    window.setTimeout(() => {
+      if (currentToken !== speechControl.token) return;
+      if (!state.screenReader && !force) return;
+
+      const utterance = new SpeechSynthesisUtterance(cleanMessage);
+      const voice = getBestPortugueseVoice();
+
+      if (voice) {
+        utterance.voice = voice;
+        utterance.lang = voice.lang || "pt-BR";
+      } else {
+        utterance.lang = "pt-BR";
+      }
+
+      utterance.rate = 0.92;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+
+      utterance.onend = () => {
+        if (currentToken === speechControl.token) {
+          window.speechSynthesis.cancel();
+        }
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }, 40);
   }
 
   function getCurrentInstruction() {
@@ -137,16 +216,22 @@
   }
 
   function setScreenReader(enabled, shouldSpeak = true) {
-    state.screenReader = Boolean(enabled);
+    const willEnable = Boolean(enabled);
+
+    state.screenReader = willEnable;
     localStorage.setItem(STORAGE_KEYS.screenReader, state.screenReader ? "1" : "0");
     updateScreenReaderButton();
 
-    const message = state.screenReader
-      ? "Leitor de tela do jogo ativado. " + getCurrentInstruction()
-      : "Leitor de tela do jogo desativado.";
+    if (!willEnable) {
+      stopBrowserVoice();
+      updateLiveRegion("Leitor de tela do jogo desativado.");
+      return;
+    }
+
+    const message = "Leitor de tela do jogo ativado. " + getCurrentInstruction();
 
     if (shouldSpeak) {
-      speak(message, state.screenReader);
+      speak(message, true);
     } else {
       updateLiveRegion(message);
     }
@@ -369,6 +454,11 @@
     patchBackToMenu();
     loadSavedSettings();
 
+    if (canUseBrowserVoice()) {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    }
+
     document.addEventListener("focusin", describeFocusedElement);
   }
 
@@ -376,8 +466,10 @@
 
   window.AccessibilitySystem = {
     speak,
+    stopBrowserVoice,
     toggleScreenReader,
     toggleHighContrast,
+    setScreenReader,
     setFontSize,
     readCurrentInstructions
   };
