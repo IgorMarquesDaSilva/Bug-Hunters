@@ -547,30 +547,190 @@
         <div
           id="screen-accessibility"
           class="overlay main-menu-overlay"
-          style="display:none;">
+          style="display:none;"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="accessibility-title"
+          aria-describedby="accessibility-description">
 
-          <div class="popup-content center menu-info-panel">
+          <div class="popup-content center menu-info-panel settings-panel accessibility-panel">
 
-            <div class="popup-header">
-              ♿ ACESSIBILIDADE
+            <div class="settings-header">
+              <div class="settings-header-icon">
+                <i class="bi bi-universal-access-circle" aria-hidden="true"></i>
+              </div>
+
+              <div>
+                <span class="settings-kicker">MODO INCLUSIVO</span>
+                <h2 id="accessibility-title" class="settings-title">ACESSIBILIDADE</h2>
+              </div>
             </div>
 
-            <p class="mission-desc">
-              Área reservada para opções como alto contraste, navegação por teclado e leitura facilitada.
+            <p id="accessibility-description" class="mission-desc settings-intro">
+              Ative recursos para jogar com teclado, leitura em voz alta, foco visível, alto contraste e fonte ampliada.
             </p>
 
-            <p class="mission-desc">
-              O botão já está integrado para receber as futuras funções de acessibilidade.
+            <div
+              id="accessibility-live-region"
+              class="sr-only"
+              aria-live="polite"
+              aria-atomic="true">
+            </div>
+
+            <div class="access-shortcuts" aria-label="Atalhos de acessibilidade">
+              <span><kbd>D</kbd> abrir acessibilidade</span>
+              <span><kbd>L</kbd> leitor de tela</span>
+              <span><kbd>C</kbd> alto contraste</span>
+              <span><kbd>+</kbd>/<kbd>-</kbd> tamanho da fonte</span>
+              <span><kbd>ESC</kbd> voltar</span>
+            </div>
+
+            <div class="settings-list accessibility-list">
+
+              <section class="settings-card access-card">
+
+                <div class="settings-card-header">
+                  <div class="settings-card-title-wrap">
+                    <span class="settings-card-icon">
+                      <i class="bi bi-megaphone" aria-hidden="true"></i>
+                    </span>
+
+                    <div>
+                      <span class="settings-label">LEITOR DE TELA DO JOGO</span>
+                      <p class="settings-help">
+                        Narra instruções importantes, telas abertas, botões focados e o que o jogador deve fazer.
+                      </p>
+                    </div>
+                  </div>
+
+                  <strong id="screen-reader-value" class="settings-value">DESLIGADO</strong>
+                </div>
+
+                <button
+                  id="btn-screen-reader"
+                  class="cyber-btn access-action-btn"
+                  type="button"
+                  aria-pressed="false"
+                  aria-keyshortcuts="L">
+                  <span class="access-btn-text">ATIVAR LEITOR</span>
+                  <span class="menu-key-badge access-key-badge" aria-label="Tecla L">L</span>
+                </button>
+
+                <button
+                  id="btn-read-current"
+                  class="cyber-btn secondary access-action-btn"
+                  type="button">
+                  OUVIR INSTRUÇÕES AGORA
+                </button>
+
+              </section>
+
+              <section class="settings-card access-card">
+
+                <div class="settings-card-header">
+                  <div class="settings-card-title-wrap">
+                    <span class="settings-card-icon">
+                      <i class="bi bi-circle-half" aria-hidden="true"></i>
+                    </span>
+
+                    <div>
+                      <span class="settings-label">CORES COM ALTO CONTRASTE</span>
+                      <p class="settings-help">
+                        Aumenta o contraste das telas, botões, textos, foco e painéis principais.
+                      </p>
+                    </div>
+                  </div>
+
+                  <strong id="contrast-value" class="settings-value">DESLIGADO</strong>
+                </div>
+
+                <button
+                  id="btn-high-contrast"
+                  class="cyber-btn access-action-btn"
+                  type="button"
+                  aria-pressed="false"
+                  aria-keyshortcuts="C">
+                  <span class="access-btn-text">ATIVAR CONTRASTE</span>
+                  <span class="menu-key-badge access-key-badge" aria-label="Tecla C">C</span>
+                </button>
+
+              </section>
+
+              <section class="settings-card access-card font-card">
+
+                <div class="settings-card-header">
+                  <div class="settings-card-title-wrap">
+                    <span class="settings-card-icon">
+                      <i class="bi bi-type" aria-hidden="true"></i>
+                    </span>
+
+                    <div>
+                      <span class="settings-label">TAMANHO DAS FONTES</span>
+                      <p class="settings-help">
+                        Escolha o tamanho da leitura. Também funciona pelos atalhos + e -.
+                      </p>
+                    </div>
+                  </div>
+
+                  <strong id="font-size-access-value" class="settings-value">NORMAL</strong>
+                </div>
+
+                <div class="font-options" role="group" aria-label="Tamanho da fonte na acessibilidade">
+
+                  <button class="font-option-btn" type="button" data-font-size="small">
+                    PEQUENA
+                  </button>
+
+                  <button class="font-option-btn active" type="button" data-font-size="normal">
+                    NORMAL
+                  </button>
+
+                  <button class="font-option-btn" type="button" data-font-size="large">
+                    GRANDE
+                  </button>
+
+                </div>
+
+              </section>
+
+              <section class="settings-card access-card">
+
+                <div class="settings-card-header">
+                  <div class="settings-card-title-wrap">
+                    <span class="settings-card-icon">
+                      <i class="bi bi-keyboard" aria-hidden="true"></i>
+                    </span>
+
+                    <div>
+                      <span class="settings-label">NAVEGAÇÃO POR TECLADO</span>
+                      <p class="settings-help">
+                        Use Tab para passar pelos botões, Enter ou Espaço para selecionar e Escape para voltar.
+                      </p>
+                    </div>
+                  </div>
+
+                  <strong class="settings-value">ATIVA</strong>
+                </div>
+
+                <p class="access-reader-preview" id="reader-instructions" tabindex="0">
+                  Instrução do leitor: para jogar, pressione A no menu inicial, escolha a dificuldade e use WASD ou as setas para mover o personagem. Ao encontrar um bug, pressione Enter no botão corrigir e escolha uma alternativa.
+                </p>
+
+              </section>
+
+            </div>
+
+            <p id="accessibility-status" class="access-status" role="status">
+              Recursos prontos. Pressione L para ativar o leitor de tela do jogo.
             </p>
 
-            <div class="popup-actions">
+            <div class="popup-actions settings-actions">
 
               <button
+                id="btn-accessibility-back"
                 class="cyber-btn"
                 onclick="backToMainMenu()">
-
                 ◀ VOLTAR
-
               </button>
 
             </div>
@@ -1293,6 +1453,7 @@
   
   <script src="assets/js/core/game.js"></script>
   <script src="assets/js/ui/tela_inicial.js"></script>
+  <script src="assets/js/ui/accessibility.js"></script>
 </body>
 
 </html>
