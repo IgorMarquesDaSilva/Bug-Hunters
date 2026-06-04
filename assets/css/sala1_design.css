@@ -1,0 +1,450 @@
+/* ============================================================
+   assets/css/sala1_design.css
+   Redesign visual da Sala 1 — Bug Hunters
+   Mantém a mecânica de colisão porque reaproveita os mesmos
+   elementos .collision já existentes no index.html.
+============================================================ */
+
+#room-map.sala1 {
+  background:
+    linear-gradient(rgba(41, 122, 180, 0.18) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(41, 122, 180, 0.18) 2px, transparent 2px),
+    radial-gradient(circle at 50% 38%, rgba(255,255,255,0.42), transparent 360px),
+    linear-gradient(180deg, #c9fbff 0 32%, #aeeaf4 32% 100%);
+  background-size: 76px 50px, 76px 50px, 100% 100%, 100% 100%;
+  image-rendering: pixelated;
+  box-shadow:
+    inset 0 0 0 4px #173a75,
+    inset 0 0 0 28px #2d64b8,
+    inset 0 0 0 34px #66bdec;
+}
+
+#room-map.sala1::before {
+  content: "";
+  position: absolute;
+  left: 34px;
+  top: 34px;
+  width: 932px;
+  height: 112px;
+  background:
+    linear-gradient(90deg, transparent 0 118px, rgba(60, 149, 202, 0.26) 118px 122px, transparent 122px 260px, rgba(60, 149, 202, 0.26) 260px 264px, transparent 264px),
+    linear-gradient(180deg, rgba(255,255,255,0.28), rgba(124,210,232,0.16));
+  border-bottom: 5px solid rgba(47, 126, 183, 0.42);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#room-map.sala1::after {
+  content: "";
+  position: absolute;
+  left: 40px;
+  top: 66px;
+  width: 132px;
+  height: 60px;
+  background:
+    linear-gradient(#15e7ff 0 4px, transparent 4px 12px),
+    linear-gradient(90deg, #15e7ff 0 4px, transparent 4px 16px),
+    rgba(28, 116, 188, 0.32);
+  background-size: 100% 16px, 22px 100%, 100% 100%;
+  border: 5px solid #2b61c1;
+  box-shadow:
+    190px 0 0 rgba(28, 116, 188, 0.32),
+    190px 0 0 5px #2b61c1,
+    0 0 18px rgba(0, 229, 255, 0.28),
+    190px 0 18px rgba(0, 229, 255, 0.24);
+  opacity: 0.92;
+  pointer-events: none;
+  z-index: 2;
+}
+
+#room-map.sala1 .map-wall {
+  background: linear-gradient(180deg, #447ed8, #21559f);
+  border-color: #16376f;
+  box-shadow: inset 0 0 0 4px rgba(255,255,255,0.13);
+}
+
+#room-map.sala1 .wall-top,
+#room-map.sala1 .wall-bottom {
+  height: 32px;
+}
+
+#room-map.sala1 .wall-left,
+#room-map.sala1 .wall-right {
+  width: 32px;
+}
+
+/* ========================= OBJETOS DA SALA 1 ========================= */
+
+#room-map.sala1 .desk,
+#room-map.sala1 .server-rack,
+#room-map.sala1 .main-table,
+#room-map.sala1 .box,
+#room-map.sala1 .printer,
+#room-map.sala1 .plant,
+#room-map.sala1 .door {
+  image-rendering: pixelated;
+}
+
+#room-map.sala1 .desk {
+  width: 128px;
+  height: 78px;
+  background: linear-gradient(180deg, #f3fbff 0 58%, #c8d7ed 58% 100%);
+  border: 4px solid #5c80bd;
+  border-bottom-color: #325a9b;
+  box-shadow:
+    5px 5px 0 rgba(31, 62, 122, 0.35),
+    inset 0 -10px 0 rgba(92, 128, 189, 0.13);
+  z-index: 8;
+}
+
+#room-map.sala1 .desk::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  bottom: -22px;
+  height: 18px;
+  background:
+    linear-gradient(90deg, #315a9a 0 12px, transparent 12px calc(100% - 12px), #315a9a calc(100% - 12px));
+  opacity: 0.72;
+}
+
+#room-map.sala1 .monitor {
+  top: 10px;
+  left: 34px;
+  width: 60px;
+  height: 38px;
+  background: #101b34;
+  border: 5px solid #243b72;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.26);
+}
+
+#room-map.sala1 .monitor::after {
+  inset: 6px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.15) 0 5px, transparent 5px 100%),
+    linear-gradient(#55f7ff 0 5px, transparent 5px 12px, #55f7ff 12px 16px, transparent 16px),
+    #16bff2;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.82);
+}
+
+#room-map.sala1 .keyboard {
+  left: 25px;
+  bottom: 9px;
+  width: 78px;
+  height: 15px;
+  background:
+    repeating-linear-gradient(90deg, #7d90b4 0 6px, #d7e6fa 6px 9px),
+    #d7e6fa;
+  border-color: #60779b;
+}
+
+/* Posições redesenhadas — colisão acompanha porque os próprios objetos continuam sendo .collision */
+#room-map.sala1 .desk-top-1 { top: 108px; left: 126px; }
+#room-map.sala1 .desk-top-2 { top: 108px; left: 320px; }
+#room-map.sala1 .desk-left-1 { top: 238px; left: 70px; }
+#room-map.sala1 .desk-left-2 { top: 415px; left: 70px; }
+#room-map.sala1 .desk-right-1 { top: 238px; right: 70px; }
+#room-map.sala1 .desk-right-2 { top: 410px; right: 70px; }
+
+#room-map.sala1 .server-rack {
+  width: 60px;
+  height: 124px;
+  top: 110px;
+  background:
+    linear-gradient(180deg, #2d3f63, #111c32);
+  border: 4px solid #566e9e;
+  box-shadow:
+    5px 5px 0 rgba(31, 62, 122, 0.35),
+    inset 0 0 0 5px rgba(255,255,255,0.05);
+}
+
+#room-map.sala1 .server-rack::before {
+  left: 15px;
+  top: 14px;
+  width: 28px;
+  height: 8px;
+  background: #1fffa2;
+  box-shadow:
+    0 19px #20ecff,
+    0 38px #ffd15a,
+    0 57px #1fffa2,
+    0 76px #20ecff;
+}
+
+#room-map.sala1 .server-rack::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  bottom: -18px;
+  width: 112px;
+  height: 18px;
+  border-bottom: 5px solid #495179;
+  border-left: 5px solid #495179;
+  border-radius: 0 0 0 18px;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+#room-map.sala1 .server-1 { left: 500px; }
+#room-map.sala1 .server-2 { left: 570px; }
+
+#room-map.sala1 .main-table {
+  left: 410px;
+  top: 305px;
+  width: 190px;
+  height: 92px;
+  background: linear-gradient(180deg, #eef7ff 0 52%, #c2d2eb 52% 100%);
+  border: 5px solid #5975a6;
+  box-shadow:
+    6px 6px 0 rgba(31, 62, 122, 0.36),
+    inset 0 -10px 0 rgba(79, 116, 171, 0.14);
+}
+
+#room-map.sala1 .main-table::before {
+  left: 59px;
+  top: 18px;
+  width: 72px;
+  height: 42px;
+  background: #11203b;
+  border: 5px solid #213969;
+}
+
+#room-map.sala1 .main-table::after {
+  left: 72px;
+  top: 31px;
+  width: 46px;
+  height: 18px;
+  background: #6dff55;
+  box-shadow: 0 0 12px rgba(105, 255, 71, 0.85);
+}
+
+#room-map.sala1 .box {
+  width: 75px;
+  height: 62px;
+  bottom: 52px;
+  background: linear-gradient(180deg, #f2a455, #c8742d);
+  border: 4px solid #8d5229;
+  box-shadow: 4px 4px 0 rgba(77, 59, 62, 0.28);
+}
+
+#room-map.sala1 .box::before {
+  top: 25px;
+  background: #8d5229;
+  box-shadow: inset 0 9px 0 rgba(255,255,255,0.08);
+}
+
+#room-map.sala1 .box::after {
+  content: "";
+  position: absolute;
+  left: 27px;
+  top: 40px;
+  width: 20px;
+  height: 6px;
+  background: #1cc4ff;
+  border: 2px solid #315a9a;
+}
+
+#room-map.sala1 .box-1 { left: 72px; }
+#room-map.sala1 .box-2 { left: 160px; }
+
+#room-map.sala1 .printer {
+  right: 165px;
+  bottom: 48px;
+  width: 188px;
+  height: 76px;
+  background: linear-gradient(180deg, #f7fbff 0 52%, #c4d3ed 52% 100%);
+  border: 4px solid #5a76a8;
+  box-shadow: 5px 5px 0 rgba(31, 62, 122, 0.35);
+}
+
+#room-map.sala1 .printer::before {
+  left: 88px;
+  top: -27px;
+  width: 54px;
+  height: 32px;
+  background: #4967a2;
+  border-color: #2f4e8c;
+  box-shadow: inset 0 -8px 0 rgba(0,0,0,0.18);
+}
+
+#room-map.sala1 .printer::after {
+  left: 20px;
+  bottom: 17px;
+  width: 48px;
+  height: 26px;
+  background:
+    linear-gradient(90deg, #111d35 0 16px, #73efff 16px 21px, #111d35 21px),
+    #111d35;
+  border-color: #2f4e8c;
+}
+
+#room-map.sala1 .plant {
+  width: 48px;
+  height: 50px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+#room-map.sala1 .plant::before {
+  left: 2px;
+  top: 0;
+  width: 42px;
+  height: 36px;
+  background:
+    radial-gradient(circle at 35% 65%, #77d96f 0 11px, transparent 12px),
+    radial-gradient(circle at 55% 35%, #51b95e 0 12px, transparent 13px),
+    radial-gradient(circle at 72% 66%, #37934f 0 10px, transparent 11px),
+    radial-gradient(circle at 20% 35%, #56be61 0 9px, transparent 10px);
+  border: 0;
+}
+
+#room-map.sala1 .plant::after {
+  left: 10px;
+  bottom: -2px;
+  width: 28px;
+  height: 22px;
+  background: linear-gradient(180deg, #b86b3f, #74411f);
+  border: 3px solid #5c341c;
+}
+
+#room-map.sala1 .plant-1 { top: 118px; left: 78px; }
+#room-map.sala1 .plant-2 { top: 118px; right: 78px; }
+#room-map.sala1 .plant-3 { bottom: 58px; right: 72px; }
+
+#room-map.sala1 .door {
+  top: 70px;
+  right: 145px;
+  width: 94px;
+  height: 122px;
+  background: linear-gradient(180deg, #46a8ff, #2c75d8);
+  border: 6px solid #2a56a3;
+  box-shadow:
+    7px 7px 0 rgba(31, 62, 122, 0.32),
+    inset 0 0 0 8px rgba(255,255,255,0.16);
+}
+
+#room-map.sala1 .door::before {
+  left: 24px;
+  top: 21px;
+  width: 40px;
+  height: 30px;
+  background: #9df8ff;
+  border-color: #24549f;
+  box-shadow: 0 0 12px rgba(0,229,255,0.5);
+}
+
+#room-map.sala1 .door::after {
+  right: 12px;
+  top: 62px;
+  width: 10px;
+  height: 10px;
+  background: #ffd15a;
+  box-shadow: 0 0 8px rgba(255, 209, 90, 0.8);
+}
+
+
+/* ===================================================================
+   BRILHO DAS TASKS / MISSÕES
+   O JS adiciona .mission-available somente nos objetos que ainda possuem
+   missão. Como a colisão também usa o próprio elemento .collision, aqui
+   só mudamos o visual, sem trocar a mecânica.
+=================================================================== */
+
+#room-map.sala1 .mission-point {
+  position: absolute;
+}
+
+#room-map.sala1 .mission-point.mission-available {
+  outline: 3px solid rgba(255, 70, 70, 0.88);
+  outline-offset: 6px;
+  animation: sala1-task-glow 0.72s steps(2) infinite alternate;
+  z-index: 16;
+}
+
+#room-map.sala1 .mission-point.mission-available .monitor,
+#room-map.sala1 .mission-point.mission-available .keyboard {
+  filter: brightness(1.22) saturate(1.35);
+}
+
+@keyframes sala1-task-glow {
+  from {
+    filter: brightness(1) saturate(1);
+    box-shadow:
+      5px 5px 0 rgba(31, 62, 122, 0.35),
+      0 0 0 rgba(255, 0, 0, 0);
+  }
+
+  to {
+    filter: brightness(1.34) saturate(1.28);
+    box-shadow:
+      5px 5px 0 rgba(31, 62, 122, 0.35),
+      0 0 14px rgba(255, 36, 36, 0.98),
+      0 0 30px rgba(255, 36, 36, 0.70),
+      0 0 48px rgba(255, 36, 36, 0.38);
+  }
+}
+
+#room-map.sala1 .server-rack.mission-available,
+#room-map.sala1 .main-table.mission-available,
+#room-map.sala1 .printer.mission-available {
+  animation-name: sala1-task-glow-object;
+}
+
+@keyframes sala1-task-glow-object {
+  from {
+    filter: brightness(1) saturate(1);
+    box-shadow:
+      5px 5px 0 rgba(31, 62, 122, 0.35),
+      0 0 0 rgba(255, 0, 0, 0);
+  }
+
+  to {
+    filter: brightness(1.34) saturate(1.28);
+    box-shadow:
+      5px 5px 0 rgba(31, 62, 122, 0.35),
+      0 0 16px rgba(255, 36, 36, 1),
+      0 0 34px rgba(255, 36, 36, 0.74),
+      0 0 54px rgba(255, 36, 36, 0.40);
+  }
+}
+
+#room-map.sala1 .mission-point.mission-solved {
+  animation: none;
+  outline: 2px solid rgba(105, 255, 140, 0.46);
+  outline-offset: 4px;
+  filter: brightness(0.9) saturate(0.78);
+  box-shadow:
+    5px 5px 0 rgba(31, 62, 122, 0.26),
+    0 0 12px rgba(105, 255, 140, 0.45);
+}
+
+#room-map.sala1 .door.portal-door-active {
+  animation: sala1-door-ready 0.75s steps(2) infinite alternate;
+  outline: 3px solid rgba(105, 255, 71, 0.9);
+  outline-offset: 6px;
+}
+
+@keyframes sala1-door-ready {
+  from {
+    filter: brightness(1) saturate(1);
+    box-shadow:
+      7px 7px 0 rgba(31, 62, 122, 0.32),
+      inset 0 0 0 8px rgba(255,255,255,0.16);
+  }
+
+  to {
+    filter: brightness(1.42) saturate(1.5);
+    box-shadow:
+      7px 7px 0 rgba(31, 62, 122, 0.32),
+      0 0 14px rgba(105, 255, 71, 0.95),
+      0 0 32px rgba(105, 255, 71, 0.72),
+      inset 0 0 0 8px rgba(255,255,255,0.20);
+  }
+}
+
+/* O cenário fica embaixo e o canvas/personagem continua por cima. */
+#room-map.sala1 + #gameCanvas {
+  z-index: 20;
+}
