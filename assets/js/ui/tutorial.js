@@ -1,124 +1,124 @@
 /* ============================================================
    assets/js/ui/tutorial.js
-   Tutorial do Bug Hunters — texto melhorado + imagens.
+   Tutorial completo do Bug Hunters, com slides acessíveis,
+   imagens do personagem e integração com leitor de tela.
 ============================================================ */
 
 const TutorialSystem = (() => {
-  const IMAGE_PATHS = {
-    frente: "assets/img/tutorial/player-frente.png",
-    direita: "assets/img/tutorial/player-lado-direito.png",
-    esquerda: "assets/img/tutorial/player-lado-esquerdo.png"
-  };
+  const IMAGE_BASE = "assets/img/tutorial/";
 
   const SLIDES = [
     {
-      title: "BEM-VINDO, OPERADOR!",
-      image: "frente",
-      alt: "Personagem Bug Hunter visto de frente, usando roupa tecnológica escura e visor azul.",
-      caption: "Este é o operador Bug Hunter.",
-      text: "Você entrou no sistema Bug Hunters. Sua missão é explorar os setores, encontrar bugs e corrigir falhas resolvendo desafios de programação.",
+      title: "BEM-VINDA, OPERADORA!",
+      image: "player-frente.png",
+      imageAlt: "Personagem do jogo visto de frente, usando roupa escura tecnológica com visor azul.",
+      caption: "Você controla uma Bug Hunter dentro de um sistema digital.",
+      text: "Em Bug Hunters, sua missão é explorar o sistema, encontrar falhas e corrigir bugs usando lógica de programação.",
       extra: [
-        { type: "tip", text: "O jogo é dividido em fases. Em cada uma delas, você aprende um conceito novo enquanto restaura o sistema." }
+        { type: "tip", text: "O jogo foi pensado para ensinar programação de forma visual: você observa o problema, interpreta o código e escolhe a solução correta." }
       ]
     },
     {
-      title: "MOVIMENTAÇÃO",
-      image: "grid",
-      alt: "Três imagens do personagem Bug Hunter, mostrando a visão pela esquerda, de frente e pela direita.",
-      caption: "Use as direções do personagem para se orientar no mapa.",
-      text: "Use as teclas WASD ou as setas do teclado para andar pela sala. Aproxime-se dos objetos do cenário para encontrar possíveis bugs.",
+      title: "MOVIMENTAÇÃO PELO MAPA",
+      imageGrid: [
+        { src: "player-lado-esquerdo.png", alt: "Personagem virado para a esquerda." },
+        { src: "player-frente.png", alt: "Personagem virado para frente." },
+        { src: "player-lado-direito.png", alt: "Personagem virado para a direita." }
+      ],
+      caption: "Use o teclado para explorar cada sala e chegar até os terminais com bug.",
+      text: "Use W, A, S e D ou as setas do teclado para andar. No celular, use o controle direcional na tela quando ele aparecer.",
       extra: [
-        { type: "phase", text: "W ou seta para cima: subir. S ou seta para baixo: descer. A ou seta esquerda: ir para a esquerda. D ou seta direita: ir para a direita." }
+        { type: "phase", text: "Dica: aproxime o personagem dos objetos que estão piscando ou destacados para abrir uma missão." }
       ]
     },
     {
-      title: "ENCONTRE OS BUGS",
-      image: "direita",
-      alt: "Personagem Bug Hunter visto de lado, andando em direção a um terminal.",
-      caption: "Alguns objetos escondem falhas do sistema.",
-      text: "Os bugs aparecem em pontos importantes do cenário, como computadores, servidores, terminais e máquinas. Quando você chegar perto, o jogo mostra um alerta.",
+      title: "COMO CORRIGIR UM BUG",
+      image: "player-lado-direito.png",
+      imageAlt: "Personagem virado para a direita próximo a um terminal do sistema.",
+      caption: "Ao encontrar uma falha, escolha corrigir bug para iniciar o desafio.",
+      text: "Cada fase possui 5 bugs. Ao chegar perto de um ponto de missão, uma janela aparece. Clique em Corrigir Bug para responder ao desafio.",
       extra: [
-        { type: "warning", text: "Quando aparecer o alerta de bug detectado, escolha Corrigir Bug para abrir a missão." }
+        { type: "warning", text: "Leia o enunciado com calma: muitas perguntas pedem para completar código, interpretar uma condição ou escolher o bloco correto." }
       ]
     },
     {
-      title: "CORRIJA O BUG",
-      image: "esquerda",
-      alt: "Personagem Bug Hunter visto de lado, próximo a um computador do jogo.",
-      caption: "Cada bug abre um desafio.",
-      text: "Na missão, leia o enunciado, observe o código e escolha a alternativa correta. Ao acertar, o bug é eliminado e sua pontuação aumenta.",
+      title: "PROGRESSÃO DO JOGO",
+      image: "player-frente.png",
+      imageAlt: "Personagem do jogo parado de frente, pronto para avançar.",
+      caption: "O sistema é dividido em 4 setores principais.",
+      text: "O jogo possui 4 fases. Em cada fase você precisa concluir os 5 desafios do setor para liberar a porta e seguir para a próxima área.",
       extra: [
-        { type: "tip", text: "Leia o feedback depois da resposta: ele ajuda a entender por que uma alternativa está certa ou errada." }
+        { type: "tip", text: "Quando todos os bugs de uma sala forem resolvidos, a tela Setor Limpo aparece. Depois disso, libere a porta e vá até ela para avançar." }
       ]
     },
     {
-      title: "AS 4 FASES",
-      image: "frente",
-      alt: "Personagem Bug Hunter visto de frente, representando a progressão do jogo.",
-      caption: "O jogo possui 4 setores principais.",
-      text: "Bug Hunters possui 4 fases. Cada fase tem 5 bugs. Para passar de fase, corrija todos os bugs do setor e libere a porta de saída.",
+      title: "FASE 1 — LABORATÓRIO DE INICIALIZAÇÃO",
+      image: "player-frente.png",
+      imageAlt: "Personagem visto de frente no laboratório inicial.",
+      caption: "Primeiro setor: tipos de dados.",
+      text: "Na primeira fase, você aprende que programas trabalham com diferentes tipos de informação: números, textos e valores lógicos.",
       extra: [
-        { type: "phase", text: "Fase 1: Tipos de dados. Fase 2: Operadores. Fase 3: Condições. Fase 4: Funções e variáveis." }
+        { type: "phase", text: "Você deve identificar dados como 50, \"energia\", verdadeiro e falso, além de corrigir valores incompatíveis em variáveis." }
       ]
     },
     {
-      title: "FASE 1 — TIPOS DE DADOS",
-      image: "frente",
-      alt: "Personagem Bug Hunter visto de frente.",
-      caption: "Primeiro setor: identificação de dados.",
-      text: "Na primeira fase, você precisa reconhecer tipos de informação usados na programação, como números, textos e valores verdadeiro ou falso.",
+      title: "FASE 2 — NÚCLEO DE ENERGIA",
+      image: "player-lado-direito.png",
+      imageAlt: "Personagem de lado em um setor de energia.",
+      caption: "Segundo setor: operadores matemáticos e comparações.",
+      text: "Na segunda fase, o foco são operadores. Você usa soma, subtração, multiplicação, divisão e comparações como maior, menor e igual.",
       extra: [
-        { type: "phase", text: "Exemplos: 50 é número, 'energia' é texto, verdadeiro ou falso são valores booleanos." }
+        { type: "phase", text: "Aqui o segredo é observar a ordem das operações e entender quando um operador está calculando ou comparando valores." }
       ]
     },
     {
-      title: "FASE 2 — OPERADORES",
-      image: "direita",
-      alt: "Personagem Bug Hunter visto de lado direito.",
-      caption: "Segundo setor: cálculos e comparações.",
-      text: "Na segunda fase, você trabalha com operadores matemáticos e comparações. Os desafios envolvem sinais como +, -, *, /, maior, menor e igual.",
+      title: "FASE 3 — LABORATÓRIO DE SEGURANÇA",
+      image: "player-lado-esquerdo.png",
+      imageAlt: "Personagem de lado em uma área de segurança.",
+      caption: "Terceiro setor: estruturas de controle.",
+      text: "Na terceira fase, você aprende como o programa toma decisões usando estruturas como se, senão, e, ou e condições encadeadas.",
       extra: [
-        { type: "phase", text: "O objetivo é entender como o sistema calcula valores e compara informações." }
+        { type: "phase", text: "Exemplo de raciocínio: se energia for menor que 5, recarregar; senão, continuar a operação." }
       ]
     },
     {
-      title: "FASE 3 — CONDIÇÕES",
-      image: "esquerda",
-      alt: "Personagem Bug Hunter visto de lado esquerdo.",
-      caption: "Terceiro setor: decisões do sistema.",
-      text: "Na terceira fase, o sistema precisa tomar decisões. Você verá estruturas condicionais, como se, senão, e combinações com e/ou.",
+      title: "FASE 4 — CENTRAL DE CONTROLE",
+      image: "player-frente.png",
+      imageAlt: "Personagem visto de frente na central de controle.",
+      caption: "Quarto setor: funções e variáveis.",
+      text: "Na fase final, você organiza o sistema usando funções, chamadas de função, variáveis e os conceitos aprendidos nas fases anteriores.",
       extra: [
-        { type: "phase", text: "Exemplo: se a energia for menor que 5, recarregar; senão, continuar operação." }
+        { type: "phase", text: "Você vai criar, chamar e corrigir funções para recuperar o controle do sistema principal." }
       ]
     },
     {
-      title: "FASE 4 — FUNÇÕES E VARIÁVEIS",
-      image: "grid",
-      alt: "Três imagens do personagem Bug Hunter, representando domínio completo do sistema.",
-      caption: "Último setor: organização do código.",
-      text: "Na quarta fase, você organiza comandos usando variáveis e funções. Os desafios misturam conteúdos das fases anteriores em problemas mais completos.",
+      title: "PONTUAÇÃO, VIDAS E FEEDBACK",
+      image: "player-lado-direito.png",
+      imageAlt: "Personagem virado para a direita, representando atenção ao desafio.",
+      caption: "Cada resposta gera feedback para ajudar no aprendizado.",
+      text: "Ao responder corretamente, você ganha pontos e elimina o bug. Se errar, o jogo mostra a resposta correta e uma explicação para você aprender com o erro.",
       extra: [
-        { type: "phase", text: "Aqui aparecem dados, operadores, condições, variáveis e chamadas de função." }
+        { type: "warning", text: "Dependendo da dificuldade escolhida, os erros podem tirar vidas. Se as vidas acabarem, a partida termina em Game Over." }
       ]
     },
     {
-      title: "VIDAS, PONTOS E PORTA",
-      image: "frente",
-      alt: "Personagem Bug Hunter visto de frente, pronto para continuar.",
-      caption: "Corrija todos os bugs para avançar.",
-      text: "Você ganha pontos ao acertar e pode perder vidas ao errar, dependendo da dificuldade escolhida. Quando todos os bugs da fase forem corrigidos, a porta será liberada.",
+      title: "RECURSOS DE APOIO",
+      image: "player-frente.png",
+      imageAlt: "Personagem visto de frente, representando os recursos de apoio do jogo.",
+      caption: "Use os recursos extras sempre que precisar.",
+      text: "Você pode abrir o glossário para revisar o conteúdo, usar o tutorial novamente pelo HUD e ativar recursos de acessibilidade no menu inicial.",
       extra: [
-        { type: "warning", text: "Se as vidas acabarem, será game over. Por isso, leia com calma antes de responder." }
+        { type: "tip", text: "O leitor de tela do jogo pode narrar as etapas do tutorial. Use o botão Ler Etapa ou ative o leitor na tela de acessibilidade." }
       ]
     },
     {
-      title: "PRONTO PARA A MISSÃO!",
-      image: "frente",
-      alt: "Personagem Bug Hunter visto de frente, pronto para começar o jogo.",
-      caption: "Boa sorte, operador.",
-      text: "Agora você já sabe como jogar. Explore a sala, encontre os cinco bugs do setor e avance até restaurar todo o sistema.",
+      title: "PRONTA PARA CAÇAR BUGS!",
+      image: "player-frente.png",
+      imageAlt: "Personagem do jogo visto de frente, pronto para iniciar a missão.",
+      caption: "Agora você já sabe como jogar.",
+      text: "Explore os setores, leia as missões, corrija os bugs e avance até restaurar a Central de Controle do Sistema.",
       extra: [
-        { type: "tip", text: "Clique em Iniciar Missão para fechar o tutorial e começar a caçada aos bugs." }
+        { type: "tip", text: "Pressione Iniciar Missão para fechar o tutorial e começar a jogar." }
       ]
     }
   ];
@@ -126,28 +126,15 @@ const TutorialSystem = (() => {
   let currentSlide = 0;
   let isOpen = false;
 
-  function getById(id) {
-    return document.getElementById(id);
-  }
-
-  function escapeHtml(text) {
-    return String(text)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;");
-  }
-
   function open(fromMenu = false) {
     if (!fromMenu && localStorage.getItem("bh_tutorial_done") === "1") return;
 
     currentSlide = 0;
     isOpen = true;
 
-    if (window.GameState) GameState.isPaused = true;
-
-    const overlay = getById("screen-tutorial");
-    if (overlay) overlay.style.display = "flex";
+    if (window.GameState) {
+      GameState.isPaused = true;
+    }
 
     render();
   }
@@ -156,10 +143,18 @@ const TutorialSystem = (() => {
     isOpen = false;
     localStorage.setItem("bh_tutorial_done", "1");
 
-    const overlay = getById("screen-tutorial");
+    const overlay = document.getElementById("screen-tutorial");
     if (overlay) overlay.style.display = "none";
 
-    if (window.GameState) GameState.isPaused = false;
+    if (window.GameState) {
+      GameState.isPaused = false;
+    }
+
+    announce("Tutorial fechado. Use WASD ou as setas para mover o personagem pelo mapa.", false);
+  }
+
+  function isActive() {
+    return isOpen;
   }
 
   function next() {
@@ -176,118 +171,153 @@ const TutorialSystem = (() => {
 
   function prev() {
     if (!isOpen || currentSlide === 0) return;
-
     currentSlide--;
     render();
   }
 
-  function renderImage(slide) {
-    const media = getById("tut-media");
-    if (!media) return;
-
-    if (slide.image === "grid") {
-      media.innerHTML = `
-        <div class="tutorial-image-grid" role="img" aria-label="${escapeHtml(slide.alt)}">
-          <div class="tutorial-image-card">
-            <img src="${IMAGE_PATHS.esquerda}" alt="Personagem visto pelo lado esquerdo.">
-          </div>
-          <div class="tutorial-image-card">
-            <img src="${IMAGE_PATHS.frente}" alt="Personagem visto de frente.">
-          </div>
-          <div class="tutorial-image-card">
-            <img src="${IMAGE_PATHS.direita}" alt="Personagem visto pelo lado direito.">
-          </div>
-        </div>
-        <figcaption id="tut-image-caption" class="tutorial-image-caption">
-          ${escapeHtml(slide.caption)}
-        </figcaption>
-      `;
-      return;
-    }
-
-    const src = IMAGE_PATHS[slide.image] || IMAGE_PATHS.frente;
-
-    media.innerHTML = `
-      <img
-        id="tut-image"
-        src="${src}"
-        alt="${escapeHtml(slide.alt)}"
-        class="tutorial-image">
-
-      <figcaption id="tut-image-caption" class="tutorial-image-caption">
-        ${escapeHtml(slide.caption)}
-      </figcaption>
-    `;
-  }
-
-  function renderExtra(slide) {
-    const extra = getById("tut-extra-text");
-    if (!extra) return;
-
-    extra.innerHTML = (slide.extra || []).map(item => {
-      const className = {
-        tip: "tutorial-tip",
-        phase: "tutorial-phase",
-        warning: "tutorial-warning"
-      }[item.type] || "tutorial-tip";
-
-      return `<div class="${className}">${escapeHtml(item.text)}</div>`;
-    }).join("");
-  }
-
-  function renderDots() {
-    const dots = getById("tut-dots");
-    if (!dots) return;
-
-    dots.innerHTML = SLIDES.map((_, index) => `
-      <span
-        class="tut-dot ${index === currentSlide ? "active" : ""}"
-        aria-label="Etapa ${index + 1} de ${SLIDES.length}">
-      </span>
-    `).join("");
+  function readCurrent() {
+    announce(slideToSpeech(SLIDES[currentSlide]), true);
   }
 
   function render() {
     const slide = SLIDES[currentSlide];
-    const isLast = currentSlide === SLIDES.length - 1;
+    const total = SLIDES.length;
+    const isLast = currentSlide === total - 1;
+    const overlay = document.getElementById("screen-tutorial");
 
-    const title = getById("tut-title");
-    const text = getById("tut-text");
-    const counter = getById("tut-step-counter");
-    const btnPrev = getById("tut-btn-prev");
-    const btnNext = getById("tut-btn-next");
-    const live = getById("tutorial-live-region");
+    if (!overlay) return;
 
-    if (title) title.textContent = slide.title;
-    if (text) text.textContent = slide.text;
-    if (counter) {
-      counter.textContent = `${String(currentSlide + 1).padStart(2, "0")}/${String(SLIDES.length).padStart(2, "0")}`;
+    overlay.style.display = "flex";
+
+    setText("tut-title", slide.title);
+    setText("tut-step-counter", `${String(currentSlide + 1).padStart(2, "0")}/${String(total).padStart(2, "0")}`);
+
+    const textEl = document.getElementById("tut-text");
+    if (textEl) textEl.innerHTML = formatText(slide.text);
+
+    renderExtra(slide.extra || []);
+    renderMedia(slide);
+    renderDots(total);
+
+    const prevBtn = document.getElementById("tut-btn-prev");
+    if (prevBtn) {
+      prevBtn.style.visibility = currentSlide === 0 ? "hidden" : "visible";
+      prevBtn.disabled = currentSlide === 0;
     }
 
-    if (btnPrev) btnPrev.style.visibility = currentSlide === 0 ? "hidden" : "visible";
-
-    if (btnNext) {
-      btnNext.textContent = isLast ? "▶ INICIAR MISSÃO" : "PRÓXIMO ▶";
-      btnNext.setAttribute(
-        "aria-label",
-        isLast ? "Fechar tutorial e iniciar missão" : "Avançar para a próxima etapa do tutorial"
-      );
+    const nextBtn = document.getElementById("tut-btn-next");
+    if (nextBtn) {
+      nextBtn.textContent = isLast ? "▶ INICIAR MISSÃO" : "PRÓXIMO ▶";
+      nextBtn.setAttribute("aria-label", isLast ? "Fechar tutorial e iniciar missão" : "Avançar para a próxima etapa do tutorial");
     }
 
-    renderImage(slide);
-    renderExtra(slide);
-    renderDots();
+    window.setTimeout(() => {
+      const target = document.getElementById("tut-btn-next");
+      if (target) target.focus();
+    }, 30);
+
+    announce(slideToSpeech(slide), false);
+  }
+
+  function renderMedia(slide) {
+    const media = document.getElementById("tut-media");
+    if (!media) return;
+
+    if (Array.isArray(slide.imageGrid)) {
+      media.innerHTML = `
+        <div class="tutorial-image-grid" role="img" aria-label="Três posições do personagem: esquerda, frente e direita.">
+          ${slide.imageGrid.map(item => `
+            <span class="tutorial-image-card">
+              <img src="${IMAGE_BASE + escapeAttr(item.src)}" alt="${escapeAttr(item.alt)}">
+            </span>
+          `).join("")}
+        </div>
+        <figcaption id="tut-image-caption" class="tutorial-image-caption">${escapeHtml(slide.caption || "")}</figcaption>
+      `;
+      return;
+    }
+
+    media.innerHTML = `
+      <img
+        id="tut-image"
+        src="${IMAGE_BASE + escapeAttr(slide.image || "player-frente.png") }"
+        alt="${escapeAttr(slide.imageAlt || slide.caption || "Imagem do tutorial") }"
+        class="tutorial-image">
+      <figcaption id="tut-image-caption" class="tutorial-image-caption">${escapeHtml(slide.caption || "")}</figcaption>
+    `;
+  }
+
+  function renderExtra(items) {
+    const extra = document.getElementById("tut-extra-text");
+    if (!extra) return;
+
+    extra.innerHTML = items.map(item => {
+      const cls = item.type === "warning" ? "tutorial-warning" : item.type === "phase" ? "tutorial-phase" : "tutorial-tip";
+      return `<div class="${cls}">${formatText(item.text)}</div>`;
+    }).join("");
+  }
+
+  function renderDots(total) {
+    const dots = document.getElementById("tut-dots");
+    if (!dots) return;
+
+    dots.innerHTML = Array.from({ length: total }, (_, i) => `
+      <span
+        class="tut-dot ${i === currentSlide ? "active" : ""}"
+        aria-hidden="true">
+      </span>
+    `).join("");
+  }
+
+  function slideToSpeech(slide) {
+    const extras = (slide.extra || []).map(item => item.text).join(" ");
+    const caption = slide.caption ? `Imagem: ${slide.caption}. ` : "";
+
+    return `${slide.title}. ${caption}${slide.text} ${extras}`
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function announce(message, forceVoice = false) {
+    const clean = String(message || "").replace(/\s+/g, " ").trim();
+    const live = document.getElementById("tutorial-live-region");
 
     if (live) {
-      const extraText = (slide.extra || []).map(item => item.text).join(" ");
-      live.textContent = `${slide.title}. ${slide.text} ${extraText}`;
+      live.textContent = "";
+      window.setTimeout(() => {
+        live.textContent = clean;
+      }, 20);
     }
+
+    if (window.AccessibilitySystem?.speak) {
+      AccessibilitySystem.speak(clean, forceVoice);
+    }
+  }
+
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  function formatText(text) {
+    return escapeHtml(text).replace(/\n/g, "<br>");
+  }
+
+  function escapeHtml(text) {
+    return String(text)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;");
+  }
+
+  function escapeAttr(text) {
+    return escapeHtml(text).replaceAll('"', "&quot;");
   }
 
   document.addEventListener("keydown", event => {
     if (!isOpen) return;
 
-    if (event.key === "ArrowRight" || event.key === "Enter" || event.key === " ") {
+    if (["ArrowRight", "Enter", " "].includes(event.key)) {
       event.preventDefault();
       next();
       return;
@@ -296,6 +326,12 @@ const TutorialSystem = (() => {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
       prev();
+      return;
+    }
+
+    if (event.key.toLowerCase() === "r") {
+      event.preventDefault();
+      readCurrent();
       return;
     }
 
@@ -308,8 +344,9 @@ const TutorialSystem = (() => {
   return {
     open,
     close,
-    isActive: () => isOpen,
     next,
-    prev
+    prev,
+    readCurrent,
+    isActive
   };
 })();

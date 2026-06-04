@@ -1,9 +1,8 @@
 /* ============================================================
    assets/js/systems/audio.js
-   Sistema de áudio procedural — Bug Hunters
-
-   Não depende de arquivos .mp3/.wav. O som é gerado pelo próprio
-   navegador com Web Audio API, então funciona direto no projeto.
+   Sistema de áudio — Bug Hunters
+   Música ambiente + efeitos + passos usando Web Audio API.
+   Não precisa de mp3/wav.
 ============================================================ */
 
 window.GameAudio = (() => {
@@ -16,11 +15,63 @@ window.GameAudio = (() => {
   };
 
   const DEFAULTS = {
-    master: 0.8,
-    background: 0.45,
-    buttons: 0.7,
+    master: 0.85,
+    background: 0.65,
+    buttons: 0.75,
     backgroundEnabled: true,
     buttonsEnabled: true
+  };
+
+  const TRACKS = {
+    menu: {
+      base: 98,
+      filter: 1250,
+      noise: 0.035,
+      pulse: 0.10,
+      melody: [392, 494, 587, 494, 392, 330, 370, 494]
+    },
+    sala1: {
+      base: 82,
+      filter: 900,
+      noise: 0.038,
+      pulse: 0.08,
+      melody: [246, 293, 329, 293, 246, 220, 246, 329]
+    },
+    sala2: {
+      base: 110,
+      filter: 1150,
+      noise: 0.034,
+      pulse: 0.12,
+      melody: [330, 392, 440, 523, 440, 392, 330, 294]
+    },
+    sala3: {
+      base: 65,
+      filter: 760,
+      noise: 0.046,
+      pulse: 0.06,
+      melody: [196, 247, 294, 247, 220, 196, 175, 220]
+    },
+    sala4: {
+      base: 132,
+      filter: 1350,
+      noise: 0.032,
+      pulse: 0.14,
+      melody: [392, 523, 659, 784, 659, 523, 494, 587]
+    },
+    victory: {
+      base: 164,
+      filter: 1450,
+      noise: 0.018,
+      pulse: 0.12,
+      melody: [523, 659, 784, 1046, 784, 659, 523, 659]
+    },
+    gameover: {
+      base: 55,
+      filter: 520,
+      noise: 0.040,
+      pulse: 0.05,
+      melody: [196, 175, 147, 123, 110, 98, 82, 73]
+    }
   };
 
   const state = {
@@ -29,23 +80,17 @@ window.GameAudio = (() => {
     musicGain: null,
     sfxGain: null,
     currentTrack: null,
-    currentName: "none",
+    currentName: "menu",
     unlocked: false,
+    melodyTimer: null,
+    melodyIndex: 0,
+    lastStepTime: 0,
+    stepSide: 0,
     master: readNumber(STORAGE.master, DEFAULTS.master),
     background: readNumber(STORAGE.background, DEFAULTS.background),
     buttons: readNumber(STORAGE.buttons, DEFAULTS.buttons),
     backgroundEnabled: readBoolean(STORAGE.backgroundEnabled, DEFAULTS.backgroundEnabled),
     buttonsEnabled: readBoolean(STORAGE.buttonsEnabled, DEFAULTS.buttonsEnabled)
-  };
-
-  const TRACKS = {
-    menu:  { base: 96,  chord: [1, 1.5, 2.01], filter: 850,  noise: 0.020, pulse: 0.070 },
-    sala1: { base: 82,  chord: [1, 1.25, 1.5],  filter: 650,  noise: 0.026, pulse: 0.060 },
-    sala2: { base: 110, chord: [1, 1.33, 1.66], filter: 980,  noise: 0.024, pulse: 0.085 },
-    sala3: { base: 64,  chord: [1, 1.41, 1.89], filter: 520,  noise: 0.034, pulse: 0.052 },
-    sala4: { base: 132, chord: [1, 1.5, 1.875],filter: 1150, noise: 0.022, pulse: 0.095 },
-    victory: { base: 164, chord: [1, 1.25, 1.5, 2], filter: 1300, noise: 0.016, pulse: 0.10 },
-    gameover:{ base: 55,  chord: [1, 1.18, 1.41], filter: 430,  noise: 0.030, pulse: 0.045 }
   };
 
   function readNumber(key, fallback) {
@@ -63,7 +108,6 @@ window.GameAudio = (() => {
     if (state.ctx) return state.ctx;
 
     const AudioContext = window.AudioContext || window.webkitAudioContext;
-
     if (!AudioContext) {
       console.warn("[GameAudio] Web Audio API não disponível neste navegador.");
       return null;
@@ -80,88 +124,100 @@ window.GameAudio = (() => {
     state.sfxGain.connect(state.masterGain);
     state.masterGain.connect(ctx.destination);
 
-    applyVolumes();
+    applyVolumes(true);
     return ctx;
   }
 
   async function unlock() {
     const ctx = ensureContext();
-    if (!ctx) return;
+    if (!ctx) return false;
 
     if (ctx.state === "suspended") {
-      try { await ctx.resume(); } catch (_) {}
+      try {
+        await ctx.resume();
+      } catch (error) {
+        console.warn("[GameAudio] O navegador ainda bloqueou o áudio:", error);
+        return false;
+      }
     }
 
     state.unlocked = true;
     applyVolumes();
 
-    if (state.currentName !== "none" && !state.currentTrack && state.backgroundEnabled) {
-      startTrack(state.currentName);
+    if (state.backgroundEnabled && !state.currentTrack) {
+      startTrack(state.currentName || "menu");
     }
+
+    return true;
   }
 
-  function applyVolumes() {
+  function applyVolumes(immediate = false) {
     if (!state.ctx) return;
 
-    state.masterGain.gain.setTargetAtTime(state.master, state.ctx.currentTime, 0.03);
-    state.musicGain.gain.setTargetAtTime(
-      state.backgroundEnabled ? state.background : 0,
-      state.ctx.currentTime,
-      0.08
-    );
-    state.sfxGain.gain.setTargetAtTime(
-      state.buttonsEnabled ? state.buttons : 0,
-      state.ctx.currentTime,
-      0.02
-    );
+    const now = state.ctx.currentTime;
+    const set = (gain, value, time) => {
+      if (!gain) return;
+      if (immediate) gain.gain.setValueAtTime(value, now);
+      else gain.gain.setTargetAtTime(value, now, time);
+    };
+
+    set(state.masterGain, state.master, 0.03);
+    set(state.musicGain, state.backgroundEnabled ? state.background : 0, 0.08);
+    set(state.sfxGain, state.buttonsEnabled ? state.buttons : 0, 0.02);
   }
 
-  function createNoiseBuffer(ctx) {
-    const length = ctx.sampleRate * 2;
+  function createNoiseBuffer(ctx, seconds = 2) {
+    const length = Math.max(1, Math.floor(ctx.sampleRate * seconds));
     const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
     const data = buffer.getChannelData(0);
 
     for (let i = 0; i < length; i++) {
-      data[i] = (Math.random() * 2 - 1) * 0.16;
+      data[i] = (Math.random() * 2 - 1) * 0.18;
     }
 
     return buffer;
   }
 
   function stopTrack(fade = 0.18) {
+    if (state.melodyTimer) {
+      clearInterval(state.melodyTimer);
+      state.melodyTimer = null;
+    }
+
     if (!state.currentTrack || !state.ctx) {
       state.currentTrack = null;
       return;
     }
 
-    const now = state.ctx.currentTime;
+    const ctx = state.ctx;
+    const now = ctx.currentTime;
     const track = state.currentTrack;
 
     try {
       track.gain.gain.cancelScheduledValues(now);
-      track.gain.gain.setValueAtTime(track.gain.gain.value, now);
+      track.gain.gain.setValueAtTime(track.gain.gain.value || 0.0001, now);
       track.gain.gain.linearRampToValueAtTime(0.0001, now + fade);
     } catch (_) {}
 
     window.setTimeout(() => {
-      [...track.sources].forEach(source => {
+      track.sources.forEach(source => {
         try { source.stop(); } catch (_) {}
         try { source.disconnect(); } catch (_) {}
       });
       try { track.gain.disconnect(); } catch (_) {}
-    }, Math.ceil((fade + 0.05) * 1000));
+    }, Math.ceil((fade + 0.08) * 1000));
 
     state.currentTrack = null;
   }
 
-  function startTrack(name) {
+  function startTrack(name = "menu") {
     state.currentName = name;
 
-    const data = TRACKS[name] || TRACKS.menu;
     const ctx = ensureContext();
+    const data = TRACKS[name] || TRACKS.menu;
 
     if (!ctx || !state.backgroundEnabled) {
-      stopTrack();
+      stopTrack(0.08);
       return;
     }
 
@@ -169,18 +225,19 @@ window.GameAudio = (() => {
 
     const trackGain = ctx.createGain();
     trackGain.gain.setValueAtTime(0.0001, ctx.currentTime);
-    trackGain.gain.linearRampToValueAtTime(0.72, ctx.currentTime + 0.45);
+    trackGain.gain.linearRampToValueAtTime(1.0, ctx.currentTime + 0.45);
     trackGain.connect(state.musicGain);
 
     const filter = ctx.createBiquadFilter();
     filter.type = "lowpass";
     filter.frequency.setValueAtTime(data.filter, ctx.currentTime);
-    filter.Q.setValueAtTime(0.8, ctx.currentTime);
+    filter.Q.setValueAtTime(0.9, ctx.currentTime);
     filter.connect(trackGain);
 
     const sources = [];
+    const chord = [1, 1.25, 1.5, 2];
 
-    data.chord.forEach((ratio, index) => {
+    chord.forEach((ratio, index) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       const lfo = ctx.createOscillator();
@@ -188,12 +245,12 @@ window.GameAudio = (() => {
 
       osc.type = index === 0 ? "triangle" : "sine";
       osc.frequency.setValueAtTime(data.base * ratio, ctx.currentTime);
-      osc.detune.setValueAtTime((index - 1) * 3, ctx.currentTime);
+      osc.detune.setValueAtTime((index - 1.5) * 4, ctx.currentTime);
 
-      gain.gain.setValueAtTime(0.024 / (index + 1), ctx.currentTime);
+      gain.gain.setValueAtTime(0.050 / (index + 1), ctx.currentTime);
       lfo.type = "sine";
-      lfo.frequency.setValueAtTime(data.pulse + index * 0.013, ctx.currentTime);
-      lfoGain.gain.setValueAtTime(0.010, ctx.currentTime);
+      lfo.frequency.setValueAtTime(data.pulse + index * 0.015, ctx.currentTime);
+      lfoGain.gain.setValueAtTime(0.012, ctx.currentTime);
 
       lfo.connect(lfoGain);
       lfoGain.connect(gain.gain);
@@ -209,7 +266,7 @@ window.GameAudio = (() => {
     const noiseGain = ctx.createGain();
     const noiseFilter = ctx.createBiquadFilter();
 
-    noise.buffer = createNoiseBuffer(ctx);
+    noise.buffer = createNoiseBuffer(ctx, 2);
     noise.loop = true;
     noiseGain.gain.setValueAtTime(data.noise, ctx.currentTime);
     noiseFilter.type = "bandpass";
@@ -224,27 +281,85 @@ window.GameAudio = (() => {
 
     state.currentTrack = { gain: trackGain, sources };
     applyVolumes();
+    startMelodyLoop(data);
+  }
+
+  function startMelodyLoop(data) {
+    if (state.melodyTimer) clearInterval(state.melodyTimer);
+    state.melodyIndex = 0;
+
+    const playOneNote = () => {
+      if (!state.ctx || !state.backgroundEnabled || !state.currentTrack) return;
+      if (state.ctx.state !== "running") return;
+
+      const melody = data.melody || TRACKS.menu.melody;
+      const frequency = melody[state.melodyIndex % melody.length];
+      state.melodyIndex++;
+
+      playMusicNote(frequency, 0.18, 0.035);
+    };
+
+    state.melodyTimer = window.setInterval(playOneNote, 620);
+    window.setTimeout(playOneNote, 220);
+  }
+
+  function playMusicNote(frequency, duration = 0.16, volume = 0.035) {
+    const ctx = state.ctx;
+    if (!ctx || !state.currentTrack) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+
+    osc.type = "square";
+    osc.frequency.setValueAtTime(frequency, now);
+
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(1450, now);
+
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.linearRampToValueAtTime(volume, now + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(state.currentTrack.gain);
+
+    osc.start(now);
+    osc.stop(now + duration + 0.04);
+  }
+
+  function getCurrentRoomName() {
+    return window.GameState?.currentRoom || "sala1";
+  }
+
+  function ensureGameAmbient() {
+    const room = getCurrentRoomName();
+    if (!TRACKS[room] || !state.backgroundEnabled) return;
+    if (state.currentName !== room || !state.currentTrack) startTrack(room);
   }
 
   function playMenuAmbient() {
-    unlock();
-    startTrack("menu");
+    state.currentName = "menu";
+    unlock().then(() => startTrack("menu"));
   }
 
   function playRoom(roomName) {
-    unlock();
-    startTrack(roomName || "sala1");
+    const room = roomName || getCurrentRoomName();
+    state.currentName = room;
+    unlock().then(() => startTrack(room));
   }
 
   function playVictory() {
-    unlock();
-    startTrack("victory");
+    state.currentName = "victory";
+    unlock().then(() => startTrack("victory"));
     playConfirm();
   }
 
   function playGameOver() {
-    unlock();
-    startTrack("gameover");
+    state.currentName = "gameover";
+    unlock().then(() => startTrack("gameover"));
     playError();
   }
 
@@ -260,7 +375,7 @@ window.GameAudio = (() => {
     osc.frequency.setValueAtTime(frequency, now);
 
     if (endFrequency) {
-      osc.frequency.exponentialRampToValueAtTime(endFrequency, now + duration);
+      osc.frequency.exponentialRampToValueAtTime(Math.max(1, endFrequency), now + duration);
     }
 
     gain.gain.setValueAtTime(0.0001, now);
@@ -276,18 +391,83 @@ window.GameAudio = (() => {
 
   function playClick() {
     unlock();
-    playTone({ frequency: 520, endFrequency: 920, duration: 0.055, type: "square", volume: 0.10 });
+    playTone({ frequency: 520, endFrequency: 920, duration: 0.055, type: "square", volume: 0.11 });
   }
 
   function playConfirm() {
     unlock();
     playTone({ frequency: 660, endFrequency: 990, duration: 0.12, type: "triangle", volume: 0.14 });
-    setTimeout(() => playTone({ frequency: 990, duration: 0.10, type: "triangle", volume: 0.10 }), 90);
+    window.setTimeout(() => playTone({ frequency: 990, duration: 0.10, type: "triangle", volume: 0.10 }), 90);
   }
 
   function playError() {
     unlock();
     playTone({ frequency: 180, endFrequency: 90, duration: 0.18, type: "sawtooth", volume: 0.13 });
+  }
+
+  function playFootstep(roomName = "sala1") {
+    const ctx = ensureContext();
+    if (!ctx || !state.buttonsEnabled || ctx.state !== "running") return;
+
+    const now = ctx.currentTime;
+    const roomStep = {
+      sala1: { base: 145, noise: 0.030, filter: 420 },
+      sala2: { base: 175, noise: 0.025, filter: 520 },
+      sala3: { base: 120, noise: 0.035, filter: 360 },
+      sala4: { base: 160, noise: 0.026, filter: 470 }
+    }[roomName] || { base: 145, noise: 0.028, filter: 420 };
+
+    const stepGain = ctx.createGain();
+    const osc = ctx.createOscillator();
+    const noise = ctx.createBufferSource();
+    const noiseGain = ctx.createGain();
+    const noiseFilter = ctx.createBiquadFilter();
+
+    state.stepSide = state.stepSide === 0 ? 1 : 0;
+
+    stepGain.gain.setValueAtTime(0.0001, now);
+    stepGain.gain.linearRampToValueAtTime(0.085, now + 0.012);
+    stepGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.115);
+
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(roomStep.base + (state.stepSide ? 16 : -10), now);
+    osc.frequency.exponentialRampToValueAtTime(Math.max(45, roomStep.base * 0.45), now + 0.09);
+
+    noise.buffer = createNoiseBuffer(ctx, 0.15);
+    noise.loop = false;
+    noiseGain.gain.setValueAtTime(roomStep.noise, now);
+    noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+
+    noiseFilter.type = "lowpass";
+    noiseFilter.frequency.setValueAtTime(roomStep.filter, now);
+    noiseFilter.Q.setValueAtTime(0.6, now);
+
+    osc.connect(stepGain);
+    noise.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(stepGain);
+    stepGain.connect(state.sfxGain);
+
+    osc.start(now);
+    noise.start(now);
+    osc.stop(now + 0.12);
+    noise.stop(now + 0.12);
+  }
+
+  function updateFootsteps(isMoving) {
+    unlock();
+
+    if (!isMoving) return;
+
+    ensureGameAmbient();
+
+    const nowMs = performance.now();
+    const interval = 260;
+
+    if (nowMs - state.lastStepTime < interval) return;
+
+    state.lastStepTime = nowMs;
+    playFootstep(getCurrentRoomName());
   }
 
   function setMaster(value) {
@@ -316,7 +496,7 @@ window.GameAudio = (() => {
     localStorage.setItem(STORAGE.backgroundEnabled, String(state.backgroundEnabled));
 
     if (state.backgroundEnabled) {
-      startTrack(state.currentName === "none" ? "menu" : state.currentName);
+      unlock().then(() => startTrack(state.currentName || "menu"));
     } else {
       stopTrack(0.1);
     }
@@ -409,18 +589,31 @@ window.GameAudio = (() => {
     }
   }
 
-  document.addEventListener("click", event => {
-    const button = event.target.closest("button, .cyber-btn, input[type='range']");
-    if (!button) return;
+  function startAfterGesture() {
+    unlock().then(() => {
+      if (state.backgroundEnabled && !state.currentTrack) {
+        startTrack(state.currentName || "menu");
+      }
+    });
+  }
 
-    if (button.matches("input[type='range']")) return;
+  document.addEventListener("click", event => {
+    startAfterGesture();
+
+    const button = event.target.closest("button, .cyber-btn, input[type='range']");
+    if (!button || button.matches("input[type='range']")) return;
 
     playClick();
   }, true);
 
-  document.addEventListener("pointerdown", unlock, { once: true });
-  document.addEventListener("keydown", unlock, { once: true });
-  document.addEventListener("DOMContentLoaded", setupControls);
+  document.addEventListener("pointerdown", startAfterGesture, true);
+  document.addEventListener("keydown", startAfterGesture, true);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    setupControls();
+    state.currentName = "menu";
+    syncControls();
+  });
 
   return {
     unlock,
@@ -431,6 +624,9 @@ window.GameAudio = (() => {
     playClick,
     playConfirm,
     playError,
+    playFootstep,
+    updateFootsteps,
+    ensureGameAmbient,
     setMaster,
     setBackgroundVolume,
     setButtonVolume,
@@ -439,6 +635,7 @@ window.GameAudio = (() => {
     toggleBackground,
     toggleButtons,
     syncControls,
+    forceStart: () => startTrack(state.currentName || "menu"),
     getState: () => ({ ...state })
   };
 })();

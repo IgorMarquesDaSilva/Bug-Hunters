@@ -1,7 +1,7 @@
 /* ============================================================
    assets/js/ui/accessibility.js
-   Recursos de acessibilidade — leitor do jogo, alto contraste,
-   fonte ampliada, atalhos e feedback por aria-live.
+   Acessibilidade — leitor de tela do jogo com voz do navegador,
+   alto contraste, fonte ampliada, atalhos e aria-live.
 ============================================================ */
 
 (() => {
@@ -21,220 +21,182 @@
   const state = {
     screenReader: false,
     highContrast: false,
-    fontSize: "normal"
+    fontSize: "normal",
+    initialized: false
   };
 
-  const speechControl = {
+  const speech = {
     token: 0,
+    voices: [],
     lastText: "",
     lastTime: 0
   };
-
-  function canUseBrowserVoice() {
-    return (
-      "speechSynthesis" in window &&
-      "SpeechSynthesisUtterance" in window
-    );
-  }
-
-  function stopBrowserVoice() {
-    speechControl.token++;
-
-    if (!canUseBrowserVoice()) return;
-
-    window.speechSynthesis.cancel();
-
-    // Alguns navegadores mantêm a fila por alguns milissegundos.
-    // Esses cancelamentos extras garantem que a voz pare mesmo se houver fala pendente.
-    window.setTimeout(() => window.speechSynthesis.cancel(), 30);
-    window.setTimeout(() => window.speechSynthesis.cancel(), 120);
-    window.setTimeout(() => window.speechSynthesis.cancel(), 300);
-  }
 
   function getById(id) {
     return document.getElementById(id);
   }
 
   function setText(id, value) {
-    const element = getById(id);
-
-    if (element) {
-      element.textContent = value;
-    }
+    const el = getById(id);
+    if (el) el.textContent = value;
   }
 
-  function isTypingTarget(target) {
-    if (!target) return false;
+  function canSpeak() {
+    return "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+  }
 
-    const tag = target.tagName?.toLowerCase();
+  function refreshVoices() {
+    if (!canSpeak()) return;
+    speech.voices = window.speechSynthesis.getVoices() || [];
+  }
 
+  function bestVoice() {
+    refreshVoices();
     return (
-      tag === "input" ||
-      tag === "textarea" ||
-      tag === "select" ||
-      target.isContentEditable
-    );
-  }
-
-  function isVisible(element) {
-    return element && element.style.display !== "none";
-  }
-
-  function isAccessibilityVisible() {
-    return isVisible(getById("screen-accessibility"));
-  }
-
-  function updateLiveRegion(message) {
-    const liveRegion = getById("accessibility-live-region");
-
-    if (liveRegion) {
-      liveRegion.textContent = "";
-
-      window.setTimeout(() => {
-        liveRegion.textContent = message;
-      }, 20);
-    }
-
-    setText("accessibility-status", message);
-  }
-
-  function getBestPortugueseVoice() {
-    if (!canUseBrowserVoice()) return null;
-
-    const voices = window.speechSynthesis.getVoices();
-
-    return (
-      voices.find(voice => voice.lang?.toLowerCase() === "pt-br") ||
-      voices.find(voice => voice.lang?.toLowerCase().startsWith("pt")) ||
-      voices[0] ||
+      speech.voices.find(v => v.lang && v.lang.toLowerCase() === "pt-br") ||
+      speech.voices.find(v => v.lang && v.lang.toLowerCase().startsWith("pt")) ||
+      speech.voices[0] ||
       null
     );
   }
 
+  function stopBrowserVoice() {
+    speech.token++;
+
+    if (!canSpeak()) return;
+
+    window.speechSynthesis.cancel();
+    window.setTimeout(() => window.speechSynthesis.cancel(), 30);
+    window.setTimeout(() => window.speechSynthesis.cancel(), 120);
+    window.setTimeout(() => window.speechSynthesis.cancel(), 300);
+  }
+
+  function updateLiveRegion(message) {
+    const clean = String(message || "").replace(/\s+/g, " ").trim();
+
+    ["accessibility-live-region", "tutorial-live-region"].forEach(id => {
+      const live = getById(id);
+      if (!live) return;
+      live.textContent = "";
+      window.setTimeout(() => {
+        live.textContent = clean;
+      }, 20);
+    });
+
+    setText("accessibility-status", clean);
+  }
+
   function speak(message, force = false) {
-    const cleanMessage = String(message || "").replace(/\s+/g, " ").trim();
+    const clean = String(message || "").replace(/\s+/g, " ").trim();
+    if (!clean) return;
 
-    if (!cleanMessage) return;
+    updateLiveRegion(clean);
 
-    updateLiveRegion(cleanMessage);
-
-    // Se o leitor estiver desligado, nenhuma voz deve continuar ou iniciar.
-    if (!state.screenReader && !force) {
+    if (!force && !state.screenReader) {
       stopBrowserVoice();
       return;
     }
 
-    if (!canUseBrowserVoice()) {
-      updateLiveRegion("Seu navegador não liberou a narração automática. O aviso foi enviado como texto acessível na tela.");
+    if (!canSpeak()) {
+      updateLiveRegion("Este navegador não liberou a voz automática. O texto foi enviado para a região acessível da tela.");
       return;
     }
 
     const now = Date.now();
-
-    // Evita repetir a mesma fala muitas vezes quando o foco fica oscilando.
-    if (speechControl.lastText === cleanMessage && now - speechControl.lastTime < 450) {
-      return;
-    }
-
-    speechControl.lastText = cleanMessage;
-    speechControl.lastTime = now;
+    if (speech.lastText === clean && now - speech.lastTime < 400) return;
+    speech.lastText = clean;
+    speech.lastTime = now;
 
     stopBrowserVoice();
+    const token = speech.token;
 
-    const currentToken = speechControl.token;
+    const utterance = new SpeechSynthesisUtterance(clean);
+    const voice = bestVoice();
+
+    if (voice) {
+      utterance.voice = voice;
+      utterance.lang = voice.lang || "pt-BR";
+    } else {
+      utterance.lang = "pt-BR";
+    }
+
+    utterance.rate = 0.92;
+    utterance.pitch = 1;
+    utterance.volume = 1;
 
     window.setTimeout(() => {
-      if (currentToken !== speechControl.token) return;
-      if (!state.screenReader && !force) return;
-
-      const utterance = new SpeechSynthesisUtterance(cleanMessage);
-      const voice = getBestPortugueseVoice();
-
-      if (voice) {
-        utterance.voice = voice;
-        utterance.lang = voice.lang || "pt-BR";
-      } else {
-        utterance.lang = "pt-BR";
-      }
-
-      utterance.rate = 0.92;
-      utterance.pitch = 1;
-      utterance.volume = 1;
-
-      utterance.onend = () => {
-        if (currentToken === speechControl.token) {
-          window.speechSynthesis.cancel();
-        }
-      };
-
+      if (token !== speech.token) return;
+      if (!force && !state.screenReader) return;
       window.speechSynthesis.speak(utterance);
-    }, 40);
+    }, 30);
+  }
+
+  function isTypingTarget(target) {
+    const tag = target?.tagName?.toLowerCase();
+    return tag === "input" || tag === "textarea" || tag === "select" || target?.isContentEditable;
+  }
+
+  function visibleScreen() {
+    return Array.from(document.querySelectorAll(".overlay"))
+      .find(screen => screen.style.display !== "none");
+  }
+
+  function isVisible(id) {
+    const el = getById(id);
+    return el && el.style.display !== "none";
   }
 
   function getCurrentInstruction() {
-    const activeScreen = Array.from(document.querySelectorAll(".overlay"))
-      .find(screen => screen.style.display !== "none");
+    const active = visibleScreen();
 
-    if (!activeScreen || activeScreen.id === "screen-main-menu") {
-      return "Você está no menu inicial. Pressione A para jogar, W para configurações ou D para abrir acessibilidade.";
+    if (!active || active.id === "screen-main-menu") {
+      return "Você está no menu inicial. Pressione A para jogar, W para configurações ou D para acessibilidade.";
     }
 
     const instructions = {
-      "screen-accessibility": "Você está na tela de acessibilidade. Pressione L para ligar ou desligar o leitor de tela, C para alto contraste, mais ou menos para mudar o tamanho da fonte e Escape para voltar.",
-      "screen-settings": "Você está nas configurações. Use Tab para navegar. Ajuste o volume e escolha o tamanho da fonte. Pressione Escape para voltar ao menu.",
-      "screen-difficulty": "Escolha a dificuldade do jogo. Use Tab para navegar pelas opções e Enter para selecionar.",
-      "screen-bug-popup": "Bug detectado. Pressione Enter no botão corrigir bug para iniciar a missão, ou escolha ignorar para voltar ao mapa.",
+      "screen-accessibility": "Você está na tela de acessibilidade. Pressione L para ligar ou desligar o leitor de tela, C para alto contraste, mais ou menos para mudar a fonte e Escape para voltar.",
+      "screen-settings": "Você está nas configurações de som. Use Tab para navegar pelos controles de volume e pelos botões que ativam ou removem o som de fundo e os sons dos botões.",
+      "screen-difficulty": "Escolha a dificuldade. Use Tab para navegar e Enter para selecionar fácil, médio ou difícil.",
+      "screen-tutorial": "Tutorial aberto. Use Próximo para avançar, Anterior para voltar, ou o botão Ler Etapa para ouvir a explicação atual.",
+      "screen-bug-popup": "Bug detectado. Escolha Corrigir Bug para iniciar a missão ou Ignorar para voltar ao mapa.",
       "screen-mission": "Missão aberta. Leia o enunciado, o código e selecione uma alternativa. Use Tab para navegar e Enter para responder.",
-      "screen-tutorial": "Tutorial aberto. Pressione seta para a direita, Enter ou Espaço para avançar. Pressione Escape para fechar.",
-      "screen-glossary": "Glossário aberto. Use Tab para navegar entre os temas e o botão voltar ao jogo para fechar."
+      "screen-room-clear": "Setor limpo. Libere a porta e vá até ela para avançar.",
+      "screen-next-level": "Acesso liberado. Pressione avançar para entrar no próximo setor.",
+      "screen-glossary": "Glossário aberto. Use Tab para navegar entre os temas e conteúdos."
     };
 
-    return instructions[activeScreen.id] || "Use Tab para navegar, Enter para selecionar e Escape para voltar quando disponível.";
+    return instructions[active.id] || "Use Tab para navegar, Enter para selecionar e Escape para voltar quando disponível.";
   }
 
   function updateScreenReaderButton() {
     const button = getById("btn-screen-reader");
-    const buttonText = button?.querySelector(".access-btn-text");
+    const text = button?.querySelector(".access-btn-text");
 
     document.body.classList.toggle("access-screen-reader-on", state.screenReader);
-
     setText("screen-reader-value", state.screenReader ? "LIGADO" : "DESLIGADO");
 
     if (button) {
       button.setAttribute("aria-pressed", String(state.screenReader));
-      button.setAttribute(
-        "aria-label",
-        state.screenReader
-          ? "Desativar leitor de tela do jogo, atalho tecla L"
-          : "Ativar leitor de tela do jogo, atalho tecla L"
-      );
+      button.setAttribute("aria-label", state.screenReader ? "Desativar leitor de tela do jogo" : "Ativar leitor de tela do jogo");
     }
 
-    if (buttonText) {
-      buttonText.textContent = state.screenReader ? "DESATIVAR LEITOR" : "ATIVAR LEITOR";
-    }
+    if (text) text.textContent = state.screenReader ? "DESATIVAR LEITOR" : "ATIVAR LEITOR";
   }
 
   function setScreenReader(enabled, shouldSpeak = true) {
-    const willEnable = Boolean(enabled);
-
-    state.screenReader = willEnable;
+    state.screenReader = Boolean(enabled);
     localStorage.setItem(STORAGE_KEYS.screenReader, state.screenReader ? "1" : "0");
     updateScreenReaderButton();
 
-    if (!willEnable) {
+    if (!state.screenReader) {
       stopBrowserVoice();
       updateLiveRegion("Leitor de tela do jogo desativado.");
       return;
     }
 
-    const message = "Leitor de tela do jogo ativado. " + getCurrentInstruction();
-
-    if (shouldSpeak) {
-      speak(message, true);
-    } else {
-      updateLiveRegion(message);
-    }
+    const msg = "Leitor de tela do jogo ativado. " + getCurrentInstruction();
+    if (shouldSpeak) speak(msg, true);
+    else updateLiveRegion(msg);
   }
 
   function toggleScreenReader() {
@@ -243,25 +205,17 @@
 
   function updateContrastButton() {
     const button = getById("btn-high-contrast");
-    const buttonText = button?.querySelector(".access-btn-text");
+    const text = button?.querySelector(".access-btn-text");
 
     document.body.classList.toggle("high-contrast-on", state.highContrast);
-
     setText("contrast-value", state.highContrast ? "LIGADO" : "DESLIGADO");
 
     if (button) {
       button.setAttribute("aria-pressed", String(state.highContrast));
-      button.setAttribute(
-        "aria-label",
-        state.highContrast
-          ? "Desativar cores com alto contraste, atalho tecla C"
-          : "Ativar cores com alto contraste, atalho tecla C"
-      );
+      button.setAttribute("aria-label", state.highContrast ? "Desativar alto contraste" : "Ativar alto contraste");
     }
 
-    if (buttonText) {
-      buttonText.textContent = state.highContrast ? "DESATIVAR CONTRASTE" : "ATIVAR CONTRASTE";
-    }
+    if (text) text.textContent = state.highContrast ? "DESATIVAR CONTRASTE" : "ATIVAR CONTRASTE";
   }
 
   function setHighContrast(enabled, shouldSpeak = true) {
@@ -269,12 +223,9 @@
     localStorage.setItem(STORAGE_KEYS.highContrast, state.highContrast ? "1" : "0");
     updateContrastButton();
 
-    const message = state.highContrast
-      ? "Alto contraste ativado. Os textos, botões e foco agora estão mais destacados."
-      : "Alto contraste desativado.";
-
-    if (shouldSpeak) speak(message);
-    else updateLiveRegion(message);
+    const msg = state.highContrast ? "Alto contraste ativado." : "Alto contraste desativado.";
+    if (shouldSpeak) speak(msg);
+    else updateLiveRegion(msg);
   }
 
   function toggleHighContrast() {
@@ -283,13 +234,13 @@
 
   function syncFontLabels(size) {
     const selected = FONT_ORDER.includes(size) ? size : "normal";
-
     setText("font-size-access-value", FONT_LABEL[selected]);
     setText("font-size-value", FONT_LABEL[selected]);
 
-    document.querySelectorAll(".font-option-btn").forEach(button => {
-      button.classList.toggle("active", button.dataset.fontSize === selected);
-      button.setAttribute("aria-pressed", String(button.dataset.fontSize === selected));
+    document.querySelectorAll(".font-option-btn[data-font-size]").forEach(btn => {
+      const active = btn.dataset.fontSize === selected;
+      btn.classList.toggle("active", active);
+      btn.setAttribute("aria-pressed", String(active));
     });
   }
 
@@ -297,28 +248,21 @@
     const selected = FONT_ORDER.includes(size) ? size : "normal";
     state.fontSize = selected;
 
-    if (typeof window.setGameFontSize === "function") {
-      window.setGameFontSize(selected);
-    } else {
-      document.body.classList.remove("font-size-small", "font-size-normal", "font-size-large");
-      document.body.classList.add(`font-size-${selected}`);
-      localStorage.setItem(STORAGE_KEYS.fontSize, selected);
-    }
-
+    document.body.classList.remove("font-size-small", "font-size-normal", "font-size-large");
+    document.body.classList.add(`font-size-${selected}`);
+    localStorage.setItem(STORAGE_KEYS.fontSize, selected);
     syncFontLabels(selected);
 
-    const message = `Tamanho da fonte alterado para ${FONT_LABEL[selected].toLowerCase()}.`;
-
-    if (shouldSpeak) speak(message);
-    else updateLiveRegion(message);
+    const msg = `Tamanho da fonte alterado para ${FONT_LABEL[selected].toLowerCase()}.`;
+    if (shouldSpeak) speak(msg);
+    else updateLiveRegion(msg);
   }
 
-  function changeFontByStep(step) {
-    const currentIndex = FONT_ORDER.indexOf(state.fontSize);
-    const safeIndex = currentIndex === -1 ? 1 : currentIndex;
-    const nextIndex = Math.min(FONT_ORDER.length - 1, Math.max(0, safeIndex + step));
-
-    setFontSize(FONT_ORDER[nextIndex], true);
+  function changeFont(step) {
+    const current = FONT_ORDER.indexOf(state.fontSize);
+    const index = current === -1 ? 1 : current;
+    const next = Math.max(0, Math.min(FONT_ORDER.length - 1, index + step));
+    setFontSize(FONT_ORDER[next], true);
   }
 
   function readCurrentInstructions() {
@@ -329,8 +273,10 @@
     if (!state.screenReader) return;
 
     const target = event.target;
+    if (!target) return;
 
-    if (!target || !isAccessibilityVisible() && !target.closest?.(".overlay")) return;
+    const insideUsefulArea = target.closest?.(".overlay") || target.closest?.(".hud-panel");
+    if (!insideUsefulArea) return;
 
     const label =
       target.getAttribute?.("aria-label") ||
@@ -339,11 +285,8 @@
       target.title ||
       "Elemento focado";
 
-    const cleanLabel = label.replace(/\s+/g, " ").trim();
-
-    if (cleanLabel) {
-      speak(cleanLabel);
-    }
+    const clean = String(label).replace(/\s+/g, " ").trim();
+    if (clean) speak(clean);
   }
 
   function setupButtons() {
@@ -351,10 +294,8 @@
     getById("btn-high-contrast")?.addEventListener("click", toggleHighContrast);
     getById("btn-read-current")?.addEventListener("click", readCurrentInstructions);
 
-    document.querySelectorAll(".font-option-btn[data-font-size]").forEach(button => {
-      button.addEventListener("click", () => {
-        setFontSize(button.dataset.fontSize, true);
-      });
+    document.querySelectorAll(".font-option-btn[data-font-size]").forEach(btn => {
+      btn.addEventListener("click", () => setFontSize(btn.dataset.fontSize, true));
     });
   }
 
@@ -378,55 +319,40 @@
 
       if (event.key === "+" || event.key === "=" || event.code === "NumpadAdd") {
         event.preventDefault();
-        changeFontByStep(1);
+        changeFont(1);
         return;
       }
 
       if (event.key === "-" || event.code === "NumpadSubtract") {
         event.preventDefault();
-        changeFontByStep(-1);
+        changeFont(-1);
         return;
       }
 
-      if (event.key === "Escape" && isAccessibilityVisible()) {
+      if (event.key === "Escape" && isVisible("screen-accessibility")) {
         event.preventDefault();
-        if (typeof window.backToMainMenu === "function") {
-          window.backToMainMenu();
-          speak("Voltando ao menu inicial. Pressione A para jogar, W para configurações ou D para acessibilidade.");
-        }
+        window.backToMainMenu?.();
       }
     });
   }
 
-  function patchAccessibilityOpen() {
+  function patchOpeners() {
     const originalOpen = window.openAccessibilityMenu;
-
-    window.openAccessibilityMenu = function openAccessibilityMenuPatched() {
-      if (typeof originalOpen === "function") {
-        originalOpen();
-      } else if (window.UI?.showScreen) {
-        window.UI.showScreen("screen-accessibility");
-      } else {
-        const screen = getById("screen-accessibility");
-        if (screen) screen.style.display = "flex";
-      }
+    window.openAccessibilityMenu = function patchedOpenAccessibilityMenu() {
+      if (typeof originalOpen === "function") originalOpen();
+      else if (window.UI?.showScreen) UI.showScreen("screen-accessibility");
+      else if (getById("screen-accessibility")) getById("screen-accessibility").style.display = "flex";
 
       window.setTimeout(() => {
         getById("btn-screen-reader")?.focus();
         speak(getCurrentInstruction());
       }, 80);
     };
-  }
 
-  function patchBackToMenu() {
     const originalBack = window.backToMainMenu;
-
-    window.backToMainMenu = function backToMainMenuPatched() {
-      if (typeof originalBack === "function") {
-        originalBack();
-      } else if (window.UI?.showScreen) {
-        window.UI.showScreen("screen-main-menu");
-      }
+    window.backToMainMenu = function patchedBackToMainMenu() {
+      if (typeof originalBack === "function") originalBack();
+      else if (window.UI?.showScreen) UI.showScreen("screen-main-menu");
 
       speak("Menu inicial aberto. Pressione A para jogar, W para configurações ou D para acessibilidade.");
     };
@@ -438,39 +364,40 @@
     state.fontSize = localStorage.getItem(STORAGE_KEYS.fontSize) || "normal";
 
     updateScreenReaderButton();
-    updateContrastButton();
     setHighContrast(state.highContrast, false);
     setFontSize(state.fontSize, false);
-
-    if (state.screenReader) {
-      updateLiveRegion("Leitor de tela do jogo carregado. Pressione D para abrir acessibilidade ou A para jogar.");
-    }
   }
 
   function init() {
+    if (state.initialized) return;
+    state.initialized = true;
+
+    refreshVoices();
+    if (canSpeak()) window.speechSynthesis.onvoiceschanged = refreshVoices;
+
     setupButtons();
     setupKeyboardShortcuts();
-    patchAccessibilityOpen();
-    patchBackToMenu();
+    patchOpeners();
     loadSavedSettings();
-
-    if (canUseBrowserVoice()) {
-      window.speechSynthesis.getVoices();
-      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-    }
 
     document.addEventListener("focusin", describeFocusedElement);
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 
   window.AccessibilitySystem = {
     speak,
     stopBrowserVoice,
     toggleScreenReader,
-    toggleHighContrast,
     setScreenReader,
+    toggleHighContrast,
+    setHighContrast,
     setFontSize,
-    readCurrentInstructions
+    readCurrentInstructions,
+    isScreenReaderEnabled: () => state.screenReader
   };
 })();

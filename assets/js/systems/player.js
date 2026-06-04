@@ -60,7 +60,14 @@
     });
   
     function update() {
-      if (GameState.isPaused) return;
+      if (GameState.isPaused) {
+        if (window.GameAudio?.updateFootsteps) {
+          GameAudio.updateFootsteps(false);
+        }
+
+        state.isMoving = false;
+        return;
+      }
   
       const prevX = state.x;
       const prevY = state.y;
@@ -103,7 +110,12 @@
       state.x = Math.max(0, Math.min(CONFIG.canvas.width - DRAW_W, resolved.x));
       state.y = Math.max(0, Math.min(CONFIG.canvas.height - DRAW_H, resolved.y));
   
-      state.isMoving = moving;
+      const actuallyMoved = moving && (state.x !== prevX || state.y !== prevY);
+      state.isMoving = actuallyMoved;
+
+      if (window.GameAudio?.updateFootsteps) {
+        GameAudio.updateFootsteps(actuallyMoved);
+      }
   
       state.walkTimer++;
   
