@@ -1,0 +1,581 @@
+/* ============================================================
+   assets/css/sala2_design.css
+   Sala 2 — Núcleo de Energia / Bug Hunters
+   SOMENTE VISUAL: não altera HTML, JS ou lógica de colisão.
+   A colisão continua nos mesmos elementos .collision já existentes.
+============================================================ */
+
+/* ========================= AMBIENTE GERAL ========================= */
+
+#room-map.sala2 {
+  overflow: hidden;
+  image-rendering: pixelated;
+  background:
+    radial-gradient(circle at 52% 56%, rgba(255, 224, 83, 0.34) 0 0, transparent 260px),
+    radial-gradient(circle at 52% 56%, rgba(59, 255, 129, 0.18) 0 0, transparent 180px),
+    linear-gradient(rgba(255, 204, 79, 0.16) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255, 204, 79, 0.16) 2px, transparent 2px),
+    linear-gradient(180deg, #184f4c 0 28%, #c58936 28% 100%);
+  background-size:
+    100% 100%,
+    100% 100%,
+    76px 56px,
+    76px 56px,
+    100% 100%;
+  box-shadow:
+    inset 0 0 0 4px #07312f,
+    inset 0 0 0 28px #126762,
+    inset 0 0 0 34px #2d9c8e,
+    inset 0 -82px 0 rgba(95, 55, 28, 0.18);
+}
+
+/* parede superior com textura */
+#room-map.sala2::before {
+  content: "";
+  position: absolute;
+  left: 34px;
+  top: 34px;
+  width: 932px;
+  height: 124px;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.06) 0 3px, transparent 3px 100%),
+    linear-gradient(rgba(255,255,255,0.04) 0 3px, transparent 3px 100%),
+    radial-gradient(circle at 25% 40%, rgba(255, 224, 83, 0.10), transparent 120px),
+    linear-gradient(180deg, rgba(11, 83, 76, 0.92), rgba(9, 73, 70, 0.78));
+  background-size: 80px 100%, 100% 44px, 100% 100%, 100% 100%;
+  border-bottom: 5px solid rgba(18, 74, 58, 0.78);
+}
+
+/* luz saindo da porta */
+#room-map.sala2::after {
+  content: "";
+  position: absolute;
+  right: 224px;
+  top: 150px;
+  width: 260px;
+  height: 260px;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(132deg, rgba(255, 225, 110, 0.52) 0 0, rgba(255, 194, 73, 0.28) 42%, transparent 43%);
+  mix-blend-mode: screen;
+  opacity: 0.75;
+}
+
+#room-map.sala2 .map-wall {
+  background: linear-gradient(180deg, #0c5d58, #073b3a);
+  border-color: #062826;
+  box-shadow: inset 0 0 0 4px rgba(89, 221, 198, 0.14);
+}
+
+#room-map.sala2 .wall-top,
+#room-map.sala2 .wall-bottom { height: 32px; }
+
+#room-map.sala2 .wall-left,
+#room-map.sala2 .wall-right { width: 32px; }
+
+/* ========================= OBJETOS BASE ========================= */
+
+#room-map.sala2 .lab-desk,
+#room-map.sala2 .energy-meter,
+#room-map.sala2 .reactor,
+#room-map.sala2 .energy-box,
+#room-map.sala2 .energy-terminal,
+#room-map.sala2 .door,
+#room-map.sala2 .plant,
+#room-map.sala2 .server-rack,
+#room-map.sala2 .cable {
+  image-rendering: pixelated;
+}
+
+/* ========================= MESA DE CONTROLE ========================= */
+
+#room-map.sala2 .lab-desk {
+  left: 132px;
+  top: 125px;
+  width: 340px;
+  height: 86px;
+  z-index: 12;
+  background: linear-gradient(180deg, #5a2447 0 62%, #36182d 62% 100%);
+  border: 5px solid #261021;
+  border-top-color: #8d4a68;
+  box-shadow:
+    6px 6px 0 rgba(21, 29, 37, 0.45),
+    inset 0 -12px 0 rgba(0,0,0,0.18);
+}
+
+#room-map.sala2 .lab-desk::before {
+  content: "Energy\A Status";
+  white-space: pre;
+  position: absolute;
+  left: 110px;
+  top: -58px;
+  width: 138px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #77ff8c;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: center;
+  background: #173d2b;
+  border: 5px solid #c8d29a;
+  box-shadow:
+    0 0 0 4px #26311f,
+    0 0 18px rgba(81, 255, 95, 0.24);
+}
+
+#room-map.sala2 .lab-desk::after {
+  content: "";
+  position: absolute;
+  left: 117px;
+  bottom: -208px;
+  width: 76px;
+  height: 214px;
+  border-left: 7px solid #5d2f25;
+  border-right: 7px solid #5d2f25;
+  background:
+    repeating-linear-gradient(90deg, #291c1b 0 6px, #7a4427 6px 10px, #291c1b 10px 16px);
+  opacity: 0.95;
+  z-index: -1;
+}
+
+#room-map.sala2 .lab-screen {
+  position: absolute;
+  background: #25203f;
+  border: 4px solid #cfd29d;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.42);
+}
+
+#room-map.sala2 .screen-main {
+  left: 108px;
+  top: -96px;
+  width: 146px;
+  height: 72px;
+  background:
+    linear-gradient(90deg, transparent 0 22px, rgba(255, 196, 73, 0.55) 22px 28px, transparent 28px 100%),
+    linear-gradient(#ffad58 0 5px, transparent 5px 16px, #ffad58 16px 20px, transparent 20px),
+    #2d2442;
+}
+
+#room-map.sala2 .screen-left {
+  left: 16px;
+  top: -74px;
+  width: 82px;
+  height: 62px;
+  transform: rotate(-8deg);
+  background:
+    linear-gradient(#ff944a 0 4px, transparent 4px 12px, #ff944a 12px 16px, transparent 16px),
+    #2e2343;
+}
+
+#room-map.sala2 .screen-right {
+  right: 12px;
+  top: -74px;
+  width: 82px;
+  height: 62px;
+  transform: rotate(8deg);
+  background:
+    linear-gradient(#ce72ff 0 5px, transparent 5px 18px, #ce72ff 18px 22px, transparent 22px),
+    #25203f;
+}
+
+#room-map.sala2 .lab-keyboard {
+  position: absolute;
+  left: 120px;
+  bottom: 17px;
+  width: 96px;
+  height: 24px;
+  background:
+    repeating-linear-gradient(90deg, #2c2f37 0 8px, #d9d7ba 8px 12px),
+    #d9d7ba;
+  border: 4px solid #25242c;
+}
+
+/* ========================= MEDIDOR DE ENERGIA ========================= */
+
+#room-map.sala2 .energy-meter {
+  left: 505px;
+  top: 82px;
+  width: 150px;
+  height: 82px;
+  z-index: 15;
+  background: linear-gradient(180deg, #c78632, #8c5724);
+  border: 5px solid #563519;
+  box-shadow: 5px 5px 0 rgba(35, 31, 26, 0.45);
+}
+
+#room-map.sala2 .energy-meter::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 20px;
+  width: 102px;
+  height: 42px;
+  background:
+    conic-gradient(from 270deg, #5dff7c 0deg 64deg, #ffd65a 64deg 118deg, #ff4d4d 118deg 180deg, transparent 180deg),
+    #f4e9bb;
+  border: 4px solid #57402d;
+  border-radius: 70px 70px 0 0;
+}
+
+#room-map.sala2 .energy-meter::after {
+  content: "";
+  position: absolute;
+  left: 82px;
+  top: 52px;
+  width: 42px;
+  height: 5px;
+  background: #213035;
+  transform: rotate(-26deg);
+  transform-origin: left center;
+  box-shadow: 0 0 8px rgba(255,255,255,0.35);
+}
+
+/* ========================= SERVIDORES ========================= */
+
+#room-map.sala2 .server-rack {
+  width: 58px;
+  height: 116px;
+  top: 182px;
+  z-index: 11;
+  background: linear-gradient(180deg, #3f3427, #1b1a18);
+  border: 5px solid #6b4524;
+  box-shadow: 5px 5px 0 rgba(35, 31, 26, 0.42);
+}
+
+#room-map.sala2 .server-rack::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 28px;
+  height: 7px;
+  background: #45ff92;
+  box-shadow:
+    0 21px #ffa84d,
+    0 42px #45ff92,
+    0 63px #42e8ff;
+}
+
+#room-map.sala2 .server-1 { left: 510px; }
+#room-map.sala2 .server-2 { left: 582px; }
+
+/* ========================= REATOR CENTRAL ========================= */
+
+#room-map.sala2 .reactor {
+  left: 455px;
+  top: 425px;
+  width: 90px;
+  height: 58px;
+  z-index: 13;
+  overflow: visible;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* 
+  Corpo visual do reator.
+  O top negativo mantém o desenho no lugar antigo.
+*/
+#room-map.sala2 .reactor::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -139px;
+  width: 142px;
+  height: 196px;
+  transform: translateX(-50%);
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(179,255,60,0.72) 0 18px,
+      rgba(57,255,149,0.55) 18px 36px
+    ),
+    linear-gradient(
+      180deg,
+      rgba(138,255,198,0.86),
+      rgba(44,229,126,0.88)
+    );
+  border: 8px solid #4b3b23;
+  box-shadow:
+    inset 0 0 0 6px rgba(196, 255, 227, 0.35),
+    0 0 28px rgba(95, 255, 94, 0.48),
+    0 0 70px rgba(255, 223, 83, 0.18);
+}
+
+/* 
+  Arco/tampa visual do reator.
+  Também fica no lugar antigo, sem aumentar a colisão.
+*/
+#room-map.sala2 .reactor::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -195px;
+  width: 198px;
+  height: 72px;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(
+      ellipse at 50% 58%,
+      #9c682b 0 38px,
+      #58331f 39px 62px,
+      transparent 63px
+    ),
+    linear-gradient(180deg, #b77b33, #70421f);
+  border: 7px solid #4a2c18;
+  border-radius: 50% 50% 10px 10px;
+  box-shadow:
+    0 176px 0 -6px #70421f,
+    0 176px 0 1px #4a2c18,
+    0 9px 0 rgba(255,255,255,0.08);
+}
+
+/* braços/canos do reator */
+#room-map.sala2 .reactor .reactor-arm,
+#room-map.sala2 .reactor .reactor-pipe { display: none; }
+
+/* ========================= CAIXAS DE ENERGIA ========================= */
+
+#room-map.sala2 .energy-box {
+  bottom: 52px;
+  width: 145px;
+  height: 82px;
+  z-index: 12;
+  background: linear-gradient(180deg, #8d916a, #58543b);
+  border: 6px solid #3c3525;
+  box-shadow:
+    5px 5px 0 rgba(34, 31, 25, 0.45),
+    inset 0 0 0 5px rgba(255,255,255,0.08);
+}
+
+#room-map.sala2 .energy-box::before {
+  content: "ENERGY";
+  position: absolute;
+  left: 16px;
+  top: 20px;
+  color: #fff2a0;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  text-shadow: 2px 2px 0 #29311e;
+}
+
+#room-map.sala2 .energy-box::after {
+  content: "";
+  position: absolute;
+  left: 62px;
+  bottom: 12px;
+  width: 20px;
+  height: 20px;
+  background: #d7d6b4;
+  border: 4px solid #353629;
+}
+
+#room-map.sala2 .energy-box-1 { left: 75px; }
+#room-map.sala2 .energy-box-2 { left: 240px; }
+
+/* ========================= TERMINAIS DO LADO DIREITO ========================= */
+
+#room-map.sala2 .energy-terminal {
+  right: 70px;
+  width: 92px;
+  height: 86px;
+  z-index: 14;
+  background: linear-gradient(180deg, #c9aa66, #7c592c);
+  border: 5px solid #49311e;
+  box-shadow: 5px 5px 0 rgba(28, 30, 30, 0.45);
+}
+
+#room-map.sala2 .energy-terminal::before {
+  content: "?";
+  position: absolute;
+  left: 21px;
+  top: -34px;
+  width: 50px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaff75;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 23px;
+  background: #173b3a;
+  border: 5px solid #51442b;
+  box-shadow: 0 0 12px rgba(150,255,120,0.22);
+}
+
+#room-map.sala2 .energy-terminal::after {
+  content: "?";
+  position: absolute;
+  left: 34px;
+  bottom: 12px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffd55f;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  background: #8d5530;
+  box-shadow: 0 0 10px rgba(255, 197, 70, 0.42);
+}
+
+#room-map.sala2 .terminal-1 { top: 236px; }
+#room-map.sala2 .terminal-2 { top: 365px; }
+#room-map.sala2 .terminal-3 { top: 500px; }
+
+/* ========================= CABOS ========================= */
+
+#room-map.sala2 .cable {
+  position: absolute;
+  z-index: 5;
+  background: transparent;
+  border: none;
+  pointer-events: none;
+}
+
+#room-map.sala2 .cable::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 6px solid #5a321f;
+  border-top: none;
+  border-right: none;
+  border-radius: 0 0 0 42px;
+  box-shadow:
+    8px 0 0 #7a4a2e,
+    16px 0 0 #4f2a1d;
+}
+
+#room-map.sala2 .cable-1 { left: 284px; top: 210px; width: 230px; height: 325px; }
+#room-map.sala2 .cable-2 { left: 450px; top: 488px; width: 150px; height: 58px; transform: rotate(0deg); }
+#room-map.sala2 .cable-3 { left: 570px; top: 398px; width: 190px; height: 120px; transform: rotate(180deg); }
+#room-map.sala2 .cable-4 { left: 650px; top: 230px; width: 165px; height: 78px; transform: rotate(180deg); }
+
+/* ========================= PORTA E PLANTAS ========================= */
+
+#room-map.sala2 .door {
+  top: 93px;
+  right: 205px;
+  width: 120px;
+  height: 144px;
+  z-index: 10;
+  background: linear-gradient(90deg, #ffd18a 0 42%, #f0ad51 42% 100%);
+  border: 7px solid #5e3a20;
+  box-shadow:
+    0 0 0 5px rgba(255, 215, 126, 0.14),
+    7px 7px 0 rgba(39, 32, 24, 0.35);
+}
+
+#room-map.sala2 .door::before {
+  content: "";
+  position: absolute;
+  left: 28px;
+  top: 0;
+  width: 28px;
+  height: 56px;
+  background: rgba(255,255,255,0.26);
+  transform: skew(-24deg);
+}
+
+#room-map.sala2 .door::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  top: 65px;
+  width: 10px;
+  height: 10px;
+  background: #ffdf74;
+  box-shadow: 0 0 10px rgba(255, 223, 116, 0.95);
+}
+
+#room-map.sala2 .plant {
+  width: 48px;
+  height: 50px;
+  z-index: 12;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+#room-map.sala2 .plant::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 42px;
+  height: 36px;
+  background:
+    radial-gradient(circle at 35% 65%, #77d96f 0 11px, transparent 12px),
+    radial-gradient(circle at 55% 35%, #51b95e 0 12px, transparent 13px),
+    radial-gradient(circle at 72% 66%, #37934f 0 10px, transparent 11px),
+    radial-gradient(circle at 20% 35%, #56be61 0 9px, transparent 10px);
+}
+
+#room-map.sala2 .plant::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  bottom: -2px;
+  width: 28px;
+  height: 22px;
+  background: linear-gradient(180deg, #b86b3f, #74411f);
+  border: 3px solid #5c341c;
+}
+
+#room-map.sala2 .plant-1 { display: none; }
+#room-map.sala2 .plant-2 { top: 100px; right: 70px; }
+#room-map.sala2 .plant-3 { display: none; }
+
+/* portais laterais decorativos sem colisão */
+#room-map.sala2 .wall-left::after,
+#room-map.sala2 .wall-right::after {
+  content: "";
+  position: absolute;
+  top: 240px;
+  width: 18px;
+  height: 126px;
+  background: linear-gradient(180deg, transparent, #ffbd47, #fff176, #ffbd47, transparent);
+  box-shadow: 0 0 18px rgba(255, 201, 72, 0.92);
+}
+
+#room-map.sala2 .wall-left::after { right: -12px; }
+#room-map.sala2 .wall-right::after { left: -12px; }
+
+/* ========================= BRILHO DAS TASKS ========================= */
+
+#room-map.sala2 .sala2-mission.mission-available,
+#room-map.sala2 .sala2-mission:not(.mission-solved) {
+  outline: 3px solid rgba(255, 232, 91, 0.42);
+  outline-offset: 5px;
+  animation: sala2-task-glow 1.05s infinite alternate;
+}
+
+#room-map.sala2 .sala2-mission.mission-solved {
+  outline: 2px solid rgba(105, 255, 132, 0.16);
+  filter: saturate(0.65) brightness(0.82);
+  animation: none;
+}
+
+@keyframes sala2-task-glow {
+  from {
+    filter: drop-shadow(0 0 4px rgba(255, 213, 77, 0.35));
+  }
+  to {
+    filter:
+      drop-shadow(0 0 12px rgba(255, 220, 80, 0.95))
+      drop-shadow(0 0 24px rgba(111, 255, 83, 0.38));
+  }
+}
+
+/* canvas/personagem acima do cenário */
+#room-map.sala2 + #gameCanvas {
+  z-index: 20;
+}
+
