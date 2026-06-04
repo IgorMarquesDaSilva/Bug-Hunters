@@ -411,10 +411,10 @@ window.GameAudio = (() => {
 
     const now = ctx.currentTime;
     const roomStep = {
-      sala1: { base: 145, noise: 0.030, filter: 420 },
-      sala2: { base: 175, noise: 0.025, filter: 520 },
-      sala3: { base: 120, noise: 0.035, filter: 360 },
-      sala4: { base: 160, noise: 0.026, filter: 470 }
+      sala1: { base: 145, noise: 0.055, filter: 420 },
+      sala2: { base: 175, noise: 0.050, filter: 520 },
+      sala3: { base: 120, noise: 0.060, filter: 360 },
+      sala4: { base: 160, noise: 0.052, filter: 470 }
     }[roomName] || { base: 145, noise: 0.028, filter: 420 };
 
     const stepGain = ctx.createGain();
@@ -426,7 +426,7 @@ window.GameAudio = (() => {
     state.stepSide = state.stepSide === 0 ? 1 : 0;
 
     stepGain.gain.setValueAtTime(0.0001, now);
-    stepGain.gain.linearRampToValueAtTime(0.085, now + 0.012);
+    stepGain.gain.linearRampToValueAtTime(0.22, now + 0.012);
     stepGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.115);
 
     osc.type = "triangle";
