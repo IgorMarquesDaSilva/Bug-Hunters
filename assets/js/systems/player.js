@@ -38,10 +38,11 @@ const Player = (() => {
     drawW: DRAW_W,
     drawH: DRAW_H,
 
-    hitboxW: 30,
-    hitboxH: 22,
-    hitboxOffsetX: 21,
-    hitboxOffsetY: 92,
+    hitboxW: 24,
+    hitboxH: 13,
+    hitboxOffsetX: 30,
+    hitboxOffsetY: 90,
+    
 
     speed: CONFIG.player.speed,
     facing: "down",

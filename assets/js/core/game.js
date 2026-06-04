@@ -36,14 +36,16 @@
      GameState.resetFull();
      GameState.difficulty  = diff;
      GameState.lives       = CONFIG.difficulties[diff].lives;
-     GameState.currentRoom = "sala1";
+     GameState.currentRoom = "sala3";
+     
    
-     CollisionSystem.loadZones();
      Renderer.loadRoomBackground();
      BugSystem.spawnBugs();
+     CollisionSystem.loadZones();
      Player.resetToRoomStart();
      HUD.update();
      UI.showScreen(null);
+     
    
      // Abre tutorial se for a primeira vez
      TutorialSystem.open();

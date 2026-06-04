@@ -1,623 +1,1129 @@
 /* ============================================================
-   assets/css/sala3_design.css
-   Sala 3 — Quarentena / Bug Hunters
-   SOMENTE VISUAL: não altera HTML, JS ou lógica de colisão.
-   Mantém os mesmos elementos .collision e mission-point do index.
+   BLOCO BASE DA SALA 3 MOVIDO DO main.css
+   Mantido aqui para separar o CSS específico da Sala 3.
 ============================================================ */
 
-/* ========================= AMBIENTE GERAL ========================= */
+/* ============================================================
+      SALA 3 — LABORATÓRIO DE QUARENTENA / SEGURANÇA
+   ============================================================ */
+   
+   .quarantine-chamber,
+   .quarantine-power,
+   .side-workstation,
+   .quarantine-desk,
+   .recovery-reactor,
+   .data-tower,
+   .recovery-terminal,
+   .safety-shelf,
+   .fire-extinguisher,
+   .bio-pipe {
+     display: none;
+   }
+   
+   /* Esconde objetos das salas 1 e 2 quando estiver na sala 3 */
+   .sala3 .desk,
+   .sala3 .server-rack,
+   .sala3 .main-table,
+   .sala3 .box,
+   .sala3 .printer,
+   .sala3 .plant,
+   .sala3 .lab-desk,
+   .sala3 .energy-meter,
+   .sala3 .reactor,
+   .sala3 .energy-box,
+   .sala3 .energy-terminal,
+   .sala3 .cable {
+     display: none !important;
+   }
+   
+   /* Fundo da sala 3 */
+   .sala3 {
+     background:
+       linear-gradient(30deg, rgba(255,255,255,0.10) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.10) 87.5%),
+       linear-gradient(150deg, rgba(255,255,255,0.10) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.10) 87.5%),
+       radial-gradient(circle at 70% 70%, rgba(255, 205, 120, 0.22), transparent 230px),
+       #a9bcc1 !important;
+     background-size: 80px 140px, 80px 140px, 100% 100%;
+   }
+   
+   /* Paredes */
+   .sala3 .map-wall {
+     background: #24354d;
+     border-color: #101a2b;
+     box-shadow:
+       inset 0 0 0 5px #4a6b87,
+       0 0 18px rgba(79,195,247,0.22);
+   }
+   
+   /* Porta */
+   .sala3 .door {
+     display: block;
+     top: 58px;
+     right: 195px;
+     width: 115px;
+     height: 135px;
+     background: #8f9ba8;
+     border-color: #293544;
+     box-shadow:
+       inset -18px 0 0 rgba(0,0,0,0.16),
+       5px 5px 0 rgba(0,0,0,0.28);
+   }
+   
+   .sala3 .door::before {
+     left: 35px;
+     top: 22px;
+     width: 38px;
+     height: 82px;
+     background: #b8c4ce;
+     border-color: #293544;
+   }
+   
+   .sala3 .door::after {
+     right: 12px;
+     top: 70px;
+     background: #69ff47;
+   }
+   
+   /* Cápsula de quarentena */
+   .sala3 .quarantine-chamber {
+     display: block;
+     position: absolute;
+     left: 105px;
+     top: 80px;
+     width: 475px;
+     height: 220px;
+     background: #9ec9cf;
+     border: 10px solid #4e5d70;
+     box-shadow:
+       inset 0 0 0 10px rgba(255,255,255,0.25),
+       inset 0 0 28px rgba(0,229,255,0.18),
+       7px 7px 0 rgba(0,0,0,0.35);
+     z-index: 8;
+   }
+   
+   .sala3 .quarantine-chamber::before {
+     content: "";
+     position: absolute;
+     inset: 38px 28px 28px 28px;
+     background:
+       linear-gradient(135deg, rgba(255,255,255,0.45) 0 12px, transparent 12px 55px, rgba(255,255,255,0.35) 55px 65px, transparent 65px),
+       rgba(200,255,255,0.35);
+     border: 5px solid #536474;
+   }
+   
+   .sala3 .quarantine-sign {
+     position: absolute;
+     left: 105px;
+     top: -52px;
+     width: 245px;
+     height: 58px;
+     background: #1a2c3d;
+     border: 5px solid #8190a5;
+     color: #e8f4f8;
+     font-size: 9px;
+     line-height: 1.7;
+     text-align: center;
+     padding-top: 8px;
+     text-shadow: 0 0 8px rgba(255,255,255,0.4);
+     z-index: 12;
+   }
+   
+   .sala3 .quarantine-symbol {
+     position: absolute;
+     left: 200px;
+     top: 92px;
+     color: #a83cff;
+     font-size: 68px;
+     line-height: 1;
+     text-shadow: 0 0 12px rgba(168,60,255,0.7);
+     z-index: 12;
+   }
+   
+   /* Painel de energia esquerdo */
+   .sala3 .quarantine-power {
+     display: block;
+     position: absolute;
+     left: 70px;
+     top: 340px;
+     width: 220px;
+     height: 90px;
+     background: #4b5d68;
+     border: 6px solid #25323d;
+     box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
+     z-index: 8;
+   }
+   
+   .sala3 .quarantine-power span {
+     position: absolute;
+     left: 72px;
+     top: 18px;
+     color: #dfffd8;
+     font-size: 8px;
+   }
+   
+   .sala3 .quarantine-power::before {
+     content: "⚠";
+     position: absolute;
+     left: 24px;
+     top: 26px;
+     color: #ffdf70;
+     font-size: 28px;
+     text-shadow: 0 0 10px rgba(255,223,112,0.8);
+   }
+   
+   .sala3 .quarantine-power::after {
+     content: "";
+     position: absolute;
+     right: 18px;
+     top: 18px;
+     width: 14px;
+     height: 14px;
+     background: #69ff47;
+     box-shadow:
+       0 22px #ffdf70,
+       0 44px #ff4444;
+   }
+   
+   /* Estação esquerda */
+   .sala3 .side-workstation {
+     display: block;
+     position: absolute;
+     left: 70px;
+     bottom: 95px;
+     width: 125px;
+     height: 70px;
+     background: #d8e0e8;
+     border: 5px solid #7c86a5;
+     box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
+     z-index: 8;
+   }
+   
+   .sala3 .side-monitor {
+     position: absolute;
+     left: 22px;
+     top: -55px;
+     width: 62px;
+     height: 54px;
+     background: #1a2c3d;
+     border: 5px solid #111;
+   }
+   
+   .sala3 .side-monitor::after {
+     content: "";
+     position: absolute;
+     inset: 8px;
+     background: #a83cff;
+     box-shadow: inset 0 0 0 5px #4fc3f7;
+   }
+   
+   .sala3 .side-keyboard {
+     position: absolute;
+     left: 42px;
+     top: 15px;
+     width: 42px;
+     height: 18px;
+     background: #cdd5df;
+     border: 3px solid #6e788c;
+   }
+   
+   .sala3 .side-chair {
+     position: absolute;
+     right: -42px;
+     top: 22px;
+     width: 35px;
+     height: 40px;
+     background: #1d355d;
+     border: 4px solid #101a2b;
+   }
+   
+   /* Mesa central */
+   .sala3 .quarantine-desk {
+     display: block;
+     position: absolute;
+     left: 390px;
+     top: 355px;
+     width: 235px;
+     height: 95px;
+     background: #d3c7b5;
+     border: 6px solid #6f5b4a;
+     box-shadow: 6px 6px 0 rgba(0,0,0,0.35);
+     z-index: 8;
+   }
+   
+   .sala3 .q-screen {
+     position: absolute;
+     left: 62px;
+     top: -58px;
+     width: 118px;
+     height: 65px;
+     background: #1a2c3d;
+     border: 5px solid #111;
+   }
+   
+   .sala3 .q-screen::after {
+     content: "";
+     position: absolute;
+     inset: 8px;
+     background:
+       linear-gradient(#ff4ccf 4px, transparent 4px),
+       linear-gradient(90deg, #a83cff 4px, transparent 4px);
+     background-size: 22px 18px;
+   }
+   
+   .sala3 .q-keyboard {
+     position: absolute;
+     left: 78px;
+     top: 42px;
+     width: 85px;
+     height: 20px;
+     background: #cfd5dd;
+     border: 3px solid #706c69;
+   }
+   
+   .sala3 .q-chair {
+     position: absolute;
+     left: 88px;
+     bottom: -70px;
+     width: 55px;
+     height: 70px;
+     background: #202836;
+     border: 5px solid #111;
+   }
+   
+   /* Reator de recuperação */
+   .sala3 .recovery-reactor {
+     display: block;
+     position: absolute;
+     right: 155px;
+     bottom: 65px;
+     width: 140px;
+     height: 205px;
+     background: #88785d;
+     border: 8px solid #3d3429;
+     box-shadow:
+       0 0 40px rgba(255,180,80,0.55),
+       6px 6px 0 rgba(0,0,0,0.35);
+     z-index: 9;
+   }
+   
+   .sala3 .recovery-reactor::before {
+     content: "";
+     position: absolute;
+     left: -18px;
+     top: -34px;
+     width: 160px;
+     height: 52px;
+     background: #4c5360;
+     border: 7px solid #202936;
+   }
 
+
+   .sala3 .reactor-top {
+     position: absolute;
+     left: -18px;
+     top: -34px;
+     width: 160px;
+     height: 52px;
+     background: #4c5360;
+     border: 7px solid #202936;
+   }
+   
+   .sala3 .reactor-core {
+     position: absolute;
+     left: 24px;
+     top: 35px;
+     width: 75px;
+     height: 120px;
+     background: repeating-linear-gradient(
+       90deg,
+       #ff4ccf 0 10px,
+       #4fc3f7 10px 20px,
+       #69ff47 20px 30px,
+       #ffdf70 30px 40px
+     );
+     border: 6px solid #202936;
+     box-shadow:
+       0 0 22px rgba(255,76,207,0.85),
+       0 0 38px rgba(79,195,247,0.65);
+     animation: recovery-core-pulse 0.7s infinite alternate;
+   }
+   
+   @keyframes recovery-core-pulse {
+     from { filter: brightness(1); }
+     to { filter: brightness(1.35); }
+   }
+   
+   /* Torre de dados */
+   .sala3 .data-tower {
+     display: block;
+     position: absolute;
+     right: 80px;
+     top: 350px;
+     width: 95px;
+     height: 70px;
+     background: #56606c;
+     border: 5px solid #28313b;
+     box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
+     z-index: 8;
+   }
+   
+   .sala3 .data-tower span {
+     position: absolute;
+     inset: 12px 6px;
+     color: #e8f4f8;
+     font-size: 8px;
+     line-height: 1.7;
+     text-align: center;
+   }
+   
+   .sala3 .data-tower::after {
+     content: "";
+     position: absolute;
+     left: 18px;
+     bottom: -42px;
+     width: 58px;
+     height: 40px;
+     background: #d8e0e8;
+     border: 4px solid #7c86a5;
+   }
+
+
+   .sala3 .data-base {
+     position: absolute;
+     left: 18px;
+     bottom: -42px;
+     width: 58px;
+     height: 40px;
+     background: #d8e0e8;
+     border: 4px solid #7c86a5;
+   }
+   
+   /* Terminal direito */
+   .sala3 .recovery-terminal {
+     display: block;
+     position: absolute;
+     right: 75px;
+     bottom: 115px;
+     width: 105px;
+     height: 70px;
+     background: #e7e3d8;
+     border: 5px solid #7f7770;
+     box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
+     z-index: 8;
+   }
+   
+   .sala3 .recovery-terminal::before {
+     content: "";
+     position: absolute;
+     left: 34px;
+     top: 12px;
+     width: 28px;
+     height: 42px;
+     background: #1a2c3d;
+     border: 4px solid #111;
+   }
+   
+   /* Decoração direita */
+   .sala3 .safety-shelf {
+     display: block;
+     position: absolute;
+     right: 58px;
+     top: 65px;
+     width: 115px;
+     height: 115px;
+     background: transparent;
+     border-right: 8px solid #5d6770;
+     border-bottom: 8px solid #5d6770;
+     z-index: 8;
+   }
+   
+   .sala3 .safety-shelf::before {
+     content: "";
+     position: absolute;
+     right: 18px;
+     top: 5px;
+     width: 34px;
+     height: 34px;
+     background: #5ba96a;
+     border: 4px solid #2f6e41;
+     box-shadow:
+       -55px 2px 0 #5ba96a,
+       -55px 2px 0 4px #2f6e41,
+       -20px 62px 0 #5ba96a,
+       -20px 62px 0 5px #2f6e41;
+   }
+   
+   .sala3 .fire-extinguisher {
+     display: block;
+     position: absolute;
+     right: 166px;
+     top: 180px;
+     width: 28px;
+     height: 58px;
+     background: #d63f3f;
+     border: 4px solid #692020;
+     box-shadow: 4px 4px 0 rgba(0,0,0,0.35);
+     z-index: 8;
+   }
+   
+   .sala3 .fire-extinguisher::before {
+     content: "";
+     position: absolute;
+     left: 5px;
+     top: -12px;
+     width: 12px;
+     height: 12px;
+     background: #d8e0e8;
+     border: 3px solid #692020;
+   }
+   
+   /* Tubos */
+   .sala3 .bio-pipe {
+     display: block;
+     position: absolute;
+     background: #7a8b96;
+     border: 3px solid #3c4d56;
+     z-index: 5;
+   }
+   
+   .sala3 .bio-pipe-1 {
+     left: 310px;
+     top: 305px;
+     width: 18px;
+     height: 90px;
+   }
+   
+   .sala3 .bio-pipe-2 {
+     left: 328px;
+     top: 380px;
+     width: 210px;
+     height: 18px;
+   }
+   
+   .sala3 .bio-pipe-3 {
+     left: 535px;
+     top: 395px;
+     width: 18px;
+     height: 105px;
+   }
+   
+   .sala3 .bio-pipe-4 {
+     left: 540px;
+     top: 500px;
+     width: 240px;
+     height: 18px;
+   }
+   
+   .sala3 .bio-pipe-5 {
+     right: 265px;
+     top: 470px;
+     width: 18px;
+     height: 70px;
+   }
+
+
+/* ============================================================
+   assets/css/sala3_design.css
+   Sala 3 — ajustes finos sobre o design original.
+   Mantém a composição antiga e só melhora:
+   - textura do piso
+   - vidro da quarentena com detalhes internos
+   - q-screen mais parecido com computador
+   - brilho das tasks
+============================================================ */
+
+/* Mantém a sala com o layout base do main.css, só melhora o piso */
+/* Mantém a sala com o layout base do main.css, só melhora o PISO da sala.
+   A textura fica no chão inteiro, não no vidro da quarentena. */
 #room-map.sala3 {
-  overflow: hidden;
-  image-rendering: pixelated;
   background:
-    radial-gradient(circle at 76% 78%, rgba(255, 196, 98, 0.24) 0 0, transparent 190px),
-    radial-gradient(circle at 32% 24%, rgba(154, 255, 245, 0.22) 0 0, transparent 260px),
-    linear-gradient(30deg, rgba(49, 86, 104, 0.28) 12%, transparent 12% 88%, rgba(49, 86, 104, 0.28) 88%),
-    linear-gradient(150deg, rgba(49, 86, 104, 0.22) 12%, transparent 12% 88%, rgba(49, 86, 104, 0.22) 88%),
-    linear-gradient(90deg, rgba(29, 68, 82, 0.14) 2px, transparent 2px),
-    linear-gradient(180deg, #235d61 0 27%, #b7c7c7 27% 100%);
+    /* textura de placas/poeira do piso */
+    radial-gradient(circle at 22% 28%, rgba(255,255,255,0.10) 0 1px, transparent 2px),
+    radial-gradient(circle at 68% 76%, rgba(40,60,70,0.15) 0 1px, transparent 2px),
+    radial-gradient(circle at 44% 54%, rgba(255,255,255,0.08) 0 1px, transparent 2px),
+
+    /* piso hexagonal estilo laboratório */
+    linear-gradient(30deg, rgba(65, 82, 92, 0.24) 12%, transparent 12.5%, transparent 87%, rgba(65, 82, 92, 0.24) 87.5%),
+    linear-gradient(150deg, rgba(65, 82, 92, 0.24) 12%, transparent 12.5%, transparent 87%, rgba(65, 82, 92, 0.24) 87.5%),
+    linear-gradient(30deg, rgba(255,255,255,0.13) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.13) 87.5%),
+    linear-gradient(150deg, rgba(255,255,255,0.13) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.13) 87.5%),
+
+    /* linhas retas suaves para parecer piso de laboratório */
+    linear-gradient(90deg, rgba(41, 56, 68, 0.15) 1px, transparent 1px),
+    linear-gradient(rgba(41, 56, 68, 0.13) 1px, transparent 1px),
+
+    /* luz quente vindo do reator de recuperação */
+    radial-gradient(circle at 73% 70%, rgba(255, 205, 120, 0.24), transparent 235px),
+
+    #a9bcc1 !important;
+
   background-size:
+    42px 42px,
+    56px 56px,
+    64px 64px,
+    80px 140px,
+    80px 140px,
+    80px 140px,
+    80px 140px,
+    80px 70px,
+    80px 70px,
     100% 100%,
-    100% 100%,
-    96px 56px,
-    96px 56px,
-    76px 56px,
     100% 100%;
-  box-shadow:
-    inset 0 0 0 4px #1a293f,
-    inset 0 0 0 28px #31506c,
-    inset 0 0 0 34px #608ba4,
-    inset 0 -84px 0 rgba(70, 82, 96, 0.20);
 }
 
-/* parede superior, placas e textura */
-#room-map.sala3::before {
-  content: "";
-  position: absolute;
-  left: 34px;
-  top: 34px;
-  width: 932px;
-  height: 126px;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,0.05) 0 4px, transparent 4px 100%),
-    linear-gradient(rgba(255,255,255,0.04) 0 3px, transparent 3px 100%),
-    radial-gradient(circle at 20% 42%, rgba(160, 255, 245, 0.16), transparent 150px),
-    linear-gradient(180deg, rgba(32, 86, 92, 0.96), rgba(28, 74, 82, 0.86));
-  background-size: 78px 100%, 100% 42px, 100% 100%, 100% 100%;
-  border-bottom: 5px solid rgba(49, 80, 98, 0.86);
-}
-
-/* luz quente na área do reator de recuperação */
-#room-map.sala3::after {
-  content: "";
-  position: absolute;
-  right: 96px;
-  bottom: 62px;
-  width: 290px;
-  height: 230px;
-  z-index: 2;
-  pointer-events: none;
-  background: radial-gradient(circle at 60% 60%, rgba(255, 200, 112, 0.44), transparent 68%);
-  mix-blend-mode: screen;
-  opacity: 0.72;
-}
-
+/* Paredes continuam parecidas com o visual original */
 #room-map.sala3 .map-wall {
-  background: linear-gradient(180deg, #31536d, #1c344e);
-  border-color: #14263a;
-  box-shadow: inset 0 0 0 4px rgba(184, 236, 255, 0.12);
+  background:
+    linear-gradient(180deg, #33465f, #1d2a40);
+  border-color: #101a2b;
+  box-shadow:
+    inset 0 0 0 5px #526f8c,
+    inset 0 0 18px rgba(130, 180, 215, 0.22),
+    0 0 18px rgba(79,195,247,0.18);
 }
 
-#room-map.sala3 .wall-top,
-#room-map.sala3 .wall-bottom { height: 32px; }
-
-#room-map.sala3 .wall-left,
-#room-map.sala3 .wall-right { width: 32px; }
-
-/* ========================= OBJETOS BASE ========================= */
-
-#room-map.sala3 .quarantine-chamber,
-#room-map.sala3 .quarantine-sign,
-#room-map.sala3 .quarantine-symbol,
-#room-map.sala3 .quarantine-power,
-#room-map.sala3 .side-workstation,
-#room-map.sala3 .side-monitor,
-#room-map.sala3 .side-keyboard,
-#room-map.sala3 .side-chair,
-#room-map.sala3 .quarantine-desk,
-#room-map.sala3 .q-screen,
-#room-map.sala3 .q-keyboard,
-#room-map.sala3 .q-chair,
-#room-map.sala3 .recovery-reactor,
-#room-map.sala3 .reactor-top,
-#room-map.sala3 .reactor-core,
-#room-map.sala3 .data-tower,
-#room-map.sala3 .data-base,
-#room-map.sala3 .recovery-terminal,
-#room-map.sala3 .safety-shelf,
-#room-map.sala3 .fire-extinguisher,
-#room-map.sala3 .bio-pipe,
-#room-map.sala3 .door,
-#room-map.sala3 .plant {
-  image-rendering: pixelated;
-}
-
-/* ========================= CÂMARA DE QUARENTENA ========================= */
+/* ========================= QUARENTENA COM VIDRO ========================= */
 
 #room-map.sala3 .quarantine-chamber {
-  left: 105px;
-  top: 102px;
-  width: 472px;
-  height: 185px;
-  z-index: 12;
   background:
-    linear-gradient(135deg, rgba(255,255,255,0.42) 0 12%, transparent 12% 70%, rgba(255,255,255,0.18) 70% 82%, transparent 82%),
-    linear-gradient(180deg, rgba(210, 245, 242, 0.86), rgba(157, 204, 202, 0.78));
-  border: 8px solid #34445d;
+    linear-gradient(180deg, rgba(170, 218, 224, 0.72), rgba(138, 190, 199, 0.58)),
+    #9ec9cf;
+  border-color: #4e5d70;
   box-shadow:
-    0 0 0 6px #202b3d,
-    7px 7px 0 rgba(21, 29, 39, 0.40),
-    inset 0 0 0 7px rgba(255,255,255,0.22),
-    inset 0 -22px 0 rgba(67, 89, 108, 0.22);
-  clip-path: polygon(8% 0, 92% 0, 100% 22%, 100% 78%, 92% 100%, 8% 100%, 0 78%, 0 22%);
+    inset 0 0 0 10px rgba(255,255,255,0.22),
+    inset 0 0 28px rgba(0,229,255,0.20),
+    inset 0 -28px 0 rgba(65, 95, 110, 0.24),
+    7px 7px 0 rgba(0,0,0,0.35);
+  overflow: visible;
 }
 
+/* Vidro frontal da cápsula: reflexos e divisões internas.
+   Não cria "chuveiros" no chão; fica parecendo uma janela de contenção. */
 #room-map.sala3 .quarantine-chamber::before {
   content: "";
   position: absolute;
-  left: 35px;
-  top: 50px;
-  width: 398px;
-  height: 92px;
-  border: 5px solid rgba(57, 76, 100, 0.74);
+  inset: 38px 28px 28px 28px;
   background:
-    linear-gradient(90deg, rgba(255,255,255,0.20) 0 3px, transparent 3px 100%),
-    linear-gradient(180deg, rgba(255,255,255,0.18), transparent);
-  background-size: 82px 100%, 100% 100%;
-}
+    /* reflexos diagonais de vidro */
+    linear-gradient(135deg,
+      rgba(255,255,255,0.50) 0 10px,
+      transparent 10px 58px,
+      rgba(255,255,255,0.30) 58px 68px,
+      transparent 68px 126px,
+      rgba(255,255,255,0.20) 126px 134px,
+      transparent 134px
+    ),
 
-#room-map.sala3 .quarantine-sign {
-  left: 100px;
-  top: -54px;
-  width: 252px;
-  height: 66px;
-  z-index: 16;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #e9fbff;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
-  line-height: 1.55;
-  text-align: center;
-  letter-spacing: 1px;
-  background: linear-gradient(180deg, #39475b, #1d2d40);
-  border: 5px solid #6c7d91;
+    /* divisões de placas do vidro */
+    linear-gradient(90deg,
+      transparent 0 31%,
+      rgba(80, 105, 118, 0.55) 31% 32%,
+      transparent 32% 66%,
+      rgba(80, 105, 118, 0.48) 66% 67%,
+      transparent 67%
+    ),
+    linear-gradient(180deg,
+      transparent 0 48%,
+      rgba(80, 105, 118, 0.30) 48% 50%,
+      transparent 50%
+    ),
+
+    /* névoa azulada dentro */
+    radial-gradient(circle at 18% 34%, rgba(220,255,255,0.32) 0 34px, transparent 70px),
+    radial-gradient(circle at 82% 64%, rgba(210,255,255,0.24) 0 42px, transparent 92px),
+
+    rgba(205,255,255,0.34);
+
+  border: 5px solid #536474;
   box-shadow:
-    0 0 0 4px #192638,
-    0 0 18px rgba(150, 221, 255, 0.22);
+    inset 0 0 18px rgba(255,255,255,0.28),
+    inset 0 0 36px rgba(0,229,255,0.12);
 }
 
-#room-map.sala3 .quarantine-sign::after {
+/* Objetos dentro da quarentena: módulos suspensos/amostras, não no chão. */
+#room-map.sala3 .quarantine-chamber::after {
   content: "";
   position: absolute;
-  right: -52px;
-  top: 18px;
-  width: 28px;
-  height: 28px;
-  background: radial-gradient(circle, #ff6b33 0 42%, #8d1e22 43% 70%, transparent 71%);
-  border: 4px solid #3b1a20;
-  box-shadow: 0 0 18px rgba(255, 61, 35, 0.78);
-  animation: sala3-warning-light 0.8s infinite alternate;
-}
-
-#room-map.sala3 .quarantine-symbol {
-  position: absolute;
-  left: 212px;
-  top: 76px;
-  z-index: 17;
-  color: rgba(159, 57, 207, 0.75);
-  font-size: 64px;
-  line-height: 1;
-  text-shadow: 0 0 14px rgba(187, 69, 255, 0.28);
-}
-
-@keyframes sala3-warning-light {
-  from { filter: brightness(0.82); box-shadow: 0 0 8px rgba(255, 61, 35, 0.36); }
-  to { filter: brightness(1.24); box-shadow: 0 0 20px rgba(255, 87, 45, 0.92); }
-}
-
-/* ========================= POWER GRID ========================= */
-
-#room-map.sala3 .quarantine-power {
-  left: 82px;
-  top: 320px;
-  width: 220px;
-  height: 116px;
-  z-index: 13;
-  background: linear-gradient(180deg, #cfd8d8 0 32%, #3b4d5c 32% 100%);
-  border: 6px solid #263244;
-  box-shadow:
-    6px 6px 0 rgba(24, 31, 40, 0.42),
-    inset 0 0 0 5px rgba(255,255,255,0.10);
-}
-
-#room-map.sala3 .quarantine-power span {
-  position: absolute;
-  left: 92px;
-  top: 38px;
-  color: #dcecf0;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-}
-
-#room-map.sala3 .quarantine-power::before {
-  content: "⚠";
-  position: absolute;
-  left: 26px;
-  top: 42px;
-  width: 48px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffd76c;
-  font-size: 26px;
-  background: #1f2d39;
-  border: 4px solid #607383;
-}
-
-#room-map.sala3 .quarantine-power::after {
-  content: "";
-  position: absolute;
-  right: 18px;
-  top: 38px;
-  width: 10px;
-  height: 10px;
-  background: #6dff87;
-  box-shadow:
-    0 20px #c970ff,
-    0 40px #ff5656;
-}
-
-/* ========================= ESTAÇÃO LATERAL ESQUERDA ========================= */
-
-#room-map.sala3 .side-workstation {
-  left: 82px;
-  bottom: 72px;
-  width: 146px;
-  height: 95px;
-  z-index: 12;
-  background: linear-gradient(180deg, #eef5f8 0 56%, #a9b7c5 56% 100%);
-  border: 5px solid #4d6175;
-  box-shadow: 6px 6px 0 rgba(26, 35, 47, 0.36);
-}
-
-#room-map.sala3 .side-monitor {
-  left: 34px;
-  top: -44px;
-  width: 64px;
-  height: 54px;
-  background: #1d2640;
-  border: 5px solid #d2e4e8;
-  box-shadow: 0 4px 0 rgba(0,0,0,0.24);
-}
-
-#room-map.sala3 .side-monitor::after {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  background:
-    linear-gradient(90deg, #cb71ff 0 5px, transparent 5px 100%),
-    linear-gradient(#cb71ff 0 5px, transparent 5px 12px, #cb71ff 12px 16px, transparent 16px),
-    #2c2448;
-  box-shadow: 0 0 12px rgba(208, 88, 255, 0.48);
-}
-
-#room-map.sala3 .side-keyboard {
-  position: absolute;
-  left: 32px;
-  bottom: 18px;
-  width: 76px;
-  height: 18px;
-  background: repeating-linear-gradient(90deg, #6f7c92 0 8px, #dce9ee 8px 11px);
-  border: 4px solid #3b4f64;
-}
-
-#room-map.sala3 .side-chair {
-  left: 122px;
-  top: 42px;
-  width: 58px;
-  height: 62px;
-  background: linear-gradient(180deg, #252f49, #111b2f);
-  border: 4px solid #405673;
-  box-shadow: 4px 4px 0 rgba(22, 30, 43, 0.34);
-}
-
-/* ========================= MESA CENTRAL DE QUARENTENA ========================= */
-
-#room-map.sala3 .quarantine-desk {
-  left: 406px;
-  top: 380px;
+  left: 112px;
+  top: 122px;
   width: 238px;
-  height: 112px;
-  z-index: 14;
-  background: linear-gradient(180deg, #d7d2c6 0 62%, #827866 62% 100%);
-  border: 6px solid #32313b;
-  box-shadow:
-    6px 6px 0 rgba(25, 31, 42, 0.42),
-    inset 0 -12px 0 rgba(0,0,0,0.12);
+  height: 44px;
+  pointer-events: none;
+  z-index: 11;
+  background:
+    /* módulo suspenso esquerdo */
+    linear-gradient(180deg, rgba(95, 130, 145, 0.92), rgba(54, 76, 92, 0.92)) 0 7px / 46px 24px no-repeat,
+    linear-gradient(90deg, transparent 0 20px, rgba(135,255,190,0.80) 20px 27px, transparent 27px) 0 7px / 46px 24px no-repeat,
+
+    /* pequeno sensor central */
+    linear-gradient(180deg, rgba(90, 105, 118, 0.82), rgba(52, 66, 78, 0.86)) 95px 0 / 48px 38px no-repeat,
+    radial-gradient(circle at 119px 18px, rgba(168,60,255,0.82) 0 6px, transparent 7px),
+
+    /* módulo suspenso direito */
+    linear-gradient(180deg, rgba(95, 130, 145, 0.92), rgba(54, 76, 92, 0.92)) 190px 7px / 46px 24px no-repeat,
+    linear-gradient(90deg, transparent 0 20px, rgba(168,60,255,0.80) 20px 27px, transparent 27px) 190px 7px / 46px 24px no-repeat,
+
+    /* cabos finos pendurados */
+    linear-gradient(90deg, transparent 22px, rgba(70,90,105,0.65) 22px 25px, transparent 25px),
+    linear-gradient(90deg, transparent 117px, rgba(70,90,105,0.65) 117px 120px, transparent 120px),
+    linear-gradient(90deg, transparent 212px, rgba(70,90,105,0.65) 212px 215px, transparent 215px);
+  opacity: 0.92;
+  filter: drop-shadow(0 0 8px rgba(0,229,255,0.18));
 }
+
+/* Símbolo fica como se estivesse marcado no vidro */
+#room-map.sala3 .quarantine-symbol {
+  opacity: 0.82;
+  color: rgba(168, 60, 255, 0.86);
+  text-shadow:
+    0 0 8px rgba(168,60,255,0.75),
+    0 0 18px rgba(168,60,255,0.35);
+}
+
+/* Placa superior com mais cara de painel */
+#room-map.sala3 .quarantine-sign {
+  background:
+    linear-gradient(180deg, #223347, #111d2d);
+  border-color: #8190a5;
+  box-shadow:
+    0 0 0 4px rgba(16, 26, 43, 0.9),
+    0 0 12px rgba(232,244,248,0.22);
+}
+
+/* ========================= COMPUTADOR DA MESA CENTRAL ========================= */
 
 #room-map.sala3 .q-screen {
+  width: 128px;
+  height: 72px;
   left: 56px;
-  top: -38px;
-  width: 130px;
-  height: 62px;
+  top: -64px;
   background:
-    linear-gradient(90deg, #c654ff 0 6px, transparent 6px 18px, #c654ff 18px 24px, transparent 24px),
-    linear-gradient(#c654ff 0 5px, transparent 5px 17px, #c654ff 17px 22px, transparent 22px),
-    #251d3f;
-  border: 5px solid #3d344f;
-  box-shadow: 0 0 14px rgba(210, 72, 255, 0.34);
+    linear-gradient(180deg, #2b1642 0 14%, #15172c 14% 100%);
+  border: 5px solid #111;
+  box-shadow:
+    0 0 0 4px #4b5360,
+    4px 4px 0 rgba(0,0,0,0.36),
+    inset 0 0 18px rgba(168,60,255,0.18);
+}
+
+/* Tela detalhada: gráficos, linhas, radar */
+#room-map.sala3 .q-screen::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 13px;
+  width: 106px;
+  height: 44px;
+  background:
+    /* barras */
+    linear-gradient(0deg, #ff4ccf 0 14px, transparent 14px) 8px 22px / 8px 22px no-repeat,
+    linear-gradient(0deg, #a83cff 0 25px, transparent 25px) 24px 11px / 8px 33px no-repeat,
+    linear-gradient(0deg, #4fc3f7 0 18px, transparent 18px) 40px 18px / 8px 26px no-repeat,
+
+    /* radar/círculo */
+    radial-gradient(circle at 68% 54%, transparent 0 8px, #a83cff 9px 11px, transparent 12px),
+    radial-gradient(circle at 68% 54%, #ff4ccf 0 3px, transparent 4px),
+    linear-gradient(90deg, transparent 66%, #a83cff 66% 68%, transparent 68%),
+
+    /* linhas de dados */
+    linear-gradient(#ff4ccf 0 3px, transparent 3px 9px, #a83cff 9px 12px, transparent 12px 18px, #4fc3f7 18px 21px, transparent 21px);
+
+  opacity: 0.92;
+}
+
+/* Moldura inferior/base do monitor */
+#room-map.sala3 .q-screen::after {
+  content: "";
+  position: absolute;
+  left: 43px;
+  bottom: -16px;
+  width: 42px;
+  height: 15px;
+  background: #59616d;
+  border: 3px solid #111;
+  box-shadow:
+    0 10px 0 -3px #333946,
+    0 10px 0 0 #111;
+}
+
+/* Mesa com pequenos equipamentos */
+#room-map.sala3 .quarantine-desk::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 24px;
+  width: 38px;
+  height: 44px;
+  background:
+    linear-gradient(#4fc3f7 0 5px, transparent 5px 13px, #ff4ccf 13px 18px, transparent 18px),
+    #283342;
+  border: 4px solid #111;
+  box-shadow:
+    170px 6px 0 -5px #283342,
+    170px 6px 0 -1px #111;
 }
 
 #room-map.sala3 .q-keyboard {
-  position: absolute;
-  left: 72px;
-  bottom: 26px;
-  width: 96px;
-  height: 24px;
-  background: repeating-linear-gradient(90deg, #39414f 0 8px, #d9e0df 8px 12px);
-  border: 4px solid #2b3442;
-}
-
-#room-map.sala3 .q-chair {
-  left: 92px;
-  bottom: -64px;
-  width: 62px;
-  height: 70px;
-  background: linear-gradient(180deg, #242b44, #121a2e);
-  border: 4px solid #3e526d;
-}
-
-/* ========================= REATOR DE RECUPERAÇÃO ========================= */
-
-#room-map.sala3 .recovery-reactor {
-  right: 144px;
-  bottom: 74px;
-  width: 152px;
-  height: 174px;
-  z-index: 15;
-  overflow: visible;
-  background: linear-gradient(180deg, #c6a579, #604a38);
-  border: 7px solid #3b3030;
-  border-radius: 36px 36px 14px 14px;
-  box-shadow:
-    0 0 0 5px rgba(255, 220, 130, 0.12),
-    7px 7px 0 rgba(28, 30, 36, 0.44),
-    0 0 30px rgba(255, 197, 98, 0.24);
-}
-
-#room-map.sala3 .reactor-top {
-  left: 16px;
-  top: -30px;
-  width: 120px;
-  height: 52px;
-  background: radial-gradient(ellipse at center, #313e50 0 44%, #5d5b62 45% 70%, #2b2f3c 71%);
-  border: 6px solid #2a2c38;
-  border-radius: 50%;
-  box-shadow: 0 6px 0 rgba(0,0,0,0.22);
-}
-
-#room-map.sala3 .reactor-core {
-  position: absolute;
-  left: 31px;
-  top: 35px;
-  width: 90px;
-  height: 100px;
   background:
-    linear-gradient(90deg, rgba(255,255,255,0.26) 0 10px, transparent 10px 100%),
-    repeating-linear-gradient(135deg, rgba(142,255,250,0.72) 0 14px, rgba(221,105,255,0.58) 14px 28px, rgba(123,255,138,0.62) 28px 42px),
-    linear-gradient(180deg, rgba(140, 252, 255, 0.8), rgba(205, 82, 255, 0.72));
-  border: 6px solid #4d3f3e;
-  box-shadow:
-    inset 0 0 0 5px rgba(255,255,255,0.16),
-    0 0 25px rgba(185, 97, 255, 0.55),
-    0 0 48px rgba(88, 255, 227, 0.30);
-  animation: sala3-reactor-pulse 1.4s infinite alternate;
+    repeating-linear-gradient(90deg, #606876 0 5px, #d5dbe3 5px 8px),
+    #cfd5dd;
 }
-
-#room-map.sala3 .recovery-reactor::before,
-#room-map.sala3 .recovery-reactor::after {
-  content: "";
-  position: absolute;
-  bottom: 40px;
-  width: 86px;
-  height: 46px;
-  border: 9px solid #5b392c;
-  border-top: none;
-  box-shadow: inset 0 -5px 0 rgba(255,255,255,0.10);
-}
-
-#room-map.sala3 .recovery-reactor::before {
-  left: -78px;
-  border-right: none;
-  border-radius: 0 0 0 28px;
-}
-
-#room-map.sala3 .recovery-reactor::after {
-  right: -78px;
-  border-left: none;
-  border-radius: 0 0 28px 0;
-}
-
-@keyframes sala3-reactor-pulse {
-  from { filter: brightness(0.9) saturate(0.95); }
-  to { filter: brightness(1.22) saturate(1.25); }
-}
-
-/* ========================= TORRE DE DADOS E TERMINAL ========================= */
-
-#room-map.sala3 .data-tower {
-  right: 58px;
-  top: 360px;
-  width: 92px;
-  height: 214px;
-  z-index: 14;
-  background: linear-gradient(180deg, #d2cdc0 0 30%, #615a64 30% 100%);
-  border: 6px solid #3a3440;
-  box-shadow: 6px 6px 0 rgba(29, 31, 39, 0.42);
-}
-
-#room-map.sala3 .data-tower span {
-  position: absolute;
-  left: 7px;
-  top: 28px;
-  color: #eef8ec;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
-  line-height: 1.45;
-  text-align: center;
-}
-
-#room-map.sala3 .data-base {
-  left: 21px;
-  bottom: 22px;
-  width: 46px;
-  height: 74px;
-  background: #e7d8cc;
-  border: 5px solid #493944;
-}
-
-#room-map.sala3 .data-base::after {
-  content: "";
-  position: absolute;
-  left: 13px;
-  top: 12px;
-  width: 16px;
-  height: 50px;
-  background: repeating-linear-gradient(180deg, #5f6d7d 0 5px, #efe1d3 5px 8px);
-}
-
-#room-map.sala3 .recovery-terminal {
-  right: 70px;
-  top: 280px;
-  width: 90px;
-  height: 74px;
-  z-index: 13;
-  background: linear-gradient(180deg, #d9d8c7, #81786e);
-  border: 5px solid #3a3440;
-  box-shadow: 5px 5px 0 rgba(29, 31, 39, 0.36);
-}
-
-#room-map.sala3 .recovery-terminal::before {
-  content: "RECOVERY\A DATA";
-  white-space: pre;
-  position: absolute;
-  left: 8px;
-  top: 17px;
-  color: #e8fff2;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  line-height: 1.45;
-}
-
-/* ========================= PRATELEIRA E EXTINTOR ========================= */
-
-#room-map.sala3 .safety-shelf {
-  right: 55px;
-  top: 98px;
-  width: 118px;
-  height: 72px;
-  z-index: 13;
-  background: linear-gradient(180deg, #d9e6e6 0 50%, #6b7c89 50% 100%);
-  border: 5px solid #34445a;
-  box-shadow: 5px 5px 0 rgba(23, 32, 43, 0.34);
-}
-
-#room-map.sala3 .safety-shelf::before {
-  content: "";
-  position: absolute;
-  left: 18px;
-  top: -34px;
-  width: 35px;
-  height: 32px;
-  background:
-    radial-gradient(circle at 34% 66%, #8bd87b 0 10px, transparent 11px),
-    radial-gradient(circle at 65% 36%, #54b960 0 12px, transparent 13px);
-  box-shadow: 50px 4px 0 -5px #5ebf69;
-}
-
-#room-map.sala3 .fire-extinguisher {
-  right: 154px;
-  top: 166px;
-  width: 36px;
-  height: 72px;
-  z-index: 14;
-  background: linear-gradient(180deg, #ff5e4b, #8d1f22);
-  border: 4px solid #3b2430;
-  border-radius: 12px 12px 8px 8px;
-  box-shadow: 4px 4px 0 rgba(23, 32, 43, 0.34);
-}
-
-#room-map.sala3 .fire-extinguisher::before {
-  content: "";
-  position: absolute;
-  left: 8px;
-  top: -10px;
-  width: 16px;
-  height: 10px;
-  background: #c8d4d6;
-  border: 3px solid #3b3440;
-}
-
-/* ========================= PORTA ========================= */
-
-#room-map.sala3 .door {
-  top: 96px;
-  right: 222px;
-  width: 144px;
-  height: 152px;
-  z-index: 10;
-  background:
-    linear-gradient(90deg, transparent 0 46%, rgba(255,255,255,0.12) 46% 49%, transparent 49%),
-    linear-gradient(180deg, #9aa4aa, #5f6c77);
-  border: 7px solid #344256;
-  box-shadow: 7px 7px 0 rgba(22, 30, 42, 0.34);
-  clip-path: polygon(13% 0, 87% 0, 100% 16%, 100% 100%, 0 100%, 0 16%);
-}
-
-#room-map.sala3 .door::before {
-  content: "";
-  position: absolute;
-  left: 63px;
-  top: 24px;
-  width: 42px;
-  height: 80px;
-  border-left: 5px solid #394255;
-  border-bottom: 5px solid #394255;
-  transform: skew(-16deg);
-}
-
-/* ========================= TUBOS ========================= */
-
-#room-map.sala3 .bio-pipe {
-  position: absolute;
-  z-index: 6;
-  pointer-events: none;
-  background: transparent;
-}
-
-#room-map.sala3 .bio-pipe::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 5px solid #536a7b;
-  border-top: none;
-  border-right: none;
-  border-radius: 0 0 0 32px;
-  box-shadow:
-    7px 0 0 #2e475a,
-    14px 0 0 #7894a2;
-}
-
-#room-map.sala3 .bio-pipe-1 { left: 320px; top: 284px; width: 190px; height: 76px; }
-#room-map.sala3 .bio-pipe-2 { left: 430px; top: 498px; width: 180px; height: 70px; transform: rotate(180deg); }
-#room-map.sala3 .bio-pipe-3 { right: 282px; top: 158px; width: 160px; height: 90px; transform: rotate(180deg); }
-#room-map.sala3 .bio-pipe-4 { right: 245px; bottom: 68px; width: 130px; height: 58px; }
-#room-map.sala3 .bio-pipe-5 { left: 258px; top: 286px; width: 118px; height: 62px; }
 
 /* ========================= BRILHO DAS TASKS ========================= */
 
 #room-map.sala3 .sala3-mission.mission-available,
 #room-map.sala3 .sala3-mission:not(.mission-solved) {
-  outline: 3px solid rgba(185, 255, 242, 0.42);
-  outline-offset: 6px;
+  outline: 3px solid rgba(79, 195, 247, 0.38);
+  outline-offset: 5px;
   animation: sala3-task-glow 1.05s infinite alternate;
 }
 
 #room-map.sala3 .sala3-mission.mission-solved {
   outline: 2px solid rgba(105, 255, 132, 0.16);
-  filter: saturate(0.62) brightness(0.82);
+  filter: saturate(0.70) brightness(0.86);
   animation: none;
 }
 
 @keyframes sala3-task-glow {
   from {
-    filter: drop-shadow(0 0 4px rgba(150, 255, 242, 0.34));
+    filter: drop-shadow(0 0 4px rgba(79,195,247,0.35));
   }
   to {
     filter:
-      drop-shadow(0 0 12px rgba(158, 255, 242, 0.92))
-      drop-shadow(0 0 25px rgba(203, 85, 255, 0.35));
+      drop-shadow(0 0 12px rgba(79,195,247,0.86))
+      drop-shadow(0 0 22px rgba(168,60,255,0.38));
   }
 }
 
-/* canvas/personagem acima do cenário */
-#room-map.sala3 + #gameCanvas {
+
+/* ========================= CORREÇÕES DE COLISÃO / MESA ========================= */
+
+/* Garante que a mesa do computador continue existindo como área de colisão.
+   A colisão usa o próprio elemento .collision; por isso não podemos esconder
+   nem zerar width/height da mesa ou da tela. */
+#room-map.sala3 .quarantine-desk {
+  display: block !important;
+  position: absolute;
+  pointer-events: auto;
+  width: 235px;
+  height: 95px;
+}
+
+#room-map.sala3 .quarantine-desk.collision,
+#room-map.sala3 .q-screen.collision,
+#room-map.sala3 .q-chair.collision {
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Mantém a tela do computador com tamanho real para ela continuar contando na colisão. */
+#room-map.sala3 .q-screen {
+  display: block !important;
+  position: absolute;
+  width: 128px;
+  height: 72px;
+  left: 56px;
+  top: -64px;
+}
+
+/* Evita que detalhes decorativos recebam clique/atrapalhem interação. */
+#room-map.sala3 .quarantine-chamber::before,
+#room-map.sala3 .quarantine-chamber::after,
+#room-map.sala3 .q-screen::before,
+#room-map.sala3 .q-screen::after,
+#room-map.sala3 .quarantine-desk::before {
+  pointer-events: none;
+}
+
+
+
+/* ============================================================
+   AJUSTE DEFINITIVO — SALA 3
+   - Piso quadrado no chão inteiro da sala.
+   - Quarentena sem textura de piso por dentro.
+   - Vidro apenas com reflexo + símbolo radiativo.
+   - Missões resolvidas continuam visíveis e colidindo.
+============================================================ */
+
+/* Piso quadrado no chão da sala inteira */
+#room-map.sala3 {
+  background:
+    linear-gradient(90deg, rgba(38, 55, 66, 0.28) 2px, transparent 2px),
+    linear-gradient(rgba(38, 55, 66, 0.24) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    radial-gradient(circle at 72% 70%, rgba(255, 205, 120, 0.20), transparent 235px),
+    linear-gradient(180deg, #b9c8cc 0%, #9fb2b8 100%) !important;
+  background-size:
+    64px 64px,
+    64px 64px,
+    16px 16px,
+    16px 16px,
+    100% 100%,
+    100% 100% !important;
+}
+
+/* Câmara de quarentena: vidro limpo, sem padrão quadrado dentro */
+#room-map.sala3 .quarantine-chamber {
+  background:
+    linear-gradient(180deg, rgba(178, 226, 234, 0.78), rgba(126, 183, 196, 0.62)),
+    linear-gradient(90deg, rgba(255,255,255,0.12), transparent 28%, rgba(255,255,255,0.08) 54%, transparent),
+    #9ec9cf !important;
+  border-color: #4e5d70;
+  overflow: visible;
+}
+
+/* Vidro: só reflexos, divisórias leves e névoa; nada de piso/quadriculado */
+#room-map.sala3 .quarantine-chamber::before {
+  content: "";
+  position: absolute;
+  inset: 38px 28px 28px 28px;
+  background:
+    linear-gradient(135deg,
+      rgba(255,255,255,0.58) 0 11px,
+      transparent 11px 64px,
+      rgba(255,255,255,0.32) 64px 74px,
+      transparent 74px 145px,
+      rgba(255,255,255,0.20) 145px 154px,
+      transparent 154px
+    ),
+    linear-gradient(90deg,
+      transparent 0 33%,
+      rgba(78, 105, 116, 0.40) 33% 34%,
+      transparent 34% 66%,
+      rgba(78, 105, 116, 0.34) 66% 67%,
+      transparent 67%
+    ),
+    radial-gradient(circle at 22% 36%, rgba(225,255,255,0.20) 0 42px, transparent 88px),
+    radial-gradient(circle at 80% 62%, rgba(210,255,255,0.16) 0 48px, transparent 95px),
+    rgba(205,255,255,0.26) !important;
+  border: 5px solid #536474;
+  box-shadow:
+    inset 0 0 18px rgba(255,255,255,0.30),
+    inset 0 0 38px rgba(0,229,255,0.12);
+}
+
+/* Remove qualquer detalhe extra dentro da quarentena */
+#room-map.sala3 .quarantine-chamber::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Símbolo radiativo continua como destaque principal do vidro */
+#room-map.sala3 .quarantine-symbol {
+  opacity: 0.92;
+  color: rgba(168, 60, 255, 0.92);
+  text-shadow:
+    0 0 8px rgba(168,60,255,0.82),
+    0 0 18px rgba(168,60,255,0.45);
+}
+
+/* Mesa/computador: visual e área real continuam existindo */
+#room-map.sala3 .quarantine-desk,
+#room-map.sala3 .quarantine-desk.collision,
+#room-map.sala3 .quarantine-desk.mission-solved {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: absolute;
+  left: 390px;
+  top: 355px;
+  width: 235px;
+  height: 95px;
+  pointer-events: auto;
+}
+
+/* A tela e a cadeira ficam visíveis, mas a colisão principal é a mesa */
+#room-map.sala3 .q-screen,
+#room-map.sala3 .q-screen,
+#room-map.sala3 .q-screen.mission-solved {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: absolute;
+  width: 128px;
+  height: 72px;
+  left: 56px;
+  top: -64px;
+}
+
+#room-map.sala3 .q-chair,
+#room-map.sala3 .q-chair.collision,
+#room-map.sala3 .q-chair.mission-solved {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Resolvido não some: só perde brilho forte */
+#room-map.sala3 .mission-point.mission-solved,
+#room-map.sala3 .sala3-mission.mission-solved {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  outline: 2px solid rgba(105, 255, 132, 0.18);
+  filter: saturate(0.82) brightness(0.92);
+  animation: none;
+}
+
+/* Decorações não interferem com clique/interação */
+#room-map.sala3 .quarantine-chamber::before,
+#room-map.sala3 .quarantine-chamber::after,
+#room-map.sala3 .q-screen::before,
+#room-map.sala3 .q-screen::after,
+#room-map.sala3 .quarantine-desk::before {
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   AJUSTE FINAL LIMPO — SALA 3
+   - Piso em padrão quadrado no chão inteiro.
+   - Quarentena sem textura no vidro.
+   - Vidro só com reflexos + símbolo radiativo.
+   - Objetos resolvidos continuam visíveis.
+============================================================ */
+
+#room-map.sala3 {
+  background:
+    linear-gradient(90deg, rgba(37, 54, 65, 0.30) 2px, transparent 2px),
+    linear-gradient(rgba(37, 54, 65, 0.26) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    radial-gradient(circle at 72% 70%, rgba(255, 205, 120, 0.20), transparent 235px),
+    linear-gradient(180deg, #b9c8cc 0%, #9fb2b8 100%) !important;
+  background-size:
+    64px 64px,
+    64px 64px,
+    16px 16px,
+    16px 16px,
+    100% 100%,
+    100% 100% !important;
+}
+
+#room-map.sala3 .quarantine-chamber {
+  background:
+    linear-gradient(180deg, rgba(178, 226, 234, 0.78), rgba(126, 183, 196, 0.62)),
+    linear-gradient(90deg, rgba(255,255,255,0.14), transparent 28%, rgba(255,255,255,0.08) 54%, transparent),
+    #9ec9cf !important;
+  border-color: #4e5d70;
+  overflow: visible;
+}
+
+#room-map.sala3 .quarantine-chamber::before {
+  content: "";
+  position: absolute;
+  inset: 38px 28px 28px 28px;
+  background:
+    linear-gradient(135deg,
+      rgba(255,255,255,0.58) 0 11px,
+      transparent 11px 64px,
+      rgba(255,255,255,0.32) 64px 74px,
+      transparent 74px 145px,
+      rgba(255,255,255,0.20) 145px 154px,
+      transparent 154px
+    ),
+    linear-gradient(90deg,
+      transparent 0 33%,
+      rgba(78, 105, 116, 0.40) 33% 34%,
+      transparent 34% 66%,
+      rgba(78, 105, 116, 0.34) 66% 67%,
+      transparent 67%
+    ),
+    radial-gradient(circle at 22% 36%, rgba(225,255,255,0.20) 0 42px, transparent 88px),
+    radial-gradient(circle at 80% 62%, rgba(210,255,255,0.16) 0 48px, transparent 95px),
+    rgba(205,255,255,0.26) !important;
+  border: 5px solid #536474;
+  box-shadow:
+    inset 0 0 18px rgba(255,255,255,0.30),
+    inset 0 0 38px rgba(0,229,255,0.12);
+}
+
+#room-map.sala3 .quarantine-chamber::after {
+  content: none !important;
+  display: none !important;
+}
+
+#room-map.sala3 .quarantine-symbol {
+  opacity: 0.92;
+  color: rgba(168, 60, 255, 0.92);
+  text-shadow:
+    0 0 8px rgba(168,60,255,0.82),
+    0 0 18px rgba(168,60,255,0.45);
+}
+
+#room-map.sala3 .mission-point.mission-solved,
+#room-map.sala3 .sala3-mission.mission-solved {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  outline: 2px solid rgba(105, 255, 132, 0.18);
+  filter: saturate(0.82) brightness(0.92);
+  animation: none;
+}
+
+
+
+
+
+/* Faz o container permitir camadas */
+#game-container {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Canvas onde o personagem é desenhado */
+#gameCanvas {
+  position: absolute;
+  inset: 0;
   z-index: 20;
+}
+
+/* Cópia visual da q-screen por cima do personagem */
+#game-container:has(#room-map.sala3)::after {
+  content: "";
+  position: absolute;
+
+  /* posição da q-screen na sala */
+  left: 452px;
+  top: 295px;
+  
+
+  width: 128px;
+  height: 72px;
+  z-index: 60;
+  pointer-events: none;
+
+  background:
+    linear-gradient(180deg, #2b1642 0 14%, #15172c 14% 100%);
+
+  border: 5px solid #111;
+
+  box-shadow:
+    0 0 0 4px #4b5360,
+    4px 4px 0 rgba(0,0,0,0.36),
+    inset 0 0 18px rgba(168,60,255,0.18);
+}
+
+/* Desenho da tela dentro da cópia */
+#game-container:has(#room-map.sala3)::before {
+  content: "";
+  position: absolute;
+
+  left: 460px;
+  top: 309px;
+
+  width: 106px;
+  height: 44px;
+  z-index: 61;
+  pointer-events: none;
+
+  background:
+    linear-gradient(0deg, #ff4ccf 0 14px, transparent 14px) 8px 22px / 8px 22px no-repeat,
+    linear-gradient(0deg, #a83cff 0 25px, transparent 25px) 24px 11px / 8px 33px no-repeat,
+    linear-gradient(0deg, #4fc3f7 0 18px, transparent 18px) 40px 18px / 8px 26px no-repeat,
+    radial-gradient(circle at 68% 54%, transparent 0 8px, #a83cff 9px 11px, transparent 12px),
+    radial-gradient(circle at 68% 54%, #ff4ccf 0 3px, transparent 4px),
+    linear-gradient(90deg, transparent 66%, #a83cff 66% 68%, transparent 68%),
+    linear-gradient(#ff4ccf 0 3px, transparent 3px 9px, #a83cff 9px 12px, transparent 12px 18px, #4fc3f7 18px 21px, transparent 21px);
 }

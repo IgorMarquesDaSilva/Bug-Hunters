@@ -128,7 +128,7 @@ const BugSystem = (() => {
 
     refreshMissionPositions();
 
-    const playerBox = getPlayerBox(12);
+    const playerBox = getPlayerBox();
 
     for (let i = 0; i < GameState.bugs.length; i++) {
       const bug = GameState.bugs[i];
