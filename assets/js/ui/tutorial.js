@@ -1,253 +1,315 @@
 /* ============================================================
    assets/js/ui/tutorial.js
-   Tutorial interativo passo a passo.
-   
-   COMO FUNCIONA:
-   - São "slides" que aparecem em cima do canvas com setas
-   - Cada slide pode ter: texto, destaque de área, animação
-   - O player fica pausado durante o tutorial
-   - Só aparece na primeira vez (salvo em localStorage)
-   - Pode ser reaberto pelo HUD a qualquer momento
-   ============================================================ */
+   Tutorial do Bug Hunters — texto melhorado + imagens.
+============================================================ */
 
-   const TutorialSystem = (() => {
+const TutorialSystem = (() => {
+  const IMAGE_PATHS = {
+    frente: "assets/img/tutorial/player-frente.png",
+    direita: "assets/img/tutorial/player-lado-direito.png",
+    esquerda: "assets/img/tutorial/player-lado-esquerdo.png"
+  };
 
-    // ── Slides do tutorial ────────────────────────────────────
-    // highlight: { x, y, w, h } — desenha moldura piscante no canvas
-    // arrow: "left"|"right"|"top"|"bottom" — de onde aponta a seta do balão
-    const SLIDES = [
-      {
-        title:     "BEM-VINDO, OPERADOR!",
-        text:      "Você é um Bug Hunter.\nSua missão: encontrar e corrigir todos os bugs\nespalhados pelo sistema antes que ele entre em colapso.",
-        highlight: null,
-        arrow:     "bottom"
-      },
-      {
-        title:     "MOVIMENTAÇÃO",
-        text:      "Use WASD ou as SETAS do teclado\npara mover seu personagem pelo mapa.\n\nNo mobile, use o D-PAD no canto inferior esquerdo.",
-        highlight: null,
-        arrow:     "bottom",
-        showDpad:  true
-      },
-      {
-        title:     "OS BUGS",
-        text:      "Monitores vermelhos piscando\nsão os BUGS do sistema.\n\nAproximando-se deles, um alerta será disparado.",
-        highlight: null,
-        arrow:     "bottom",
-        demoType:  "bug"   // desenha um bug demo no canvas
-      },
-      {
-        title:     "CORRIGINDO BUGS",
-        text:      "Ao se aproximar de um bug,\nescolha CORRIGIR para iniciar a missão.\n\nResponda corretamente para ganhar pontos\ne eliminar o bug do sistema!",
-        highlight: null,
-        arrow:     "bottom"
-      },
-      {
-        title:     "VIDAS E PONTUAÇÃO",
-        text:      "Cada erro custa uma vida (dependendo\nda dificuldade escolhida).\n\nSem vidas = GAME OVER.\nPontuação máxima = 100 pontos.",
-        highlight: null,
-        arrow:     "bottom"
-      },
-      {
-        title:     "PORTAL DE SAÍDA",
-        text:      "Após resolver TODOS os bugs da sala,\num PORTAL roxo será aberto.\n\nEntre no portal para avançar\npara o próximo setor!",
-        highlight: null,
-        arrow:     "bottom",
-        demoType:  "portal"
-      },
-      {
-        title:     "PRONTO PARA A MISSÃO!",
-        text:      "Boa sorte, Operador.\nO sistema depende de você.\n\nPressione INICIAR para começar!",
-        highlight: null,
-        arrow:     "bottom"
-      }
-    ];
-  
-    let currentSlide = 0;
-    let isOpen       = false;
-    let demoAnim     = 0; // contador de animação para demos no canvas
-  
-    // ── API pública ───────────────────────────────────────────
-  
-    function open(fromMenu = false) {
-      // Só pula o tutorial se já foi visto E não foi chamado manualmente
-      if (!fromMenu && localStorage.getItem("bh_tutorial_done") === "1") return;
-      currentSlide     = 0;
-      isOpen           = true;
-      demoAnim         = 0;
-      GameState.isPaused = true;
-      _render();
+  const SLIDES = [
+    {
+      title: "BEM-VINDO, OPERADOR!",
+      image: "frente",
+      alt: "Personagem Bug Hunter visto de frente, usando roupa tecnológica escura e visor azul.",
+      caption: "Este é o operador Bug Hunter.",
+      text: "Você entrou no sistema Bug Hunters. Sua missão é explorar os setores, encontrar bugs e corrigir falhas resolvendo desafios de programação.",
+      extra: [
+        { type: "tip", text: "O jogo é dividido em fases. Em cada uma delas, você aprende um conceito novo enquanto restaura o sistema." }
+      ]
+    },
+    {
+      title: "MOVIMENTAÇÃO",
+      image: "grid",
+      alt: "Três imagens do personagem Bug Hunter, mostrando a visão pela esquerda, de frente e pela direita.",
+      caption: "Use as direções do personagem para se orientar no mapa.",
+      text: "Use as teclas WASD ou as setas do teclado para andar pela sala. Aproxime-se dos objetos do cenário para encontrar possíveis bugs.",
+      extra: [
+        { type: "phase", text: "W ou seta para cima: subir. S ou seta para baixo: descer. A ou seta esquerda: ir para a esquerda. D ou seta direita: ir para a direita." }
+      ]
+    },
+    {
+      title: "ENCONTRE OS BUGS",
+      image: "direita",
+      alt: "Personagem Bug Hunter visto de lado, andando em direção a um terminal.",
+      caption: "Alguns objetos escondem falhas do sistema.",
+      text: "Os bugs aparecem em pontos importantes do cenário, como computadores, servidores, terminais e máquinas. Quando você chegar perto, o jogo mostra um alerta.",
+      extra: [
+        { type: "warning", text: "Quando aparecer o alerta de bug detectado, escolha Corrigir Bug para abrir a missão." }
+      ]
+    },
+    {
+      title: "CORRIJA O BUG",
+      image: "esquerda",
+      alt: "Personagem Bug Hunter visto de lado, próximo a um computador do jogo.",
+      caption: "Cada bug abre um desafio.",
+      text: "Na missão, leia o enunciado, observe o código e escolha a alternativa correta. Ao acertar, o bug é eliminado e sua pontuação aumenta.",
+      extra: [
+        { type: "tip", text: "Leia o feedback depois da resposta: ele ajuda a entender por que uma alternativa está certa ou errada." }
+      ]
+    },
+    {
+      title: "AS 4 FASES",
+      image: "frente",
+      alt: "Personagem Bug Hunter visto de frente, representando a progressão do jogo.",
+      caption: "O jogo possui 4 setores principais.",
+      text: "Bug Hunters possui 4 fases. Cada fase tem 5 bugs. Para passar de fase, corrija todos os bugs do setor e libere a porta de saída.",
+      extra: [
+        { type: "phase", text: "Fase 1: Tipos de dados. Fase 2: Operadores. Fase 3: Condições. Fase 4: Funções e variáveis." }
+      ]
+    },
+    {
+      title: "FASE 1 — TIPOS DE DADOS",
+      image: "frente",
+      alt: "Personagem Bug Hunter visto de frente.",
+      caption: "Primeiro setor: identificação de dados.",
+      text: "Na primeira fase, você precisa reconhecer tipos de informação usados na programação, como números, textos e valores verdadeiro ou falso.",
+      extra: [
+        { type: "phase", text: "Exemplos: 50 é número, 'energia' é texto, verdadeiro ou falso são valores booleanos." }
+      ]
+    },
+    {
+      title: "FASE 2 — OPERADORES",
+      image: "direita",
+      alt: "Personagem Bug Hunter visto de lado direito.",
+      caption: "Segundo setor: cálculos e comparações.",
+      text: "Na segunda fase, você trabalha com operadores matemáticos e comparações. Os desafios envolvem sinais como +, -, *, /, maior, menor e igual.",
+      extra: [
+        { type: "phase", text: "O objetivo é entender como o sistema calcula valores e compara informações." }
+      ]
+    },
+    {
+      title: "FASE 3 — CONDIÇÕES",
+      image: "esquerda",
+      alt: "Personagem Bug Hunter visto de lado esquerdo.",
+      caption: "Terceiro setor: decisões do sistema.",
+      text: "Na terceira fase, o sistema precisa tomar decisões. Você verá estruturas condicionais, como se, senão, e combinações com e/ou.",
+      extra: [
+        { type: "phase", text: "Exemplo: se a energia for menor que 5, recarregar; senão, continuar operação." }
+      ]
+    },
+    {
+      title: "FASE 4 — FUNÇÕES E VARIÁVEIS",
+      image: "grid",
+      alt: "Três imagens do personagem Bug Hunter, representando domínio completo do sistema.",
+      caption: "Último setor: organização do código.",
+      text: "Na quarta fase, você organiza comandos usando variáveis e funções. Os desafios misturam conteúdos das fases anteriores em problemas mais completos.",
+      extra: [
+        { type: "phase", text: "Aqui aparecem dados, operadores, condições, variáveis e chamadas de função." }
+      ]
+    },
+    {
+      title: "VIDAS, PONTOS E PORTA",
+      image: "frente",
+      alt: "Personagem Bug Hunter visto de frente, pronto para continuar.",
+      caption: "Corrija todos os bugs para avançar.",
+      text: "Você ganha pontos ao acertar e pode perder vidas ao errar, dependendo da dificuldade escolhida. Quando todos os bugs da fase forem corrigidos, a porta será liberada.",
+      extra: [
+        { type: "warning", text: "Se as vidas acabarem, será game over. Por isso, leia com calma antes de responder." }
+      ]
+    },
+    {
+      title: "PRONTO PARA A MISSÃO!",
+      image: "frente",
+      alt: "Personagem Bug Hunter visto de frente, pronto para começar o jogo.",
+      caption: "Boa sorte, operador.",
+      text: "Agora você já sabe como jogar. Explore a sala, encontre os cinco bugs do setor e avance até restaurar todo o sistema.",
+      extra: [
+        { type: "tip", text: "Clique em Iniciar Missão para fechar o tutorial e começar a caçada aos bugs." }
+      ]
     }
-  
-    function close() {
-      isOpen = false;
-      localStorage.setItem("bh_tutorial_done", "1");
-      _hide();
-      GameState.isPaused = false;
+  ];
+
+  let currentSlide = 0;
+  let isOpen = false;
+
+  function getById(id) {
+    return document.getElementById(id);
+  }
+
+  function escapeHtml(text) {
+    return String(text)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+  }
+
+  function open(fromMenu = false) {
+    if (!fromMenu && localStorage.getItem("bh_tutorial_done") === "1") return;
+
+    currentSlide = 0;
+    isOpen = true;
+
+    if (window.GameState) GameState.isPaused = true;
+
+    const overlay = getById("screen-tutorial");
+    if (overlay) overlay.style.display = "flex";
+
+    render();
+  }
+
+  function close() {
+    isOpen = false;
+    localStorage.setItem("bh_tutorial_done", "1");
+
+    const overlay = getById("screen-tutorial");
+    if (overlay) overlay.style.display = "none";
+
+    if (window.GameState) GameState.isPaused = false;
+  }
+
+  function next() {
+    if (!isOpen) return;
+
+    if (currentSlide < SLIDES.length - 1) {
+      currentSlide++;
+      render();
+      return;
     }
-  
-    function isActive() { return isOpen; }
-  
-    // ── Navegação ─────────────────────────────────────────────
-  
-    function next() {
-      if (!isOpen) return;
-      if (currentSlide < SLIDES.length - 1) {
-        currentSlide++;
-        demoAnim = 0;
-        _render();
-      } else {
-        close();
-      }
+
+    close();
+  }
+
+  function prev() {
+    if (!isOpen || currentSlide === 0) return;
+
+    currentSlide--;
+    render();
+  }
+
+  function renderImage(slide) {
+    const media = getById("tut-media");
+    if (!media) return;
+
+    if (slide.image === "grid") {
+      media.innerHTML = `
+        <div class="tutorial-image-grid" role="img" aria-label="${escapeHtml(slide.alt)}">
+          <div class="tutorial-image-card">
+            <img src="${IMAGE_PATHS.esquerda}" alt="Personagem visto pelo lado esquerdo.">
+          </div>
+          <div class="tutorial-image-card">
+            <img src="${IMAGE_PATHS.frente}" alt="Personagem visto de frente.">
+          </div>
+          <div class="tutorial-image-card">
+            <img src="${IMAGE_PATHS.direita}" alt="Personagem visto pelo lado direito.">
+          </div>
+        </div>
+        <figcaption id="tut-image-caption" class="tutorial-image-caption">
+          ${escapeHtml(slide.caption)}
+        </figcaption>
+      `;
+      return;
     }
-  
-    function prev() {
-      if (!isOpen || currentSlide === 0) return;
-      currentSlide--;
-      demoAnim = 0;
-      _render();
+
+    const src = IMAGE_PATHS[slide.image] || IMAGE_PATHS.frente;
+
+    media.innerHTML = `
+      <img
+        id="tut-image"
+        src="${src}"
+        alt="${escapeHtml(slide.alt)}"
+        class="tutorial-image">
+
+      <figcaption id="tut-image-caption" class="tutorial-image-caption">
+        ${escapeHtml(slide.caption)}
+      </figcaption>
+    `;
+  }
+
+  function renderExtra(slide) {
+    const extra = getById("tut-extra-text");
+    if (!extra) return;
+
+    extra.innerHTML = (slide.extra || []).map(item => {
+      const className = {
+        tip: "tutorial-tip",
+        phase: "tutorial-phase",
+        warning: "tutorial-warning"
+      }[item.type] || "tutorial-tip";
+
+      return `<div class="${className}">${escapeHtml(item.text)}</div>`;
+    }).join("");
+  }
+
+  function renderDots() {
+    const dots = getById("tut-dots");
+    if (!dots) return;
+
+    dots.innerHTML = SLIDES.map((_, index) => `
+      <span
+        class="tut-dot ${index === currentSlide ? "active" : ""}"
+        aria-label="Etapa ${index + 1} de ${SLIDES.length}">
+      </span>
+    `).join("");
+  }
+
+  function render() {
+    const slide = SLIDES[currentSlide];
+    const isLast = currentSlide === SLIDES.length - 1;
+
+    const title = getById("tut-title");
+    const text = getById("tut-text");
+    const counter = getById("tut-step-counter");
+    const btnPrev = getById("tut-btn-prev");
+    const btnNext = getById("tut-btn-next");
+    const live = getById("tutorial-live-region");
+
+    if (title) title.textContent = slide.title;
+    if (text) text.textContent = slide.text;
+    if (counter) {
+      counter.textContent = `${String(currentSlide + 1).padStart(2, "0")}/${String(SLIDES.length).padStart(2, "0")}`;
     }
-  
-    // ── Render do painel HTML ─────────────────────────────────
-  
-    function _render() {
-      const slide    = SLIDES[currentSlide];
-      const total    = SLIDES.length;
-      const isLast   = currentSlide === total - 1;
-      const overlay  = document.getElementById("screen-tutorial");
-      if (!overlay) return;
-  
-      overlay.style.display = "flex";
-  
-      // Título
-      document.getElementById("tut-title").textContent = slide.title;
-  
-      // Texto (quebra linhas)
-      const textEl = document.getElementById("tut-text");
-      textEl.innerHTML = slide.text
-        .split("\n")
-        .map(line => `<span>${line}</span>`)
-        .join("<br>");
-  
-      // Indicador de progresso (bolinhas)
-      const dotsEl = document.getElementById("tut-dots");
-      dotsEl.innerHTML = Array.from({ length: total }, (_, i) =>
-        `<span class="tut-dot ${i === currentSlide ? "active" : ""}"></span>`
-      ).join("");
-  
-      // Botões
-      document.getElementById("tut-btn-prev").style.visibility =
-        currentSlide === 0 ? "hidden" : "visible";
-      document.getElementById("tut-btn-next").textContent =
-        isLast ? "▶ INICIAR MISSÃO" : "PRÓXIMO ▶";
-  
-      // Demo no canvas (bug ou portal animado)
-      if (slide.demoType) _startDemo(slide.demoType);
-      else                _stopDemo();
+
+    if (btnPrev) btnPrev.style.visibility = currentSlide === 0 ? "hidden" : "visible";
+
+    if (btnNext) {
+      btnNext.textContent = isLast ? "▶ INICIAR MISSÃO" : "PRÓXIMO ▶";
+      btnNext.setAttribute(
+        "aria-label",
+        isLast ? "Fechar tutorial e iniciar missão" : "Avançar para a próxima etapa do tutorial"
+      );
     }
-  
-    function _hide() {
-      const overlay = document.getElementById("screen-tutorial");
-      if (overlay) overlay.style.display = "none";
-      _stopDemo();
+
+    renderImage(slide);
+    renderExtra(slide);
+    renderDots();
+
+    if (live) {
+      const extraText = (slide.extra || []).map(item => item.text).join(" ");
+      live.textContent = `${slide.title}. ${slide.text} ${extraText}`;
     }
-  
-    // ── Demo animado no canvas ────────────────────────────────
-    // Desenha um exemplo do elemento diretamente no canvas
-    // para o jogador ver como ele parece no jogo real
-  
-    let _demoInterval = null;
-  
-    function _startDemo(type) {
-      _stopDemo();
-      const canvas = document.getElementById("gameCanvas");
-      const ctx    = canvas.getContext("2d");
-  
-      _demoInterval = setInterval(() => {
-        demoAnim++;
-        if (type === "bug")    _drawDemoBug(ctx, demoAnim);
-        if (type === "portal") _drawDemoPortal(ctx, demoAnim);
-      }, 50);
+  }
+
+  document.addEventListener("keydown", event => {
+    if (!isOpen) return;
+
+    if (event.key === "ArrowRight" || event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      next();
+      return;
     }
-  
-    function _stopDemo() {
-      if (_demoInterval) { clearInterval(_demoInterval); _demoInterval = null; }
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      prev();
+      return;
     }
-  
-    function _drawDemoBug(ctx, t) {
-      const x = 480, y = 240, w = 48, h = 48;
-      const blink = Math.sin(t * 0.3) > 0;
-  
-      ctx.save();
-      ctx.shadowColor = "#ff2200";
-      ctx.shadowBlur  = 14 + Math.sin(t * 0.3) * 6;
-      ctx.fillStyle   = "#2a0000";
-      ctx.fillRect(x, y, w, h);
-      ctx.fillStyle   = blink ? "#cc0000" : "#550000";
-      ctx.fillRect(x+3, y+3, w-6, h-12);
-      ctx.shadowBlur  = 0;
-  
-      if (blink) {
-        ctx.fillStyle = "#ffdddd";
-        const p = 3, ox = x+w/2-7, oy = y+6;
-        ctx.fillRect(ox+p,   oy+p,   p, p);
-        ctx.fillRect(ox+p*3, oy+p,   p, p);
-        ctx.fillRect(ox,     oy+p*3, p, p);
-        ctx.fillRect(ox+p*2, oy+p*3, p, p);
-        ctx.fillRect(ox+p*4, oy+p*3, p, p);
-      }
-      ctx.fillStyle = "#550000";
-      ctx.fillRect(x+12, y+h-6, w-24, 6);
-      ctx.fillRect(x+w/2-7, y+h, 14, 6);
-  
-      ctx.fillStyle = "rgba(255,100,100,0.9)";
-      ctx.font      = "bold 7px 'Press Start 2P', monospace";
-      ctx.textAlign = "center";
-      ctx.fillText("BUG", x+w/2, y-8);
-  
-      // Anel de proximidade
-      ctx.strokeStyle = `rgba(255,220,0,${0.4 + Math.sin(t*0.3)*0.4})`;
-      ctx.lineWidth   = 2;
-      ctx.setLineDash([3,3]);
-      ctx.beginPath();
-      ctx.arc(x+w/2, y+h/2, 55, 0, Math.PI*2);
-      ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.restore();
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      close();
     }
-  
-    function _drawDemoPortal(ctx, t) {
-      const x = 460, y = 220, w = 60, h = 60;
-      ctx.save();
-      ctx.shadowColor = "#cc44ff";
-      ctx.shadowBlur  = 16 + Math.sin(t*0.1)*8;
-      ctx.fillStyle   = `rgba(80,0,180,${0.5+Math.sin(t*0.1)*0.2})`;
-      ctx.fillRect(x, y, w, h);
-      ctx.fillStyle   = `rgba(200,100,255,${0.8+Math.sin(t*0.1)*0.2})`;
-      ctx.fillRect(x,       y,       w, 3);
-      ctx.fillRect(x,       y+h-3,   w, 3);
-      ctx.fillRect(x,       y,       3, h);
-      ctx.fillRect(x+w-3,   y,       3, h);
-      ctx.shadowBlur  = 0;
-      ctx.fillStyle   = "#ffffff";
-      ctx.font        = "bold 7px 'Press Start 2P', monospace";
-      ctx.textAlign   = "center";
-      ctx.fillText("PORTAL", x+w/2, y+h/2-2);
-      ctx.fillText(">>>",    x+w/2, y+h/2+12);
-      ctx.fillStyle   = "#cc88ff";
-      ctx.font        = "6px 'Press Start 2P', monospace";
-      ctx.fillText("PROXIMO SETOR", x+w/2, y-10);
-      ctx.restore();
-    }
-  
-    // ── Teclado ───────────────────────────────────────────────
-    document.addEventListener("keydown", e => {
-      if (!isOpen) return;
-      if (e.key === "ArrowRight" || e.key === "Enter" || e.key === " ") { e.preventDefault(); next(); }
-      if (e.key === "ArrowLeft")  { e.preventDefault(); prev(); }
-      if (e.key === "Escape")     { e.preventDefault(); close(); }
-    });
-  
-    return { open, close, next, prev, isActive };
-  
-  })();
+  });
+
+  return {
+    open,
+    close,
+    isActive: () => isOpen,
+    next,
+    prev
+  };
+})();

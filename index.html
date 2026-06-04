@@ -13,30 +13,10 @@
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="assets/css/tela_inicial.css">
+  <link rel="stylesheet" href="assets/css/tutorial.css">
 </head>
 
 <body>
-
-  <!-- =========================================================
-       EFEITO SCANLINES
-  ========================================================== -->
-
-  <div class="scanlines" aria-hidden="true"></div>
-
-  <!-- =========================================================
-       HEADER
-  ========================================================== -->
-
-  <header class="terminal-header" role="banner">
-
-    <span class="game-title">
-      BUG HUNTERS v2.0
-    </span>
-
-    <span class="status-led"></span>
-
-  </header>
-
   <!-- =========================================================
        CONTEÚDO PRINCIPAL
   ========================================================== -->
@@ -864,54 +844,85 @@
 
         <div
           id="screen-tutorial"
-          class="overlay"
-          style="display:none;">
+          class="overlay tutorial-overlay"
+          style="display:none;"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="tut-title"
+          aria-describedby="tut-text tut-extra-text">
 
           <div class="popup-content tutorial-panel">
 
-            <div class="popup-header" id="tut-title">
+            <div class="tutorial-topbar" aria-hidden="true">
+              <span class="tutorial-led"></span>
+              <span>GUIA DO OPERADOR</span>
+              <span id="tut-step-counter">01/10</span>
+            </div>
+
+            <div class="popup-header tutorial-title" id="tut-title">
               TUTORIAL
             </div>
 
-            <div class="tut-text-wrap">
+            <div class="tutorial-body">
 
-              <p
-                id="tut-text"
-                class="mission-desc tut-text">
-              </p>
+              <figure id="tut-media" class="tutorial-media">
+                <img
+                  id="tut-image"
+                  src="assets/img/tutorial/player-frente.png"
+                  alt="Personagem Bug Hunter visto de frente."
+                  class="tutorial-image">
+
+                <figcaption id="tut-image-caption" class="tutorial-image-caption">
+                  Operador Bug Hunter pronto para iniciar a missão.
+                </figcaption>
+              </figure>
+
+              <div class="tutorial-content">
+                <div class="tut-text-wrap">
+                  <p id="tut-text" class="mission-desc tut-text"></p>
+                  <div id="tut-extra-text" class="tutorial-extra"></div>
+                </div>
+              </div>
 
             </div>
 
-            <div id="tut-dots" class="tut-dots"></div>
+            <div
+              id="tutorial-live-region"
+              class="sr-only"
+              aria-live="polite"
+              aria-atomic="true">
+            </div>
 
-            <div class="popup-actions">
+            <div id="tut-dots" class="tut-dots" aria-label="Progresso do tutorial"></div>
+
+            <div class="tutorial-controls" aria-label="Controles do tutorial">
 
               <button
                 id="tut-btn-prev"
                 class="cyber-btn secondary"
-                onclick="TutorialSystem.prev()">
-
+                type="button"
+                onclick="TutorialSystem.prev()"
+                aria-label="Voltar para a etapa anterior do tutorial">
                 ◀ ANTERIOR
-
               </button>
 
               <button
                 id="tut-btn-next"
                 class="cyber-btn"
-                onclick="TutorialSystem.next()">
-
+                type="button"
+                onclick="TutorialSystem.next()"
+                aria-label="Avançar para a próxima etapa do tutorial">
                 PRÓXIMO ▶
-
               </button>
 
             </div>
 
             <button
               class="tut-skip-btn"
-              onclick="TutorialSystem.close()">
-
+              type="button"
+              onclick="TutorialSystem.close()"
+              aria-label="Pular tutorial">
               [ PULAR TUTORIAL ]
-
             </button>
 
           </div>

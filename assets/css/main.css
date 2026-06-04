@@ -18,7 +18,7 @@
      --px-green-dark:  #2d6e1f;
      --px-red:         #ff4444;
      --px-white:       #e8f4f8;
-     --px-grey:        #8ab0c8;
+     --px-grey:        #ffffff;
      --px-panel-bg:    #0a1929;
      --px-border:      #1e4d78;
      --px: 3px;
@@ -48,49 +48,9 @@
      color: var(--px-white);
    }
    
-   .scanlines {
-     position: fixed; inset: 0;
-     background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 3px);
-     pointer-events: none; z-index: 100;
-   }
-   
-   /* ── Header ── */
-   .terminal-header {
-     position: fixed; top: 0; left: 0; right: 0;
-     background: var(--px-panel-bg);
-     border-bottom: var(--px) solid var(--px-blue-light);
-     box-shadow: 0 var(--px) 0 var(--px-border);
-     padding: 8px 16px;
-     display: flex; align-items: center; gap: 12px;
-     z-index: 200;
-   }
-   
-   .game-title {
-     font-size: 8px;
-     color: var(--px-blue-bright);
-     letter-spacing: 2px;
-     text-shadow: 2px 2px 0 #003344;
-     animation: title-blink 3s step-end infinite;
-   }
-   
-   @keyframes title-blink {
-     0%,94%{opacity:1} 95%,99%{opacity:0} 100%{opacity:1}
-   }
-   
-   .status-led {
-     width: 10px; height: 10px;
-     background: var(--px-green);
-     border-radius: 0;
-     box-shadow: 0 0 0 2px var(--px-green-dark);
-     animation: led-blink 1.2s step-end infinite;
-   }
-   
-   @keyframes led-blink {
-     0%,60%{opacity:1} 61%,100%{opacity:0.3}
-   }
    
    /* ── Layout ── */
-   .game-container { margin-top: 42px; }
+   .game-container { margin-top: 0px; }
    .game-wrapper { display: flex; gap: 16px; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
    
    #game-container {
@@ -158,6 +118,7 @@
      box-shadow: 3px 3px 0 #000;
      transition: transform 0.05s, box-shadow 0.05s, background 0.05s;
      margin: 4px;
+     margin-top: 10px;
      line-height: 1.6;
      border-radius: 0;
    }
@@ -167,7 +128,7 @@
    .cyber-btn:focus-visible { outline: var(--px) solid var(--px-amber); outline-offset: 2px; }
    
    .cyber-btn.secondary { background: var(--px-amber-dark); border-color: var(--px-amber); color: #fff; }
-   .cyber-btn.secondary:hover { background: var(--px-amber); color: #000; }
+   .cyber-btn.secondary:hover { background: var(--px-amber); color: #ffffff; }
    
    /* Botões de dificuldade */
    .diff-list { display: flex; flex-direction: column; gap: 10px; align-items: center; margin-top: 16px; }
@@ -175,14 +136,14 @@
    .diff-btn { width:100%; max-width:340px; display:flex; flex-direction:column; align-items:flex-start; gap:6px; padding:14px 16px; text-align:left; }
    
    .diff-btn.easy   { border-color: var(--px-green); background: #0d2b18; }
-   .diff-btn.easy:hover   { background: var(--px-green); color: #000; }
+   .diff-btn.easy:hover   { background: #2e4729; color: #ffffff; }
    .diff-btn.medium { border-color: var(--px-amber); background: #2b1d0d; }
-   .diff-btn.medium:hover { background: var(--px-amber); color: #000; }
+   .diff-btn.medium:hover { background: #5f4b2e; color: #ffffff; }
    .diff-btn.hard   { border-color: var(--px-red);   background: #2b0d0d; }
-   .diff-btn.hard:hover   { background: var(--px-red);   color: #fff; }
+   .diff-btn.hard:hover   { background: #412222;   color: #ffffff; }
    
-   .diff-label { font-size: 9px; letter-spacing: 1px; }
-   .diff-desc  { font-size: 6px; color: var(--px-grey); text-transform: none; letter-spacing: 0; line-height: 1.8; }
+   .diff-label { font-size: 10px; letter-spacing: 1px; }
+   .diff-desc  { font-size: 8px; color: var(--px-grey); text-transform: none; letter-spacing: 0; line-height: 1.8; }
    
    .color-green { color: var(--px-green); }
    .color-amber { color: var(--px-amber); }
@@ -215,7 +176,7 @@
    @keyframes popup-slide { from{transform:translateY(12px);opacity:0} to{transform:translateY(0);opacity:1} }
    
    .popup-header {
-     font-size: 8px;
+     font-size: 15px;
      color: var(--px-blue-bright);
      text-align: center;
      margin-bottom: 16px;
@@ -225,10 +186,7 @@
      text-shadow: 2px 2px 0 #003344;
    }
    
-   .popup-header::after { content:" ▼"; animation: cursor-blink 0.8s step-end infinite; color: var(--px-amber); }
-   @keyframes cursor-blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
-   
-   .subtitle { font-size: 6px; color: var(--px-grey); line-height: 2; margin-bottom: 16px; }
+   .subtitle { font-size: 10px; color: var(--px-grey); line-height: 2; margin-bottom: 16px; }
    .popup-actions { display:flex; gap:8px; justify-content:center; margin-top:20px; flex-wrap:wrap; }
    
    /* ── Missão ── */
