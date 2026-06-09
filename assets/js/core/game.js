@@ -35,7 +35,6 @@
      if (!CONFIG.difficulties[diff]) return;
      GameState.resetFull();
      GameState.difficulty  = diff;
-     GameState.lives       = CONFIG.difficulties[diff].lives;
      GameState.currentRoom = "sala1";
      
    

@@ -1,6 +1,6 @@
 /* ============================================================
    assets/js/core/config.js
-   Constantes globais do jogo. Edite aqui para ajustar parâmetros.
+   Constantes globais do jogo. Edite aqui para ajustar parametros.
    ============================================================ */
 
 const CONFIG = {
@@ -13,7 +13,7 @@ const CONFIG = {
     size:          32,
     speed:         4,
     bugProximity:  42,   // px para acionar popup de bug
-    lineDrawDist:  130   // px para desenhar linha de conexão
+    lineDrawDist:  130   // px para desenhar linha de conexao
   },
 
   bug: {
@@ -27,30 +27,30 @@ const CONFIG = {
     triggerDist: 45
   },
 
-  // Pontuação (escala 0-100 conforme manual §4)
+  // Proposta: 5 pontos por pergunta, maximo de 25 pontos por fase.
   score: {
-    pointsPerHit: {
-      facil:   20,  // 5 bugs × 20 = 100
-      medio:   20,
-      dificil: 20
-    },
-    penaltyPerWrong: {
-      facil:   0,
-      medio:   5,
-      dificil: 10
+    basePointsPerQuestion: 5,
+    minPointsPerQuestion: 1,
+    minimumPhaseFloor: 6,
+    gameOverRestartCount: 4,
+    minCorrectByRoom: {
+      sala1: 2,
+      sala2: 2,
+      sala3: 3,
+      sala4: 3
     }
   },
 
-  // 3 dificuldades conforme manual §6
+  // 3 dificuldades conforme manual.
   difficulties: {
-    facil:   { label: "Fácil",   lives: 3, color: "#00ffcc" },
-    medio:   { label: "Médio",   lives: 2, color: "#ffaa44" },
-    dificil: { label: "Difícil", lives: 1, color: "#ff44aa" }
+    facil:   { label: "Fácil",   color: "#00ffcc" },
+    medio:   { label: "Médio",   color: "#ffaa44" },
+    dificil: { label: "Difícil", color: "#ff44aa" }
   },
 
-  // Pontuação mínima para ativar o portal (% de bugs resolvidos)
-  minBugsToPass: 5,   // todos os bugs
+  // Quantidade de desafios por fase.
+  minBugsToPass: 5,
 
-  // Debug: mostrar zonas de colisão em tela (true = visível)
+  // Debug: mostrar zonas de colisao em tela (true = visivel).
   showCollisionDebug: false
 };

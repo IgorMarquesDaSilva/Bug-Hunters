@@ -92,13 +92,13 @@ const TutorialSystem = (() => {
       ]
     },
     {
-      title: "PONTUAÇÃO, VIDAS E FEEDBACK",
+      title: "PONTUAÇÃO E FEEDBACK",
       image: "player-lado-direito.png",
       imageAlt: "Personagem virado para a direita, representando atenção ao desafio.",
       caption: "Cada resposta gera feedback para ajudar no aprendizado.",
-      text: "Ao responder corretamente, você ganha pontos e elimina o bug. Se errar, o jogo mostra a resposta correta e uma explicação para você aprender com o erro.",
+      text: "Ao responder corretamente, você ganha pontos. Se errar, o jogo mostra a resposta correta e uma explicação para você aprender com o erro.",
       extra: [
-        { type: "warning", text: "Dependendo da dificuldade escolhida, os erros podem tirar vidas. Se as vidas acabarem, a partida termina em Game Over." }
+        { type: "warning", text: "Cada pergunta vale 5 pontos. Se a fase for reiniciada, os pontos daquela fase são removidos e cada pergunta passa a valer menos." }
       ]
     },
     {

@@ -963,7 +963,7 @@
                 </span>
 
                 <span class="diff-desc">
-                  Conceitos básicos • 3 vidas
+                  Conceitos basicos - perguntas diretas
                 </span>
 
               </button>
@@ -977,7 +977,7 @@
                 </span>
 
                 <span class="diff-desc">
-                  Interpretação lógica • 2 vidas
+                  Interpretacao logica - desafios medios
                 </span>
 
               </button>
@@ -991,7 +991,7 @@
                 </span>
 
                 <span class="diff-desc">
-                  Estruturas avançadas • 1 vida
+                  Estruturas avancadas - maior desafio
                 </span>
 
               </button>
@@ -1150,11 +1150,21 @@
 
             <p class="mission-desc">
 
-              Todos os bugs foram eliminados.<br><br>
+              Todos os desafios do setor foram concluidos.<br><br>
 
               A porta foi liberada.<br>
 
               Vá até ela para avançar.
+
+            </p>
+
+            <p class="mission-desc">
+
+              Pontuacao atual:
+              <span id="room-clear-score" class="highlight">0</span><br>
+
+              Minimo para avancar:
+              <span id="room-clear-required" class="highlight">0</span>
 
             </p>
 
@@ -1175,7 +1185,73 @@
         </div>
 
         <!-- =========================================================
-             PRÓXIMO NÍVEL
+             PONTUACAO INSUFICIENTE
+        ========================================================== -->
+
+        <div
+          id="screen-room-retry"
+          class="overlay"
+          style="display:none;">
+
+          <div class="popup-content center">
+
+            <div
+              class="popup-header"
+              style="color:#ffdf70; border-color:#ffdf70;">
+
+              PONTUACAO INSUFICIENTE
+
+            </div>
+
+            <p class="mission-desc">
+
+              Setor <span id="retry-room" class="highlight">1</span><br><br>
+
+              Pontuacao atual:
+              <span id="retry-current-score" class="highlight">0</span><br>
+
+              Minimo necessario:
+              <span id="retry-required-score" class="highlight">0</span><br>
+
+              Pontos feitos nesta tentativa:
+              <span id="retry-room-score" class="highlight">0</span>
+
+            </p>
+
+            <p class="mission-desc">
+
+              Ao reiniciar, os pontos desta fase sao removidos.<br>
+              Cada pergunta passara a valer
+              <span id="retry-next-points" class="highlight">4</span> pts.
+
+            </p>
+
+            <div class="popup-actions">
+
+              <button
+                class="cyber-btn"
+                onclick="MissionSystem.restartCurrentRoom()">
+
+                REINICIAR FASE
+
+              </button>
+
+              <button
+                class="cyber-btn secondary"
+                onclick="backToMenu()">
+
+                MENU
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- =========================================================
+             PROXIMO NIVEL
         ========================================================== -->
 
         <div
@@ -1233,7 +1309,7 @@
             </div>
 
             <p class="mission-desc">
-              Todos os bugs foram eliminados.
+              Todos os desafios foram concluidos.
             </p>
 
             <p class="mission-desc">
@@ -1304,8 +1380,11 @@
 
             </div>
 
-            <p class="mission-desc">
-              Você ficou sem vidas.
+            <p
+              id="gameover-reason"
+              class="mission-desc">
+
+              Pontuacao minima nao atingida.
             </p>
 
             <p class="mission-desc">
@@ -1424,12 +1503,12 @@
           <div class="stat">
 
             <span class="stat-label">
-              VIDAS
+              P/PERGUNTA
             </span>
 
             <span
               class="stat-value"
-              id="hud-lives">
+              id="hud-points">
 
               —
 
