@@ -235,7 +235,6 @@
   function syncFontLabels(size) {
     const selected = FONT_ORDER.includes(size) ? size : "normal";
     setText("font-size-access-value", FONT_LABEL[selected]);
-    setText("font-size-value", FONT_LABEL[selected]);
 
     document.querySelectorAll(".font-option-btn[data-font-size]").forEach(btn => {
       const active = btn.dataset.fontSize === selected;

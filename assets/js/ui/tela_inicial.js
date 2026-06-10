@@ -126,7 +126,7 @@
       large: "GRANDE"
     };
 
-    const valueText = document.getElementById("font-size-value");
+    const valueText = document.getElementById("font-size-access-value");
 
     if (valueText) {
       valueText.textContent = labelMap[selectedSize];

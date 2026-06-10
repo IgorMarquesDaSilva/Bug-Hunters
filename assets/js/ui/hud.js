@@ -3,9 +3,8 @@
 ============================================================ */
 
 window.HUD = (() => {
-
   function update() {
-    const total = GameState.currentMissions().length || 5;
+    const total = GameState.currentMissions().length || CONFIG.minBugsToPass;
     const diff = GameState.difficulty;
     const cfg = diff ? CONFIG.difficulties[diff] : null;
 
@@ -25,22 +24,20 @@ window.HUD = (() => {
     const diffEl = document.getElementById("hud-diff");
 
     if (diffEl) {
-      diffEl.textContent = cfg ? cfg.label : "—";
+      diffEl.textContent = cfg ? cfg.label : "-";
       diffEl.style.color = cfg ? cfg.color : "";
     }
 
-    const maxLives = cfg ? cfg.lives : 3;
-    const livesEl = document.getElementById("hud-lives");
+    const pointsEl = document.getElementById("hud-points");
 
-    if (livesEl) {
-      let hearts = "";
+    if (pointsEl) {
+      const points =
+        typeof MissionSystem !== "undefined" && diff
+          ? MissionSystem.getPointsPerQuestion()
+          : CONFIG.score.basePointsPerQuestion;
 
-      for (let i = 0; i < maxLives; i++) {
-        hearts += i < GameState.lives ? "♥ " : "♡ ";
-      }
-
-      livesEl.textContent = hearts.trim();
-      livesEl.style.color = GameState.lives <= 1 ? "#ff4444" : "";
+      pointsEl.textContent = `${points} pts`;
+      pointsEl.style.color = points <= 2 ? "#ff4444" : "";
     }
   }
 
@@ -55,5 +52,4 @@ window.HUD = (() => {
   return {
     update
   };
-
 })();
