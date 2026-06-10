@@ -36,7 +36,7 @@
      GameState.resetFull();
      GameState.difficulty  = diff;
      GameState.lives       = CONFIG.difficulties[diff].lives;
-     GameState.currentRoom = "sala3";
+     GameState.currentRoom = "sala1";
      
    
      Renderer.loadRoomBackground();
