@@ -344,175 +344,270 @@
   "dificil": {
     "sala1": [
       {
-        "title": "MISSÃO 01 — Encontre o Bug",
-        "desc": "O código abaixo tem um erro. Qual linha está errada?",
-        "code": "funcao inteiro somar(inteiro a, inteiro b)\n    inteiro resultado <- a + b\n    Retorne resultado\nfimfuncao",
-        "choices": ["funcao inteiro somar(inteiro a, inteiro b)", "inteiro resultado <- a + b", "\"Retorne\" deveria ser \"retorne\"", "Não há erro"],
+        "title": "MISSÃO 01 — Inicializar Energia",
+        "desc": "A energia deve começar em 50 e receber um bônus inicial de 10. Qual código faz energia terminar com 60 sem declarar essa variável novamente?",
+        "code": "// Declare energia e bonusInicial como inteiros.\n// Depois, atualize apenas a variável energia.",
+        "choices": [
+          "inteiro energia <- 50\ninteiro bonusInicial <- 10\nenergia <- energia + bonusInicial",
+          "inteiro energia <- 50\ninteiro bonusInicial <- 10\ninteiro energia <- 50 + bonusInicial",
+          "inteiro energia <- 50\ncaractere bonusInicial <- \"10\"\nenergia <- energia + bonusInicial",
+          "inteiro energia <- 50\ninteiro bonusInicial <- 10\nbonusInicial <- energia + bonusInicial"
+        ],
+        "correct": 0,
+        "explanation": "energia e bonusInicial são declaradas uma vez. Depois, energia recebe seu valor atual mais o bônus, terminando com 60."
+      },
+      {
+        "title": "MISSÃO 02 — Registrar Nome do Bug",
+        "desc": "O sistema deve registrar um nome de bug, começar com o alerta desligado e depois atualizar os dois valores. Qual código mantém os tipos corretos sem redeclarar variáveis?",
+        "code": "// nomeBug começa como \"Falha de energia\" e muda para \"Sobrecarga\".\n// alertaAtivo começa falso e muda para verdadeiro.",
+        "choices": [
+          "caractere nomeBug <- \"Falha de energia\"\nlogico alertaAtivo <- falso\ncaractere nomeBug <- \"Sobrecarga\"\nalertaAtivo <- verdadeiro",
+          "caractere nomeBug <- \"Falha de energia\"\nlogico alertaAtivo <- \"falso\"\nnomeBug <- \"Sobrecarga\"\nalertaAtivo <- \"verdadeiro\"",
+          "caractere nomeBug <- \"Falha de energia\"\nlogico alertaAtivo <- falso\nnomeBug <- \"Sobrecarga\"\nalertaAtivo <- verdadeiro",
+          "caractere nomeBug <- \"Falha de energia\"\nlogico alertaAtivo <- falso\nnomeBug <- verdadeiro\nalertaAtivo <- \"Sobrecarga\""
+        ],
         "correct": 2,
-        "explanation": "\"Retorne\" com R maiúsculo está incorreto. O correto é \"retorne\"."
+        "explanation": "As variáveis são declaradas uma vez. Depois, nomeBug recebe outro texto e alertaAtivo recebe outro valor lógico."
       },
       {
-        "title": "MISSÃO 02 — Loop Infinito",
-        "desc": "Por que esse código entra em loop infinito?",
-        "code": "inteiro cont <- 0\nenquanto cont < 5 faca\n    escreva(cont)\nfimenquanto",
-        "choices": ["O intervalo não foi definido", "cont nunca é incrementado", "enquanto deveria ser para", "escreva() causa o loop"],
+        "title": "MISSÃO 03 — Configurar Diagnóstico",
+        "desc": "O diagnóstico precisa guardar uma temperatura decimal, uma quantidade inteira de tentativas e um estado lógico de conexão. Qual código usa tipos compatíveis com todos os valores?",
+        "code": "// temperatura = 36.5\n// tentativas = 3\n// conectado = falso",
+        "choices": [
+          "inteiro temperatura <- 36.5\ninteiro tentativas <- 3\nlogico conectado <- falso",
+          "real temperatura <- 36.5\ninteiro tentativas <- 3\nlogico conectado <- falso",
+          "real temperatura <- 36.5\ninteiro tentativas <- \"3\"\ncaractere conectado <- \"falso\"",
+          "logico temperatura <- verdadeiro\nreal tentativas <- 3.0\ninteiro conectado <- 0"
+        ],
         "correct": 1,
-        "explanation": "cont nunca aumenta, então a condição cont < 5 nunca fica falsa."
+        "explanation": "Temperaturas decimais usam real, quantidades sem casas decimais usam inteiro e estados usam logico."
       },
       {
-        "title": "MISSÃO 03 — Erro de Índice",
-        "desc": "O que acontece ao executar esse código?",
-        "code": "inteiro lista[3] <- {10, 20, 30}\nescreva(lista[4])",
-        "choices": ["Exibe 30", "Exibe nulo", "Gera erro de índice inválido", "Exibe 0"],
-        "correct": 2,
-        "explanation": "O vetor possui apenas 3 posições. Acessar lista[4] gera erro."
+        "title": "MISSÃO 04 — Registrar Reparo",
+        "desc": "O diagnóstico encontrou 4 erros. Após reparar exatamente um deles, o contador deve diminuir e o estado reparado deve virar verdadeiro. Qual atualização está correta?",
+        "code": "inteiro erros <- 4\nlogico reparado <- falso",
+        "choices": [
+          "erros <- erros - 1\nreparado = verdadeiro",
+          "erros <- erros + 1\nreparado <- verdadeiro",
+          "erros <- 1\nreparado <- verdadeiro",
+          "erros <- erros - 1\nreparado <- verdadeiro"
+        ],
+        "correct": 3,
+        "explanation": "erros recebe 4 - 1, ficando com 3. reparado recebe o valor lógico verdadeiro por meio de <-."
       },
       {
-        "title": "MISSÃO 04 — Escopo de Variável",
-        "desc": "O que será exibido ao executar esse código?",
-        "code": "inteiro x <- 10\n\nprocedimento alterar()\n    inteiro x <- 99\nfimprocedimento\n\nalterar()\nescreva(x)",
-        "choices": ["99", "10", "nulo", "Erro"],
-        "correct": 1,
-        "explanation": "O x dentro do procedimento é local. O x externo continua valendo 10."
-      },
-      {
-        "title": "MISSÃO 05 — Lógica Invertida",
-        "desc": "O código deveria exibir apenas números ímpares. Qual é o problema?",
-        "code": "para i de 1 ate 7 faca\n    se i % 2 = 0 entao\n        escreva(i)\n    fimse\nfimpara",
-        "choices": ["O intervalo está errado", "Deveria ser i % 2 <> 0", "Deveria ser i % 2 = 1", "Não há problema"],
-        "correct": 1,
-        "explanation": "i % 2 = 0 seleciona pares. Para ímpares, use i % 2 <> 0."
+        "title": "MISSÃO 05 — Preparar Diagnóstico",
+        "desc": "O relatório precisa guardar o código numérico 17, a mensagem \"Falha crítica\" e o estado crítico verdadeiro. Em seguida, o código deve aumentar em 3. Qual solução mantém tipos e atualizações corretos?",
+        "code": "// codigo termina com 20.\n// mensagem continua sendo texto.\n// critico continua sendo lógico.",
+        "choices": [
+          "inteiro codigo <- 17\ncaractere mensagem <- \"Falha crítica\"\nlogico critico <- verdadeiro\ncodigo <- codigo + 3",
+          "inteiro codigo <- 17\ncaractere mensagem <- \"Falha crítica\"\nlogico critico <- verdadeiro\nmensagem <- codigo + 3",
+          "caractere codigo <- \"17\"\ncaractere mensagem <- \"Falha crítica\"\nlogico critico <- verdadeiro\ncodigo <- codigo + 3",
+          "inteiro codigo <- 17\ncaractere mensagem <- \"Falha crítica\"\nlogico critico <- \"verdadeiro\"\ncodigo <- 3"
+        ],
+        "correct": 0,
+        "explanation": "Cada valor usa seu tipo correspondente, e codigo é atualizado somando 3 ao valor anterior."
       }
     ],
     "sala2": [
       {
-        "title": "MISSÃO 06 — Recursão",
-        "desc": "O que a função retorna quando chamada com fatorial(3)?",
-        "code": "funcao inteiro fatorial(inteiro n)\n    se n = 0 entao\n        retorne 1\n    fimse\n    retorne n * fatorial(n - 1)\nfimfuncao",
-        "choices": ["3", "6", "9", "1"],
+        "title": "MISSÃO 06 — Somar Energia",
+        "desc": "A central deve somar energiaBase e bonus antes de triplicar o resultado. Qual código calcula exatamente (8 + 2) × 3?",
+        "code": "inteiro energiaBase <- 8\ninteiro bonus <- 2\n// total deve terminar com 30.",
+        "choices": [
+          "inteiro total <- energiaBase + bonus * 3",
+          "inteiro total <- (energiaBase + bonus) * 3",
+          "inteiro total <- energiaBase * 3 + bonus",
+          "inteiro total <- (energiaBase + 3) * bonus"
+        ],
         "correct": 1,
-        "explanation": "fatorial(3) = 3 * 2 * 1 = 6."
+        "explanation": "Os parênteses obrigam a soma 8 + 2 a acontecer antes da multiplicação por 3."
       },
       {
-        "title": "MISSÃO 07 — Erro de Atribuição",
-        "desc": "O código tenta comparar x com 5, mas tem um erro. Qual é?",
-        "code": "inteiro x <- 10\nse x <- 5 entao\n    escreva(\"igual\")\nfimse",
-        "choices": ["escreva está errado", "\"<-\" deveria ser \"=\"", "x não foi declarado", "Não há erro"],
-        "correct": 1,
-        "explanation": "Dentro do se, use comparação. \"<-\" é atribuição."
+        "title": "MISSÃO 07 — Calcular Consumo",
+        "desc": "O núcleo começa com 100 unidades. Três módulos consomem 18 unidades cada e, depois, uma reserva devolve 10. Qual expressão calcula a energia final?",
+        "code": "// energiaFinal deve terminar com 56.",
+        "choices": [
+          "inteiro energiaFinal <- (100 - 3) * 18 + 10",
+          "inteiro energiaFinal <- 100 - (3 + 18) + 10",
+          "inteiro energiaFinal <- 100 - 3 * (18 + 10)",
+          "inteiro energiaFinal <- 100 - 3 * 18 + 10"
+        ],
+        "correct": 3,
+        "explanation": "Primeiro ocorre 3 * 18 = 54. Depois, 100 - 54 + 10 resulta em 56."
       },
       {
-        "title": "MISSÃO 08 — Registro",
-        "desc": "Como acessar o campo nome em um registro em Portugol?",
-        "code": "tipo Jogador\n    caractere nome\n    inteiro nivel\nfimtipo\n\nJogador jogador\njogador.nome <- \"Igor\"\nescreva(___)",
-        "choices": ["jogador[\"nome\"]", "jogador.nome", "jogador(nome)", "jogador->nome"],
-        "correct": 1,
-        "explanation": "Campos de registro são acessados com ponto: jogador.nome."
+        "title": "MISSÃO 08 — Distribuir Carga",
+        "desc": "Três sensores registraram 8, 14 e 20. Qual expressão soma as leituras antes de dividir por 3 para obter a média 14?",
+        "code": "// A soma completa precisa acontecer antes da divisão.",
+        "choices": [
+          "inteiro media <- 8 + 14 + 20 / 3",
+          "inteiro media <- (8 + 14 + 20) * 3",
+          "inteiro media <- (8 + 14 + 20) / 3",
+          "inteiro media <- (8 + 14 + 20) / 2"
+        ],
+        "correct": 2,
+        "explanation": "Os parênteses produzem 42 antes da divisão. Em seguida, 42 / 3 resulta em 14."
       },
       {
-        "title": "MISSÃO 09 — Tratamento de Erro",
-        "desc": "Qual é a forma correta de evitar erro ao receber um valor inválido?",
-        "code": "funcao inteiro converter(caractere valor)\n    se ___\n        retorne inteiro(valor)\n    senao\n        escreva(\"Valor invalido\")\n        retorne 0\n    fimse\nfimfuncao",
-        "choices": ["sempre verdadeiro entao", "valor <> \"\" e ehNumero(valor) entao", "valor = 0 entao", "nao verdadeiro entao"],
-        "correct": 1,
-        "explanation": "Antes de converter, verifique se o valor não está vazio e é numérico."
+        "title": "MISSÃO 09 — Validar Identificador",
+        "desc": "Um código é válido somente quando numero é par, maior ou igual a 10 e menor que 100. Qual expressão lógica representa todas as regras?",
+        "code": "// As três comparações precisam ser verdadeiras ao mesmo tempo.",
+        "choices": [
+          "logico valido <- numero % 2 = 0 e numero >= 10 e numero < 100",
+          "logico valido <- numero % 2 = 0 ou numero >= 10 ou numero < 100",
+          "logico valido <- numero % 2 = 1 e numero > 10 e numero <= 100",
+          "logico valido <- numero / 2 = 0 e numero >= 10 e numero < 100"
+        ],
+        "correct": 0,
+        "explanation": "numero % 2 = 0 verifica se o número é par, e liga essa regra aos dois limites obrigatórios."
       },
       {
-        "title": "MISSÃO 10 — Vetor Dinâmico",
-        "desc": "O que o vetor quadrados vai conter após o código?",
-        "code": "inteiro quadrados[3]\npara i de 1 ate 3 faca\n    quadrados[i] <- i * i\nfimpara",
-        "choices": ["[1, 2, 3]", "[1, 4, 9]", "[2, 4, 6]", "[0, 1, 4]"],
+        "title": "MISSÃO 10 — Validar Operação",
+        "desc": "A operação é permitida quando energia é pelo menos 30 e temperatura é menor que 80. Uma emergência também deve permitir a operação, mesmo que essas duas regras falhem. Qual expressão está correta?",
+        "code": "// Regra normal: energia e temperatura adequadas.\n// Exceção: emergencia = verdadeiro.",
+        "choices": [
+          "logico permitido <- energia >= 30 e (temperatura < 80 ou emergencia = verdadeiro)",
+          "logico permitido <- (energia >= 30 e temperatura < 80) ou emergencia = verdadeiro",
+          "logico permitido <- (energia >= 30 ou temperatura < 80) e emergencia = verdadeiro",
+          "logico permitido <- energia >= 30 ou (temperatura < 80 e emergencia = verdadeiro)"
+        ],
         "correct": 1,
-        "explanation": "1² = 1, 2² = 4 e 3² = 9."
+        "explanation": "Os parênteses agrupam as duas exigências normais. O ou permite que a emergência funcione como uma exceção independente."
       }
     ],
     "sala3": [
       {
-        "title": "MISSÃO 11 — Correção de Fluxo",
-        "desc": "O sistema só deve ativar a quarentena se risco for alto e o setor estiver contaminado.",
-        "code": "se risco > 70 ___ contaminado = verdadeiro entao\n    ativarQuarentena()\nfimse",
-        "choices": ["ou", "e", "senao", "<-"],
-        "correct": 1,
-        "explanation": "Como as duas condições são obrigatórias, o operador correto é \"e\"."
-      },
-      {
-        "title": "MISSÃO 12 — Falha na Condição",
-        "desc": "Qual é o problema neste código?",
-        "code": "se energia <- 10 entao\n    recarregar()\nfimse",
-        "choices": ["O correto seria usar comparação, não atribuição", "O comando recarregar está errado", "A variável energia não pode ser número", "O fimse deveria vir antes"],
-        "correct": 0,
-        "explanation": "\"<-\" atribui valor. Para testar uma condição, use comparação."
-      },
-      {
-        "title": "MISSÃO 13 — Condição Composta",
-        "desc": "Qual condição libera o acesso se o usuário for admin ou se tiver autorização?",
-        "code": "se admin = verdadeiro ___ autorizado = verdadeiro entao\n    liberarAcesso()\nfimse",
-        "choices": ["e", "ou", "+", "senao"],
-        "correct": 1,
-        "explanation": "Como existem duas possibilidades de liberação, usamos \"ou\"."
-      },
-      {
-        "title": "MISSÃO 14 — Interpretação de Código",
-        "desc": "Com energia = 6 e ativo = falso, o que acontece?",
-        "code": "se energia > 5 e ativo = verdadeiro entao\n    iniciar()\nsenao\n    bloquear()\nfimse",
-        "choices": ["iniciar()", "bloquear()", "os dois comandos", "nenhum comando"],
-        "correct": 1,
-        "explanation": "Com \"e\", tudo precisa ser verdadeiro. Como ativo é falso, executa o senao."
-      },
-      {
-        "title": "MISSÃO 15 — Condição Encadeada",
-        "desc": "Qual trecho representa melhor uma decisão com alternativa?",
-        "code": "Se risco alto, isolar. Senão, monitorar.",
+        "title": "MISSÃO 11 — Recarregar Sistema",
+        "desc": "O sistema deve recarregar somente quando energia for menor que 20 e o backup estiver disponível. Em qualquer outro caso, deve registrar uma falha. Qual código cria esse fluxo?",
+        "code": "// recarregar(): apenas com energia baixa e backup.\n// registrarFalha(): todos os outros casos.",
         "choices": [
-          "se risco > 80 entao\n    isolar()\nsenao\n    monitorar()\nfimse",
-          "para risco de 1 ate 80 faca\n    isolar()\nfimpara",
-          "funcao risco()\n    monitorar()\nfimfuncao",
-          "escreva(risco)"
+          "se energia < 20 ou backupDisponivel = verdadeiro entao\n    recarregar()\nsenao\n    registrarFalha()\nfimse",
+          "se energia >= 20 e backupDisponivel = verdadeiro entao\n    recarregar()\nsenao\n    registrarFalha()\nfimse",
+          "se energia < 20 e backupDisponivel = verdadeiro entao\n    recarregar()\nsenao\n    registrarFalha()\nfimse",
+          "se energia < 20 e backupDisponivel = falso entao\n    recarregar()\nsenao\n    registrarFalha()\nfimse"
+        ],
+        "correct": 2,
+        "explanation": "O operador e exige energia baixa e backup disponível. Se qualquer requisito falhar, o bloco senao registra a falha."
+      },
+      {
+        "title": "MISSÃO 12 — Escolher Caminho",
+        "desc": "O acesso deve ser bloqueado se a porta estiver travada ou se o alarme estiver ativo. Somente quando nenhuma dessas situações ocorrer o acesso será liberado. Qual código atende à regra?",
+        "code": "// Uma única condição de perigo já deve bloquear o acesso.",
+        "choices": [
+          "se portaTravada = verdadeiro ou alarmeAtivo = verdadeiro entao\n    bloquearAcesso()\nsenao\n    liberarAcesso()\nfimse",
+          "se portaTravada = verdadeiro e alarmeAtivo = verdadeiro entao\n    bloquearAcesso()\nsenao\n    liberarAcesso()\nfimse",
+          "se portaTravada = falso ou alarmeAtivo = falso entao\n    bloquearAcesso()\nsenao\n    liberarAcesso()\nfimse",
+          "se portaTravada = verdadeiro ou alarmeAtivo = verdadeiro entao\n    liberarAcesso()\nsenao\n    bloquearAcesso()\nfimse"
         ],
         "correct": 0,
-        "explanation": "A estrutura se/senao é ideal quando existem dois caminhos possíveis."
+        "explanation": "O operador ou bloqueia quando pelo menos um perigo existe. O senao só libera quando ambos são falsos."
+      },
+      {
+        "title": "MISSÃO 13 — Ativar Quarentena",
+        "desc": "A quarentena exige risco maior que 70 e, além disso, contaminação confirmada ou falha no sensor. Qual condição preserva exatamente essa prioridade?",
+        "code": "// risco > 70 é sempre obrigatório.\n// Depois, basta contaminado ou sensorFalhou.",
+        "choices": [
+          "se (risco > 70 e contaminado = verdadeiro) ou sensorFalhou = verdadeiro entao\n    ativarQuarentena()\nfimse",
+          "se risco > 70 ou (contaminado = verdadeiro e sensorFalhou = verdadeiro) entao\n    ativarQuarentena()\nfimse",
+          "se risco > 70 e contaminado = verdadeiro e sensorFalhou = verdadeiro entao\n    ativarQuarentena()\nfimse",
+          "se risco > 70 e (contaminado = verdadeiro ou sensorFalhou = verdadeiro) entao\n    ativarQuarentena()\nfimse"
+        ],
+        "correct": 3,
+        "explanation": "Os parênteses agrupam as duas possibilidades secundárias, enquanto e mantém risco > 70 como requisito obrigatório."
+      },
+      {
+        "title": "MISSÃO 14 — Liberar Acesso",
+        "desc": "Um administrador pode entrar diretamente. Outros usuários só entram quando possuem autorização e cartão válido ao mesmo tempo. Qual condição implementa essa regra?",
+        "code": "// admin é uma exceção independente.\n// Para os demais, autorizado e cartaoValido são obrigatórios.",
+        "choices": [
+          "se (admin = verdadeiro ou autorizado = verdadeiro) e cartaoValido = verdadeiro entao\n    liberarAcesso()\nfimse",
+          "se admin = verdadeiro ou (autorizado = verdadeiro e cartaoValido = verdadeiro) entao\n    liberarAcesso()\nfimse",
+          "se admin = verdadeiro e (autorizado = verdadeiro ou cartaoValido = verdadeiro) entao\n    liberarAcesso()\nfimse",
+          "se admin = verdadeiro ou autorizado = verdadeiro ou cartaoValido = verdadeiro entao\n    liberarAcesso()\nfimse"
+        ],
+        "correct": 1,
+        "explanation": "O ou separa a exceção do administrador. Os parênteses exigem autorização e cartão válido para os demais usuários."
+      },
+      {
+        "title": "MISSÃO 15 — Classificar Risco",
+        "desc": "O setor deve ser isolado se risco for maior que 80. Caso contrário, deve ser monitorado quando risco for maior que 50 e ainda não estiver monitorado. Nos demais casos, mantém a operação. Qual fluxo está correto?",
+        "code": "// Verifique primeiro o risco mais alto.\n// monitorar(): risco > 50 e monitorado = falso.",
+        "choices": [
+          "se risco > 80 entao\n    isolar()\nsenao\n    se risco > 50 ou monitorado = falso entao\n        monitorar()\n    senao\n        manterOperacao()\n    fimse\nfimse",
+          "se risco > 50 e monitorado = falso entao\n    monitorar()\nsenao\n    se risco > 80 entao\n        isolar()\n    senao\n        manterOperacao()\n    fimse\nfimse",
+          "se risco > 80 entao\n    isolar()\nsenao\n    se risco > 50 e monitorado = falso entao\n        monitorar()\n    senao\n        manterOperacao()\n    fimse\nfimse",
+          "se risco > 80 entao\n    isolar()\nsenao\n    se risco > 50 e monitorado = verdadeiro entao\n        monitorar()\n    senao\n        manterOperacao()\n    fimse\nfimse"
+        ],
+        "correct": 2,
+        "explanation": "O risco mais alto é testado primeiro. A decisão interna usa e para exigir risco intermediário e ausência de monitoramento."
       }
     ],
     "sala4": [
       {
-        "title": "MISSÃO 16 — Bug na Função",
-        "desc": "A função deveria devolver um valor inteiro, mas há um erro. Qual linha precisa ser corrigida?",
-        "code": "funcao inteiro totalizar(inteiro a, inteiro b)\n    inteiro total <- a + b\n    escreva(total)\nfimfuncao",
-        "choices": ["Trocar escreva(total) por retorne total", "Remover os parâmetros", "Trocar inteiro por caractere", "Não há erro"],
+        "title": "MISSÃO 16 — Criar Função",
+        "desc": "Qual função recebe energiaBase, consumo e multiplicador, subtrai o consumo antes de multiplicar e retorna o resultado inteiro?",
+        "code": "// resultado = (energiaBase - consumo) * multiplicador",
+        "choices": [
+          "funcao inteiro calcularEnergia(inteiro energiaBase, inteiro consumo, inteiro multiplicador)\n    retorne (energiaBase - consumo) * multiplicador\nfimfuncao",
+          "funcao inteiro calcularEnergia(inteiro energiaBase, inteiro consumo, inteiro multiplicador)\n    retorne energiaBase - consumo * multiplicador\nfimfuncao",
+          "funcao real calcularEnergia(inteiro energiaBase, inteiro consumo, inteiro multiplicador)\n    retorne (consumo - energiaBase) * multiplicador\nfimfuncao",
+          "procedimento calcularEnergia(inteiro energiaBase, inteiro consumo, inteiro multiplicador)\n    escreva((energiaBase - consumo) * multiplicador)\nfimprocedimento"
+        ],
         "correct": 0,
-        "explanation": "Uma função inteira deve retornar um valor. escreva apenas exibe na tela."
+        "explanation": "A função recebe os três parâmetros, usa parênteses para subtrair antes da multiplicação e devolve um inteiro."
       },
       {
-        "title": "MISSÃO 17 — Escopo de Variável",
-        "desc": "Qual valor será exibido no final?",
-        "code": "inteiro energia <- 50\n\nfuncao inteiro ajustar()\n    inteiro energia <- 10\n    retorne energia\nfimfuncao\n\najustar()\nescreva(energia)",
-        "choices": ["10", "50", "60", "Erro"],
+        "title": "MISSÃO 17 — Guardar Retorno",
+        "desc": "A função calcularEnergia recebe energiaBase, consumo e multiplicador, nessa ordem. Qual código envia 30, 5 e 2 e guarda o resultado 50 em energiaFinal?",
+        "code": "funcao inteiro calcularEnergia(inteiro energiaBase, inteiro consumo, inteiro multiplicador)\n    retorne (energiaBase - consumo) * multiplicador\nfimfuncao",
+        "choices": [
+          "inteiro energiaFinal <- calcularEnergia(30, 2, 5)",
+          "inteiro energiaFinal <- calcularEnergia(30 - 5 * 2)",
+          "inteiro energiaFinal <- calcularEnergia(5, 30, 2)",
+          "inteiro energiaFinal <- calcularEnergia(30, 5, 2)"
+        ],
+        "correct": 3,
+        "explanation": "Os argumentos seguem a ordem dos parâmetros: 30 - 5 é calculado primeiro e o resultado é multiplicado por 2."
+      },
+      {
+        "title": "MISSÃO 18 — Validar Código",
+        "desc": "A função ehCodigoValido deve retornar verdadeiro somente quando numero for positivo e par. Qual implementação representa as duas exigências?",
+        "code": "// positivo: numero > 0\n// par: numero % 2 = 0",
+        "choices": [
+          "funcao logico ehCodigoValido(inteiro numero)\n    retorne numero > 0 ou numero % 2 = 0\nfimfuncao",
+          "funcao logico ehCodigoValido(inteiro numero)\n    retorne numero > 0 e numero % 2 = 0\nfimfuncao",
+          "funcao logico ehCodigoValido(inteiro numero)\n    retorne numero < 0 e numero % 2 = 0\nfimfuncao",
+          "funcao logico ehCodigoValido(inteiro numero)\n    retorne numero > 0 e numero % 2 <> 0\nfimfuncao"
+        ],
         "correct": 1,
-        "explanation": "A energia criada dentro da função é local. A variável externa continua valendo 50."
+        "explanation": "O operador e exige que numero > 0 e numero % 2 = 0 sejam verdadeiros ao mesmo tempo."
       },
       {
-        "title": "MISSÃO 18 — Parâmetros Invertidos",
-        "desc": "A chamada comparar(3, 8) retorna o quê?",
-        "code": "funcao caractere comparar(inteiro minimo, inteiro valor)\n    se valor >= minimo entao\n        retorne \"ok\"\n    senao\n        retorne \"falha\"\n    fimse\nfimfuncao",
-        "choices": ["ok", "falha", "3", "8"],
-        "correct": 0,
-        "explanation": "valor recebe 8 e minimo recebe 3. Como 8 >= 3, o retorno é \"ok\"."
+        "title": "MISSÃO 19 — Diagnosticar Energia",
+        "desc": "A função deve retornar \"critico\" quando energia for menor que 20 ou temperatura for pelo menos 90; \"atencao\" quando apenas energia for menor que 40; e \"estavel\" nos demais casos. Qual código respeita a prioridade?",
+        "code": "// Teste o estado crítico antes do estado de atenção.",
+        "choices": [
+          "funcao caractere diagnosticar(inteiro energia, inteiro temperatura)\n    se energia < 40 entao\n        retorne \"atencao\"\n    senao\n        se energia < 20 ou temperatura >= 90 entao\n            retorne \"critico\"\n        senao\n            retorne \"estavel\"\n        fimse\n    fimse\nfimfuncao",
+          "funcao caractere diagnosticar(inteiro energia, inteiro temperatura)\n    se energia < 20 e temperatura >= 90 entao\n        retorne \"critico\"\n    senao\n        se energia < 40 entao\n            retorne \"atencao\"\n        senao\n            retorne \"estavel\"\n        fimse\n    fimse\nfimfuncao",
+          "funcao caractere diagnosticar(inteiro energia, inteiro temperatura)\n    se energia < 20 ou temperatura >= 90 entao\n        retorne \"critico\"\n    senao\n        se energia < 40 entao\n            retorne \"atencao\"\n        senao\n            retorne \"estavel\"\n        fimse\n    fimse\nfimfuncao",
+          "funcao caractere diagnosticar(inteiro energia, inteiro temperatura)\n    se energia < 20 ou temperatura >= 90 entao\n        retorne \"atencao\"\n    senao\n        se energia < 40 entao\n            retorne \"critico\"\n        senao\n            retorne \"estavel\"\n        fimse\n    fimse\nfimfuncao"
+        ],
+        "correct": 2,
+        "explanation": "A condição crítica vem primeiro e usa ou. Só quando ela é falsa o código verifica o nível de atenção."
       },
       {
-        "title": "MISSÃO 19 — Reutilização com Condição",
-        "desc": "Qual correção evita repetir o mesmo cálculo em dois lugares?",
-        "code": "se setorA > 80 entao\n    alerta(setorA + 10)\nfimse\nse setorB > 80 entao\n    alerta(setorB + 10)\nfimse",
-        "choices": ["Criar uma função avaliarSetor(valor)", "Remover os dois se", "Trocar + por -", "Usar texto no lugar dos números"],
-        "correct": 0,
-        "explanation": "Uma função com parâmetro permite reaproveitar a mesma regra para setorA e setorB."
-      },
-      {
-        "title": "MISSÃO 20 — Falha Final da Central",
-        "desc": "Qual alternativa corrige a função para retornar verdadeiro somente quando todos os sistemas estiverem prontos?",
-        "code": "funcao logico liberarPonte(logico motor, logico energia, logico rota)\n    se motor = verdadeiro ___ energia = verdadeiro ___ rota = verdadeiro entao\n        retorne verdadeiro\n    senao\n        retorne falso\n    fimse\nfimfuncao",
-        "choices": ["e / e", "ou / ou", "e / ou", "ou / e"],
-        "correct": 0,
-        "explanation": "Como todos os sistemas precisam estar prontos, as condições devem ser ligadas por \"e\"."
+        "title": "MISSÃO 20 — Liberar a Central",
+        "desc": "A central só pode ser liberada quando motor e rota estiverem prontos e a soma de energiaBase com reserva for pelo menos 100. Qual função calcula e retorna todas as exigências?",
+        "code": "// energiaTotal = energiaBase + reserva\n// motor, rota e energiaTotal suficiente são obrigatórios.",
+        "choices": [
+          "funcao logico liberarCentral(logico motor, logico rota, inteiro energiaBase, inteiro reserva)\n    inteiro energiaTotal <- energiaBase + reserva\n    retorne motor ou rota ou energiaTotal >= 100\nfimfuncao",
+          "funcao logico liberarCentral(logico motor, logico rota, inteiro energiaBase, inteiro reserva)\n    inteiro energiaTotal <- energiaBase + reserva\n    retorne motor e rota e energiaBase >= 100\nfimfuncao",
+          "procedimento liberarCentral(logico motor, logico rota, inteiro energiaBase, inteiro reserva)\n    inteiro energiaTotal <- energiaBase + reserva\n    escreva(motor e rota e energiaTotal >= 100)\nfimprocedimento",
+          "funcao logico liberarCentral(logico motor, logico rota, inteiro energiaBase, inteiro reserva)\n    inteiro energiaTotal <- energiaBase + reserva\n    retorne motor e rota e energiaTotal >= 100\nfimfuncao"
+        ],
+        "correct": 3,
+        "explanation": "A função soma as duas fontes de energia e usa e para exigir motor, rota e energia total suficiente."
       }
     ]
   }
