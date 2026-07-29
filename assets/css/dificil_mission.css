@@ -8,8 +8,8 @@
 }
 
 .mission-panel-hard {
-  width: min(94%, 920px);
-  max-width: 920px;
+  width: min(96%, 960px);
+  max-width: 960px;
   max-height: 92vh;
   padding: 20px 24px 22px;
   border-color: #ff4f9a;
@@ -69,8 +69,8 @@
 
 .mission-panel-hard .code-block {
   margin: 10px 0 14px;
-  padding: 12px 14px 14px;
-  background: #05080e;
+  padding: 11px 14px 14px;
+  background: #090b10;
   border-color: #4fd9ff;
   box-shadow:
     inset 0 0 18px rgba(79, 217, 255, 0.08),
@@ -84,16 +84,20 @@
 
 .mission-panel-hard .code-block pre {
   max-height: 150px;
-  overflow: auto;
-  color: #a8ff78;
+  overflow-x: auto;
+  overflow-y: auto;
+  color: #dce7f2;
   font-family: Consolas, "Courier New", monospace;
-  font-size: 12px;
-  line-height: 1.55;
+  font-size: calc(13px * var(--game-font-scale, 1));
+  line-height: 1.6;
   letter-spacing: 0;
+  tab-size: 4;
   text-shadow: none;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  white-space: pre;
+  overflow-wrap: normal;
   word-break: normal;
+  scrollbar-color: #31536d #080b11;
+  scrollbar-width: thin;
 }
 
 .mission-panel-hard .question-label {
@@ -105,24 +109,30 @@
 .mission-panel-hard #choices-container {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  align-items: stretch;
+  gap: 12px;
   margin: 8px 0 12px;
+}
+
+.mission-panel-hard #choices-container.choices-wide-code {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .mission-panel-hard .code-choice-btn {
   display: grid;
-  grid-template-columns: 38px minmax(0, 1fr);
+  grid-template-columns: 42px minmax(0, 1fr);
   align-items: stretch;
-  min-height: 92px;
+  min-width: 0;
+  min-height: 104px;
   padding: 0;
   overflow: hidden;
-  background: #0a1320;
-  border-color: #31536d;
-  color: #dff7ff;
+  background: #090c12;
+  border-color: #34485d;
+  color: #dce7f2;
 }
 
 .mission-panel-hard .code-choice-btn:hover:not(:disabled) {
-  background: #10263a;
+  background: #0d1722;
   border-color: #4fd9ff;
 }
 
@@ -130,32 +140,85 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 38px;
-  background: #111d2c;
-  border-right: 2px solid #31536d;
+  min-width: 42px;
+  background: #101722;
+  border-right: 2px solid #34485d;
   color: #4fd9ff;
-  font-size: 9px;
+  font-size: calc(9px * var(--game-font-scale, 1));
 }
 
 .mission-panel-hard .code-choice-content {
-  align-self: center;
+  align-self: stretch;
+  min-width: 0;
   margin: 0;
-  padding: 12px;
+  padding: 14px 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
   color: inherit;
   font-family: Consolas, "Courier New", monospace;
-  font-size: 11px;
-  line-height: 1.5;
+  font-size: calc(12px * var(--game-font-scale, 1));
+  line-height: 1.55;
   letter-spacing: 0;
+  tab-size: 4;
   text-align: left;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  white-space: pre;
+  overflow-wrap: normal;
   word-break: normal;
+  scrollbar-color: #34485d #090c12;
+  scrollbar-width: thin;
+}
+
+.mission-panel-hard .syntax-token {
+  color: #dce7f2;
+}
+
+.mission-panel-hard .syntax-comment {
+  color: #7f8996;
+  font-style: italic;
+}
+
+.mission-panel-hard .syntax-keyword {
+  color: #41c7ff;
+  font-weight: 700;
+}
+
+.mission-panel-hard .syntax-type {
+  color: #ffc857;
+  font-weight: 700;
+}
+
+.mission-panel-hard .syntax-logic {
+  color: #ff7ab8;
+  font-weight: 700;
+}
+
+.mission-panel-hard .syntax-literal {
+  color: #c792ea;
+}
+
+.mission-panel-hard .syntax-string {
+  color: #50e3a4;
+}
+
+.mission-panel-hard .syntax-number {
+  color: #f6a96b;
+}
+
+.mission-panel-hard .syntax-operator {
+  color: #ff8fda;
+}
+
+.mission-panel-hard .syntax-function {
+  color: #ff5f78;
+}
+
+.mission-panel-hard .syntax-identifier {
+  color: #e6edf5;
 }
 
 .mission-panel-hard .code-choice-btn.correct {
   background: #082619;
   border-color: #69ff47;
-  color: #c7ffba;
 }
 
 .mission-panel-hard .code-choice-btn.correct .code-choice-marker {
@@ -167,7 +230,6 @@
 .mission-panel-hard .code-choice-btn.wrong {
   background: #2b0d18;
   border-color: #ff4f68;
-  color: #ffd2d9;
 }
 
 .mission-panel-hard .code-choice-btn.wrong .code-choice-marker {
@@ -197,6 +259,11 @@ body.high-contrast-on .mission-panel-hard .code-choice-marker {
   color: #fff !important;
 }
 
+body.high-contrast-on .mission-panel-hard .syntax-token {
+  color: #fff !important;
+  font-style: normal;
+}
+
 @media (max-width: 900px) {
   .mission-panel-hard {
     width: 94%;
@@ -213,5 +280,58 @@ body.high-contrast-on .mission-panel-hard .code-choice-marker {
 
   .mission-panel-hard .code-choice-btn {
     min-height: 74px;
+  }
+}
+
+@media (max-width: 560px) {
+  .mission-panel-hard {
+    width: 100%;
+    padding: 13px 10px 16px;
+  }
+
+  .mission-panel-hard .hard-mission-strip {
+    grid-template-columns: 1fr auto;
+    margin: -13px -10px 12px;
+    gap: 7px;
+    padding: 8px 9px;
+  }
+
+  .mission-panel-hard .hard-mission-type {
+    display: none;
+  }
+
+  .mission-panel-hard .popup-header {
+    font-size: 10px;
+  }
+
+  .mission-panel-hard .mission-desc {
+    font-size: 7px;
+  }
+
+  .mission-panel-hard .code-block {
+    padding-inline: 10px;
+  }
+
+  .mission-panel-hard .code-block pre {
+    font-size: calc(12px * var(--game-font-scale, 1));
+    overflow-x: hidden;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .mission-panel-hard .code-choice-btn {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+
+  .mission-panel-hard .code-choice-marker {
+    min-width: 34px;
+  }
+
+  .mission-panel-hard .code-choice-content {
+    padding: 12px 10px;
+    overflow-x: hidden;
+    font-size: calc(11px * var(--game-font-scale, 1));
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
   }
 }

@@ -787,22 +787,6 @@
        border-color: #8a5328;
      }
      
-     /* RESPONSIVO */
-     
-     @media (max-width: 900px) {
-       #game-container,
-       #room-map,
-       #gameCanvas {
-         width: 1000px;
-         height: 600px;
-       }
-     
-       #game-container {
-         transform: scale(0.38);
-         transform-origin: top center;
-         margin-bottom: -360px;
-       }
-     }
      /* MISSÕES FIXAS NOS OBJETOS */
    
    .mission-point {

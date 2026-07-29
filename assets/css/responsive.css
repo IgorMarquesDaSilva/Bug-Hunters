@@ -173,12 +173,34 @@ body {
 }
 
 .mission-panel-hard {
+  width: min(96%, 960px);
+  max-width: 960px;
   max-height: calc(100% - 2px);
 }
 
 @media (max-width: 900px) {
   body {
     padding: clamp(6px, 2vw, 12px);
+  }
+
+  body.hard-mission-open #game-container {
+    overflow: visible;
+    contain: none;
+  }
+
+  body.hard-mission-open #screen-mission {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    padding: 6px;
+    z-index: 1000;
+  }
+
+  body.hard-mission-open .mission-panel-hard {
+    width: min(100%, 760px);
+    max-height: calc(100dvh - 12px);
   }
 
   .game-container {

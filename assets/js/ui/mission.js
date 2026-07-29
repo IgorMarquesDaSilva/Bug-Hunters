@@ -5,10 +5,98 @@
 
 const MissionSystem = (() => {
   const ROOM_ORDER = ["sala1", "sala2", "sala3", "sala4"];
+  const PORTUGOL_TYPES = new Set([
+    "inteiro",
+    "real",
+    "caractere",
+    "logico"
+  ]);
+  const PORTUGOL_KEYWORDS = new Set([
+    "algoritmo",
+    "ate",
+    "de",
+    "entao",
+    "enquanto",
+    "faca",
+    "fimalgoritmo",
+    "fimfuncao",
+    "fimenquanto",
+    "fimpara",
+    "fimprocedimento",
+    "fimse",
+    "funcao",
+    "inicio",
+    "para",
+    "passo",
+    "procedimento",
+    "retorne",
+    "se",
+    "senao"
+  ]);
+  const PORTUGOL_LOGIC = new Set(["e", "nao", "ou"]);
+  const PORTUGOL_LITERALS = new Set(["falso", "verdadeiro"]);
+  const PORTUGOL_TOKEN_PATTERN =
+    /\/\/[^\r\n]*|"(?:\\.|[^"\\])*"|\b\d+(?:\.\d+)?\b|<-|>=|<=|<>|[=+\-*/%><]|\b[A-Za-z_][A-Za-z0-9_]*\b|\s+|./g;
+  const PORTUGOL_IDENTIFIER_PATTERN = /^[A-Za-z_][A-Za-z0-9_]*$/;
+  const PORTUGOL_OPERATOR_PATTERN = /^(?:<-|>=|<=|<>|[=+\-*/%><])$/;
 
   function setText(id, value) {
     const el = document.getElementById(id);
     if (el) el.textContent = value;
+  }
+
+  function getNextCodeToken(tokens, currentIndex) {
+    for (let i = currentIndex + 1; i < tokens.length; i++) {
+      if (!/^\s+$/.test(tokens[i])) return tokens[i];
+    }
+
+    return "";
+  }
+
+  function getPortugolTokenClass(token, nextToken) {
+    const normalized = token.toLowerCase();
+
+    if (token.startsWith("//")) return "syntax-comment";
+    if (token.startsWith("\"")) return "syntax-string";
+    if (/^\d/.test(token)) return "syntax-number";
+    if (PORTUGOL_TYPES.has(normalized)) return "syntax-type";
+    if (PORTUGOL_KEYWORDS.has(normalized)) return "syntax-keyword";
+    if (PORTUGOL_LOGIC.has(normalized)) return "syntax-logic";
+    if (PORTUGOL_LITERALS.has(normalized)) return "syntax-literal";
+    if (PORTUGOL_OPERATOR_PATTERN.test(token)) return "syntax-operator";
+
+    if (
+      PORTUGOL_IDENTIFIER_PATTERN.test(token) &&
+      nextToken === "("
+    ) {
+      return "syntax-function";
+    }
+
+    return "syntax-identifier";
+  }
+
+  function renderPortugolCode(element, source) {
+    const tokens = String(source ?? "").match(PORTUGOL_TOKEN_PATTERN) || [];
+    const fragment = document.createDocumentFragment();
+
+    tokens.forEach((token, index) => {
+      if (/^\s+$/.test(token)) {
+        fragment.appendChild(document.createTextNode(token));
+        return;
+      }
+
+      const span = document.createElement("span");
+      const tokenClass = getPortugolTokenClass(
+        token,
+        getNextCodeToken(tokens, index)
+      );
+
+      span.className = `syntax-token ${tokenClass}`;
+      span.textContent = token;
+      fragment.appendChild(span);
+    });
+
+    element.replaceChildren(fragment);
   }
 
   function getRoomNumber(room = GameState.currentRoom) {
@@ -89,7 +177,13 @@ const MissionSystem = (() => {
 
     document.getElementById("mission-title").textContent = mission.title;
     document.getElementById("mission-desc").textContent = mission.desc;
-    document.getElementById("mission-code").textContent = mission.code;
+
+    const missionCode = document.getElementById("mission-code");
+
+    if (missionCode) {
+      if (isHardMode) renderPortugolCode(missionCode, mission.code);
+      else missionCode.textContent = mission.code;
+    }
 
     const feedback = document.getElementById("feedback-msg");
     feedback.textContent = "";
@@ -108,6 +202,16 @@ const MissionSystem = (() => {
 
     const container = document.getElementById("choices-container");
     container.innerHTML = "";
+    const hasWideCodeChoice =
+      isHardMode &&
+      mission.choices.some(choice => {
+        const lines = choice.split("\n");
+        const longestLine = Math.max(...lines.map(line => line.length));
+
+        return lines.length >= 7 || longestLine > 64;
+      });
+
+    container.classList.toggle("choices-wide-code", hasWideCodeChoice);
 
     mission.choices.forEach((choice, i) => {
       const btn = document.createElement("button");
@@ -125,7 +229,7 @@ const MissionSystem = (() => {
 
         const code = document.createElement("pre");
         code.className = "code-choice-content";
-        code.textContent = choice;
+        renderPortugolCode(code, choice);
         code.setAttribute("aria-hidden", "true");
 
         btn.append(marker, code);

@@ -10,6 +10,13 @@ window.UI = (() => {
       screen.style.display = "none";
     });
 
+    const missionScreen = document.getElementById("screen-mission");
+    const opensHardMission =
+      screenId === "screen-mission" &&
+      missionScreen?.classList.contains("mission-screen-hard");
+
+    document.body.classList.toggle("hard-mission-open", opensHardMission);
+
     if (screenId) {
       const screen = document.getElementById(screenId);
 
