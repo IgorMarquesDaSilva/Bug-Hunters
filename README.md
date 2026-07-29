@@ -1,217 +1,143 @@
-# 🐛 Bug Hunters
+# Bug Hunters
 
-**Bug Hunters** é um jogo educativo 2D desenvolvido para apoiar o aprendizado de lógica de programação de forma simples, visual e interativa.
+Jogo educativo em HTML, CSS e JavaScript para alunos do 7º ao 9º ano do
+Ensino Fundamental. O jogador explora quatro setores de um sistema digital,
+localiza bugs e resolve desafios de lógica de programação escritos em
+Portugol.
 
-O jogador assume o papel de um **Bug Hunter**, explorando setores de um sistema digital corrompido para encontrar e corrigir erros. Cada bug encontrado ativa uma missão com desafios de programação, interpretação de código ou raciocínio lógico.
+## Objetivo pedagógico
 
----
+O jogo trabalha habilidades de pensamento computacional e lógica de
+programação relacionadas à BNCC de Computação, com foco em:
 
-## 🎮 Sobre o Projeto
+- tipos de dados e variáveis;
+- operadores;
+- estruturas condicionais;
+- funções e procedimentos;
+- leitura, análise e correção de algoritmos.
 
-O objetivo do **Bug Hunters** é transformar conceitos iniciais de programação em uma experiência jogável. Em vez de apresentar apenas teoria, o jogo usa exploração, escolhas e feedback imediato para ajudar o jogador a compreender erros, condições, repetições, variáveis e outros fundamentos.
+## Mecânica principal
 
-O projeto foi pensado para ser **simples, funcional e acessível**:
+Cada partida possui quatro salas com cinco missões cada. Ao aproximar o
+personagem de um objeto destacado, o jogador abre uma questão de múltipla
+escolha, recebe feedback imediato e consulta uma explicação da resposta.
 
-- Não utiliza banco de dados
-- Não possui sistema de login
-- Não depende de backend
-- Funciona como uma aplicação web estática
-- Usa arquivos locais para armazenar dados das missões
-- Tem foco em aprendizado, funcionamento e experiência do jogador
+Todas as missões da sala precisam ser respondidas. Quando a pontuação mínima
+é atingida, a porta do próximo setor é liberada. Caso contrário, a sala pode
+ser reiniciada com valor reduzido por questão.
 
----
+O tutorial e o glossário podem ser abertos durante a partida. O personagem é
+controlado por `WASD` ou pelas setas direcionais.
 
-## 🧠 Objetivo Educacional
+## Salas
 
-O jogo trabalha conceitos importantes para estudantes que estão iniciando em programação, como:
+1. **Laboratório de Inicialização:** tipos de dados e variáveis.
+2. **Núcleo de Energia:** operadores e manipulação de valores.
+3. **Laboratório de Segurança:** condições e tomada de decisão.
+4. **Central de Controle:** funções, procedimentos e integração dos conceitos.
 
-- Pensamento lógico
-- Interpretação de código
-- Identificação e correção de erros
-- Variáveis e tipos de dados
-- Operadores aritméticos
-- Operadores relacionais
-- Operadores lógicos
-- Estruturas condicionais
-- Laços de repetição
-- Funções e procedimentos
-- Tomada de decisão
+## Dificuldades
 
-> A relação detalhada com habilidades da BNCC/Computação será complementada posteriormente.
+O jogo implementa os três níveis definidos pelo manual da plataforma:
 
----
+- Fácil
+- Médio
+- Difícil
 
-## 🕹️ Como Jogar
+Quando a plataforma informa `?difficulty=facil`, `?difficulty=medio` ou
+`?difficulty=dificil`, esse valor tem prioridade. Fora da plataforma, o
+jogador escolhe a dificuldade na tela inicial.
 
-O jogador controla um personagem dentro de salas que representam setores de um sistema digital. Ao se aproximar de um bug, uma missão é ativada.
+## Pontuação
 
-### Controles
+- Cada resposta correta vale inicialmente 5 pontos.
+- Cada sala oferece no máximo 25 pontos.
+- A pontuação final permanece entre 0 e 100, sem valores negativos ou
+  fracionados.
+- As Salas 1 e 2 exigem dois acertos mínimos.
+- As Salas 3 e 4 exigem três acertos mínimos.
+- A cada reinício, o valor da pergunta diminui em um ponto.
+- A pontuação mínima da sala nunca fica abaixo de 6 pontos.
+- O quarto reinício encerra a partida.
 
-| Ação | Comando |
-| --- | --- |
-| Mover personagem | `WASD` ou setas do teclado |
-| Interagir com bug | Aproximar-se do objeto destacado |
-| Resolver missão | Escolher uma alternativa |
-| Avançar de sala | Eliminar todos os bugs do setor |
+Pontos excedentes das salas anteriores podem compensar erros nas salas
+seguintes, conforme a proposta do jogo.
 
-### Fluxo do Jogo
+## Integração com a plataforma
 
-1. Escolha a dificuldade.
-2. Explore a sala.
-3. Encontre os bugs.
-4. Resolva as missões.
-5. Receba feedback da resposta.
-6. Complete todos os desafios da sala.
-7. Avance para o próximo setor.
+Ao concluir a partida ou atingir Game Over, o jogo envia uma única mensagem
+para a página hospedeira:
 
----
-
-## 🗺️ Estrutura do Jogo
-
-O jogo foi planejado para conter **4 salas**, com progressão gradual de conteúdo e dificuldade.
-
-### 🟢 Sala 1 — Introdução à Lógica
-
-Apresenta conceitos iniciais de programação, como variáveis, tipos de dados, valores lógicos e comandos básicos.
-
-### 🔵 Sala 2 — Operadores e Repetição
-
-Trabalha operadores aritméticos, operadores relacionais, operadores lógicos e estruturas de repetição.
-
-### 🟣 Sala 3 — Condições e Decisões
-
-Explora estruturas condicionais, decisões simples, decisões compostas e análise de fluxo.
-
-### 🔴 Sala 4 — Desafio Final
-
-Prevista como a etapa final do jogo, reunindo os principais conceitos estudados nas salas anteriores em desafios mais completos.
-
-> A quarta sala está prevista para a versão final do projeto.
-
----
-
-## ⚙️ Dificuldades
-
-O jogo possui três modos de dificuldade:
-
-| Dificuldade | Proposta | Vidas |
-| --- | --- | --- |
-| Fácil | Conceitos mais diretos e introdutórios | 3 |
-| Médio | Interpretação de código e raciocínio lógico | 2 |
-| Difícil | Análise de erros e desafios mais complexos | 1 |
-
----
-
-## 🏆 Sistema de Pontuação
-
-O jogador recebe pontos ao responder corretamente às missões. Dependendo da dificuldade, respostas incorretas podem reduzir a pontuação e remover vidas.
-
-- Acertos aumentam a pontuação
-- Erros podem reduzir vidas
-- Ao perder todas as vidas, ocorre **Game Over**
-- Ao concluir os setores, o jogo exibe a pontuação final
-
----
-
-## 🚪 Sistema de Progresso
-
-Cada sala possui bugs espalhados pelo mapa. Para avançar, o jogador precisa resolver todos os desafios daquele setor.
-
-Quando todas as missões de uma sala são concluídas:
-
-- O setor é considerado limpo
-- A passagem para o próximo setor é liberada
-- O jogador pode avançar para a próxima sala
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-O projeto foi desenvolvido com tecnologias web simples:
-
-- **HTML5**
-- **CSS3**
-- **JavaScript**
-- **Canvas API**
-- **JSON**
-
----
-
-## 📁 Organização dos Arquivos
-
-```txt
-Bug-Hunters/
-├── index.html
-├── README.md
-└── assets/
-    ├── css/
-    │   └── main.css
-    ├── img/
-    │   ├── player.png
-    │   ├── player1.png
-    │   ├── player3.png
-    │   ├── map_sala1.png
-    │   └── map_sala2.png
-    └── js/
-        ├── core/
-        ├── data/
-        ├── systems/
-        └── ui/
+```js
+window.parent.postMessage({
+  type: "C4A_GAME_SCORE",
+  payload: {
+    score,
+    difficulty
+  }
+}, "*");
 ```
 
-### Principais Pastas
+O envio é controlado por `assets/js/core/platform.js`.
 
-- `assets/css`: estilos visuais do jogo
-- `assets/img`: imagens e sprites
-- `assets/js/core`: configurações, estado global e inicialização
-- `assets/js/data`: dados das missões, salas e glossário
-- `assets/js/systems`: sistemas de jogo, como colisão, player e transição
-- `assets/js/ui`: telas, HUD, missões, tutorial e glossário
+## Dados externos
 
----
+O conteúdo variável fica separado da interface:
 
-## ✨ Recursos do Jogo
+- `assets/js/data/missions.json`: perguntas, alternativas e explicações;
+- `assets/js/data/rooms.json`: posição inicial do personagem em cada sala;
+- `assets/js/data/glossary-data.js`: conteúdo pedagógico do glossário.
 
-- Mapa 2D com estilo pixel art
-- Personagem controlável
-- Sistema de colisões
-- Missões com alternativas
-- Feedback explicativo após cada resposta
-- Sistema de vidas
-- Sistema de pontuação
-- Progressão entre salas
-- Tela de tutorial
-- Glossário educativo
-- Tela de vitória
-- Tela de Game Over
+Os arquivos JSON são carregados por `fetch`, portanto o projeto deve ser
+executado por HTTP e não pela abertura direta do `index.html`.
 
----
+## Preferências locais
 
-## 🚧 Status do Projeto
+O jogo não salva pontuação, sala atual nem progresso da partida. O
+`localStorage` é utilizado somente para preferências do próprio navegador:
 
-**Projeto em desenvolvimento.**
+- volume;
+- tamanho da fonte;
+- alto contraste;
+- leitor de tela;
+- conclusão do tutorial.
 
-Atualmente, o jogo está sendo estruturado para conter **quatro salas** e um conjunto de missões educativas voltadas para lógica de programação.
+Essas preferências não dependem de banco de dados da plataforma.
 
-### Melhorias Futuras
+## Estrutura
 
-- Implementar a quarta sala
-- Ajustar e finalizar o suporte mobile
-- Revisar o sistema de pontuação para todas as salas
-- Melhorar sons e efeitos visuais
-- Expandir o glossário
-- Refinar acessibilidade
-- Complementar a relação com a BNCC/Computação
+```text
+Bug-Hunters/
+|-- assets/
+|   |-- css/
+|   |-- img/
+|   `-- js/
+|       |-- core/
+|       |-- data/
+|       |-- systems/
+|       `-- ui/
+|-- index.html
+`-- README.md
+```
 
----
+## Implementação técnica
 
-## 👥 Autores
+- **HTML5:** estrutura das salas, HUD, menus e janelas de missão.
+- **CSS3:** mapas, objetos, animações, responsividade e estados visuais.
+- **JavaScript:** estado da partida, colisões, movimento, missões, pontuação,
+  acessibilidade e integração com a plataforma.
+- **Canvas 2D:** personagem, rótulos, depuração e transições.
+- **Web Audio API:** música e efeitos gerados em tempo de execução.
+- **Bootstrap Icons 1.11.3:** ícones da interface carregados por CDN.
 
-- Igor Marques
-- Maria Vitória Victor Brito
+Não há etapa de compilação nem dependências de pacote.
 
----
+## Execução local
 
-## 📌 Observação
+Na raiz do projeto, inicie um servidor HTTP. Exemplo:
 
-Este projeto tem finalidade educacional e foi desenvolvido como uma experiência simples para apoiar o aprendizado de programação. O foco principal é que o jogo funcione corretamente, seja fácil de testar e ajude o jogador a praticar conceitos fundamentais de lógica.
+```powershell
+python -m http.server 8000
+```
+
+Depois acesse `http://localhost:8000`.

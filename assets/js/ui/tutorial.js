@@ -132,7 +132,7 @@ const TutorialSystem = (() => {
     currentSlide = 0;
     isOpen = true;
 
-    if (window.GameState) {
+    if (typeof GameState !== "undefined") {
       GameState.isPaused = true;
     }
 
@@ -146,7 +146,7 @@ const TutorialSystem = (() => {
     const overlay = document.getElementById("screen-tutorial");
     if (overlay) overlay.style.display = "none";
 
-    if (window.GameState) {
+    if (typeof GameState !== "undefined") {
       GameState.isPaused = false;
     }
 

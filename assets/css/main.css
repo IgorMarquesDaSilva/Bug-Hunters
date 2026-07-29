@@ -201,7 +201,7 @@
    }
    
    .code-block::before {
-     content: "■ CODIGO.ptg";
+     content: attr(data-file-label);
      display: block; font-size: 6px; color: var(--px-amber);
      margin-bottom: 10px; padding-bottom: 6px;
      border-bottom: 1px solid var(--px-amber-dark); letter-spacing: 1px;

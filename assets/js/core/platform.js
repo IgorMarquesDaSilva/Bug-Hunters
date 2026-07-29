@@ -11,7 +11,7 @@ let scoreSent = false;
  * Envia a pontuação final para a plataforma (enviado apenas 1 vez).
  * Escala obrigatória: 0 a 100.
  * @param {number} score   - valor entre 0 e 100
- * @param {string} difficulty - dificuldade selecionada pelo jogador
+ * @param {string} difficulty - dificuldade usada na partida
  */
 function sendFinalScore({ score, difficulty } = {}) {
   if (scoreSent) return;
@@ -41,9 +41,21 @@ function sendFinalScore({ score, difficulty } = {}) {
 function getPlatformDifficulty() {
   try {
     const params = new URLSearchParams(window.location.search);
-    const d = params.get("difficulty");
-    if (d && CONFIG.difficulties[d]) return d;
+    const rawDifficulty = params.get("difficulty");
+
+    if (!rawDifficulty) return null;
+
+    const normalizedDifficulty = rawDifficulty
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim()
+      .toLowerCase();
+
+    if (CONFIG.difficulties[normalizedDifficulty]) {
+      return normalizedDifficulty;
+    }
   } catch (_) {}
+
   return null; // null = jogador escolhe na tela inicial
 }
 

@@ -7,18 +7,17 @@
    
    // ── Carrega dados ─────────────────────────────────────────────
    async function loadGameData() {
-     try {
-       const [mr, rr] = await Promise.all([
-         fetch("assets/js/data/missions.json"),
-         fetch("assets/js/data/rooms.json")
-       ]);
-       GameState.missionsData = await mr.json();
-       GameState.roomsData    = await rr.json();
-     } catch (err) {
-       console.warn("[Game] fetch falhou — usando dados inline.");
-       GameState.missionsData = MISSIONS_INLINE;
-       GameState.roomsData    = ROOMS_INLINE;
+     const [mr, rr] = await Promise.all([
+       fetch("assets/js/data/missions.json"),
+       fetch("assets/js/data/rooms.json")
+     ]);
+
+     if (!mr.ok || !rr.ok) {
+       throw new Error("Nao foi possivel carregar os arquivos JSON do jogo.");
      }
+
+     GameState.missionsData = await mr.json();
+     GameState.roomsData    = await rr.json();
    
      HUD.update();
    
@@ -32,10 +31,12 @@
    
    // ── Dificuldade ───────────────────────────────────────────────
    function selectDifficulty(diff) {
-     if (!CONFIG.difficulties[diff]) return;
+     const selectedDifficulty = getPlatformDifficulty() || diff;
+
+     if (!CONFIG.difficulties[selectedDifficulty]) return;
+
      GameState.resetFull();
-     GameState.difficulty  = diff;
-     GameState.lives       = CONFIG.difficulties[diff].lives;
+     GameState.difficulty  = selectedDifficulty;
      GameState.currentRoom = "sala1";
      
    
@@ -112,7 +113,11 @@
    }
    
    // ── Init ──────────────────────────────────────────────────────
-   loadGameData().then(() => {
-     setupMobileControls();
-     gameLoop();
-   });
+   loadGameData()
+     .then(() => {
+       setupMobileControls();
+       gameLoop();
+     })
+     .catch(error => {
+       console.error("[Game] Falha ao carregar os dados externos:", error);
+     });

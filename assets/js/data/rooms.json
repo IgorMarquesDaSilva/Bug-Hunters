@@ -1,57 +1,29 @@
 {
   "sala1": {
-    "backgroundImage": "",
     "playerStart": {
       "x": 500,
       "y": 420
-    },
-    "portalPosition": {
-      "x": 760,
-      "y": 90
-    },
-    "collisionZones": [],
-    "bugPositions": []
+    }
   },
 
   "sala2": {
-    "backgroundImage": "",
     "playerStart": {
       "x": 500,
       "y": 420
-    },
-    "portalPosition": {
-      "x": 760,
-      "y": 90
-    },
-    "collisionZones": [],
-    "bugPositions": []
+    }
   },
 
   "sala3": {
-    "backgroundImage": "",
     "playerStart": {
       "x": 305,
       "y": 430
-    },
-    "portalPosition": {
-      "x": 760,
-      "y": 90
-    },
-    "collisionZones": [],
-    "bugPositions": []
+    }
   },
 
   "sala4": {
-    "backgroundImage": "",
     "playerStart": {
       "x": 480,
       "y": 430
-    },
-    "portalPosition": {
-      "x": 500,
-      "y": 540
-    },
-    "collisionZones": [],
-    "bugPositions": []
+    }
   }
 }

@@ -12,7 +12,6 @@ const GameState = {
   score:          0,
   solvedCount:    0,
   roomScore:      0,
-  roomCorrect:    0,
   clearedMinimumScore: 0,
   roomRestarts:   {
     sala1: 0,
@@ -30,13 +29,11 @@ const GameState = {
   portal: { visible: false, triggered: false, pulse: 0 },
 
   collisionZones: [],
-  bgImage:        null,
 
   resetProgress() {
     this.score          = 0;
     this.solvedCount    = 0;
     this.roomScore      = 0;
-    this.roomCorrect    = 0;
     this.clearedMinimumScore = 0;
     this.roomRestarts   = {
       sala1: 0,
@@ -51,8 +48,6 @@ const GameState = {
     this.bugs           = [];
     this.portal         = { visible: false, triggered: false, pulse: 0 };
     this.collisionZones = [];
-    this.bgImage        = null;
-    this.transitioning  = false;
   },
 
   resetFull() {

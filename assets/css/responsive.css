@@ -1,0 +1,318 @@
+/* ============================================================
+   Escala responsiva e rolagem global.
+   O mapa mantém a grade lógica de 1000 x 600 e é escalado como
+   uma unidade para preservar colisões, missões e posicionamento.
+============================================================ */
+
+html {
+  width: 100%;
+  min-width: 0;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: clamp(8px, 1.4vw, 16px);
+  justify-content: flex-start;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.game-container {
+  width: 100%;
+  min-width: 0;
+  margin-block: auto;
+}
+
+.game-wrapper {
+  width: 100%;
+  max-width: calc(var(--game-stage-width, 1000px) + 232px);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns:
+    minmax(0, var(--game-stage-width, 1000px))
+    minmax(0, 210px);
+  gap: var(--game-layout-gap, 16px);
+  align-items: start;
+  justify-content: center;
+}
+
+#game-container {
+  box-sizing: content-box;
+  width: var(--game-stage-width, 1000px);
+  height: var(--game-stage-height, 600px);
+  min-width: 0;
+  flex: none;
+  overflow: hidden;
+  contain: layout paint;
+}
+
+#room-map,
+#gameCanvas {
+  width: 1000px;
+  height: 600px;
+  transform: scale(var(--game-map-scale, 1));
+  transform-origin: left top;
+}
+
+/* Os painéis não são escalados com o mapa: eles usam o espaço
+   real disponível e mantêm texto e controles legíveis. */
+.overlay {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: clamp(8px, 2vmin, 18px);
+  align-items: flex-start;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.overlay > .popup-content,
+.overlay > .main-menu-panel {
+  flex: 0 0 auto;
+  margin-block: auto;
+}
+
+.popup-content,
+.settings-panel,
+.accessibility-panel,
+.mission-panel,
+.tutorial-panel {
+  width: min(94%, 860px);
+  max-height: calc(100% - 2px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.settings-list,
+.settings-card,
+.settings-card-title-wrap,
+.settings-card-title-wrap > div {
+  min-width: 0;
+}
+
+.settings-help,
+.settings-label,
+.settings-value,
+.access-reader-preview,
+.access-status {
+  overflow-wrap: anywhere;
+}
+
+.settings-actions {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 4px;
+}
+
+/* Glossário com cabeçalho e rodapé fixos dentro do painel.
+   Menu e conteúdo possuem rolagem própria. */
+.glossary-panel {
+  width: min(96%, 1180px);
+  height: calc(100% - 2px);
+  max-height: 760px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+}
+
+.glossary-layout {
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+.glossary-sidebar,
+.glossary-content {
+  min-height: 0;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.glossary-sidebar {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.glossary-content {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.glossary-code {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.glossary-footer {
+  height: auto;
+  min-height: 48px;
+}
+
+.tutorial-panel {
+  min-height: 0;
+}
+
+.tutorial-body,
+.tutorial-content,
+.tutorial-panel .tut-text-wrap {
+  min-width: 0;
+  min-height: 0;
+}
+
+.mission-panel-hard {
+  max-height: calc(100% - 2px);
+}
+
+@media (max-width: 900px) {
+  body {
+    padding: clamp(6px, 2vw, 12px);
+  }
+
+  .game-container {
+    margin-block: 0;
+  }
+
+  .game-wrapper {
+    max-width: var(--game-stage-width, 1000px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hud-panel {
+    width: min(100%, 400px);
+    min-width: 0;
+  }
+
+  #screen-main-menu {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #screen-main-menu .main-menu-shortcuts {
+    position: static;
+    width: min(100%, 520px);
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  #screen-main-menu .shortcut-item {
+    min-width: 0;
+  }
+
+  .main-menu-panel {
+    width: min(100%, 630px);
+    max-height: none;
+  }
+
+  .popup-content,
+  .settings-panel,
+  .accessibility-panel,
+  .mission-panel,
+  .tutorial-panel {
+    width: 100%;
+    max-height: calc(100% - 2px);
+  }
+
+  .glossary-panel {
+    width: 100%;
+    height: calc(100% - 2px);
+  }
+
+  .glossary-layout {
+    min-height: 0;
+  }
+
+  .glossary-sidebar {
+    max-height: min(150px, 36%);
+    flex: 0 0 auto;
+  }
+
+  .glossary-content {
+    min-height: 90px;
+  }
+
+  .tutorial-panel {
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .overlay {
+    padding: 6px;
+  }
+
+  .popup-content,
+  .settings-panel,
+  .accessibility-panel,
+  .tutorial-panel {
+    padding: 14px 12px;
+  }
+
+  .popup-header,
+  .settings-title {
+    overflow-wrap: anywhere;
+  }
+
+  .settings-card {
+    padding: 12px 10px;
+  }
+
+  .settings-value {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .glossary-panel {
+    padding: 10px;
+  }
+
+  .glossary-footer {
+    justify-content: stretch;
+  }
+
+  .glossary-close {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-height: 520px) {
+  .overlay {
+    padding: 6px;
+  }
+
+  .popup-content,
+  .settings-panel,
+  .accessibility-panel,
+  .mission-panel,
+  .tutorial-panel,
+  .glossary-panel {
+    max-height: 100%;
+  }
+
+  .settings-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .settings-list {
+    margin-top: 10px;
+    gap: 10px;
+  }
+}

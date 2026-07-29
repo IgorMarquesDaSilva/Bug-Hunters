@@ -10,21 +10,7 @@ const CONFIG = {
   },
 
   player: {
-    size:          32,
-    speed:         4,
-    bugProximity:  42,   // px para acionar popup de bug
-    lineDrawDist:  130   // px para desenhar linha de conexao
-  },
-
-  bug: {
-    width:  28,
-    height: 28
-  },
-
-  portal: {
-    width:       50,
-    height:      50,
-    triggerDist: 45
+    speed: 4
   },
 
   // Proposta: 5 pontos por pergunta, maximo de 25 pontos por fase.

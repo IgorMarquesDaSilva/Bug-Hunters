@@ -60,6 +60,33 @@ const MissionSystem = (() => {
 
     if (!mission) return;
 
+    const isHardMode = GameState.difficulty === "dificil";
+    const missionScreen = document.getElementById("screen-mission");
+    const missionPanel = missionScreen?.querySelector(".mission-panel");
+    const questionLabel = document.getElementById("question-label");
+    const codeBlock = document.getElementById("mission-code")?.parentElement;
+    const hardMissionSector = document.getElementById("hard-mission-sector");
+
+    missionScreen?.classList.toggle("mission-screen-hard", isHardMode);
+    missionPanel?.classList.toggle("mission-panel-hard", isHardMode);
+
+    if (questionLabel) {
+      questionLabel.textContent = isHardMode
+        ? "▶ SELECIONE O BLOCO DE CÓDIGO CORRETO:"
+        : "▶ SELECIONE A RESPOSTA CORRETA:";
+    }
+
+    if (codeBlock) {
+      codeBlock.dataset.fileLabel = isHardMode
+        ? "■ CONTEXTO.ptg"
+        : "■ CODIGO.ptg";
+    }
+
+    if (hardMissionSector) {
+      hardMissionSector.textContent =
+        `SETOR ${String(getRoomNumber()).padStart(2, "0")}`;
+    }
+
     document.getElementById("mission-title").textContent = mission.title;
     document.getElementById("mission-desc").textContent = mission.desc;
     document.getElementById("mission-code").textContent = mission.code;
@@ -84,13 +111,33 @@ const MissionSystem = (() => {
 
     mission.choices.forEach((choice, i) => {
       const btn = document.createElement("button");
+      const choiceLetter = String.fromCharCode(65 + i);
 
-      btn.className = "choice-btn";
-      btn.textContent = String.fromCharCode(65 + i) + ")  " + choice;
+      btn.className = isHardMode
+        ? "choice-btn code-choice-btn"
+        : "choice-btn";
+
+      if (isHardMode) {
+        const marker = document.createElement("span");
+        marker.className = "code-choice-marker";
+        marker.textContent = choiceLetter;
+        marker.setAttribute("aria-hidden", "true");
+
+        const code = document.createElement("pre");
+        code.className = "code-choice-content";
+        code.textContent = choice;
+        code.setAttribute("aria-hidden", "true");
+
+        btn.append(marker, code);
+      } else {
+        btn.textContent = `${choiceLetter})  ${choice}`;
+      }
 
       btn.setAttribute(
         "aria-label",
-        `Opcao ${String.fromCharCode(65 + i)}: ${choice}`
+        isHardMode
+          ? `Opcao ${choiceLetter}, bloco de codigo: ${choice}`
+          : `Opcao ${choiceLetter}: ${choice}`
       );
 
       btn.onclick = () => selectAnswer(i, btn);
@@ -131,7 +178,6 @@ const MissionSystem = (() => {
       btn.classList.add("correct");
       GameState.score = Math.min(100, GameState.score + pts);
       GameState.roomScore += pts;
-      GameState.roomCorrect++;
 
       feedback.textContent = `✓ CORRETO! +${pts} pts`;
       feedback.className = "feedback ok";
@@ -217,7 +263,6 @@ const MissionSystem = (() => {
 
     GameState.score = Math.max(0, GameState.score - GameState.roomScore);
     GameState.roomScore = 0;
-    GameState.roomCorrect = 0;
     GameState.solvedCount = 0;
     GameState.activeIdx = -1;
     GameState.popupCooldown = 0;
@@ -260,7 +305,6 @@ const MissionSystem = (() => {
       GameState.currentRoom = nextRoom;
       GameState.solvedCount = 0;
       GameState.roomScore = 0;
-      GameState.roomCorrect = 0;
       GameState.portal = {
         visible: false,
         triggered: false,
@@ -287,7 +331,7 @@ const MissionSystem = (() => {
 
     sendFinalScore({
       score: GameState.score,
-      difficulty: CONFIG.difficulties[GameState.difficulty].label
+      difficulty: getPlatformDifficulty() || GameState.difficulty
     });
 
     if (window.GameAudio) GameAudio.playVictory();
@@ -301,7 +345,7 @@ const MissionSystem = (() => {
 
     sendFinalScore({
       score: GameState.score,
-      difficulty: CONFIG.difficulties[GameState.difficulty].label
+      difficulty: getPlatformDifficulty() || GameState.difficulty
     });
 
     setText("gameover-reason", reason || "A pontuacao minima nao foi atingida.");
