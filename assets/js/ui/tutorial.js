@@ -132,9 +132,8 @@ const TutorialSystem = (() => {
     currentSlide = 0;
     isOpen = true;
 
-    if (typeof GameState !== "undefined") {
-      GameState.isPaused = true;
-    }
+    if (window.UI?.showScreen) UI.showScreen("screen-tutorial");
+    else if (typeof GameState !== "undefined") GameState.isPaused = true;
 
     render();
   }
@@ -143,11 +142,11 @@ const TutorialSystem = (() => {
     isOpen = false;
     localStorage.setItem("bh_tutorial_done", "1");
 
-    const overlay = document.getElementById("screen-tutorial");
-    if (overlay) overlay.style.display = "none";
-
-    if (typeof GameState !== "undefined") {
-      GameState.isPaused = false;
+    if (window.UI?.showScreen) UI.showScreen(null);
+    else {
+      const overlay = document.getElementById("screen-tutorial");
+      if (overlay) overlay.style.display = "none";
+      if (typeof GameState !== "undefined") GameState.isPaused = false;
     }
 
     announce("Tutorial fechado. Use WASD ou as setas para mover o personagem pelo mapa.", false);
@@ -187,7 +186,7 @@ const TutorialSystem = (() => {
 
     if (!overlay) return;
 
-    overlay.style.display = "flex";
+    if (!window.UI?.showScreen) overlay.style.display = "flex";
 
     setText("tut-title", slide.title);
     setText("tut-step-counter", `${String(currentSlide + 1).padStart(2, "0")}/${String(total).padStart(2, "0")}`);

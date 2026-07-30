@@ -14,15 +14,30 @@ window.UI = (() => {
     const opensHardMission =
       screenId === "screen-mission" &&
       missionScreen?.classList.contains("mission-screen-hard");
+    const opensProximityPrompt = screenId === "screen-bug-popup";
 
     document.body.classList.toggle("hard-mission-open", opensHardMission);
+    document.body.classList.toggle("proximity-popup-open", opensProximityPrompt);
+    document.body.classList.toggle(
+      "overlay-open",
+      Boolean(screenId) && !opensProximityPrompt
+    );
+    document.body.classList.toggle(
+      "gameplay-active",
+      !screenId || opensProximityPrompt
+    );
+
+    if (screenId && !opensProximityPrompt) {
+      window.Player?.clearDirectionInput?.();
+      window.MobileControls?.releaseAll?.();
+    }
 
     if (screenId) {
       const screen = document.getElementById(screenId);
 
       if (screen) {
         screen.style.display = "flex";
-        GameState.isPaused = true;
+        GameState.isPaused = !opensProximityPrompt;
       }
 
       return;

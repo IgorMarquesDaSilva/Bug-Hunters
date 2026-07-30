@@ -117,9 +117,38 @@ const BugSystem = (() => {
     );
   }
 
+  function getBugBox(bug) {
+    return {
+      x: bug.x,
+      y: bug.y,
+      w: bug.w,
+      h: bug.h
+    };
+  }
+
+  function closePromptOutsideMissionRange() {
+    const prompt = document.getElementById("screen-bug-popup");
+
+    if (prompt?.style.display === "none") return false;
+
+    refreshMissionPositions();
+
+    const bug = GameState.bugs[GameState.activeIdx];
+
+    if (!bug || !rectsOverlap(getPlayerBox(34), getBugBox(bug))) {
+      UI.closePopup();
+    }
+
+    return true;
+  }
+
   function checkProximity() {
     if (GameState.isPaused) return;
-    if (GameState.activeIdx !== -1) return;
+
+    if (GameState.activeIdx !== -1) {
+      closePromptOutsideMissionRange();
+      return;
+    }
 
     if (GameState.popupCooldown > 0) {
       GameState.popupCooldown--;
@@ -135,14 +164,7 @@ const BugSystem = (() => {
 
       if (bug.solved) continue;
 
-      const objectBox = {
-        x: bug.x,
-        y: bug.y,
-        w: bug.w,
-        h: bug.h
-      };
-
-      if (rectsOverlap(playerBox, objectBox)) {
+      if (rectsOverlap(playerBox, getBugBox(bug))) {
         GameState.activeIdx = i;
 
         const mission = GameState.currentMissions()[bug.missionIdx];

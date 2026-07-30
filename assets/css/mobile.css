@@ -1,0 +1,287 @@
+/* ============================================================
+   Experiência móvel: controles por toque, HUD compacto e
+   overlays independentes da escala do mapa.
+============================================================ */
+
+.mobile-controls {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  body {
+    padding-top: max(6px, env(safe-area-inset-top));
+    padding-right: max(6px, env(safe-area-inset-right));
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
+    padding-left: max(6px, env(safe-area-inset-left));
+    touch-action: pan-y;
+  }
+
+  body.overlay-open {
+    overflow: hidden;
+  }
+
+  body.overlay-open .hud-panel {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  body.overlay-open #game-container {
+    overflow: visible;
+    contain: none;
+  }
+
+  body.overlay-open .overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    padding:
+      max(6px, env(safe-area-inset-top))
+      max(6px, env(safe-area-inset-right))
+      max(6px, env(safe-area-inset-bottom))
+      max(6px, env(safe-area-inset-left));
+    z-index: 1000;
+  }
+
+  body.overlay-open .popup-content,
+  body.overlay-open .main-menu-panel {
+    max-height: calc(
+      100dvh - max(12px, env(safe-area-inset-top)) -
+      max(12px, env(safe-area-inset-bottom))
+    );
+  }
+
+  body.gameplay-active .mobile-controls {
+    display: grid;
+  }
+
+  #game-container {
+    order: 1;
+    touch-action: none;
+  }
+
+  .mobile-controls {
+    order: 2;
+    width: 168px;
+    height: 168px;
+    place-items: center;
+    margin-inline: auto;
+    padding: 6px;
+    background: #08131f;
+    border: 3px solid var(--px-blue-light);
+    box-shadow:
+      0 0 0 3px var(--px-blue-dark),
+      4px 4px 0 #000;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .mobile-dpad {
+    width: 156px;
+    height: 156px;
+    display: grid;
+    grid-template-columns: repeat(3, 52px);
+    grid-template-rows: repeat(3, 52px);
+  }
+
+  .mobile-dpad-btn {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 0;
+    border: 2px solid #4fc3f7;
+    border-radius: 4px;
+    background: #10263a;
+    color: #e8f4f8;
+    box-shadow: inset 0 -4px 0 #07111c;
+    font-family: Arial, sans-serif;
+    font-size: 22px;
+    line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+  }
+
+  .mobile-dpad-btn.is-pressed {
+    background: #00a6c7;
+    border-color: #8ff3ff;
+    color: #041018;
+    box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.3);
+    transform: translateY(2px);
+  }
+
+  .mobile-dpad-btn:focus-visible {
+    outline: 3px solid var(--px-amber);
+    outline-offset: 2px;
+  }
+
+  .mobile-dpad-up {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .mobile-dpad-left {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .mobile-dpad-core {
+    grid-column: 2;
+    grid-row: 2;
+    display: grid;
+    place-items: center;
+    border: 2px solid #31536d;
+    background: #050a10;
+    color: #ff4f9a;
+    font-size: 14px;
+  }
+
+  .mobile-dpad-right {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .mobile-dpad-down {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  .hud-panel {
+    order: 3;
+    width: min(100%, 520px);
+    max-width: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hud-panel .panel-header,
+  .hud-panel .panel-content,
+  .hud-panel .panel-footer {
+    grid-column: 1 / -1;
+  }
+
+  .hud-panel .panel-content {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+    padding: 10px 8px;
+  }
+
+  .hud-panel .stat {
+    min-width: 0;
+    margin: 0;
+    padding: 0 2px 7px;
+  }
+
+  .hud-panel .stat-label {
+    font-size: 5px;
+  }
+
+  .hud-panel .stat-value {
+    font-size: 7px;
+  }
+
+  .hud-panel .hud-tutorial-btn {
+    min-width: 0;
+    padding: 0 5px 8px;
+  }
+
+  .hud-panel .hud-tutorial-btn .cyber-btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    margin: 0;
+    padding: 8px 5px;
+  }
+
+  .cyber-btn,
+  .choice-btn,
+  .glossary-tab,
+  .glossary-subtab,
+  .font-option-btn {
+    min-height: 44px;
+  }
+
+  .popup-actions .cyber-btn {
+    flex: 1 1 150px;
+  }
+
+  .glossary-sidebar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+    gap: 6px;
+    max-height: 220px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .glossary-menu-group {
+    min-width: 0;
+  }
+
+  .glossary-menu-group.active {
+    grid-column: 1 / -1;
+  }
+
+  .glossary-sidebar .glossary-tab,
+  .glossary-sidebar .glossary-subtab {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .glossary-sidebar .glossary-submenu {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 6px;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .game-wrapper {
+    width: 100%;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns:
+      minmax(0, var(--game-stage-width, 620px))
+      170px;
+    grid-template-areas:
+      "game controls"
+      "hud hud";
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  #game-container {
+    grid-area: game;
+  }
+
+  .mobile-controls {
+    grid-area: controls;
+    order: initial;
+  }
+
+  .hud-panel {
+    grid-area: hud;
+    order: initial;
+    width: min(100%, 800px);
+    justify-self: center;
+  }
+}
+
+@media (max-width: 560px) {
+  .hud-panel .panel-header,
+  .hud-panel .panel-footer {
+    display: none;
+  }
+
+  .hud-panel .panel-content {
+    padding-top: 8px;
+  }
+}

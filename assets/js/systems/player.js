@@ -5,7 +5,7 @@
    Quando o jogador para, o sprite fica parado no frame idle.
 ============================================================ */
 
-const Player = (() => {
+window.Player = (() => {
   const sprite = new Image();
   sprite.src = "assets/img/player3.png";
   sprite.onerror = () => console.error("[Player] player3.png não encontrado!");
@@ -53,6 +53,12 @@ const Player = (() => {
   };
 
   const keys = {};
+  const directionalInput = {
+    up: false,
+    down: false,
+    left: false,
+    right: false
+  };
 
   document.addEventListener("keydown", e => {
     keys[e.key.toLowerCase()] = true;
@@ -122,21 +128,21 @@ const Player = (() => {
     let ny = state.y;
     let wantsToMove = false;
 
-    if (keys["w"] || keys["arrowup"]) {
+    if (keys["w"] || keys["arrowup"] || directionalInput.up) {
       ny -= state.speed;
       state.facing = "up";
       wantsToMove = true;
-    } else if (keys["s"] || keys["arrowdown"]) {
+    } else if (keys["s"] || keys["arrowdown"] || directionalInput.down) {
       ny += state.speed;
       state.facing = "down";
       wantsToMove = true;
     }
 
-    if (keys["a"] || keys["arrowleft"]) {
+    if (keys["a"] || keys["arrowleft"] || directionalInput.left) {
       nx -= state.speed;
       state.facing = "left";
       wantsToMove = true;
-    } else if (keys["d"] || keys["arrowright"]) {
+    } else if (keys["d"] || keys["arrowright"] || directionalInput.right) {
       nx += state.speed;
       state.facing = "right";
       wantsToMove = true;
@@ -187,6 +193,17 @@ const Player = (() => {
     state.lastStepFrame = -1;
   }
 
+  function setDirectionInput(direction, isPressed) {
+    if (!(direction in directionalInput)) return;
+    directionalInput[direction] = Boolean(isPressed);
+  }
+
+  function clearDirectionInput() {
+    Object.keys(directionalInput).forEach(direction => {
+      directionalInput[direction] = false;
+    });
+  }
+
   function draw(ctx) {
     if (!sprite.complete || sprite.naturalWidth === 0) return;
 
@@ -211,6 +228,8 @@ const Player = (() => {
     state,
     update,
     draw,
-    resetToRoomStart
+    resetToRoomStart,
+    setDirectionInput,
+    clearDirectionInput
   };
 })();

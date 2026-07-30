@@ -10,8 +10,6 @@ window.Glossary = (() => {
   ];
 
   function open() {
-    GameState.isPaused = true;
-
     const screen = document.getElementById("screen-glossary");
 
     if (!screen) {
@@ -20,16 +18,22 @@ window.Glossary = (() => {
     }
 
     show(getCurrentPhaseKey(), 0);
-    screen.style.display = "flex";
+
+    if (window.UI?.showScreen) UI.showScreen("screen-glossary");
+    else {
+      GameState.isPaused = true;
+      screen.style.display = "flex";
+    }
   }
 
   function close() {
-    const screen = document.getElementById("screen-glossary");
-
-    if (screen) {
-      screen.style.display = "none";
+    if (window.UI?.showScreen) {
+      UI.showScreen(null);
+      return;
     }
 
+    const screen = document.getElementById("screen-glossary");
+    if (screen) screen.style.display = "none";
     GameState.isPaused = false;
   }
 
@@ -77,7 +81,7 @@ window.Glossary = (() => {
         : "";
 
       return `
-        <div class="glossary-menu-group">
+        <div class="glossary-menu-group ${isActive ? "active" : ""}">
           <button
             class="glossary-tab ${isActive ? "active" : ""}"
             onclick="Glossary.show('${item.key}', 0)">

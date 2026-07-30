@@ -91,31 +91,10 @@
      requestAnimationFrame(gameLoop);
    }
    
-   // ── Controles mobile ──────────────────────────────────────────
-   function setupMobileControls() {
-     const map = {
-       "btn-up":    ["ArrowUp",    "w"],
-       "btn-down":  ["ArrowDown",  "s"],
-       "btn-left":  ["ArrowLeft",  "a"],
-       "btn-right": ["ArrowRight", "d"]
-     };
-     Object.entries(map).forEach(([id, keys]) => {
-       const btn = document.getElementById(id);
-       if (!btn) return;
-       const press   = () => keys.forEach(k => document.dispatchEvent(new KeyboardEvent("keydown", { key:k, bubbles:true })));
-       const release = () => keys.forEach(k => document.dispatchEvent(new KeyboardEvent("keyup",   { key:k, bubbles:true })));
-       btn.addEventListener("touchstart", e => { e.preventDefault(); press();   }, { passive: false });
-       btn.addEventListener("touchend",   e => { e.preventDefault(); release(); }, { passive: false });
-       btn.addEventListener("mousedown",  press);
-       btn.addEventListener("mouseup",    release);
-       btn.addEventListener("mouseleave", release);
-     });
-   }
-   
    // ── Init ──────────────────────────────────────────────────────
    loadGameData()
      .then(() => {
-       setupMobileControls();
+       window.MobileControls?.init();
        gameLoop();
      })
      .catch(error => {

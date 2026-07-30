@@ -51,24 +51,29 @@ window.ResponsiveLayout = (() => {
     const viewport = getViewportSize();
     const bodyInsets = getBodyInsets();
     const compact = viewport.width <= COMPACT_BREAKPOINT;
+    const compactLandscape = compact && viewport.width > viewport.height;
     const wrapperStyle = getComputedStyle(gameWrapper);
     const layoutGap = parseFloat(wrapperStyle.gap) || 16;
     const frameBorder = 6;
+    const mobileControlsWidth = compactLandscape ? 170 : 0;
 
     const hudWidth = compact ? 0 : Math.ceil(hud?.getBoundingClientRect().width || 210);
     const availableWidth = Math.max(
       280,
       viewport.width - bodyInsets.horizontal - hudWidth -
-        (compact ? 0 : layoutGap) - frameBorder
+        (compact ? mobileControlsWidth : layoutGap) -
+        (compactLandscape ? layoutGap : 0) -
+        frameBorder
     );
 
     const widthScale = availableWidth / MAP_WIDTH;
-    const heightScale = compact
-      ? MAX_SCALE
-      : Math.max(
-          0.4,
-          (viewport.height - bodyInsets.vertical - frameBorder) / MAP_HEIGHT
-        );
+    const heightScale =
+      compact && !compactLandscape
+        ? MAX_SCALE
+        : Math.max(
+            0.4,
+            (viewport.height - bodyInsets.vertical - frameBorder) / MAP_HEIGHT
+          );
 
     const scale = Math.max(
       0.28,
