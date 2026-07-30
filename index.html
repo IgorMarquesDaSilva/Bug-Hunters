@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="assets/css/sala3_design.css">
   <link rel="stylesheet" href="assets/css/sala4_design.css">
   <link rel="stylesheet" href="assets/css/responsive.css?v=4">
-  <link rel="stylesheet" href="assets/css/mobile.css?v=3">
+  <link rel="stylesheet" href="assets/css/mobile.css?v=4">
 </head>
 
 <body>
@@ -1591,10 +1591,14 @@
         <div class="hud-tutorial-btn">
 
           <button
-            class="cyber-btn"
+            class="cyber-btn hud-action-btn hud-action-tutorial"
             onclick="TutorialSystem.open(true)">
 
-            ? TUTORIAL
+            <span class="hud-action-icon" aria-hidden="true">
+              <i class="bi bi-question-square"></i>
+            </span>
+
+            <span class="hud-action-label">TUTORIAL</span>
 
           </button>
 
@@ -1603,10 +1607,14 @@
         <div class="hud-tutorial-btn">
 
           <button
-            class="cyber-btn"
+            class="cyber-btn hud-action-btn hud-action-glossary"
             onclick="Glossary.open()">
 
-            📘 GLOSSÁRIO
+            <span class="hud-action-icon" aria-hidden="true">
+              <i class="bi bi-journal-code"></i>
+            </span>
+
+            <span class="hud-action-label">GLOSSÁRIO</span>
 
           </button>
 
