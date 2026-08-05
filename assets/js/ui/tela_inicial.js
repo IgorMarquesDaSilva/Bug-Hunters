@@ -55,6 +55,19 @@
 
   window.openSettingsFromGame = function openSettingsFromGame() {
     settingsReturnTarget = "game";
+
+    // Se as configurações forem abertas enquanto o aviso ou a tela de uma
+    // missão estiver ativo, encerra essa interação antes de trocar de overlay.
+    // Sem isso, activeIdx permanece preenchido e bloqueia novos popups.
+    if (typeof GameState !== "undefined" && GameState.activeIdx !== -1) {
+      if (window.UI?.closePopup) {
+        window.UI.closePopup();
+      } else {
+        GameState.activeIdx = -1;
+        GameState.popupCooldown = 60;
+      }
+    }
+
     showScreen("screen-settings");
   };
 
