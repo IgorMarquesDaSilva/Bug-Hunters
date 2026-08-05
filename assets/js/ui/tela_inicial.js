@@ -9,7 +9,8 @@
   const STORAGE_KEYS = {
     musicVolume: "bugHunters.audio.master",
     fontSize: "bugHunters.fontSize",
-    mobileControlSide: "bugHunters.mobileControlSide"
+    mobileControlSide: "bugHunters.mobileControlSide",
+    mobileOrientation: "bugHunters.mobileOrientation"
   };
 
   const shortcuts = {
@@ -198,11 +199,43 @@
     window.ResponsiveLayout?.update?.();
   }
 
+  function isBrowserLandscape() {
+    return window.matchMedia?.("(orientation: landscape)").matches ?? window.innerWidth > window.innerHeight;
+  }
+
+  function applyMobileOrientation(mode, persist = true) {
+    const selectedMode = mode === "landscape" ? "landscape" : "auto";
+    const browserLandscape = isBrowserLandscape();
+    const forceLandscape = selectedMode === "landscape" && !browserLandscape;
+    document.body.classList.toggle("mobile-force-landscape", forceLandscape);
+    document.body.dataset.mobileOrientation = selectedMode;
+    const valueText = document.getElementById("mobile-orientation-value");
+    if (valueText) {
+      valueText.textContent = browserLandscape
+        ? "PAISAGEM DO CELULAR"
+        : selectedMode === "landscape" ? "PAISAGEM MANUAL" : "AUTOMÁTICO";
+    }
+    document.querySelectorAll(".mobile-orientation-btn").forEach(button => {
+      const isSelected = button.dataset.mobileOrientation === selectedMode;
+      button.classList.toggle("active", isSelected);
+      button.setAttribute("aria-pressed", String(isSelected));
+    });
+    if (persist) localStorage.setItem(STORAGE_KEYS.mobileOrientation, selectedMode);
+    window.MobileControls?.releaseAll?.();
+    window.ResponsiveLayout?.update?.();
+  }
+
+  function syncMobileOrientation() {
+    const selectedMode = document.body.dataset.mobileOrientation ||
+      localStorage.getItem(STORAGE_KEYS.mobileOrientation) || "auto";
+    applyMobileOrientation(selectedMode, false);
+  }
   function setupSettingsControls() {
     const savedVolume = String(Math.round((Number(localStorage.getItem(STORAGE_KEYS.musicVolume)) || 0.8) * 100));
     const savedFontSize = localStorage.getItem(STORAGE_KEYS.fontSize) ?? "normal";
     const savedMobileControlSide =
       localStorage.getItem(STORAGE_KEYS.mobileControlSide) ?? "right";
+    const savedMobileOrientation = localStorage.getItem(STORAGE_KEYS.mobileOrientation) ?? "auto";
 
     const volumeControl = document.getElementById("master-volume-control");
 
@@ -225,9 +258,14 @@
       });
     });
 
+    document.querySelectorAll(".mobile-orientation-btn").forEach(button => {
+      button.addEventListener("click", () => applyMobileOrientation(button.dataset.mobileOrientation));
+    });
+
     applyMusicVolume(savedVolume);
     applyFontSize(savedFontSize);
     applyMobileControlSide(savedMobileControlSide);
+    applyMobileOrientation(savedMobileOrientation, false);
   }
 
   document.addEventListener("keydown", event => {
@@ -239,8 +277,11 @@
   });
 
   document.addEventListener("DOMContentLoaded", setupSettingsControls);
+  window.addEventListener("orientationchange", syncMobileOrientation, { passive: true });
+  window.addEventListener("resize", syncMobileOrientation, { passive: true });
 
   window.setGameMusicVolume = applyMusicVolume;
   window.setGameFontSize = applyFontSize;
   window.setMobileControlSide = applyMobileControlSide;
+  window.setMobileOrientation = applyMobileOrientation;
 })();

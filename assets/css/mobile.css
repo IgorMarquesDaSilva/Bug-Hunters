@@ -7,7 +7,7 @@
   display: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
   :root {
     /* Ajustes rápidos da posição do controle direcional no mobile. */
     --mobile-controls-gap-top: 5rem;
@@ -492,7 +492,8 @@
   }
 }
 
-@media (max-width: 900px) and (orientation: landscape) {
+@media (max-width: 900px) and (orientation: landscape),
+       (hover: none) and (pointer: coarse) and (orientation: landscape) {
   .game-wrapper {
     width: 100%;
     max-width: 100%;
@@ -542,4 +543,24 @@
   .hud-panel .panel-content {
     padding-top: 8px;
   }
+}
+/* Paisagem manual enquanto o navegador permanece travado em retrato. */
+@media (orientation: portrait) {
+  body.mobile-force-landscape { width: 100vw; height: 100dvh; min-height: 0; padding: 0; overflow: hidden; }
+  body.mobile-force-landscape > .game-container {
+    position: fixed; top: 0; left: 0; width: 100dvh; height: 100vw; margin: 0;
+    padding: max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left)) max(6px, env(safe-area-inset-top));
+    overflow-x: hidden; overflow-y: auto;
+    transform: rotate(90deg) translateY(-100%); transform-origin: top left;
+  }
+  body.mobile-force-landscape .game-wrapper {
+    width: 100%; max-width: 100%; display: grid;
+    grid-template-columns: minmax(0, var(--game-stage-width, 620px));
+    grid-template-areas: "game" "hud" "controls";
+    align-items: center; justify-content: center; gap: 8px;
+  }
+  body.mobile-force-landscape #game-container { grid-area: game; }
+  body.mobile-force-landscape .hud-panel { grid-area: hud; order: initial; width: min(100%, 800px); justify-self: center; }
+  body.mobile-force-landscape .mobile-controls { grid-area: controls; order: initial; justify-self: end; }
+  body.mobile-force-landscape.mobile-controls-left .mobile-controls { justify-self: start; }
 }

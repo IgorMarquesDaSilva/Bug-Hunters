@@ -14,16 +14,12 @@ window.ResponsiveLayout = (() => {
   function getViewportSize() {
     const viewport = window.visualViewport;
 
-    return {
-      width: Math.max(
-        320,
-        Math.floor(viewport?.width || document.documentElement.clientWidth)
-      ),
-      height: Math.max(
-        240,
-        Math.floor(viewport?.height || document.documentElement.clientHeight)
-      )
-    };
+    const rawWidth = Math.max(320, Math.floor(viewport?.width || document.documentElement.clientWidth));
+    const rawHeight = Math.max(240, Math.floor(viewport?.height || document.documentElement.clientHeight));
+    if (document.body.classList.contains("mobile-force-landscape")) {
+      return { width: Math.max(rawWidth, rawHeight), height: Math.min(rawWidth, rawHeight) };
+    }
+    return { width: rawWidth, height: rawHeight };
   }
 
   function getBodyInsets() {
@@ -50,8 +46,9 @@ window.ResponsiveLayout = (() => {
 
     const viewport = getViewportSize();
     const bodyInsets = getBodyInsets();
-    const compact = viewport.width <= COMPACT_BREAKPOINT;
-    const compactLandscape = compact && viewport.width > viewport.height;
+    const touchDevice = window.matchMedia?.("(hover: none) and (pointer: coarse)").matches || navigator.maxTouchPoints > 0;
+    const compact = viewport.width <= COMPACT_BREAKPOINT || touchDevice;
+    const compactLandscape = compact && (viewport.width > viewport.height || document.body.classList.contains("mobile-force-landscape"));
     const wrapperStyle = getComputedStyle(gameWrapper);
     const layoutGap = parseFloat(wrapperStyle.gap) || 16;
     const frameBorder = 6;
