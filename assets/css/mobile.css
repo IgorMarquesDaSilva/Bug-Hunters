@@ -8,6 +8,12 @@
 }
 
 @media (max-width: 900px) {
+  :root {
+    /* Ajustes rápidos da posição do controle direcional no mobile. */
+    --mobile-controls-gap-top: 20px;
+    --mobile-controls-edge-gap: 18px;
+  }
+
   body {
     padding-top: max(6px, env(safe-area-inset-top));
     padding-right: max(6px, env(safe-area-inset-right));
@@ -66,8 +72,9 @@
     width: 168px;
     height: 168px;
     place-items: center;
-    margin-top: 4px;
-    margin-right: 4px;
+    margin-top: var(--mobile-controls-gap-top);
+    margin-right: var(--mobile-controls-edge-gap);
+    margin-bottom: var(--mobile-controls-edge-gap);
     margin-left: auto;
     padding: 6px;
     position: relative;
@@ -99,11 +106,11 @@
 
   body.mobile-controls-left .mobile-controls {
     margin-right: auto;
-    margin-left: 4px;
+    margin-left: var(--mobile-controls-edge-gap);
   }
 
   body.mobile-controls-right .mobile-controls {
-    margin-right: 4px;
+    margin-right: var(--mobile-controls-edge-gap);
     margin-left: auto;
   }
 
