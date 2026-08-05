@@ -62,11 +62,13 @@
   }
 
   .mobile-controls {
-    order: 2;
+    order: 4;
     width: 168px;
     height: 168px;
     place-items: center;
-    margin-inline: auto;
+    margin-top: 4px;
+    margin-right: 4px;
+    margin-left: auto;
     padding: 6px;
     position: relative;
     background-color: #08131f;
@@ -93,6 +95,16 @@
       inset 0 0 0 2px #07111c;
     touch-action: none;
     user-select: none;
+  }
+
+  body.mobile-controls-left .mobile-controls {
+    margin-right: auto;
+    margin-left: 4px;
+  }
+
+  body.mobile-controls-right .mobile-controls {
+    margin-right: 4px;
+    margin-left: auto;
   }
 
   .mobile-controls::before,
@@ -258,11 +270,11 @@
   }
 
   .hud-panel {
-    order: 3;
+    order: 2;
     width: min(100%, 520px);
     max-width: none;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .hud-panel .panel-header,
@@ -367,6 +379,10 @@
 
   .hud-panel .hud-action-glossary {
     --hud-action-accent: #36dfb0;
+  }
+
+  .hud-panel .hud-action-settings {
+    --hud-action-accent: var(--px-amber);
   }
 
   .hud-panel .hud-action-btn:active {
@@ -474,12 +490,11 @@
     width: 100%;
     max-width: 100%;
     display: grid;
-    grid-template-columns:
-      minmax(0, var(--game-stage-width, 620px))
-      170px;
+    grid-template-columns: minmax(0, var(--game-stage-width, 620px));
     grid-template-areas:
-      "game controls"
-      "hud hud";
+      "game"
+      "hud"
+      "controls";
     align-items: center;
     justify-content: center;
     gap: 8px;
@@ -492,6 +507,15 @@
   .mobile-controls {
     grid-area: controls;
     order: initial;
+    justify-self: end;
+  }
+
+  body.mobile-controls-left .mobile-controls {
+    justify-self: start;
+  }
+
+  body.mobile-controls-right .mobile-controls {
+    justify-self: end;
   }
 
   .hud-panel {

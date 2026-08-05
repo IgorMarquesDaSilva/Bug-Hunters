@@ -4,9 +4,12 @@
 =========================================*/
 
 (() => {
+  let settingsReturnTarget = "main-menu";
+
   const STORAGE_KEYS = {
     musicVolume: "bugHunters.audio.master",
-    fontSize: "bugHunters.fontSize"
+    fontSize: "bugHunters.fontSize",
+    mobileControlSide: "bugHunters.mobileControlSide"
   };
 
   const shortcuts = {
@@ -46,7 +49,22 @@
   };
 
   window.openSettingsMenu = function openSettingsMenu() {
+    settingsReturnTarget = "main-menu";
     showScreen("screen-settings");
+  };
+
+  window.openSettingsFromGame = function openSettingsFromGame() {
+    settingsReturnTarget = "game";
+    showScreen("screen-settings");
+  };
+
+  window.closeSettingsMenu = function closeSettingsMenu() {
+    if (settingsReturnTarget === "game") {
+      showScreen(null);
+      return;
+    }
+
+    showScreen("screen-main-menu");
   };
 
   window.openAccessibilityMenu = function openAccessibilityMenu() {
@@ -142,9 +160,36 @@
     localStorage.setItem(STORAGE_KEYS.fontSize, selectedSize);
   }
 
+  function applyMobileControlSide(side) {
+    const selectedSide = side === "left" ? "left" : "right";
+
+    document.body.classList.toggle(
+      "mobile-controls-left",
+      selectedSide === "left"
+    );
+    document.body.classList.toggle(
+      "mobile-controls-right",
+      selectedSide === "right"
+    );
+
+    const valueText = document.getElementById("mobile-control-side-value");
+    if (valueText) valueText.textContent = selectedSide === "left" ? "ESQUERDA" : "DIREITA";
+
+    document.querySelectorAll(".mobile-control-side-btn").forEach(button => {
+      const isSelected = button.dataset.controlSide === selectedSide;
+      button.classList.toggle("active", isSelected);
+      button.setAttribute("aria-pressed", String(isSelected));
+    });
+
+    localStorage.setItem(STORAGE_KEYS.mobileControlSide, selectedSide);
+    window.ResponsiveLayout?.update?.();
+  }
+
   function setupSettingsControls() {
     const savedVolume = String(Math.round((Number(localStorage.getItem(STORAGE_KEYS.musicVolume)) || 0.8) * 100));
     const savedFontSize = localStorage.getItem(STORAGE_KEYS.fontSize) ?? "normal";
+    const savedMobileControlSide =
+      localStorage.getItem(STORAGE_KEYS.mobileControlSide) ?? "right";
 
     const volumeControl = document.getElementById("master-volume-control");
 
@@ -161,8 +206,15 @@
       });
     });
 
+    document.querySelectorAll(".mobile-control-side-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        applyMobileControlSide(button.dataset.controlSide);
+      });
+    });
+
     applyMusicVolume(savedVolume);
     applyFontSize(savedFontSize);
+    applyMobileControlSide(savedMobileControlSide);
   }
 
   document.addEventListener("keydown", event => {
@@ -177,4 +229,5 @@
 
   window.setGameMusicVolume = applyMusicVolume;
   window.setGameFontSize = applyFontSize;
+  window.setMobileControlSide = applyMobileControlSide;
 })();

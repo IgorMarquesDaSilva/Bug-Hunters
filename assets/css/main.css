@@ -73,6 +73,10 @@
      box-shadow: 0 0 0 var(--px) var(--px-blue-dark), 0 0 0 calc(var(--px)*2) var(--px-border), 4px 4px 0 #000;
      width: 210px; min-width: 210px;
    }
+
+   .hud-action-settings {
+     --hud-action-accent: var(--px-amber);
+   }
    
    .panel-header {
      background: var(--px-blue-mid);

@@ -55,15 +55,11 @@ window.ResponsiveLayout = (() => {
     const wrapperStyle = getComputedStyle(gameWrapper);
     const layoutGap = parseFloat(wrapperStyle.gap) || 16;
     const frameBorder = 6;
-    const mobileControlsWidth = compactLandscape ? 170 : 0;
-
     const hudWidth = compact ? 0 : Math.ceil(hud?.getBoundingClientRect().width || 210);
     const availableWidth = Math.max(
       280,
       viewport.width - bodyInsets.horizontal - hudWidth -
-        (compact ? mobileControlsWidth : layoutGap) -
-        (compactLandscape ? layoutGap : 0) -
-        frameBorder
+        (compact ? 0 : layoutGap) - frameBorder
     );
 
     const widthScale = availableWidth / MAP_WIDTH;
