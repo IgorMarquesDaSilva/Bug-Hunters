@@ -10,7 +10,7 @@
 @media (max-width: 900px) {
   :root {
     /* Ajustes rápidos da posição do controle direcional no mobile. */
-    --mobile-controls-gap-top: 20px;
+    --mobile-controls-gap-top: 5rem;
     --mobile-controls-edge-gap: 18px;
   }
 
