@@ -6,6 +6,19 @@
 window.UI = (() => {
 
   function showScreen(screenId) {
+    const proximityPrompt = document.getElementById("screen-bug-popup");
+    const wasProximityPromptOpen =
+      proximityPrompt && getComputedStyle(proximityPrompt).display !== "none";
+    const abandonsProximityPrompt =
+      wasProximityPromptOpen &&
+      screenId !== "screen-bug-popup" &&
+      screenId !== "screen-mission";
+
+    if (abandonsProximityPrompt) {
+      GameState.activeIdx = -1;
+      GameState.popupCooldown = 0;
+    }
+
     document.querySelectorAll(".overlay").forEach(screen => {
       screen.style.display = "none";
     });

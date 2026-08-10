@@ -146,7 +146,13 @@ const BugSystem = (() => {
     if (GameState.isPaused) return;
 
     if (GameState.activeIdx !== -1) {
-      closePromptOutsideMissionRange();
+      const promptIsOpen = closePromptOutsideMissionRange();
+
+      if (!promptIsOpen) {
+        GameState.activeIdx = -1;
+        GameState.popupCooldown = 0;
+      }
+
       return;
     }
 
