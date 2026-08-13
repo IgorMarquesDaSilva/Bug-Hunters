@@ -8,9 +8,12 @@ window.ResponsiveLayout = (() => {
   const MAP_HEIGHT = 600;
   const MAX_SCALE = 1.35;
   const COMPACT_BREAKPOINT = 900;
-  const LANDSCAPE_CONTROLS_WIDTH = 140;
-  const LANDSCAPE_HUD_HEIGHT = 58;
-  const LANDSCAPE_GAP = 8;
+  const LANDSCAPE_CONTROLS_WIDTH = 132;
+  const LANDSCAPE_HUD_HEIGHT = 42;
+  const LANDSCAPE_COLUMN_GAP = 28;
+  // As molduras pixeladas projetam 6 px para fora de cada painel.
+  // A folga de 14 px impede que HUD e mapa se atravessem visualmente.
+  const LANDSCAPE_ROW_GAP = 14;
 
   let scheduledFrame = 0;
 
@@ -51,16 +54,19 @@ window.ResponsiveLayout = (() => {
     const bodyInsets = getBodyInsets();
     const touchDevice = window.matchMedia?.("(hover: none) and (pointer: coarse)").matches || navigator.maxTouchPoints > 0;
     const compact = viewport.width <= COMPACT_BREAKPOINT || touchDevice;
-    const compactLandscape = compact && (viewport.width > viewport.height || document.body.classList.contains("mobile-force-landscape"));
+    const compactLandscape = compact && (
+      viewport.width > viewport.height ||
+      document.body.classList.contains("mobile-landscape-layout")
+    );
     const wrapperStyle = getComputedStyle(gameWrapper);
     const layoutGap = parseFloat(wrapperStyle.gap) || 16;
     const frameBorder = 6;
     const hudWidth = compact ? 0 : Math.ceil(hud?.getBoundingClientRect().width || 210);
     const reservedLandscapeWidth = compactLandscape
-      ? LANDSCAPE_CONTROLS_WIDTH + LANDSCAPE_GAP
+      ? LANDSCAPE_CONTROLS_WIDTH + LANDSCAPE_COLUMN_GAP
       : 0;
     const reservedLandscapeHeight = compactLandscape
-      ? LANDSCAPE_HUD_HEIGHT + LANDSCAPE_GAP
+      ? LANDSCAPE_HUD_HEIGHT + LANDSCAPE_ROW_GAP
       : 0;
     const availableWidth = Math.max(
       280,
