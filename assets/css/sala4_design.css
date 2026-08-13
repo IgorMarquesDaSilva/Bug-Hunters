@@ -110,7 +110,7 @@
 }
 
 #room-map.sala4 .wall-window-main {
-  left: 336px;
+  left: 346px;
   top: 70px;
   width: 305px;
   height: 200px;
@@ -828,9 +828,6 @@ img.ship-diagram {
   opacity: 0.85;
 }
 
-/* ============================================================
-   POSIÇÕES MATEMÁTICAS EXATAS DE CADA TELA (Em relação à mesa)
-============================================================ */
 
 /* TELA ESQUERDA */
 /* Mesa(Left 120) + Tela(Left 96) = 216px */
