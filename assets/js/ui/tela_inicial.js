@@ -5,6 +5,7 @@
 
 (() => {
   let settingsReturnTarget = "main-menu";
+  let appOwnsFullscreen = false;
 
   const STORAGE_KEYS = {
     musicVolume: "bugHunters.audio.master",
@@ -200,45 +201,194 @@
   }
 
   function isBrowserLandscape() {
-    const viewport = window.visualViewport;
-    const width = viewport?.width || window.innerWidth;
-    const height = viewport?.height || window.innerHeight;
+    const { width, height } = getViewportDimensions();
 
     return width > height;
   }
 
-  function applyMobileOrientation(mode, persist = true) {
-    const selectedMode = mode === "landscape" ? "landscape" : "auto";
+  function getViewportDimensions() {
+    const viewport = window.visualViewport;
+    const width = Math.max(
+      1,
+      Math.round(viewport?.width || document.documentElement.clientWidth || window.innerWidth)
+    );
+    const height = Math.max(
+      1,
+      Math.round(viewport?.height || document.documentElement.clientHeight || window.innerHeight)
+    );
+
+    return { width, height };
+  }
+
+  function updateManualViewportVariables() {
+    const viewport = getViewportDimensions();
+    const landscapeWidth = Math.max(viewport.width, viewport.height);
+    const landscapeHeight = Math.min(viewport.width, viewport.height);
+    const root = document.documentElement;
+
+    root.style.setProperty("--manual-landscape-width", `${landscapeWidth}px`);
+    root.style.setProperty("--manual-landscape-height", `${landscapeHeight}px`);
+  }
+
+  async function tryNativeLandscapeLock() {
+    if (isBrowserLandscape()) return true;
+
+    try {
+      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+        await document.documentElement.requestFullscreen({ navigationUI: "hide" });
+        appOwnsFullscreen = true;
+      }
+
+      if (window.screen?.orientation?.lock) {
+        await window.screen.orientation.lock("landscape");
+      }
+    } catch (_) {
+      // Em iframes ou navegadores sem permissão, o CSS rotacionado continua
+      // sendo usado como fallback.
+    }
+
+    return isBrowserLandscape();
+  }
+
+  async function releaseNativeLandscapeLock() {
+    try {
+      window.screen?.orientation?.unlock?.();
+    } catch (_) {}
+
+    if (appOwnsFullscreen && document.fullscreenElement && document.exitFullscreen) {
+      try {
+        await document.exitFullscreen();
+      } catch (_) {}
+    }
+
+    appOwnsFullscreen = false;
+  }
+
+  function renderMobileOrientation(selectedMode) {
+    updateManualViewportVariables();
+
     const browserLandscape = isBrowserLandscape();
     const forceLandscape = selectedMode === "landscape" && !browserLandscape;
+    const useLandscapeLayout = browserLandscape || selectedMode === "landscape";
+
     document.body.classList.toggle("mobile-force-landscape", forceLandscape);
+    document.body.classList.toggle("mobile-landscape-layout", useLandscapeLayout);
     document.body.dataset.mobileOrientation = selectedMode;
+
     const valueText = document.getElementById("mobile-orientation-value");
     if (valueText) {
       valueText.textContent = browserLandscape
         ? "PAISAGEM DO CELULAR"
         : selectedMode === "landscape" ? "PAISAGEM MANUAL" : "AUTOMÁTICO";
     }
+
     document.querySelectorAll(".mobile-orientation-btn").forEach(button => {
       const isSelected = button.dataset.mobileOrientation === selectedMode;
       button.classList.toggle("active", isSelected);
       button.setAttribute("aria-pressed", String(isSelected));
     });
-    if (persist) localStorage.setItem(STORAGE_KEYS.mobileOrientation, selectedMode);
+
     window.MobileControls?.releaseAll?.();
     window.ResponsiveLayout?.update?.();
 
-    // O Chrome do Android atualiza visualViewport em mais de uma etapa.
-    // Uma segunda medição evita manter a escala calculada com as dimensões
-    // anteriores à rotação.
     window.requestAnimationFrame(() => {
+      updateManualViewportVariables();
       window.ResponsiveLayout?.update?.();
       document.scrollingElement?.scrollTo?.(0, 0);
     });
 
     window.setTimeout(() => {
+      updateManualViewportVariables();
       window.ResponsiveLayout?.update?.();
     }, 180);
+  }
+
+  async function applyMobileOrientation(mode, persist = true) {
+    const selectedMode = mode === "landscape" ? "landscape" : "auto";
+
+    if (persist) {
+      localStorage.setItem(STORAGE_KEYS.mobileOrientation, selectedMode);
+
+      if (selectedMode === "landscape") {
+        // A chamada parte diretamente do clique do usuário, requisito do
+        // Android para fullscreen e bloqueio de orientação.
+        await tryNativeLandscapeLock();
+      } else {
+        await releaseNativeLandscapeLock();
+      }
+    }
+
+    renderMobileOrientation(selectedMode);
+  }
+
+  function updateRotatedRange(range, event) {
+    const rect = range.getBoundingClientRect();
+    const min = Number(range.min || 0);
+    const max = Number(range.max || 100);
+    const step = Number(range.step || 1);
+    const ratio = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+    const rawValue = min + (max - min) * ratio;
+    const steppedValue = min + Math.round((rawValue - min) / step) * step;
+
+    range.value = String(Math.max(min, Math.min(max, steppedValue)));
+    range.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  function setupManualLandscapeInteractions() {
+    document.querySelectorAll("#screen-settings .settings-range").forEach(range => {
+      let activePointer = null;
+
+      range.addEventListener("pointerdown", event => {
+        if (!document.body.classList.contains("mobile-force-landscape")) return;
+
+        activePointer = event.pointerId;
+        range.setPointerCapture?.(event.pointerId);
+        event.preventDefault();
+        updateRotatedRange(range, event);
+      });
+
+      range.addEventListener("pointermove", event => {
+        if (event.pointerId !== activePointer) return;
+        event.preventDefault();
+        updateRotatedRange(range, event);
+      });
+
+      ["pointerup", "pointercancel", "lostpointercapture"].forEach(eventName => {
+        range.addEventListener(eventName, event => {
+          if (event.pointerId === activePointer) activePointer = null;
+        });
+      });
+    });
+
+    const settingsPanel = document.querySelector("#screen-settings .settings-panel");
+    if (!settingsPanel) return;
+
+    let scrollPointer = null;
+    let lastPointerX = 0;
+
+    settingsPanel.addEventListener("pointerdown", event => {
+      if (!document.body.classList.contains("mobile-force-landscape")) return;
+      if (event.target.closest("button, input, a, [role='button']")) return;
+
+      scrollPointer = event.pointerId;
+      lastPointerX = event.clientX;
+      settingsPanel.setPointerCapture?.(event.pointerId);
+    });
+
+    settingsPanel.addEventListener("pointermove", event => {
+      if (event.pointerId !== scrollPointer) return;
+
+      const delta = lastPointerX - event.clientX;
+      lastPointerX = event.clientX;
+      settingsPanel.scrollTop += delta;
+      event.preventDefault();
+    });
+
+    ["pointerup", "pointercancel", "lostpointercapture"].forEach(eventName => {
+      settingsPanel.addEventListener(eventName, event => {
+        if (event.pointerId === scrollPointer) scrollPointer = null;
+      });
+    });
   }
 
   function syncMobileOrientation() {
@@ -277,6 +427,8 @@
     document.querySelectorAll(".mobile-orientation-btn").forEach(button => {
       button.addEventListener("click", () => applyMobileOrientation(button.dataset.mobileOrientation));
     });
+
+    setupManualLandscapeInteractions();
 
     applyMusicVolume(savedVolume);
     applyFontSize(savedFontSize);
