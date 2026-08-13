@@ -8,6 +8,9 @@ window.ResponsiveLayout = (() => {
   const MAP_HEIGHT = 600;
   const MAX_SCALE = 1.35;
   const COMPACT_BREAKPOINT = 900;
+  const LANDSCAPE_CONTROLS_WIDTH = 140;
+  const LANDSCAPE_HUD_HEIGHT = 58;
+  const LANDSCAPE_GAP = 8;
 
   let scheduledFrame = 0;
 
@@ -53,10 +56,16 @@ window.ResponsiveLayout = (() => {
     const layoutGap = parseFloat(wrapperStyle.gap) || 16;
     const frameBorder = 6;
     const hudWidth = compact ? 0 : Math.ceil(hud?.getBoundingClientRect().width || 210);
+    const reservedLandscapeWidth = compactLandscape
+      ? LANDSCAPE_CONTROLS_WIDTH + LANDSCAPE_GAP
+      : 0;
+    const reservedLandscapeHeight = compactLandscape
+      ? LANDSCAPE_HUD_HEIGHT + LANDSCAPE_GAP
+      : 0;
     const availableWidth = Math.max(
       280,
       viewport.width - bodyInsets.horizontal - hudWidth -
-        (compact ? 0 : layoutGap) - frameBorder
+        (compact ? reservedLandscapeWidth : layoutGap) - frameBorder
     );
 
     const widthScale = availableWidth / MAP_WIDTH;
@@ -65,7 +74,10 @@ window.ResponsiveLayout = (() => {
         ? MAX_SCALE
         : Math.max(
             0.4,
-            (viewport.height - bodyInsets.vertical - frameBorder) / MAP_HEIGHT
+            (
+              viewport.height - bodyInsets.vertical - frameBorder -
+              reservedLandscapeHeight
+            ) / MAP_HEIGHT
           );
 
     const scale = Math.max(

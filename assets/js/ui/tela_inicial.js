@@ -200,7 +200,11 @@
   }
 
   function isBrowserLandscape() {
-    return window.matchMedia?.("(orientation: landscape)").matches ?? window.innerWidth > window.innerHeight;
+    const viewport = window.visualViewport;
+    const width = viewport?.width || window.innerWidth;
+    const height = viewport?.height || window.innerHeight;
+
+    return width > height;
   }
 
   function applyMobileOrientation(mode, persist = true) {
@@ -223,6 +227,18 @@
     if (persist) localStorage.setItem(STORAGE_KEYS.mobileOrientation, selectedMode);
     window.MobileControls?.releaseAll?.();
     window.ResponsiveLayout?.update?.();
+
+    // O Chrome do Android atualiza visualViewport em mais de uma etapa.
+    // Uma segunda medição evita manter a escala calculada com as dimensões
+    // anteriores à rotação.
+    window.requestAnimationFrame(() => {
+      window.ResponsiveLayout?.update?.();
+      document.scrollingElement?.scrollTo?.(0, 0);
+    });
+
+    window.setTimeout(() => {
+      window.ResponsiveLayout?.update?.();
+    }, 180);
   }
 
   function syncMobileOrientation() {

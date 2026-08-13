@@ -67,7 +67,16 @@ window.MobileControls = (() => {
     document.querySelectorAll(".mobile-dpad-btn[data-direction]")
       .forEach(bindButton);
 
+    // Garante a liberação mesmo quando uma rotação do Android move o
+    // botão para fora da área original durante um toque.
+    ["pointerup", "pointercancel"].forEach(eventName => {
+      document.addEventListener(eventName, event => {
+        releasePointer(event.pointerId);
+      });
+    });
+
     window.addEventListener("blur", releaseAll);
+    window.addEventListener("orientationchange", releaseAll, { passive: true });
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) releaseAll();
     });

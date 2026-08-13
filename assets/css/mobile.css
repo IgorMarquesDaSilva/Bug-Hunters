@@ -494,18 +494,35 @@
 
 @media (max-width: 900px) and (orientation: landscape),
        (hover: none) and (pointer: coarse) and (orientation: landscape) {
+  body {
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .game-container {
+    height: 100%;
+    min-height: 0;
+  }
+
   .game-wrapper {
     width: 100%;
     max-width: 100%;
+    height: 100%;
+    min-height: 0;
     display: grid;
-    grid-template-columns: minmax(0, var(--game-stage-width, 620px));
+    grid-template-columns:
+      minmax(0, var(--game-stage-width, 620px))
+      132px;
+    grid-template-rows: 54px minmax(0, var(--game-stage-height, 290px));
     grid-template-areas:
-      "game"
-      "hud"
-      "controls";
+      "hud hud"
+      "game controls";
     align-items: center;
+    align-content: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px 8px;
+    overflow: hidden;
   }
 
   #game-container {
@@ -515,22 +532,106 @@
   .mobile-controls {
     grid-area: controls;
     order: initial;
-    justify-self: end;
+    width: 132px;
+    height: 132px;
+    margin: 0;
+    padding: 4px;
+    justify-self: center;
+    align-self: center;
+    z-index: 20;
   }
 
-  body.mobile-controls-left .mobile-controls {
-    justify-self: start;
+  .mobile-dpad {
+    width: 120px;
+    height: 120px;
+    grid-template-columns: repeat(3, 40px);
+    grid-template-rows: repeat(3, 40px);
   }
 
-  body.mobile-controls-right .mobile-controls {
-    justify-self: end;
+  .mobile-dpad-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    border-width: 2px;
+  }
+
+  .mobile-dpad-core {
+    border-width: 2px;
+  }
+
+  body.mobile-controls-left .game-wrapper {
+    grid-template-columns:
+      132px
+      minmax(0, var(--game-stage-width, 620px));
+    grid-template-areas:
+      "hud hud"
+      "controls game";
   }
 
   .hud-panel {
     grid-area: hud;
     order: initial;
-    width: min(100%, 800px);
+    width: min(100%, 720px);
+    height: 54px;
+    min-width: 0;
     justify-self: center;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  .hud-panel .panel-header,
+  .hud-panel .panel-footer {
+    display: none;
+  }
+
+  .hud-panel .panel-content {
+    flex: 1 1 auto;
+    grid-column: auto;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 3px;
+    padding: 5px 4px;
+  }
+
+  .hud-panel .stat {
+    min-width: 0;
+    gap: 3px;
+    padding: 0 2px;
+    border-bottom: 0;
+  }
+
+  .hud-panel .stat-label {
+    font-size: 4px;
+    letter-spacing: 0;
+  }
+
+  .hud-panel .stat-value {
+    font-size: 6px;
+  }
+
+  .hud-panel .hud-tutorial-btn {
+    flex: 0 0 46px;
+    min-width: 0;
+    padding: 3px 2px;
+  }
+
+  .hud-panel .hud-tutorial-btn .cyber-btn,
+  .hud-panel .hud-action-btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    height: 42px;
+    padding: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .hud-panel .hud-action-icon {
+    border-right: 0;
+    font-size: 14px;
+  }
+
+  .hud-panel .hud-action-label {
+    display: none;
   }
 }
 
@@ -549,18 +650,74 @@
   body.mobile-force-landscape { width: 100vw; height: 100dvh; min-height: 0; padding: 0; overflow: hidden; }
   body.mobile-force-landscape > .game-container {
     position: fixed; top: 0; left: 0; width: 100dvh; height: 100vw; margin: 0;
-    padding: max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left)) max(6px, env(safe-area-inset-top));
-    overflow-x: hidden; overflow-y: auto;
+    padding: max(4px, env(safe-area-inset-right)) max(4px, env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-left)) max(4px, env(safe-area-inset-top));
+    overflow: hidden;
     transform: rotate(90deg) translateY(-100%); transform-origin: top left;
   }
   body.mobile-force-landscape .game-wrapper {
-    width: 100%; max-width: 100%; display: grid;
-    grid-template-columns: minmax(0, var(--game-stage-width, 620px));
-    grid-template-areas: "game" "hud" "controls";
-    align-items: center; justify-content: center; gap: 8px;
+    width: 100%; max-width: 100%; height: 100%; min-height: 0; display: grid;
+    grid-template-columns: minmax(0, var(--game-stage-width, 620px)) 132px;
+    grid-template-rows: 54px minmax(0, var(--game-stage-height, 290px));
+    grid-template-areas: "hud hud" "game controls";
+    align-items: center; align-content: center; justify-content: center;
+    gap: 6px 8px; overflow: hidden;
   }
   body.mobile-force-landscape #game-container { grid-area: game; }
-  body.mobile-force-landscape .hud-panel { grid-area: hud; order: initial; width: min(100%, 800px); justify-self: center; }
-  body.mobile-force-landscape .mobile-controls { grid-area: controls; order: initial; justify-self: end; }
-  body.mobile-force-landscape.mobile-controls-left .mobile-controls { justify-self: start; }
+  body.mobile-force-landscape .hud-panel {
+    grid-area: hud; order: initial; width: min(100%, 720px); height: 54px;
+    min-width: 0; justify-self: center; display: flex; align-items: stretch;
+    overflow: hidden;
+  }
+  body.mobile-force-landscape .hud-panel .panel-header,
+  body.mobile-force-landscape .hud-panel .panel-footer { display: none; }
+  body.mobile-force-landscape .hud-panel .panel-content {
+    flex: 1 1 auto; grid-column: auto; grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 3px; padding: 5px 4px;
+  }
+  body.mobile-force-landscape .hud-panel .stat {
+    min-width: 0; gap: 3px; padding: 0 2px; border-bottom: 0;
+  }
+  body.mobile-force-landscape .hud-panel .stat-label { font-size: 4px; letter-spacing: 0; }
+  body.mobile-force-landscape .hud-panel .stat-value { font-size: 6px; }
+  body.mobile-force-landscape .hud-panel .hud-tutorial-btn {
+    flex: 0 0 46px; min-width: 0; padding: 3px 2px;
+  }
+  body.mobile-force-landscape .hud-panel .hud-tutorial-btn .cyber-btn,
+  body.mobile-force-landscape .hud-panel .hud-action-btn {
+    width: 100%; min-width: 0; min-height: 42px; height: 42px; padding: 0;
+    grid-template-columns: 1fr;
+  }
+  body.mobile-force-landscape .hud-panel .hud-action-icon { border-right: 0; font-size: 14px; }
+  body.mobile-force-landscape .hud-panel .hud-action-label { display: none; }
+  body.mobile-force-landscape .mobile-controls {
+    grid-area: controls; order: initial; width: 132px; height: 132px;
+    margin: 0; padding: 4px; justify-self: center; align-self: center; z-index: 20;
+  }
+  body.mobile-force-landscape .mobile-dpad {
+    width: 120px; height: 120px;
+    grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(3, 40px);
+  }
+  body.mobile-force-landscape .mobile-dpad-btn {
+    width: 40px; height: 40px; font-size: 18px; border-width: 2px;
+  }
+  body.mobile-force-landscape .mobile-dpad-core { border-width: 2px; }
+  body.mobile-force-landscape.mobile-controls-left .game-wrapper {
+    grid-template-columns: 132px minmax(0, var(--game-stage-width, 620px));
+    grid-template-areas: "hud hud" "controls game";
+  }
+
+  /* Overlays usam as dimensões lógicas do quadro rotacionado. Sem esta
+     troca, configurações e missões ficam deslocadas para fora da tela. */
+  body.mobile-force-landscape.overlay-open .overlay {
+    width: 100dvh;
+    height: 100vw;
+  }
+
+  body.mobile-force-landscape.overlay-open .popup-content,
+  body.mobile-force-landscape.overlay-open .main-menu-panel {
+    max-height: calc(
+      100vw - max(8px, env(safe-area-inset-left)) -
+      max(8px, env(safe-area-inset-right))
+    );
+  }
 }
