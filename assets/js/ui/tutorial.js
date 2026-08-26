@@ -9,7 +9,7 @@ const TutorialSystem = (() => {
 
   const SLIDES = [
     {
-      title: "BEM-VINDA, OPERADORA!",
+      title: "BEM-VINDO(A), OPERADOR(A)!",
       image: "player-frente.png",
       imageAlt: "Personagem do jogo visto de frente, usando roupa escura tecnológica com visor azul.",
       caption: "Você controla uma Bug Hunter dentro de um sistema digital.",
