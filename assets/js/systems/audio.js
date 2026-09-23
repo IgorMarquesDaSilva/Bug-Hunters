@@ -405,6 +405,153 @@ window.GameAudio = (() => {
     playTone({ frequency: 180, endFrequency: 90, duration: 0.18, type: "sawtooth", volume: 0.13 });
   }
 
+  function playBugAlert() {
+  const ctx = ensureContext();
+
+  if (!ctx) return;
+
+  if (ctx.state === "suspended") {
+    ctx.resume().then(() => playBugAlertSound(ctx));
+    return;
+  }
+
+  playBugAlertSound(ctx);
+}
+
+
+function playBugAlertSound(ctx) {
+  const now = ctx.currentTime;
+
+  // ==========================================
+  // PRIMEIRO PULSO — WOOOM
+  // ==========================================
+
+  const alarm = ctx.createOscillator();
+  const alarmGain = ctx.createGain();
+
+  alarm.type = "square";
+  alarm.frequency.setValueAtTime(260, now);
+  alarm.frequency.linearRampToValueAtTime(170, now + 0.16);
+
+  alarmGain.gain.setValueAtTime(0.0001, now);
+  alarmGain.gain.linearRampToValueAtTime(0.28, now + 0.02);
+  alarmGain.gain.setValueAtTime(0.28, now + 0.11);
+  alarmGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.23);
+
+  alarm.connect(alarmGain);
+  alarmGain.connect(state.sfxGain);
+
+  alarm.start(now);
+  alarm.stop(now + 0.25);
+
+
+  // ==========================================
+  // SEGUNDO PULSO — WOOOM
+  // ==========================================
+
+  const alarm2 = ctx.createOscillator();
+  const alarmGain2 = ctx.createGain();
+
+  alarm2.type = "square";
+  alarm2.frequency.setValueAtTime(260, now + 0.27);
+  alarm2.frequency.linearRampToValueAtTime(165, now + 0.43);
+
+  alarmGain2.gain.setValueAtTime(0.0001, now + 0.27);
+  alarmGain2.gain.linearRampToValueAtTime(0.30, now + 0.29);
+  alarmGain2.gain.setValueAtTime(0.30, now + 0.38);
+  alarmGain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.50);
+
+  alarm2.connect(alarmGain2);
+  alarmGain2.connect(state.sfxGain);
+
+  alarm2.start(now + 0.27);
+  alarm2.stop(now + 0.52);
+
+
+  // ==========================================
+  // WEE-OO — ALERTA FINAL
+  // ==========================================
+
+  const warning = ctx.createOscillator();
+  const warningGain = ctx.createGain();
+
+  warning.type = "sawtooth";
+  warning.frequency.setValueAtTime(420, now + 0.55);
+  warning.frequency.linearRampToValueAtTime(280, now + 0.68);
+
+  warningGain.gain.setValueAtTime(0.0001, now + 0.55);
+  warningGain.gain.linearRampToValueAtTime(0.22, now + 0.57);
+  warningGain.gain.setValueAtTime(0.22, now + 0.64);
+  warningGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.76);
+
+  warning.connect(warningGain);
+  warningGain.connect(state.sfxGain);
+
+  warning.start(now + 0.55);
+  warning.stop(now + 0.78);
+
+
+  // ==========================================
+  // RUMBLE — PESO
+  // ==========================================
+
+  const rumble = ctx.createOscillator();
+  const rumbleGain = ctx.createGain();
+
+  rumble.type = "triangle";
+  rumble.frequency.setValueAtTime(65, now);
+  rumble.frequency.linearRampToValueAtTime(48, now + 0.80);
+
+  rumbleGain.gain.setValueAtTime(0.0001, now);
+  rumbleGain.gain.linearRampToValueAtTime(0.10, now + 0.04);
+  rumbleGain.gain.setValueAtTime(0.10, now + 0.60);
+  rumbleGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.82);
+
+  rumble.connect(rumbleGain);
+  rumbleGain.connect(state.sfxGain);
+
+  rumble.start(now);
+  rumble.stop(now + 0.85);
+}
+
+function playLevelComplete() {
+    unlock();
+
+    playTone({
+        frequency: 523,
+        duration: 0.12,
+        type: "square",
+        volume: 0.16
+    });
+
+    window.setTimeout(() => {
+        playTone({
+            frequency: 659,
+            duration: 0.12,
+            type: "square",
+            volume: 0.16
+        });
+    }, 100);
+
+    window.setTimeout(() => {
+        playTone({
+            frequency: 784,
+            duration: 0.18,
+            type: "square",
+            volume: 0.18
+        });
+    }, 200);
+
+    window.setTimeout(() => {
+        playTone({
+            frequency: 1046,
+            duration: 0.30,
+            type: "triangle",
+            volume: 0.20
+        });
+    }, 300);
+}
+
   function playFootstep(roomName = "sala1") {
     const ctx = ensureContext();
     if (!ctx || !state.buttonsEnabled || ctx.state !== "running") return;
@@ -624,7 +771,9 @@ window.GameAudio = (() => {
     playClick,
     playConfirm,
     playError,
+    playBugAlert,
     playFootstep,
+    playLevelComplete,
     updateFootsteps,
     ensureGameAmbient,
     setMaster,
@@ -639,3 +788,5 @@ window.GameAudio = (() => {
     getState: () => ({ ...state })
   };
 })();
+
+

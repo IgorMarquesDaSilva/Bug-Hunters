@@ -382,7 +382,25 @@ const MissionSystem = (() => {
   }
 
   function openPortal() {
+    // 1. Ativa a visibilidade da porta no mapa
     GameState.portal.visible = true;
+
+    // 2. Garante o envio dos dados de pontuação da sala para a modal da porta
+    const roomScoreVal = GameState.roomScore ?? GameState.lastRoomScore ?? 0;
+    const totalScoreVal = GameState.score ?? GameState.totalScore ?? 0;
+
+    const roomScoreEl = document.getElementById("next-level-room-score");
+    const totalScoreEl = document.getElementById("next-level-total-score");
+
+    if (roomScoreEl) {
+      roomScoreEl.textContent = "+" + roomScoreVal;
+    }
+
+    if (totalScoreEl) {
+      totalScoreEl.textContent = totalScoreVal;
+    }
+
+    // 3. Fecha a notificação de setor limpo e libera a movimentação
     UI.showScreen(null);
   }
 
@@ -393,38 +411,69 @@ const MissionSystem = (() => {
   }
 
   function goToNextRoom() {
-    UI.showScreen(null);
+    console.log("▶ Chamou goToNextRoom()"); // Para testar no console F12
 
-    const requiredScore = getRequiredScoreToAdvance();
-    const nextRoom = getNextRoom();
+    // 1. Fecha qualquer tela/modal ativa
+    if (typeof UI !== "undefined" && UI.showScreen) {
+      UI.showScreen(null);
+    } else {
+      const screens = document.querySelectorAll(".overlay, .screen-overlay");
+      screens.forEach(s => s.style.display = "none");
+    }
 
-    GameState.clearedMinimumScore = requiredScore;
+    const requiredScore = getRequiredScoreToAdvance(); //[cite: 12]
+    const nextRoom = getNextRoom(); //[cite: 12]
 
+    GameState.clearedMinimumScore = requiredScore; //[cite: 12]
+
+    // Se não houver próxima sala, encerra o jogo
     if (!nextRoom) {
-      _finishGame();
+      _finishGame(); //[cite: 12]
       return;
     }
 
-    TransitionSystem.play(() => {
-      GameState.currentRoom = nextRoom;
-      GameState.solvedCount = 0;
-      GameState.roomScore = 0;
+    // Função que faz a troca efetiva de estado da sala
+    const executeRoomChange = () => {
+      GameState.currentRoom = nextRoom; //[cite: 12]
+      GameState.solvedCount = 0; //[cite: 12]
+      GameState.roomScore = 0; //[cite: 12]
+      GameState.lastRoomScore = 0;
       GameState.portal = {
-        visible: false,
-        triggered: false,
-        pulse: 0
+        visible: false, //[cite: 12]
+        triggered: false, //[cite: 12]
+        pulse: 0 //[cite: 12]
       };
 
-      GameState.activeIdx = -1;
-      GameState.popupCooldown = 0;
+      GameState.activeIdx = -1; //[cite: 12]
+      GameState.popupCooldown = 0; //[cite: 12]
 
-      Renderer.loadRoomBackground();
-      CollisionSystem.loadZones();
-      BugSystem.spawnBugs();
-      Player.resetToRoomStart();
-      HUD.update();
-      if (window.GameAudio) GameAudio.playRoom(GameState.currentRoom);
-    });
+      // Recarrega os módulos do jogo com segurança
+      if (typeof Renderer !== "undefined" && Renderer.loadRoomBackground) {
+        Renderer.loadRoomBackground(); //[cite: 12]
+      }
+      if (typeof CollisionSystem !== "undefined" && CollisionSystem.loadZones) {
+        CollisionSystem.loadZones(); //[cite: 12]
+      }
+      if (typeof BugSystem !== "undefined" && BugSystem.spawnBugs) {
+        BugSystem.spawnBugs(); //[cite: 12]
+      }
+      if (typeof Player !== "undefined" && Player.resetToRoomStart) {
+        Player.resetToRoomStart(); //[cite: 12]
+      }
+      if (typeof HUD !== "undefined" && HUD.update) {
+        HUD.update(); //[cite: 12]
+      }
+      if (window.GameAudio && GameAudio.playRoom) {
+        GameAudio.playRoom(GameState.currentRoom); //[cite: 12]
+      }
+    };
+
+    // Executa a animação de transição se existir, ou carrega direto
+    if (typeof TransitionSystem !== "undefined" && TransitionSystem.play) {
+      TransitionSystem.play(executeRoomChange); //[cite: 12]
+    } else {
+      executeRoomChange();
+    }
   }
 
   function _finishGame() {

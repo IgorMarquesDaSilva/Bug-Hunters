@@ -2101,3 +2101,601 @@
        margin-left: 0;
      }
    }
+
+
+
+/* ============================================================
+   NOTIFICAÇÃO DE BUG (TÍTULO DESTAQUE + BOTAO DE AÇÃO ÚNICO)
+============================================================ */
+
+.overlay.bug-toast-overlay {
+  position: absolute !important;
+  inset: unset !important;
+  top: 16px !important;
+  right: 16px !important;
+  width: 310px !important;
+  height: auto !important;
+  background: transparent !important;
+  pointer-events: none !important;
+  z-index: 250 !important;
+  animation: bug-toast-slide 0.2s ease-out forwards;
+}
+
+@keyframes bug-toast-slide {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.popup-content.bug-toast-content {
+  pointer-events: auto !important;
+  background: #120505 !important;
+  border: 3px solid var(--px-red) !important;
+  box-shadow: 
+    0 0 18px rgba(255, 68, 68, 0.45),
+    4px 4px 0 #000000 !important;
+  padding: 16px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Título maior e chamativo com ícone proporcional */
+.bug-toast-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid rgba(255, 68, 68, 0.35);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.bug-alert-icon {
+  color: var(--px-red);
+  font-size: 18px; /* Aumentado */
+  animation: alert-blink 0.8s infinite alternate;
+}
+
+@keyframes alert-blink {
+  from { opacity: 0.4; filter: drop-shadow(0 0 2px var(--px-red)); }
+  to   { opacity: 1;   filter: drop-shadow(0 0 8px var(--px-red)); }
+}
+
+.bug-toast-title {
+  color: var(--px-red);
+  font-size: 11px !important; /* Título bem maior */
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.bug-toast-desc {
+  font-size: 7px !important;
+  line-height: 1.9 !important;
+  margin: 6px 0 12px !important;
+  color: var(--px-white) !important;
+}
+
+.bug-toast-actions {
+  display: flex !important;
+  width: 100% !important;
+  margin-top: 10px !important;
+  padding-top: 4px !important;
+}
+
+/* Botão preenchendo toda a largura do modal */
+.bug-toast-actions .cyber-btn.bug-btn-fix {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;             /* Preenche todo o modal horizontalmente */
+  max-width: 100% !important;
+  font-size: 7px !important;          /* Tamanho do texto proporcional */
+  padding: 10px 14px !important;      /* Área de clique generosa */
+  margin: 0 !important;
+  overflow: visible !important;       /* Permite a badge do Enter flutuar perfeitamente */
+  box-shadow: 3px 3px 0 #000 !important;
+}
+
+/* Conteúdo centralizado (Ícone + Texto) */
+.bug-toast-actions .menu-btn-content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+}
+
+/* Ícone em destaque */
+.bug-toast-actions .menu-btn-content i {
+  font-size: 13px !important;
+  line-height: 1 !important;
+}
+
+/* Texto do botão */
+.bug-toast-actions .menu-btn-text {
+  font-size: 7px !important;
+  letter-spacing: 0.8px !important;
+  white-space: nowrap !important;
+}
+
+
+.bug-toast-actions .menu-key-badge {
+  position: absolute !important;
+  top: -9px !important;
+  right: -4px !important;
+  
+  /* Ajuste justo do container ao texto */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: auto !important;
+  
+  background: #000000 !important;
+  border: 2px solid var(--px-blue-bright) !important;
+  color: var(--px-blue-bright) !important;
+  
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 6px !important;          /* Tamanho base do texto */
+  line-height: 1 !important;
+  padding: 3px 5px !important;        /* Margem proporcional nas 4 bordas */
+  white-space: nowrap !important;     /* Evita quebras de linha */
+  
+  box-shadow: 0 0 6px rgba(0, 229, 255, 0.7) !important;
+  z-index: 20 !important;
+}
+
+.bug-btn-fix {
+  background: #2b0d0d !important;
+  border-color: var(--px-red) !important;
+  color: #fff !important;
+}
+
+.bug-btn-fix:hover {
+  background: var(--px-red) !important;
+  color: #000 !important;
+}
+
+
+
+/* ============================================================
+   MODAL DE CONCLUSÃO DE SALA
+============================================================ */
+
+.popup-content.level-cleared-card {
+    background: #08121e !important;
+
+    border: 4px dashed var(--px-amber) !important;
+
+    outline: 3px solid #000 !important;
+    outline-offset: -8px;
+
+    box-shadow:
+        0 0 24px rgba(255, 179, 71, 0.35),
+        inset 0 0 30px rgba(0, 0, 0, 0.8),
+        6px 6px 0 #000 !important;
+
+    padding: 28px 24px !important;
+
+    max-width: 460px !important;
+    width: 90%;
+}
+
+.level-cleared-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.level-cleared-badge {
+    color: var(--px-amber);
+
+    font-size: 7px;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 0 8px rgba(255, 179, 71, 0.6);
+
+    display: block;
+
+    margin-bottom: 8px;
+}
+
+.level-cleared-title {
+    color: var(--px-green);
+
+    font-size: 14px;
+
+    letter-spacing: 1.5px;
+
+    text-shadow:
+        2px 2px 0 #000000,
+        0 0 12px rgba(105, 255, 71, 0.5);
+}
+
+.level-cleared-stats {
+    display: flex;
+
+    gap: 12px;
+
+    justify-content: center;
+
+    margin: 18px 0 24px;
+}
+
+.cleared-stat-box {
+    background: #040a12;
+
+    border: 2px solid var(--px-border);
+
+    padding: 12px 10px;
+
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 8px;
+
+    box-shadow:
+        inset 0 0 10px rgba(0, 0, 0, 0.8),
+        3px 3px 0 #000;
+}
+
+.cleared-stat-box.total {
+    border-color: var(--px-amber-dark);
+
+    background: #120b04;
+}
+
+.cleared-stat-label {
+    font-size: 5.5px;
+
+    color: var(--px-grey);
+
+    letter-spacing: 0.5px;
+}
+
+.cleared-stat-value {
+    font-size: 18px !important;
+
+    color: var(--px-green);
+
+    text-shadow:
+        2px 2px 0 #000,
+        0 0 8px rgba(105, 255, 71, 0.4);
+}
+
+.cleared-stat-value.total {
+    color: var(--px-amber);
+
+    font-size: 20px !important;
+
+    text-shadow:
+        2px 2px 0 #000,
+        0 0 8px rgba(255, 179, 71, 0.5);
+}
+
+.level-cleared-btn {
+    font-size: 8px !important;
+
+    padding: 12px 20px !important;
+
+    width: 100% !important;
+
+    border-color: var(--px-amber) !important;
+
+    box-shadow:
+        4px 4px 0 #000,
+        0 0 12px rgba(255, 179, 71, 0.25);
+
+    transition:
+        transform 0.1s,
+        box-shadow 0.1s;
+}
+
+.level-cleared-btn:hover {
+    transform: translate(-2px, -2px);
+
+    box-shadow:
+        6px 6px 0 #000,
+        0 0 18px rgba(255, 179, 71, 0.45);
+}
+
+#screen-next-level {
+  background: rgba(2, 7, 13, 0.88);
+  backdrop-filter: blur(3px);
+}
+
+#screen-next-level .level-cleared-card {
+  width: min(92vw, 500px);
+  max-width: 500px;
+  padding: 30px 28px 26px !important;
+  background:
+    linear-gradient(rgba(8, 18, 30, 0.97), rgba(3, 9, 16, 0.98));
+  border: 3px dashed var(--px-amber) !important;
+  outline: 2px solid #05080c;
+  outline-offset: -9px;
+  box-shadow:
+    0 0 0 5px rgba(255, 179, 71, 0.08),
+    0 0 30px rgba(255, 179, 71, 0.28),
+    inset 0 0 35px rgba(0, 0, 0, 0.85),
+    7px 7px 0 #000;
+  position: relative;
+  overflow: hidden;
+}
+
+#screen-next-level .level-cleared-card::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(255, 179, 71, 0.25);
+  pointer-events: none;
+}
+
+#screen-next-level .level-cleared-header {
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+#screen-next-level .level-cleared-badge {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--px-amber);
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-shadow:
+    0 0 8px rgba(255, 179, 71, 0.7),
+    2px 2px 0 #000;
+}
+
+#screen-next-level .level-cleared-title {
+  margin: 0;
+  color: var(--px-green);
+  font-size: clamp(16px, 3vw, 22px);
+  letter-spacing: 2px;
+  text-shadow:
+    3px 3px 0 #000,
+    0 0 14px rgba(105, 255, 71, 0.55);
+}
+
+#screen-next-level .level-cleared-stats {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin: 0 0 26px;
+  position: relative;
+  z-index: 1;
+}
+
+#screen-next-level .cleared-stat-box {
+  min-width: 0;
+  flex: 1;
+  padding: 16px 12px 18px;
+  background: #040a12;
+  border: 2px solid var(--px-border);
+  box-shadow:
+    inset 0 0 14px rgba(0, 0, 0, 0.9),
+    4px 4px 0 #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#screen-next-level .cleared-stat-box.total {
+  border-color: var(--px-amber);
+  background: #130c04;
+  box-shadow:
+    inset 0 0 14px rgba(0, 0, 0, 0.9),
+    0 0 12px rgba(255, 179, 71, 0.12),
+    4px 4px 0 #000;
+}
+
+#screen-next-level .cleared-stat-label {
+  color: var(--px-grey);
+  font-size: 7px;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+#screen-next-level .cleared-stat-value {
+  color: var(--px-green);
+  font-size: clamp(24px, 5vw, 34px) !important;
+  line-height: 1;
+  font-weight: bold;
+  text-shadow:
+    3px 3px 0 #000,
+    0 0 12px rgba(105, 255, 71, 0.55);
+}
+
+#screen-next-level .cleared-stat-value.total {
+  color: var(--px-amber);
+  font-size: clamp(26px, 5.5vw, 38px) !important;
+  text-shadow:
+    3px 3px 0 #000,
+    0 0 14px rgba(255, 179, 71, 0.6);
+}
+
+#screen-next-level .popup-actions {
+  position: relative;
+  z-index: 1;
+  margin-top: 4px;
+}
+
+#screen-next-level .level-cleared-btn {
+  width: 100% !important;
+  min-height: 48px;
+  padding: 13px 18px !important;
+  font-size: 8px !important;
+  border-color: var(--px-amber) !important;
+  color: var(--px-amber) !important;
+  box-shadow:
+    4px 4px 0 #000,
+    0 0 12px rgba(255, 179, 71, 0.15);
+}
+
+#screen-next-level .level-cleared-btn:hover {
+  background: var(--px-amber);
+  color: #05080c !important;
+  box-shadow:
+    4px 4px 0 #000,
+    0 0 20px rgba(255, 179, 71, 0.4);
+}
+
+@media (max-width: 600px) {
+  #screen-next-level .level-cleared-card {
+    padding: 25px 18px 22px !important;
+  }
+
+  #screen-next-level .level-cleared-stats {
+    gap: 8px;
+  }
+
+  #screen-next-level .cleared-stat-box {
+    padding: 13px 7px 15px;
+  }
+
+  #screen-next-level .cleared-stat-label {
+    font-size: 6px;
+  }
+}
+
+
+/* ============================================================
+   NOTIFICAÇÃO DISCRETA DE SETOR LIMPO (BORDA LARANJA PONTILHADA)
+============================================================ */
+
+.overlay.room-clear-toast-overlay {
+  position: absolute !important;
+  inset: unset !important;
+  top: 16px !important;
+  right: 16px !important;
+  width: 320px !important;
+  height: auto !important;
+  background: transparent !important;
+  pointer-events: none !important;
+  z-index: 250 !important;
+  animation: room-clear-slide 0.2s ease-out forwards;
+}
+
+@keyframes room-clear-slide {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.popup-content.room-clear-toast-content {
+  pointer-events: auto !important;
+  background: #08121e !important;
+  
+  /* Estilo do modal de conclusão: borda pontilhada Laranja Amber */
+  border: 3px dashed var(--px-amber) !important;
+  outline: 2px solid #000 !important;
+  outline-offset: -6px;
+  
+  box-shadow: 
+    0 0 18px rgba(255, 179, 71, 0.35),
+    inset 0 0 20px rgba(0, 0, 0, 0.8),
+    4px 4px 0 #000000 !important;
+  padding: 14px 16px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Cabeçalho */
+.room-clear-toast-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid rgba(255, 179, 71, 0.35);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.room-clear-alert-icon {
+  color: var(--px-green);
+  font-size: 16px;
+  text-shadow: 0 0 6px rgba(105, 255, 71, 0.6);
+}
+
+.room-clear-toast-title {
+  color: var(--px-amber);
+  font-size: 11px !important;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Descrição curta */
+.room-clear-toast-desc {
+  font-size: 7px !important;
+  line-height: 1.8 !important;
+  margin: 6px 0 10px !important;
+  color: var(--px-white) !important;
+}
+
+.overlay.room-clear-toast-overlay .popup-actions.room-clear-toast-actions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  width: 100% !important;
+  margin-top: 10px !important;
+  padding: 0 !important;
+}
+
+.overlay.room-clear-toast-overlay .room-clear-btn {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  max-width: fit-content !important;
+  font-size: 6px !important;
+  padding: 8px 12px !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+  background: #1a1208 !important;
+  border-color: var(--px-amber) !important;
+  color: var(--px-amber) !important;
+  box-shadow: 2px 2px 0 #000 !important;
+}
+
+.overlay.room-clear-toast-overlay .room-clear-btn:hover {
+  background: var(--px-amber) !important;
+  color: #000 !important;
+}
+
+/* Badge do ENTER no canto do botão */
+.room-clear-toast-actions .menu-key-badge {
+  position: absolute !important;
+  top: -9px !important;
+  right: -4px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: auto !important;
+  background: #000000 !important;
+  border: 2px solid var(--px-blue-bright) !important;
+  color: var(--px-blue-bright) !important;
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 6px !important;
+  line-height: 1 !important;
+  padding: 3px 5px !important;
+  white-space: nowrap !important;
+  box-shadow: 0 0 6px rgba(0, 229, 255, 0.7) !important;
+  z-index: 20 !important;
+}

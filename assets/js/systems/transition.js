@@ -223,3 +223,23 @@
     return { play, update, draw, isActive };
   
   })();
+
+
+function showNextLevelScreen(roomScore, totalScore) {
+  const roomScoreEl = document.getElementById("next-level-room-score");
+  const totalScoreEl = document.getElementById("next-level-total-score");
+
+  if (roomScoreEl) {
+    roomScoreEl.textContent = "+" + (roomScore || GameState.score || 0);
+  }
+
+  if (totalScoreEl) {
+    totalScoreEl.textContent = (totalScore || GameState.totalScore || 0);
+  }
+
+  UI.showScreen("screen-next-level");
+
+  if (typeof GameAudio !== "undefined" && typeof GameAudio.playVictory === "function") {
+    GameAudio.playVictory();
+  }
+}

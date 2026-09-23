@@ -1070,48 +1070,49 @@
              POPUP BUG
         ========================================================== -->
 
-        <div
-          id="screen-bug-popup"
-          class="overlay"
-          style="display:none;">
+        <!-- =========================================================
+     POPUP BUG (NOTIFICAÇÃO DISCRETA DE CANTO)
+========================================================== -->
 
-          <div class="popup-content">
+<div
+  id="screen-bug-popup"
+  class="overlay bug-toast-overlay"
+  style="display:none;">
 
-            <div class="popup-header">
-              ⚠ BUG DETECTADO!
-            </div>
+  <div class="popup-content bug-toast-content">
 
-            <p
-              id="popup-bug-desc"
-              class="mission-desc">
+    <div class="bug-toast-header">
+      <span class="bug-alert-icon">⚠</span>
+      <span class="bug-toast-title">BUG DETECTADO!</span>
+    </div>
 
-              Anomalia detectada
+    <p
+      id="popup-bug-desc"
+      class="mission-desc bug-toast-desc">
+      Anomalia detectada no sistema.
+    </p>
 
-            </p>
+    <div class="popup-actions bug-toast-actions">
 
-            <div class="popup-actions">
+      <button
+        id="btn-bug-fix"
+        class="cyber-btn bug-btn-fix"
+        onclick="MissionSystem.startMission()">
 
-              <button
-                class="cyber-btn"
-                onclick="MissionSystem.startMission()">
+        <span class="menu-btn-content">
+          <i class="bi bi-wrench-adjustable" aria-hidden="true"></i>
+          <span class="menu-btn-text">CORRIGIR BUG</span>
+        </span>
 
-                ▶ CORRIGIR BUG
+        <span class="menu-key-badge" aria-label="Tecla Enter">↵ ENTER</span>
 
-              </button>
+      </button>
 
-              <button
-                class="cyber-btn secondary"
-                onclick="UI.closePopup()">
+    </div>
 
-                ✕ IGNORAR
+  </div>
 
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
+</div>
 
         <!-- =========================================================
              MISSÕES
@@ -1217,52 +1218,47 @@
              SETOR LIMPO
         ========================================================== -->
 
-        <div
-          id="screen-room-clear"
-          class="overlay"
-          style="display:none;">
+        Entendido perfeitamente! A mensagem que Estava a ver era o aviso de "SETOR LIMPO" (#screen-room-clear), que surge logo que resolve a última missão da sala.   Ela devia ser apenas uma notificação discreta no canto da tela (sem exibir os blocos de pontuação) para liberar a porta e permitir que o jogador continue a andar até ela.   Abaixo estão as modificações necessárias no index.html, no main.css e no evento de teclado para atender a todas as solicitações:   1. No index.htmlSubstitua a div do #screen-room-clear por esta estrutura enxuta (com a classe de toast de canto, sem os parágrafos de score e com o badge do Enter igual ao modal de bug):   HTML<!-- =========================================================
+     SETOR LIMPO (NOTIFICAÇÃO DISCRETA NO CANTO COM ATALHO)
+========================================================== -->
 
-          <div class="popup-content center">
+<div
+  id="screen-room-clear"
+  class="overlay room-clear-toast-overlay"
+  style="display:none;">
 
-            <div class="popup-header">
-              ✔ SETOR LIMPO
-            </div>
+  <div class="popup-content room-clear-toast-content">
 
-            <p class="mission-desc">
+    <div class="room-clear-toast-header">
+      <span class="room-clear-alert-icon">✔</span>
+      <span class="room-clear-toast-title">SETOR LIMPO!</span>
+    </div>
 
-              Todos os desafios do setor foram concluidos.<br><br>
+    <p class="mission-desc room-clear-toast-desc">
+      A porta foi liberada. Vá até ela para avançar.
+    </p>
 
-              A porta foi liberada.<br>
+    <div class="popup-actions room-clear-toast-actions">
 
-              Vá até ela para avançar.
+      <button
+        id="btn-room-clear-open"
+        class="cyber-btn room-clear-btn"
+        onclick="MissionSystem.openPortal()">
 
-            </p>
+        <span class="menu-btn-content">
+          <i class="bi bi-door-open-fill" aria-hidden="true"></i>
+          <span class="menu-btn-text">LIBERAR PORTA</span>
+        </span>
 
-            <p class="mission-desc">
+        <span class="menu-key-badge" aria-label="Tecla Enter">↵ ENTER</span>
 
-              Pontuacao atual:
-              <span id="room-clear-score" class="highlight">0</span><br>
+      </button>
 
-              Minimo para avancar:
-              <span id="room-clear-required" class="highlight">0</span>
+    </div>
 
-            </p>
+  </div>
 
-            <div class="popup-actions">
-
-              <button
-                class="cyber-btn"
-                onclick="MissionSystem.openPortal()">
-
-                ▶ LIBERAR PORTA
-
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
+</div>
 
         <!-- =========================================================
              PONTUACAO INSUFICIENTE
@@ -1334,44 +1330,37 @@
              PROXIMO NIVEL
         ========================================================== -->
 
-        <div
-          id="screen-next-level"
-          class="overlay"
-          style="display:none;">
+        <!-- =========================================================
+     MODAL DE CONCLUSÃO DE SALA (RENOVADO)
+========================================================== -->
+<div id="screen-next-level" class="overlay" style="display:none;">
+  <div class="popup-content level-cleared-card center">
+    
+    <div class="level-cleared-header">
+      <span class="level-cleared-badge">✦ SISTEMA RESTAURADO ✦</span>
+      <h2 class="level-cleared-title">SALA CONCLUÍDA!</h2>
+    </div>
 
-          <div class="popup-content center">
+    <!-- Placas de Pontuação Maior -->
+    <div class="level-cleared-stats">
+      <div class="cleared-stat-box">
+        <span class="cleared-stat-label">PONTOS DA SALA</span>
+        <span id="next-level-room-score" class="cleared-stat-value">+0</span>
+      </div>
+      <div class="cleared-stat-box total">
+        <span class="cleared-stat-label">PONTUAÇÃO TOTAL</span>
+        <span id="next-level-total-score" class="cleared-stat-value total">0</span>
+      </div>
+    </div>
 
-            <div class="popup-header">
-              ⚡ ACESSO LIBERADO
-            </div>
+    <div class="popup-actions">
+      <button class="cyber-btn secondary level-cleared-btn" onclick="MissionSystem.goToNextRoom()">
+        AVANÇAR PARA A PRÓXIMA SALA ▶
+      </button>
+    </div>
 
-            <p class="mission-desc">
-
-              Você está entrando no<br><br>
-
-              <span class="highlight">
-                ◆ PRÓXIMO SETOR ◆
-              </span><br><br>
-
-              Prepare-se para novos desafios.
-
-            </p>
-
-            <div class="popup-actions">
-
-              <button
-                class="cyber-btn"
-                onclick="MissionSystem.goToNextRoom()">
-
-                ▶ AVANÇAR
-
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
+  </div>
+</div>
 
         <!-- =========================================================
              VITÓRIA

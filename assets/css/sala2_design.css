@@ -301,11 +301,7 @@
   display: block;
 }
 
-/* 
-   Descemos a posição do reator ajustando o 'top' para 41.5%.
-   A altura foi calibrada para cortar exatamente antes do chão, 
-   permitindo que o personagem fique POR CIMA da base e POR TRÁS do tubo/tampa.
-*/
+
 #sala2-reactor-overlay {
   display: none;
   position: absolute;
@@ -334,19 +330,19 @@
   background:
     repeating-linear-gradient(
       135deg,
-      rgba(179,255,60,0.72) 0 18px,
-      rgba(57,255,149,0.55) 18px 36px
+      rgba(179, 255, 60, 0.35) 0 18px,  /* Transparência das faixas */
+      rgba(57, 255, 149, 0.25) 18px 36px
     ),
     linear-gradient(
       180deg,
-      rgba(138,255,198,0.86),
-      rgba(44,229,126,0.88)
+      rgba(138, 255, 198, 0.45),        /* Transparência do fundo superior */
+      rgba(44, 229, 126, 0.4)           /* Transparência do fundo inferior */
     );
   border: 8px solid #4b3b23;
   box-shadow:
-    inset 0 0 0 6px rgba(196, 255, 227, 0.35),
-    0 0 28px rgba(95, 255, 94, 0.48),
-    0 0 70px rgba(255, 223, 83, 0.18);
+    inset 0 0 0 6px rgba(196, 255, 227, 0.25),
+    0 0 18px rgba(95, 255, 94, 0.3),
+    0 0 45px rgba(255, 223, 83, 0.12);
 }
 
 /* Tampa/Arco superior */
@@ -381,10 +377,11 @@
   animation: sala2-reactor-glow 1.2s infinite alternate ease-in-out !important;
 }
 
-#room-map.sala2 ~ #sala2-reactor-overlay.mission-solved::before,
-#room-map.sala2 ~ #sala2-reactor-overlay.mission-solved::after {
+#room-map.sala2 .reactor.mission-solved ~ #sala2-reactor-overlay::before,
+#room-map.sala2 .reactor.mission-solved ~ #sala2-reactor-overlay::after {
   animation: none !important;
-  filter: saturate(0.5) brightness(0.7) !important;
+  filter: saturate(0.3) brightness(0.6) !important; /* Desativa a cor viva e escurece */
+  box-shadow: none !important;                       /* Remove o brilho neon do reator */
 }
 
 @keyframes sala2-reactor-glow {
