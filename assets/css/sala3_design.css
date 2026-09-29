@@ -697,6 +697,7 @@
   height: 72px;
   left: 56px;
   top: -64px;
+  z-index: 31 !important;
   background:
     linear-gradient(180deg, #2b1642 0 14%, #15172c 14% 100%);
   border: 5px solid #111;
@@ -744,6 +745,10 @@
   box-shadow:
     0 10px 0 -3px #333946,
     0 10px 0 0 #111;
+}
+
+#room-map.sala3 .quarantine-desk {
+  z-index: 30 !important;
 }
 
 /* Mesa com pequenos equipamentos */
@@ -1079,24 +1084,38 @@
   z-index: 20;
 }
 
-/* Cópia visual da q-screen por cima do personagem */
+/* ============================================================
+   SOBREPOSIÇÃO DA TELA DA SALA 3 (MANTENDO PSEUDO-ELEMENTOS)
+   ============================================================ */
+
+/* Faz o container permitir camadas */
+#game-container {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Canvas onde o personagem é desenhado */
+#gameCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+}
+
+/* Moldura externa do monitor por cima do personagem */
 #game-container:has(#room-map.sala3)::after {
   content: "";
   position: absolute;
 
-  /* posição da q-screen na sala */
-  left: 412px;
-    top: 272px;
-  
+  /* Ajustado: mais para a direita (+8px) e mais para baixo (+6px) */
+  left: calc(390px + 56px + 8px);
+  top: calc(355px - 64px + 6px);
 
   width: 128px;
   height: 72px;
   z-index: 60;
   pointer-events: none;
 
-  background:
-    linear-gradient(180deg, #2b1642 0 14%, #15172c 14% 100%);
-
+  background: linear-gradient(180deg, #2b1642 0 14%, #15172c 14% 100%);
   border: 5px solid #111;
 
   box-shadow:
@@ -1105,13 +1124,14 @@
     inset 0 0 18px rgba(168,60,255,0.18);
 }
 
-/* Desenho da tela dentro da cópia */
+/* Interface/conteúdo interno da tela por cima do monitor */
 #game-container:has(#room-map.sala3)::before {
   content: "";
   position: absolute;
 
-  left: 425px;
-    top: 290px;
+  /* Ajustado na mesma proporção para acompanhar a moldura */
+  left: calc(390px + 56px + 8px + 9px);
+  top: calc(355px - 64px + 6px + 13px);
 
   width: 106px;
   height: 44px;

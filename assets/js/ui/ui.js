@@ -19,6 +19,13 @@ window.UI = (() => {
       GameState.popupCooldown = 0;
     }
 
+    // Parar o alarme de bug na hora que abrir a tela da missão/task ou trocar de tela
+    if (screenId === "screen-mission" || abandonsProximityPrompt) {
+      if (window.GameAudio && typeof window.GameAudio.stopBugAlert === "function") {
+        window.GameAudio.stopBugAlert();
+      }
+    }
+
     document.querySelectorAll(".overlay").forEach(screen => {
       screen.style.display = "none";
     });
@@ -63,6 +70,9 @@ window.UI = (() => {
     showScreen(null);
     GameState.activeIdx = -1;
     GameState.popupCooldown = 60;
+    if (window.GameAudio && typeof window.GameAudio.stopBugAlert === "function") {
+      window.GameAudio.stopBugAlert();
+    }
   }
 
   function showMainMenu() {

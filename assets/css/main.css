@@ -174,6 +174,7 @@
      border-radius: 0;
      animation: popup-slide 0.1s steps(3) forwards;
    }
+
    
    .popup-content.center { text-align: center; }
    
@@ -2186,6 +2187,8 @@
   padding-top: 4px !important;
 }
 
+
+
 /* Botão preenchendo toda a largura do modal */
 .bug-toast-actions .cyber-btn.bug-btn-fix {
   position: relative !important;
@@ -2698,4 +2701,20 @@
   white-space: nowrap !important;
   box-shadow: 0 0 6px rgba(0, 229, 255, 0.7) !important;
   z-index: 20 !important;
+}
+
+.room-clear-toast-actions .menu-btn-text {
+  font-size: 10px !important;
+  letter-spacing: 0.8px !important;
+  white-space: nowrap !important;
+  flex: none !important;            /* Anula o flex: 1 do menu inicial */
+  line-height: 1.2 !important;
+}
+
+.room-clear-toast-actions .menu-btn-content {
+  width: 210px;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
 }

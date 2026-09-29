@@ -1,9 +1,3 @@
-/* ============================================================
-   assets/js/systems/audio.js
-   Sistema de áudio — Bug Hunters
-   Música ambiente + efeitos + passos usando Web Audio API.
-   Não precisa de mp3/wav.
-============================================================ */
 
 window.GameAudio = (() => {
   const STORAGE = {
@@ -30,6 +24,7 @@ window.GameAudio = (() => {
       pulse: 0.10,
       melody: [392, 494, 587, 494, 392, 330, 370, 494]
     },
+
     sala1: {
       base: 82,
       filter: 900,
@@ -37,6 +32,7 @@ window.GameAudio = (() => {
       pulse: 0.08,
       melody: [246, 293, 329, 293, 246, 220, 246, 329]
     },
+
     sala2: {
       base: 110,
       filter: 1150,
@@ -44,6 +40,7 @@ window.GameAudio = (() => {
       pulse: 0.12,
       melody: [330, 392, 440, 523, 440, 392, 330, 294]
     },
+
     sala3: {
       base: 65,
       filter: 760,
@@ -51,6 +48,7 @@ window.GameAudio = (() => {
       pulse: 0.06,
       melody: [196, 247, 294, 247, 220, 196, 175, 220]
     },
+
     sala4: {
       base: 132,
       filter: 1350,
@@ -58,6 +56,7 @@ window.GameAudio = (() => {
       pulse: 0.14,
       melody: [392, 523, 659, 784, 659, 523, 494, 587]
     },
+
     victory: {
       base: 164,
       filter: 1450,
@@ -65,6 +64,7 @@ window.GameAudio = (() => {
       pulse: 0.12,
       melody: [523, 659, 784, 1046, 784, 659, 523, 659]
     },
+
     gameover: {
       base: 55,
       filter: 520,
@@ -86,36 +86,59 @@ window.GameAudio = (() => {
     melodyIndex: 0,
     lastStepTime: 0,
     stepSide: 0,
+
+    // Áudio externo do alerta de bug
+    alertAudio: null,
+    alertAudioSource: null,
+    alertAudioTimer: null,
+
     master: readNumber(STORAGE.master, DEFAULTS.master),
     background: readNumber(STORAGE.background, DEFAULTS.background),
     buttons: readNumber(STORAGE.buttons, DEFAULTS.buttons),
-    backgroundEnabled: readBoolean(STORAGE.backgroundEnabled, DEFAULTS.backgroundEnabled),
-    buttonsEnabled: readBoolean(STORAGE.buttonsEnabled, DEFAULTS.buttonsEnabled)
+    backgroundEnabled: readBoolean(
+      STORAGE.backgroundEnabled,
+      DEFAULTS.backgroundEnabled
+    ),
+    buttonsEnabled: readBoolean(
+      STORAGE.buttonsEnabled,
+      DEFAULTS.buttonsEnabled
+    )
   };
 
   function readNumber(key, fallback) {
     const value = Number(localStorage.getItem(key));
-    return Number.isFinite(value) ? Math.min(1, Math.max(0, value)) : fallback;
+
+    return Number.isFinite(value)
+      ? Math.min(1, Math.max(0, value))
+      : fallback;
   }
 
   function readBoolean(key, fallback) {
     const value = localStorage.getItem(key);
+
     if (value === null) return fallback;
+
     return value === "true";
   }
 
   function ensureContext() {
     if (state.ctx) return state.ctx;
 
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const AudioContext =
+      window.AudioContext || window.webkitAudioContext;
+
     if (!AudioContext) {
-      console.warn("[GameAudio] Web Audio API não disponível neste navegador.");
+      console.warn(
+        "[GameAudio] Web Audio API não disponível neste navegador."
+      );
+
       return null;
     }
 
     const ctx = new AudioContext();
 
     state.ctx = ctx;
+
     state.masterGain = ctx.createGain();
     state.musicGain = ctx.createGain();
     state.sfxGain = ctx.createGain();
@@ -125,26 +148,36 @@ window.GameAudio = (() => {
     state.masterGain.connect(ctx.destination);
 
     applyVolumes(true);
+
     return ctx;
   }
 
   async function unlock() {
     const ctx = ensureContext();
+
     if (!ctx) return false;
 
     if (ctx.state === "suspended") {
       try {
         await ctx.resume();
       } catch (error) {
-        console.warn("[GameAudio] O navegador ainda bloqueou o áudio:", error);
+        console.warn(
+          "[GameAudio] O navegador ainda bloqueou o áudio:",
+          error
+        );
+
         return false;
       }
     }
 
     state.unlocked = true;
+
     applyVolumes();
 
-    if (state.backgroundEnabled && !state.currentTrack) {
+    if (
+      state.backgroundEnabled &&
+      !state.currentTrack
+    ) {
       startTrack(state.currentName || "menu");
     }
 
@@ -155,20 +188,48 @@ window.GameAudio = (() => {
     if (!state.ctx) return;
 
     const now = state.ctx.currentTime;
+
     const set = (gain, value, time) => {
       if (!gain) return;
-      if (immediate) gain.gain.setValueAtTime(value, now);
-      else gain.gain.setTargetAtTime(value, now, time);
+
+      if (immediate) {
+        gain.gain.setValueAtTime(value, now);
+      } else {
+        gain.gain.setTargetAtTime(value, now, time);
+      }
     };
 
     set(state.masterGain, state.master, 0.03);
-    set(state.musicGain, state.backgroundEnabled ? state.background : 0, 0.08);
-    set(state.sfxGain, state.buttonsEnabled ? state.buttons : 0, 0.02);
+
+    set(
+      state.musicGain,
+      state.backgroundEnabled
+        ? state.background
+        : 0,
+      0.08
+    );
+
+    set(
+      state.sfxGain,
+      state.buttonsEnabled
+        ? state.buttons
+        : 0,
+      0.02
+    );
   }
 
   function createNoiseBuffer(ctx, seconds = 2) {
-    const length = Math.max(1, Math.floor(ctx.sampleRate * seconds));
-    const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+    const length = Math.max(
+      1,
+      Math.floor(ctx.sampleRate * seconds)
+    );
+
+    const buffer = ctx.createBuffer(
+      1,
+      length,
+      ctx.sampleRate
+    );
+
     const data = buffer.getChannelData(0);
 
     for (let i = 0; i < length; i++) {
@@ -195,16 +256,32 @@ window.GameAudio = (() => {
 
     try {
       track.gain.gain.cancelScheduledValues(now);
-      track.gain.gain.setValueAtTime(track.gain.gain.value || 0.0001, now);
-      track.gain.gain.linearRampToValueAtTime(0.0001, now + fade);
+
+      track.gain.gain.setValueAtTime(
+        track.gain.gain.value || 0.0001,
+        now
+      );
+
+      track.gain.gain.linearRampToValueAtTime(
+        0.0001,
+        now + fade
+      );
     } catch (_) {}
 
     window.setTimeout(() => {
       track.sources.forEach(source => {
-        try { source.stop(); } catch (_) {}
-        try { source.disconnect(); } catch (_) {}
+        try {
+          source.stop();
+        } catch (_) {}
+
+        try {
+          source.disconnect();
+        } catch (_) {}
       });
-      try { track.gain.disconnect(); } catch (_) {}
+
+      try {
+        track.gain.disconnect();
+      } catch (_) {}
     }, Math.ceil((fade + 0.08) * 1000));
 
     state.currentTrack = null;
@@ -224,14 +301,33 @@ window.GameAudio = (() => {
     stopTrack(0.12);
 
     const trackGain = ctx.createGain();
-    trackGain.gain.setValueAtTime(0.0001, ctx.currentTime);
-    trackGain.gain.linearRampToValueAtTime(1.0, ctx.currentTime + 0.45);
+
+    trackGain.gain.setValueAtTime(
+      0.0001,
+      ctx.currentTime
+    );
+
+    trackGain.gain.linearRampToValueAtTime(
+      1.0,
+      ctx.currentTime + 0.45
+    );
+
     trackGain.connect(state.musicGain);
 
     const filter = ctx.createBiquadFilter();
+
     filter.type = "lowpass";
-    filter.frequency.setValueAtTime(data.filter, ctx.currentTime);
-    filter.Q.setValueAtTime(0.9, ctx.currentTime);
+
+    filter.frequency.setValueAtTime(
+      data.filter,
+      ctx.currentTime
+    );
+
+    filter.Q.setValueAtTime(
+      0.9,
+      ctx.currentTime
+    );
+
     filter.connect(trackGain);
 
     const sources = [];
@@ -240,25 +336,51 @@ window.GameAudio = (() => {
     chord.forEach((ratio, index) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
+
       const lfo = ctx.createOscillator();
       const lfoGain = ctx.createGain();
 
-      osc.type = index === 0 ? "triangle" : "sine";
-      osc.frequency.setValueAtTime(data.base * ratio, ctx.currentTime);
-      osc.detune.setValueAtTime((index - 1.5) * 4, ctx.currentTime);
+      osc.type =
+        index === 0
+          ? "triangle"
+          : "sine";
 
-      gain.gain.setValueAtTime(0.050 / (index + 1), ctx.currentTime);
+      osc.frequency.setValueAtTime(
+        data.base * ratio,
+        ctx.currentTime
+      );
+
+      osc.detune.setValueAtTime(
+        (index - 1.5) * 4,
+        ctx.currentTime
+      );
+
+      gain.gain.setValueAtTime(
+        0.050 / (index + 1),
+        ctx.currentTime
+      );
+
       lfo.type = "sine";
-      lfo.frequency.setValueAtTime(data.pulse + index * 0.015, ctx.currentTime);
-      lfoGain.gain.setValueAtTime(0.012, ctx.currentTime);
+
+      lfo.frequency.setValueAtTime(
+        data.pulse + index * 0.015,
+        ctx.currentTime
+      );
+
+      lfoGain.gain.setValueAtTime(
+        0.012,
+        ctx.currentTime
+      );
 
       lfo.connect(lfoGain);
       lfoGain.connect(gain.gain);
+
       osc.connect(gain);
       gain.connect(filter);
 
       osc.start();
       lfo.start();
+
       sources.push(osc, lfo);
     });
 
@@ -268,337 +390,587 @@ window.GameAudio = (() => {
 
     noise.buffer = createNoiseBuffer(ctx, 2);
     noise.loop = true;
-    noiseGain.gain.setValueAtTime(data.noise, ctx.currentTime);
+
+    noiseGain.gain.setValueAtTime(
+      data.noise,
+      ctx.currentTime
+    );
+
     noiseFilter.type = "bandpass";
-    noiseFilter.frequency.setValueAtTime(data.filter * 0.65, ctx.currentTime);
-    noiseFilter.Q.setValueAtTime(0.9, ctx.currentTime);
+
+    noiseFilter.frequency.setValueAtTime(
+      data.filter * 0.65,
+      ctx.currentTime
+    );
+
+    noiseFilter.Q.setValueAtTime(
+      0.9,
+      ctx.currentTime
+    );
 
     noise.connect(noiseFilter);
     noiseFilter.connect(noiseGain);
     noiseGain.connect(trackGain);
+
     noise.start();
+
     sources.push(noise);
 
-    state.currentTrack = { gain: trackGain, sources };
+    state.currentTrack = {
+      gain: trackGain,
+      sources
+    };
+
     applyVolumes();
+
     startMelodyLoop(data);
   }
 
   function startMelodyLoop(data) {
-    if (state.melodyTimer) clearInterval(state.melodyTimer);
+    if (state.melodyTimer) {
+      clearInterval(state.melodyTimer);
+    }
+
     state.melodyIndex = 0;
 
     const playOneNote = () => {
-      if (!state.ctx || !state.backgroundEnabled || !state.currentTrack) return;
+      if (
+        !state.ctx ||
+        !state.backgroundEnabled ||
+        !state.currentTrack
+      ) {
+        return;
+      }
+
       if (state.ctx.state !== "running") return;
 
-      const melody = data.melody || TRACKS.menu.melody;
-      const frequency = melody[state.melodyIndex % melody.length];
+      const melody =
+        data.melody || TRACKS.menu.melody;
+
+      const frequency =
+        melody[
+          state.melodyIndex % melody.length
+        ];
+
       state.melodyIndex++;
 
-      playMusicNote(frequency, 0.18, 0.035);
+      playMusicNote(
+        frequency,
+        0.18,
+        0.035
+      );
     };
 
-    state.melodyTimer = window.setInterval(playOneNote, 620);
-    window.setTimeout(playOneNote, 220);
+    state.melodyTimer =
+      window.setInterval(
+        playOneNote,
+        620
+      );
+
+    window.setTimeout(
+      playOneNote,
+      220
+    );
   }
 
-  function playMusicNote(frequency, duration = 0.16, volume = 0.035) {
+  function playMusicNote(
+    frequency,
+    duration = 0.16,
+    volume = 0.035
+  ) {
     const ctx = state.ctx;
+
     if (!ctx || !state.currentTrack) return;
 
     const now = ctx.currentTime;
+
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     const filter = ctx.createBiquadFilter();
 
     osc.type = "square";
-    osc.frequency.setValueAtTime(frequency, now);
+
+    osc.frequency.setValueAtTime(
+      frequency,
+      now
+    );
 
     filter.type = "lowpass";
-    filter.frequency.setValueAtTime(1450, now);
 
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.linearRampToValueAtTime(volume, now + 0.015);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+    filter.frequency.setValueAtTime(
+      1450,
+      now
+    );
+
+    gain.gain.setValueAtTime(
+      0.0001,
+      now
+    );
+
+    gain.gain.linearRampToValueAtTime(
+      volume,
+      now + 0.015
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      now + duration
+    );
 
     osc.connect(filter);
     filter.connect(gain);
     gain.connect(state.currentTrack.gain);
 
     osc.start(now);
-    osc.stop(now + duration + 0.04);
+
+    osc.stop(
+      now + duration + 0.04
+    );
   }
 
   function getCurrentRoomName() {
-    return window.GameState?.currentRoom || "sala1";
+    return (
+      window.GameState?.currentRoom ||
+      "sala1"
+    );
   }
 
   function ensureGameAmbient() {
     const room = getCurrentRoomName();
-    if (!TRACKS[room] || !state.backgroundEnabled) return;
-    if (state.currentName !== room || !state.currentTrack) startTrack(room);
+
+    if (
+      !TRACKS[room] ||
+      !state.backgroundEnabled
+    ) {
+      return;
+    }
+
+    if (
+      state.currentName !== room ||
+      !state.currentTrack
+    ) {
+      startTrack(room);
+    }
   }
 
   function playMenuAmbient() {
     state.currentName = "menu";
-    unlock().then(() => startTrack("menu"));
+
+    unlock().then(() => {
+      startTrack("menu");
+    });
   }
 
   function playRoom(roomName) {
-    const room = roomName || getCurrentRoomName();
+    const room =
+      roomName ||
+      getCurrentRoomName();
+
     state.currentName = room;
-    unlock().then(() => startTrack(room));
+
+    unlock().then(() => {
+      startTrack(room);
+    });
   }
 
   function playVictory() {
     state.currentName = "victory";
-    unlock().then(() => startTrack("victory"));
+
+    unlock().then(() => {
+      startTrack("victory");
+    });
+
     playConfirm();
   }
 
   function playGameOver() {
     state.currentName = "gameover";
-    unlock().then(() => startTrack("gameover"));
+
+    unlock().then(() => {
+      startTrack("gameover");
+    });
+
     playError();
   }
 
-  function playTone({ frequency = 440, duration = 0.08, type = "square", volume = 0.18, endFrequency = null } = {}) {
+  function playTone({
+    frequency = 440,
+    duration = 0.08,
+    type = "square",
+    volume = 0.18,
+    endFrequency = null
+  } = {}) {
     const ctx = ensureContext();
-    if (!ctx || !state.buttonsEnabled) return;
+
+    if (
+      !ctx ||
+      !state.buttonsEnabled
+    ) {
+      return;
+    }
 
     const now = ctx.currentTime;
+
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
     osc.type = type;
-    osc.frequency.setValueAtTime(frequency, now);
+
+    osc.frequency.setValueAtTime(
+      frequency,
+      now
+    );
 
     if (endFrequency) {
-      osc.frequency.exponentialRampToValueAtTime(Math.max(1, endFrequency), now + duration);
+      osc.frequency.exponentialRampToValueAtTime(
+        Math.max(1, endFrequency),
+        now + duration
+      );
     }
 
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.linearRampToValueAtTime(volume, now + 0.012);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+    gain.gain.setValueAtTime(
+      0.0001,
+      now
+    );
+
+    gain.gain.linearRampToValueAtTime(
+      volume,
+      now + 0.012
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      now + duration
+    );
 
     osc.connect(gain);
     gain.connect(state.sfxGain);
 
     osc.start(now);
-    osc.stop(now + duration + 0.025);
+
+    osc.stop(
+      now + duration + 0.025
+    );
   }
 
   function playClick() {
     unlock();
-    playTone({ frequency: 520, endFrequency: 920, duration: 0.055, type: "square", volume: 0.11 });
+
+    playTone({
+      frequency: 520,
+      endFrequency: 920,
+      duration: 0.055,
+      type: "square",
+      volume: 0.11
+    });
   }
 
   function playConfirm() {
     unlock();
-    playTone({ frequency: 660, endFrequency: 990, duration: 0.12, type: "triangle", volume: 0.14 });
-    window.setTimeout(() => playTone({ frequency: 990, duration: 0.10, type: "triangle", volume: 0.10 }), 90);
+
+    playTone({
+      frequency: 660,
+      endFrequency: 990,
+      duration: 0.12,
+      type: "triangle",
+      volume: 0.14
+    });
+
+    window.setTimeout(() => {
+      playTone({
+        frequency: 990,
+        duration: 0.10,
+        type: "triangle",
+        volume: 0.10
+      });
+    }, 90);
   }
 
   function playError() {
     unlock();
-    playTone({ frequency: 180, endFrequency: 90, duration: 0.18, type: "sawtooth", volume: 0.13 });
+
+    playTone({
+      frequency: 180,
+      endFrequency: 90,
+      duration: 0.18,
+      type: "sawtooth",
+      volume: 0.13
+    });
   }
 
   function playBugAlert() {
-  const ctx = ensureContext();
+    const ctx = ensureContext();
 
-  if (!ctx) return;
+    if (
+      !ctx ||
+      !state.buttonsEnabled
+    ) {
+      return;
+    }
 
-  if (ctx.state === "suspended") {
-    ctx.resume().then(() => playBugAlertSound(ctx));
-    return;
+    const playAudio = () => {
+      // Cria o áudio e o nó de controle de volume na primeira vez
+      if (!state.alertAudio) {
+        state.alertAudio = new Audio(
+          "assets/Audio/Efeito sonoro Atenção.mp3"
+        );
+
+        state.alertAudio.preload = "auto";
+        state.alertAudio.loop = true;
+
+        try {
+          state.alertAudioSource =
+            ctx.createMediaElementSource(
+              state.alertAudio
+            );
+
+          // Cria um nó de ganho específico para ajustar a intensidade deste alerta
+          state.alertGainNode = ctx.createGain();
+
+          // Conecta: Áudio -> Ganho do Alerta -> Ganho dos Efeitos (SFX) -> Saída
+          state.alertAudioSource.connect(
+            state.alertGainNode
+          );
+
+          state.alertGainNode.connect(
+            state.sfxGain
+          );
+        } catch (error) {
+          console.warn(
+            "[GameAudio] Não foi possível conectar o alerta ao Web Audio:",
+            error
+          );
+        }
+      }
+
+      // ==========================================================
+      // AJUSTE O VOLUME AQUI:
+      // 0.25 = 25% do volume original (ajuste como preferir)
+      // ==========================================================
+      if (state.alertGainNode) {
+        state.alertGainNode.gain.setValueAtTime(0.04, ctx.currentTime);
+      }
+
+      if (!state.alertAudio.paused) return;
+
+      state.alertAudio.currentTime = 0;
+
+      const playPromise =
+        state.alertAudio.play();
+
+      if (
+        playPromise &&
+        typeof playPromise.catch === "function"
+      ) {
+        playPromise.catch(error => {
+          console.warn(
+            "[GameAudio] Não foi possível reproduzir o alerta:",
+            error
+          );
+        });
+      }
+    };
+
+    if (ctx.state === "suspended") {
+      ctx.resume().then(playAudio);
+
+      return;
+    }
+
+    playAudio();
   }
 
-  playBugAlertSound(ctx);
-}
+  function stopBugAlert() {
+    if (state.alertAudio && !state.alertAudio.paused) {
+      state.alertAudio.pause();
+      state.alertAudio.currentTime = 0;
+    }
+  }
 
-
-function playBugAlertSound(ctx) {
-  const now = ctx.currentTime;
-
-  // ==========================================
-  // PRIMEIRO PULSO — WOOOM
-  // ==========================================
-
-  const alarm = ctx.createOscillator();
-  const alarmGain = ctx.createGain();
-
-  alarm.type = "square";
-  alarm.frequency.setValueAtTime(260, now);
-  alarm.frequency.linearRampToValueAtTime(170, now + 0.16);
-
-  alarmGain.gain.setValueAtTime(0.0001, now);
-  alarmGain.gain.linearRampToValueAtTime(0.28, now + 0.02);
-  alarmGain.gain.setValueAtTime(0.28, now + 0.11);
-  alarmGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.23);
-
-  alarm.connect(alarmGain);
-  alarmGain.connect(state.sfxGain);
-
-  alarm.start(now);
-  alarm.stop(now + 0.25);
-
-
-  // ==========================================
-  // SEGUNDO PULSO — WOOOM
-  // ==========================================
-
-  const alarm2 = ctx.createOscillator();
-  const alarmGain2 = ctx.createGain();
-
-  alarm2.type = "square";
-  alarm2.frequency.setValueAtTime(260, now + 0.27);
-  alarm2.frequency.linearRampToValueAtTime(165, now + 0.43);
-
-  alarmGain2.gain.setValueAtTime(0.0001, now + 0.27);
-  alarmGain2.gain.linearRampToValueAtTime(0.30, now + 0.29);
-  alarmGain2.gain.setValueAtTime(0.30, now + 0.38);
-  alarmGain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.50);
-
-  alarm2.connect(alarmGain2);
-  alarmGain2.connect(state.sfxGain);
-
-  alarm2.start(now + 0.27);
-  alarm2.stop(now + 0.52);
-
-
-  // ==========================================
-  // WEE-OO — ALERTA FINAL
-  // ==========================================
-
-  const warning = ctx.createOscillator();
-  const warningGain = ctx.createGain();
-
-  warning.type = "sawtooth";
-  warning.frequency.setValueAtTime(420, now + 0.55);
-  warning.frequency.linearRampToValueAtTime(280, now + 0.68);
-
-  warningGain.gain.setValueAtTime(0.0001, now + 0.55);
-  warningGain.gain.linearRampToValueAtTime(0.22, now + 0.57);
-  warningGain.gain.setValueAtTime(0.22, now + 0.64);
-  warningGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.76);
-
-  warning.connect(warningGain);
-  warningGain.connect(state.sfxGain);
-
-  warning.start(now + 0.55);
-  warning.stop(now + 0.78);
-
-
-  // ==========================================
-  // RUMBLE — PESO
-  // ==========================================
-
-  const rumble = ctx.createOscillator();
-  const rumbleGain = ctx.createGain();
-
-  rumble.type = "triangle";
-  rumble.frequency.setValueAtTime(65, now);
-  rumble.frequency.linearRampToValueAtTime(48, now + 0.80);
-
-  rumbleGain.gain.setValueAtTime(0.0001, now);
-  rumbleGain.gain.linearRampToValueAtTime(0.10, now + 0.04);
-  rumbleGain.gain.setValueAtTime(0.10, now + 0.60);
-  rumbleGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.82);
-
-  rumble.connect(rumbleGain);
-  rumbleGain.connect(state.sfxGain);
-
-  rumble.start(now);
-  rumble.stop(now + 0.85);
-}
-
-function playLevelComplete() {
+  function playLevelComplete() {
     unlock();
 
     playTone({
-        frequency: 523,
-        duration: 0.12,
-        type: "square",
-        volume: 0.16
+      frequency: 523,
+      duration: 0.12,
+      type: "square",
+      volume: 0.16
     });
 
     window.setTimeout(() => {
-        playTone({
-            frequency: 659,
-            duration: 0.12,
-            type: "square",
-            volume: 0.16
-        });
+      playTone({
+        frequency: 659,
+        duration: 0.12,
+        type: "square",
+        volume: 0.16
+      });
     }, 100);
 
     window.setTimeout(() => {
-        playTone({
-            frequency: 784,
-            duration: 0.18,
-            type: "square",
-            volume: 0.18
-        });
+      playTone({
+        frequency: 784,
+        duration: 0.18,
+        type: "square",
+        volume: 0.18
+      });
     }, 200);
 
     window.setTimeout(() => {
-        playTone({
-            frequency: 1046,
-            duration: 0.30,
-            type: "triangle",
-            volume: 0.20
-        });
+      playTone({
+        frequency: 1046,
+        duration: 0.30,
+        type: "triangle",
+        volume: 0.20
+      });
     }, 300);
-}
+  }
 
-  function playFootstep(roomName = "sala1") {
+  function playFootstep(
+    roomName = "sala1"
+  ) {
     const ctx = ensureContext();
-    if (!ctx || !state.buttonsEnabled || ctx.state !== "running") return;
+
+    if (
+      !ctx ||
+      !state.buttonsEnabled ||
+      ctx.state !== "running"
+    ) {
+      return;
+    }
 
     const now = ctx.currentTime;
+
     const roomStep = {
-      sala1: { base: 145, noise: 0.055, filter: 420 },
-      sala2: { base: 175, noise: 0.050, filter: 520 },
-      sala3: { base: 120, noise: 0.060, filter: 360 },
-      sala4: { base: 160, noise: 0.052, filter: 470 }
-    }[roomName] || { base: 145, noise: 0.028, filter: 420 };
+      sala1: {
+        base: 145,
+        noise: 0.055,
+        filter: 420
+      },
 
-    const stepGain = ctx.createGain();
-    const osc = ctx.createOscillator();
-    const noise = ctx.createBufferSource();
-    const noiseGain = ctx.createGain();
-    const noiseFilter = ctx.createBiquadFilter();
+      sala2: {
+        base: 175,
+        noise: 0.050,
+        filter: 520
+      },
 
-    state.stepSide = state.stepSide === 0 ? 1 : 0;
+      sala3: {
+        base: 120,
+        noise: 0.060,
+        filter: 360
+      },
 
-    stepGain.gain.setValueAtTime(0.0001, now);
-    stepGain.gain.linearRampToValueAtTime(0.22, now + 0.012);
-    stepGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.115);
+      sala4: {
+        base: 160,
+        noise: 0.052,
+        filter: 470
+      }
+    }[roomName] || {
+      base: 145,
+      noise: 0.028,
+      filter: 420
+    };
+
+    const stepGain =
+      ctx.createGain();
+
+    const osc =
+      ctx.createOscillator();
+
+    const noise =
+      ctx.createBufferSource();
+
+    const noiseGain =
+      ctx.createGain();
+
+    const noiseFilter =
+      ctx.createBiquadFilter();
+
+    state.stepSide =
+      state.stepSide === 0
+        ? 1
+        : 0;
+
+    stepGain.gain.setValueAtTime(
+      0.0001,
+      now
+    );
+
+    stepGain.gain.linearRampToValueAtTime(
+      0.22,
+      now + 0.012
+    );
+
+    stepGain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      now + 0.115
+    );
 
     osc.type = "triangle";
-    osc.frequency.setValueAtTime(roomStep.base + (state.stepSide ? 16 : -10), now);
-    osc.frequency.exponentialRampToValueAtTime(Math.max(45, roomStep.base * 0.45), now + 0.09);
 
-    noise.buffer = createNoiseBuffer(ctx, 0.15);
+    osc.frequency.setValueAtTime(
+      roomStep.base +
+        (state.stepSide ? 16 : -10),
+      now
+    );
+
+    osc.frequency.exponentialRampToValueAtTime(
+      Math.max(
+        45,
+        roomStep.base * 0.45
+      ),
+      now + 0.09
+    );
+
+    noise.buffer =
+      createNoiseBuffer(
+        ctx,
+        0.15
+      );
+
     noise.loop = false;
-    noiseGain.gain.setValueAtTime(roomStep.noise, now);
-    noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+
+    noiseGain.gain.setValueAtTime(
+      roomStep.noise,
+      now
+    );
+
+    noiseGain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      now + 0.09
+    );
 
     noiseFilter.type = "lowpass";
-    noiseFilter.frequency.setValueAtTime(roomStep.filter, now);
-    noiseFilter.Q.setValueAtTime(0.6, now);
+
+    noiseFilter.frequency.setValueAtTime(
+      roomStep.filter,
+      now
+    );
+
+    noiseFilter.Q.setValueAtTime(
+      0.6,
+      now
+    );
 
     osc.connect(stepGain);
+
     noise.connect(noiseFilter);
     noiseFilter.connect(noiseGain);
     noiseGain.connect(stepGain);
-    stepGain.connect(state.sfxGain);
+
+    stepGain.connect(
+      state.sfxGain
+    );
 
     osc.start(now);
     noise.start(now);
-    osc.stop(now + 0.12);
-    noise.stop(now + 0.12);
+
+    osc.stop(
+      now + 0.12
+    );
+
+    noise.stop(
+      now + 0.12
+    );
   }
 
   function updateFootsteps(isMoving) {
@@ -608,42 +980,102 @@ function playLevelComplete() {
 
     ensureGameAmbient();
 
-    const nowMs = performance.now();
+    const nowMs =
+      performance.now();
+
     const interval = 260;
 
-    if (nowMs - state.lastStepTime < interval) return;
+    if (
+      nowMs - state.lastStepTime <
+      interval
+    ) {
+      return;
+    }
 
     state.lastStepTime = nowMs;
-    playFootstep(getCurrentRoomName());
+
+    playFootstep(
+      getCurrentRoomName()
+    );
   }
 
   function setMaster(value) {
-    state.master = Math.min(1, Math.max(0, Number(value)));
-    localStorage.setItem(STORAGE.master, String(state.master));
+    state.master =
+      Math.min(
+        1,
+        Math.max(
+          0,
+          Number(value)
+        )
+      );
+
+    localStorage.setItem(
+      STORAGE.master,
+      String(state.master)
+    );
+
     applyVolumes();
     syncControls();
   }
 
   function setBackgroundVolume(value) {
-    state.background = Math.min(1, Math.max(0, Number(value)));
-    localStorage.setItem(STORAGE.background, String(state.background));
+    state.background =
+      Math.min(
+        1,
+        Math.max(
+          0,
+          Number(value)
+        )
+      );
+
+    localStorage.setItem(
+      STORAGE.background,
+      String(state.background)
+    );
+
     applyVolumes();
     syncControls();
   }
 
   function setButtonVolume(value) {
-    state.buttons = Math.min(1, Math.max(0, Number(value)));
-    localStorage.setItem(STORAGE.buttons, String(state.buttons));
+    state.buttons =
+      Math.min(
+        1,
+        Math.max(
+          0,
+          Number(value)
+        )
+      );
+
+    localStorage.setItem(
+      STORAGE.buttons,
+      String(state.buttons)
+    );
+
     applyVolumes();
     syncControls();
   }
 
   function setBackgroundEnabled(enabled) {
-    state.backgroundEnabled = Boolean(enabled);
-    localStorage.setItem(STORAGE.backgroundEnabled, String(state.backgroundEnabled));
+    state.backgroundEnabled =
+      Boolean(enabled);
 
-    if (state.backgroundEnabled) {
-      unlock().then(() => startTrack(state.currentName || "menu"));
+    localStorage.setItem(
+      STORAGE.backgroundEnabled,
+      String(
+        state.backgroundEnabled
+      )
+    );
+
+    if (
+      state.backgroundEnabled
+    ) {
+      unlock().then(() => {
+        startTrack(
+          state.currentName ||
+          "menu"
+        );
+      });
     } else {
       stopTrack(0.1);
     }
@@ -653,114 +1085,292 @@ function playLevelComplete() {
   }
 
   function setButtonsEnabled(enabled) {
-    state.buttonsEnabled = Boolean(enabled);
-    localStorage.setItem(STORAGE.buttonsEnabled, String(state.buttonsEnabled));
+    state.buttonsEnabled =
+      Boolean(enabled);
+
+    localStorage.setItem(
+      STORAGE.buttonsEnabled,
+      String(
+        state.buttonsEnabled
+      )
+    );
+
     applyVolumes();
     syncControls();
   }
 
   function toggleBackground() {
-    setBackgroundEnabled(!state.backgroundEnabled);
+    setBackgroundEnabled(
+      !state.backgroundEnabled
+    );
   }
 
   function toggleButtons() {
-    const next = !state.buttonsEnabled;
+    const next =
+      !state.buttonsEnabled;
+
     setButtonsEnabled(next);
-    if (next) playConfirm();
+
+    if (next) {
+      playConfirm();
+    }
   }
 
   function pct(value) {
-    return `${Math.round(value * 100)}%`;
+    return `${Math.round(
+      value * 100
+    )}%`;
   }
 
   function setText(id, text) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = text;
+    const el =
+      document.getElementById(id);
+
+    if (el) {
+      el.textContent = text;
+    }
   }
 
-  function setPressed(id, pressed) {
-    const el = document.getElementById(id);
-    if (el) el.setAttribute("aria-pressed", String(Boolean(pressed)));
+  function setPressed(
+    id,
+    pressed
+  ) {
+    const el =
+      document.getElementById(id);
+
+    if (el) {
+      el.setAttribute(
+        "aria-pressed",
+        String(Boolean(pressed))
+      );
+    }
   }
 
   function syncControls() {
-    const master = document.getElementById("master-volume-control");
-    const background = document.getElementById("background-volume-control");
-    const buttons = document.getElementById("button-volume-control");
+    const master =
+      document.getElementById(
+        "master-volume-control"
+      );
 
-    if (master) master.value = Math.round(state.master * 100);
-    if (background) background.value = Math.round(state.background * 100);
-    if (buttons) buttons.value = Math.round(state.buttons * 100);
+    const background =
+      document.getElementById(
+        "background-volume-control"
+      );
 
-    setText("master-volume-value", pct(state.master));
-    setText("background-volume-value", pct(state.background));
-    setText("button-volume-value", pct(state.buttons));
+    const buttons =
+      document.getElementById(
+        "button-volume-control"
+      );
 
-    setText("toggle-background-sound", state.backgroundEnabled ? "REMOVER SOM DE FUNDO" : "ATIVAR SOM DE FUNDO");
-    setText("toggle-button-sound", state.buttonsEnabled ? "REMOVER SOM DOS BOTÕES" : "ATIVAR SOM DOS BOTÕES");
+    if (master) {
+      master.value =
+        Math.round(
+          state.master * 100
+        );
+    }
 
-    setPressed("toggle-background-sound", state.backgroundEnabled);
-    setPressed("toggle-button-sound", state.buttonsEnabled);
+    if (background) {
+      background.value =
+        Math.round(
+          state.background * 100
+        );
+    }
+
+    if (buttons) {
+      buttons.value =
+        Math.round(
+          state.buttons * 100
+        );
+    }
+
+    setText(
+      "master-volume-value",
+      pct(state.master)
+    );
+
+    setText(
+      "background-volume-value",
+      pct(state.background)
+    );
+
+    setText(
+      "button-volume-value",
+      pct(state.buttons)
+    );
+
+    setText(
+      "toggle-background-sound",
+      state.backgroundEnabled
+        ? "REMOVER SOM DE FUNDO"
+        : "ATIVAR SOM DE FUNDO"
+    );
+
+    setText(
+      "toggle-button-sound",
+      state.buttonsEnabled
+        ? "REMOVER SOM DOS BOTÕES"
+        : "ATIVAR SOM DOS BOTÕES"
+    );
+
+    setPressed(
+      "toggle-background-sound",
+      state.backgroundEnabled
+    );
+
+    setPressed(
+      "toggle-button-sound",
+      state.buttonsEnabled
+    );
   }
 
   function setupControls() {
     syncControls();
 
-    const master = document.getElementById("master-volume-control");
-    const background = document.getElementById("background-volume-control");
-    const buttons = document.getElementById("button-volume-control");
-    const toggleBg = document.getElementById("toggle-background-sound");
-    const toggleBtn = document.getElementById("toggle-button-sound");
+    const master =
+      document.getElementById(
+        "master-volume-control"
+      );
+
+    const background =
+      document.getElementById(
+        "background-volume-control"
+      );
+
+    const buttons =
+      document.getElementById(
+        "button-volume-control"
+      );
+
+    const toggleBg =
+      document.getElementById(
+        "toggle-background-sound"
+      );
+
+    const toggleBtn =
+      document.getElementById(
+        "toggle-button-sound"
+      );
 
     if (master) {
-      master.addEventListener("input", event => setMaster(Number(event.target.value) / 100));
+      master.addEventListener(
+        "input",
+        event =>
+          setMaster(
+            Number(
+              event.target.value
+            ) / 100
+          )
+      );
     }
 
     if (background) {
-      background.addEventListener("input", event => setBackgroundVolume(Number(event.target.value) / 100));
+      background.addEventListener(
+        "input",
+        event =>
+          setBackgroundVolume(
+            Number(
+              event.target.value
+            ) / 100
+          )
+      );
     }
 
     if (buttons) {
-      buttons.addEventListener("input", event => setButtonVolume(Number(event.target.value) / 100));
+      buttons.addEventListener(
+        "input",
+        event =>
+          setButtonVolume(
+            Number(
+              event.target.value
+            ) / 100
+          )
+      );
     }
 
     if (toggleBg) {
-      toggleBg.addEventListener("click", () => {
-        toggleBackground();
-        if (state.backgroundEnabled) playConfirm();
-      });
+      toggleBg.addEventListener(
+        "click",
+        () => {
+          toggleBackground();
+
+          if (
+            state.backgroundEnabled
+          ) {
+            playConfirm();
+          }
+        }
+      );
     }
 
     if (toggleBtn) {
-      toggleBtn.addEventListener("click", toggleButtons);
+      toggleBtn.addEventListener(
+        "click",
+        toggleButtons
+      );
     }
   }
 
   function startAfterGesture() {
     unlock().then(() => {
-      if (state.backgroundEnabled && !state.currentTrack) {
-        startTrack(state.currentName || "menu");
+      if (
+        state.backgroundEnabled &&
+        !state.currentTrack
+      ) {
+        startTrack(
+          state.currentName ||
+          "menu"
+        );
       }
     });
   }
 
-  document.addEventListener("click", event => {
-    startAfterGesture();
+  document.addEventListener(
+    "click",
+    event => {
+      startAfterGesture();
 
-    const button = event.target.closest("button, .cyber-btn, input[type='range']");
-    if (!button || button.matches("input[type='range']")) return;
+      const button =
+        event.target.closest(
+          "button, .cyber-btn, input[type='range']"
+        );
 
-    playClick();
-  }, true);
+      if (
+        !button ||
+        button.matches(
+          "input[type='range']"
+        )
+      ) {
+        return;
+      }
 
-  document.addEventListener("pointerdown", startAfterGesture, true);
-  document.addEventListener("keydown", startAfterGesture, true);
+      playClick();
+    },
+    true
+  );
 
-  document.addEventListener("DOMContentLoaded", () => {
-    setupControls();
-    state.currentName = "menu";
-    syncControls();
-  });
+  document.addEventListener(
+    "pointerdown",
+    startAfterGesture,
+    true
+  );
+
+  document.addEventListener(
+    "keydown",
+    startAfterGesture,
+    true
+  );
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+      setupControls();
+
+      state.currentName =
+        "menu";
+
+      syncControls();
+    }
+  );
 
   return {
     unlock,
@@ -772,6 +1382,7 @@ function playLevelComplete() {
     playConfirm,
     playError,
     playBugAlert,
+    stopBugAlert,
     playFootstep,
     playLevelComplete,
     updateFootsteps,
@@ -784,9 +1395,16 @@ function playLevelComplete() {
     toggleBackground,
     toggleButtons,
     syncControls,
-    forceStart: () => startTrack(state.currentName || "menu"),
-    getState: () => ({ ...state })
+
+    forceStart: () =>
+      startTrack(
+        state.currentName ||
+        "menu"
+      ),
+
+    getState: () => ({
+      ...state
+    })
   };
 })();
-
 

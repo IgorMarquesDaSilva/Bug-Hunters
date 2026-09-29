@@ -137,6 +137,11 @@ const BugSystem = (() => {
 
     if (!bug || !rectsOverlap(getPlayerBox(34), getBugBox(bug))) {
       UI.closePopup();
+      
+      // Para o áudio quando sai do alcance do bug
+      if (window.GameAudio && typeof window.GameAudio.stopBugAlert === "function") {
+        window.GameAudio.stopBugAlert();
+      }
     }
 
     return true;
@@ -145,19 +150,22 @@ const BugSystem = (() => {
   function checkProximity() {
     if (GameState.isPaused) return;
 
-    // Se já existe um bug ativo aberto, verifica se o jogador se afastou
+    // Se já existe um bug ativo aberto
     if (GameState.activeIdx !== -1) {
       const promptIsOpen = closePromptOutsideMissionRange();
 
       if (!promptIsOpen) {
         GameState.activeIdx = -1;
         GameState.popupCooldown = 0;
+        
+        if (window.GameAudio && typeof window.GameAudio.stopBugAlert === "function") {
+          window.GameAudio.stopBugAlert();
+        }
       }
 
       return;
     }
 
-    // Cooldown para não reabrir imediatamente após fechar
     if (GameState.popupCooldown > 0) {
       GameState.popupCooldown--;
       return;
@@ -167,7 +175,6 @@ const BugSystem = (() => {
 
     const playerBox = getPlayerBox();
 
-    // Percorre todos os bugs da sala para checar proximidade
     for (let i = 0; i < GameState.bugs.length; i++) {
       const bug = GameState.bugs[i];
 
@@ -187,7 +194,6 @@ const BugSystem = (() => {
           }
         }
 
-        // Toca o som de alerta sem travar a interface caso falhe
         try {
           if (window.GameAudio && typeof window.GameAudio.playBugAlert === "function") {
             window.GameAudio.playBugAlert();
@@ -196,7 +202,6 @@ const BugSystem = (() => {
           console.warn("[BugSystem] Erro ao tocar som de alerta:", e);
         }
 
-        // Exibe a notificação no canto da tela
         UI.showScreen("screen-bug-popup");
         break;
       }
@@ -210,17 +215,23 @@ const BugSystem = (() => {
 
     bug.solved = true;
 
+    // Para o som imediatamente ao resolver a task
+    if (window.GameAudio && typeof window.GameAudio.stopBugAlert === "function") {
+      window.GameAudio.stopBugAlert();
+    }
+
     if (bug.el) {
       bug.el.classList.remove("mission-available");
       bug.el.classList.add("mission-solved");
 
-      // Se o elemento for o reator da sala 2, adiciona a classe no overlay também
       if (bug.el.classList.contains("reactor")) {
         const overlay = document.getElementById("sala2-reactor-overlay");
         if (overlay) overlay.classList.add("mission-solved");
       }
     }
   }
+
+  
 
   function drawPortal(ctx) {
     const door = document.querySelector("#room-map .door");
