@@ -210,10 +210,7 @@ const TutorialSystem = (() => {
       nextBtn.setAttribute("aria-label", isLast ? "Fechar tutorial e iniciar missão" : "Avançar para a próxima etapa do tutorial");
     }
 
-    window.setTimeout(() => {
-      const target = document.getElementById("tut-btn-next");
-      if (target) target.focus();
-    }, 30);
+    document.getElementById("tut-btn-next")?.focus();
 
     announce(slideToSpeech(slide), false);
   }
@@ -314,9 +311,9 @@ const TutorialSystem = (() => {
   }
 
   document.addEventListener("keydown", event => {
-    if (!isOpen) return;
+    if (!isOpen || event.defaultPrevented || event.ctrlKey || event.altKey || event.metaKey) return;
 
-    if (["ArrowRight", "Enter", " "].includes(event.key)) {
+    if (event.key === "ArrowRight") {
       event.preventDefault();
       next();
       return;

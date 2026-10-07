@@ -61,15 +61,22 @@ window.Player = (() => {
   };
 
   document.addEventListener("keydown", e => {
+    if (GameState.isPaused || e.defaultPrevented || e.ctrlKey || e.altKey || e.metaKey) return;
+    if (e.target !== document.getElementById("gameCanvas") && e.target !== document.body) return;
     keys[e.key.toLowerCase()] = true;
 
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) {
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
       e.preventDefault();
     }
   });
 
   document.addEventListener("keyup", e => {
     keys[e.key.toLowerCase()] = false;
+  });
+  document.addEventListener("focusin", clearDirectionInput);
+  window.addEventListener("blur", clearDirectionInput);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) clearDirectionInput();
   });
 
   function getCurrentRoomName() {
@@ -199,6 +206,7 @@ window.Player = (() => {
   }
 
   function clearDirectionInput() {
+    Object.keys(keys).forEach(key => { keys[key] = false; });
     Object.keys(directionalInput).forEach(direction => {
       directionalInput[direction] = false;
     });

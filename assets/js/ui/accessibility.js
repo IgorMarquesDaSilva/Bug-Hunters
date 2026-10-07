@@ -300,6 +300,7 @@
 
   function setupKeyboardShortcuts() {
     document.addEventListener("keydown", event => {
+      if (event.defaultPrevented || event.repeat || event.ctrlKey || event.altKey || event.metaKey) return;
       if (isTypingTarget(event.target)) return;
 
       const key = event.key.toLowerCase();

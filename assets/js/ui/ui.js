@@ -58,12 +58,14 @@ window.UI = (() => {
       if (screen) {
         screen.style.display = "flex";
         GameState.isPaused = !opensProximityPrompt;
+        window.KeyboardNavigation?.screenChanged(screenId);
       }
 
       return;
     }
 
     GameState.isPaused = false;
+    window.KeyboardNavigation?.screenChanged(null);
   }
 
   function closePopup() {

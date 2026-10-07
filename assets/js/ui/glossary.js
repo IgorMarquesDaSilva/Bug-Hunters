@@ -47,6 +47,9 @@ window.Glossary = (() => {
   }
 
   function show(key, categoryIndex = 0) {
+    const focused = document.activeElement;
+    const wasMenuFocused = focused?.matches('.glossary-tab, .glossary-subtab');
+    const wasSubcategory = focused?.matches('.glossary-subtab');
     currentKey = key;
     currentCategoryIndex = categoryIndex;
 
@@ -57,6 +60,13 @@ window.Glossary = (() => {
 
     renderSideMenu();
     content.innerHTML = renderContent(data);
+    content.scrollTop = 0;
+    if (wasMenuFocused) {
+      const target = wasSubcategory
+        ? document.querySelectorAll('.glossary-subtab')[currentCategoryIndex]
+        : document.querySelector('.glossary-menu-group.active .glossary-tab');
+      target?.focus();
+    }
   }
 
   function renderSideMenu() {

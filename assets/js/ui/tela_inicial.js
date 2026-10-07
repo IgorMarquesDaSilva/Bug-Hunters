@@ -437,6 +437,8 @@
   }
 
   document.addEventListener("keydown", event => {
+    if (event.defaultPrevented || event.repeat || event.ctrlKey || event.altKey || event.metaKey) return;
+    if (event.target.closest("input, textarea, select, [contenteditable='true']")) return;
     const key = event.key.toLowerCase();
 
     if (triggerShortcut(key)) {

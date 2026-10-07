@@ -316,7 +316,7 @@
              CANVAS
         ========================================================== -->
 
-        <canvas id="gameCanvas" width="1000" height="600"></canvas>
+        <canvas id="gameCanvas" width="1000" height="600" tabindex="0" aria-label="Mapa do jogo. Use WASD ou as setas para mover. Ao detectar um bug, pressione Enter. Use Tab para acessar tutorial, glossário e configurações."></canvas>
 
         <div id="sala4-screen-overlay-left"></div>
         <div id="sala4-screen-overlay-mid"></div>
@@ -888,6 +888,7 @@
 
               <section
                 id="glossary-content"
+                tabindex="0"
                 class="glossary-content">
               </section>
 
@@ -950,7 +951,7 @@
 
               <div class="tutorial-content">
                 <div class="tut-text-wrap">
-                  <p id="tut-text" class="mission-desc tut-text"></p>
+                  <p id="tut-text" class="mission-desc tut-text" tabindex="0"></p>
                   <div id="tut-extra-text" class="tutorial-extra"></div>
                 </div>
               </div>
@@ -1718,23 +1719,24 @@
   <script src="assets/js/core/platform.js"></script>
   
   <script src="assets/js/systems/collision.js"></script>
-  <script src="assets/js/systems/player.js?v=2"></script>
+  <script src="assets/js/systems/player.js?v=3"></script>
   <script src="assets/js/systems/bugs.js?v=3"></script>
   <script src="assets/js/systems/renderer.js"></script>
   <script src="assets/js/systems/transition.js"></script>
   
-  <script src="assets/js/ui/ui.js?v=5"></script>
+  <script src="assets/js/ui/ui.js?v=6"></script>
   <script src="assets/js/ui/mobile-controls.js?v=2"></script>
   <script src="assets/js/ui/hud.js"></script>
-  <script src="assets/js/ui/mission.js?v=3"></script>
-  <script src="assets/js/ui/tutorial.js?v=2"></script>
-  <script src="assets/js/ui/glossary.js?v=3"></script>
+  <script src="assets/js/ui/mission.js?v=4"></script>
+  <script src="assets/js/ui/tutorial.js?v=3"></script>
+  <script src="assets/js/ui/glossary.js?v=4"></script>
   <script src="assets/js/ui/responsive.js?v=9"></script>
   <script src="assets/js/systems/audio.js"></script>
   
-  <script src="assets/js/core/game.js?v=3"></script>
-  <script src="assets/js/ui/tela_inicial.js?v=7"></script>
-  <script src="assets/js/ui/accessibility.js"></script>
+  <script src="assets/js/ui/keyboard.js"></script>
+  <script src="assets/js/core/game.js?v=4"></script>
+  <script src="assets/js/ui/tela_inicial.js?v=8"></script>
+  <script src="assets/js/ui/accessibility.js?v=2"></script>
 </body>
 
 </html>

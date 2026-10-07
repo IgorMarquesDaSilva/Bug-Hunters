@@ -29,6 +29,30 @@ ser reiniciada com valor reduzido por questão.
 O tutorial e o glossário podem ser abertos durante a partida. O personagem é
 controlado por `WASD` ou pelas setas direcionais.
 
+## Navegação somente pelo teclado
+
+Todas as telas podem ser operadas sem mouse:
+
+| Contexto | Teclas | Ação |
+| --- | --- | --- |
+| Menus e janelas | Tab / Shift+Tab | Próximo / anterior controle, mantendo o foco na janela aberta |
+| Botão focado | Enter / Espaço | Acionar o botão |
+| Menu inicial | A / W / D | Jogar / configurações / acessibilidade |
+| Dificuldade e alternativas | Setas / Home / End | Percorrer opções / primeira / última opção |
+| Mapa focado | WASD / setas | Mover o personagem |
+| Mapa com bug detectado | Enter | Abrir missão |
+| Mapa | Tab | Acessar os botões de apoio; Shift+Tab retorna pelo mesmo percurso |
+| Tutorial | Direita / esquerda / R | Próxima etapa / anterior / narrar etapa |
+| Configurações | Setas no controle de volume | Ajustar volume |
+| Dificuldade, configurações, acessibilidade, tutorial, glossário e aviso de bug | Escape | Voltar / fechar |
+| Acessibilidade | L / C / + / - | Narração / contraste / aumentar ou diminuir fonte |
+
+Ao responder uma missão, o foco passa ao botão Continuar. Ao fechar uma
+janela de apoio, volta ao controle que a abriu, quando disponível, ou ao
+mapa. O conteúdo do glossário e o código da missão recebem foco com Tab
+para permitir a leitura e a rolagem pelo teclado. O aviso de bug preserva
+a movimentação e não retira o foco do mapa.
+
 ## Salas
 
 1. **Laboratório de Inicialização:** tipos de dados e variáveis.

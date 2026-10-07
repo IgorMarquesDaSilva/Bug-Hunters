@@ -306,6 +306,8 @@ const MissionSystem = (() => {
     btnNext.style.display = "inline-block";
     btnNext.textContent = "▶ CONTINUAR";
     btnNext.onclick = () => closeMission();
+    btnNext.setAttribute("aria-describedby", "feedback-msg explanation-box");
+    btnNext.focus();
   }
 
   function closeMission() {
