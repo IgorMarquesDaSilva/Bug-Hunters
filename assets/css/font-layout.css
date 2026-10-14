@@ -1,0 +1,151 @@
+/* Textos ampliados podem ocupar mais linhas sem aumentar os ícones. */
+.hud-panel .hud-action-label {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+}
+
+.hud-panel .hud-action-btn {
+  height: auto;
+}
+
+.hud-panel .hud-action-icon {
+  line-height: 1;
+}
+
+.cyber-btn,
+.font-option-btn,
+.glossary-tab,
+.glossary-subtab {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.menu-btn-content,
+.menu-btn-text {
+  min-width: 0;
+}
+
+.menu-btn-text,
+.bug-toast-actions .menu-btn-text {
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  line-height: 1.5 !important;
+}
+
+.main-menu-btn i,
+.settings-card-icon,
+.settings-header-icon {
+  flex-shrink: 0;
+  font-size: 24px;
+}
+
+.main-menu-btn i {
+  font-size: 25px;
+}
+
+.settings-card-icon {
+  font-size: 18px;
+}
+
+.menu-key-badge {
+  font-size: 13px;
+}
+
+.settings-card-header,
+.settings-header {
+  flex-wrap: wrap;
+}
+
+.settings-card-title-wrap {
+  flex: 1 1 180px;
+}
+
+.settings-value {
+  max-width: 100%;
+  white-space: normal;
+}
+
+.font-options {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.font-option-btn {
+  padding: 8px 6px;
+}
+
+.level-cleared-stats,
+.popup-buttons {
+  flex-wrap: wrap;
+}
+
+.cleared-stat-box {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+@media (min-width: 901px) {
+  .hud-panel .hud-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-inline: 0;
+    padding: 12px 8px;
+  }
+
+  .hud-panel .hud-action-icon {
+    flex: 0 0 auto;
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .hud-panel .stat {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .hud-panel .panel-header {
+    gap: 8px;
+    overflow-wrap: anywhere;
+  }
+
+  .hud-panel .panel-led {
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .hud-panel .hud-action-icon {
+    font-size: 15px;
+  }
+
+  .hud-panel .stat {
+    flex-wrap: wrap;
+    gap: 4px;
+    overflow-wrap: anywhere;
+  }
+
+  .mobile-dpad-btn {
+    font-size: 22px;
+  }
+
+  .mobile-dpad-core {
+    font-size: 12px;
+  }
+
+  .main-menu-btn i {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  body.font-size-giant .font-options,
+  body.font-size-giant .mobile-orientation-options {
+    grid-template-columns: 1fr;
+  }
+}

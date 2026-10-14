@@ -162,7 +162,7 @@
       inset 0 -5px 0 #07111c,
       2px 2px 0 #000;
     font-family: Arial, sans-serif;
-    font-size: 22px;
+    font-size: calc((22px) * var(--game-font-scale, 1));
     line-height: 1;
     cursor: pointer;
     transition:
@@ -259,7 +259,7 @@
     border-color: #294f69 #102b40 #0b1e2d #1d3f58;
     background: #050d14;
     color: #ff4f9a;
-    font-size: 12px;
+    font-size: calc((12px) * var(--game-font-scale, 1));
     text-shadow: 0 0 7px rgba(255, 79, 154, 0.85);
     box-shadow:
       inset 0 0 0 3px #020608,
@@ -304,11 +304,11 @@
   }
 
   .hud-panel .stat-label {
-    font-size: 5px;
+    font-size: calc((5px) * var(--game-font-scale, 1));
   }
 
   .hud-panel .stat-value {
-    font-size: 7px;
+    font-size: calc((7px) * var(--game-font-scale, 1));
   }
 
   .hud-panel .hud-tutorial-btn {
@@ -371,7 +371,7 @@
     border-right: 2px solid var(--hud-action-accent);
     color: var(--hud-action-accent);
     font-family: Arial, sans-serif;
-    font-size: 15px;
+    font-size: calc((15px) * var(--game-font-scale, 1));
     text-shadow: 0 0 6px currentColor;
   }
 
@@ -380,7 +380,7 @@
     place-items: center;
     min-width: 0;
     padding: 0 10px 0 6px;
-    font-size: 6px;
+    font-size: calc((6px) * var(--game-font-scale, 1));
     overflow-wrap: anywhere;
   }
 
@@ -551,7 +551,7 @@
   .mobile-dpad-btn {
     width: 40px;
     height: 40px;
-    font-size: 18px;
+    font-size: calc((18px) * var(--game-font-scale, 1));
     border-width: 2px;
   }
 
@@ -601,12 +601,12 @@
   }
 
   .hud-panel .stat-label {
-    font-size: 4px;
+    font-size: calc((4px) * var(--game-font-scale, 1));
     letter-spacing: 0;
   }
 
   .hud-panel .stat-value {
-    font-size: 6px;
+    font-size: calc((6px) * var(--game-font-scale, 1));
   }
 
   .hud-panel .hud-tutorial-btn {
@@ -627,7 +627,7 @@
 
   .hud-panel .hud-action-icon {
     border-right: 0;
-    font-size: 14px;
+    font-size: calc((14px) * var(--game-font-scale, 1));
   }
 
   .hud-panel .hud-action-label {
@@ -680,8 +680,8 @@
   body.mobile-force-landscape .hud-panel .stat {
     min-width: 0; gap: 3px; padding: 0 2px; border-bottom: 0;
   }
-  body.mobile-force-landscape .hud-panel .stat-label { font-size: 4px; letter-spacing: 0; }
-  body.mobile-force-landscape .hud-panel .stat-value { font-size: 6px; }
+  body.mobile-force-landscape .hud-panel .stat-label { font-size: calc((4px) * var(--game-font-scale, 1)); letter-spacing: 0; }
+  body.mobile-force-landscape .hud-panel .stat-value { font-size: calc((6px) * var(--game-font-scale, 1)); }
   body.mobile-force-landscape .hud-panel .hud-tutorial-btn {
     flex: 0 0 46px; min-width: 0; padding: 3px 2px;
   }
@@ -690,7 +690,7 @@
     width: 100%; min-width: 0; min-height: 42px; height: 42px; padding: 0;
     grid-template-columns: 1fr;
   }
-  body.mobile-force-landscape .hud-panel .hud-action-icon { border-right: 0; font-size: 14px; }
+  body.mobile-force-landscape .hud-panel .hud-action-icon { border-right: 0; font-size: calc((14px) * var(--game-font-scale, 1)); }
   body.mobile-force-landscape .hud-panel .hud-action-label { display: none; }
   body.mobile-force-landscape .mobile-controls {
     grid-area: controls; order: initial; width: 132px; height: 132px;
@@ -701,7 +701,7 @@
     grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(3, 40px);
   }
   body.mobile-force-landscape .mobile-dpad-btn {
-    width: 40px; height: 40px; font-size: 18px; border-width: 2px;
+    width: 40px; height: 40px; font-size: calc((18px) * var(--game-font-scale, 1)); border-width: 2px;
   }
   body.mobile-force-landscape .mobile-dpad-core { border-width: 2px; }
   body.mobile-force-landscape.mobile-controls-left .game-wrapper {
@@ -796,7 +796,7 @@
   body.mobile-landscape-layout .mobile-dpad-btn {
     width: 40px;
     height: 40px;
-    font-size: 18px;
+    font-size: calc((18px) * var(--game-font-scale, 1));
     border-width: 2px;
   }
 
@@ -846,12 +846,12 @@
   }
 
   body.mobile-landscape-layout .hud-panel .stat-label {
-    font-size: 4px;
+    font-size: calc((4px) * var(--game-font-scale, 1));
     letter-spacing: 0;
   }
 
   body.mobile-landscape-layout .hud-panel .stat-value {
-    font-size: 6px;
+    font-size: calc((6px) * var(--game-font-scale, 1));
   }
 
   body.mobile-landscape-layout .hud-panel .hud-tutorial-btn {
@@ -872,7 +872,7 @@
 
   body.mobile-landscape-layout .hud-panel .hud-action-icon {
     border-right: 0;
-    font-size: 13px;
+    font-size: calc((13px) * var(--game-font-scale, 1));
   }
 
   body.mobile-landscape-layout .hud-panel .hud-action-label {

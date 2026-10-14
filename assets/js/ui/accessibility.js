@@ -11,11 +11,11 @@
     fontSize: "bugHunters.fontSize"
   };
 
-  const FONT_ORDER = ["small", "normal", "large"];
+  const FONT_ORDER = ["normal", "large", "giant"];
   const FONT_LABEL = {
-    small: "PEQUENA",
     normal: "NORMAL",
-    large: "GRANDE"
+    large: "GRANDE",
+    giant: "GIGANTE"
   };
 
   const state = {
@@ -247,7 +247,7 @@
     const selected = FONT_ORDER.includes(size) ? size : "normal";
     state.fontSize = selected;
 
-    document.body.classList.remove("font-size-small", "font-size-normal", "font-size-large");
+    document.body.classList.remove("font-size-small", "font-size-normal", "font-size-large", "font-size-giant");
     document.body.classList.add(`font-size-${selected}`);
     localStorage.setItem(STORAGE_KEYS.fontSize, selected);
     syncFontLabels(selected);
@@ -259,7 +259,7 @@
 
   function changeFont(step) {
     const current = FONT_ORDER.indexOf(state.fontSize);
-    const index = current === -1 ? 1 : current;
+    const index = current === -1 ? 0 : current;
     const next = Math.max(0, Math.min(FONT_ORDER.length - 1, index + step));
     setFontSize(FONT_ORDER[next], true);
   }

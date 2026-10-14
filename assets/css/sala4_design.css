@@ -138,7 +138,7 @@
   justify-content: center;
   color: #fff0ad;
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: calc((12px) * var(--game-font-scale, 1));
   line-height: 1.35;
   text-align: center;
   background: #273342;
@@ -193,7 +193,7 @@
   top: 12px;
   color: #7df7ff;
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
+  font-size: calc((9px) * var(--game-font-scale, 1));
   line-height: 1.35;
   opacity: 0.9;
 }
@@ -227,7 +227,7 @@ img.ship-diagram {
   height: 38px;
   color: #c8f7ff;
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: calc((8px) * var(--game-font-scale, 1));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -349,7 +349,7 @@ img.ship-diagram {
   top: 18px;
   color: #18304d;
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: calc((8px) * var(--game-font-scale, 1));
   background: rgba(255,255,255,0.36);
   padding: 8px;
   border: 3px solid rgba(38, 62, 95, 0.45);
@@ -392,7 +392,7 @@ img.ship-diagram {
   bottom: 9px;
   color: #9eff93;
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: calc((10px) * var(--game-font-scale, 1));
 }
 
 #room-map.sala4 .power-cable {

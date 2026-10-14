@@ -8,16 +8,20 @@
   --game-font-scale: 1;
 }
 
-body.font-size-small {
-  --game-font-scale: 1;
+body {
+  font-size: calc(16px * var(--game-font-scale, 1));
+}
+
+body.font-size-giant {
+  --game-font-scale: 2;
 }
 
 body.font-size-normal {
-  --game-font-scale: 1.25;
+  --game-font-scale: 1;
 }
 
 body.font-size-large {
-  --game-font-scale: 1.85;
+  --game-font-scale: 1.5;
 }
 
 .main-menu-overlay {
@@ -130,12 +134,12 @@ body.font-size-large {
 
 .title-bug {
   color: var(--px-blue-bright);
-  font-size: clamp(28px, 4.4vw, 44px);
+  font-size: calc((clamp(28px, 4.4vw, 44px)) * var(--game-font-scale, 1));
 }
 
 .title-hunters {
   color: var(--px-white);
-  font-size: clamp(25px, 4vw, 39px);
+  font-size: calc((clamp(25px, 4vw, 39px)) * var(--game-font-scale, 1));
 }
 
 .main-menu-subtitle {
@@ -198,7 +202,7 @@ body.font-size-large {
   background: #020a12;
   border: 2px solid rgba(79, 195, 247, 0.78);
   color: var(--px-blue-bright);
-  font-size: 25px;
+  font-size: calc((25px) * var(--game-font-scale, 1));
   line-height: 1;
   box-shadow:
     inset 0 0 12px rgba(0, 229, 255, 0.18),
@@ -226,7 +230,7 @@ body.font-size-large {
     linear-gradient(180deg, #051626, #02080f);
   border: 2px solid var(--px-blue-bright);
   color: var(--px-blue-bright);
-  font-size: 13px;
+  font-size: calc((13px) * var(--game-font-scale, 1));
   line-height: 1;
   box-shadow:
     3px 3px 0 #000,
@@ -320,7 +324,7 @@ body.font-size-large {
   background: #020a12;
   border: 2px solid var(--px-blue-bright);
   color: var(--px-blue-bright);
-  font-size: 9px;
+  font-size: calc((9px) * var(--game-font-scale, 1));
   line-height: 1;
   box-shadow:
     2px 2px 0 #000,
@@ -329,7 +333,7 @@ body.font-size-large {
 
 .shortcut-label {
   color: var(--px-white);
-  font-size: 5.5px;
+  font-size: calc((5.5px) * var(--game-font-scale, 1));
   letter-spacing: 1px;
   line-height: 1.5;
 }
@@ -386,13 +390,13 @@ body.font-size-large {
 .settings-header-icon {
   width: 48px;
   height: 48px;
-  font-size: 25px;
+  font-size: calc((25px) * var(--game-font-scale, 1));
 }
 
 .settings-kicker {
   display: block;
   color: var(--px-grey);
-  font-size: 6px;
+  font-size: calc((6px) * var(--game-font-scale, 1));
   line-height: 1.8;
   letter-spacing: 1px;
 }
@@ -400,7 +404,7 @@ body.font-size-large {
 .settings-title {
   margin: 0;
   color: var(--px-blue-bright);
-  font-size: 15px;
+  font-size: calc((15px) * var(--game-font-scale, 1));
   line-height: 1.6;
   letter-spacing: 2px;
   text-shadow:
@@ -462,7 +466,7 @@ body.font-size-large {
   width: 36px;
   height: 36px;
   min-width: 36px;
-  font-size: 18px;
+  font-size: calc((18px) * var(--game-font-scale, 1));
 }
 
 .settings-label {
@@ -542,7 +546,7 @@ body.font-size-large {
   border: 2px solid rgba(79, 195, 247, 0.58);
   color: var(--px-white);
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: calc((10px) * var(--game-font-scale, 1));
   line-height: 1.8;
   cursor: pointer;
   box-shadow: 3px 3px 0 #000;
@@ -595,11 +599,11 @@ body.font-size-large {
   }
 
   .title-bug {
-    font-size: 26px;
+    font-size: calc((26px) * var(--game-font-scale, 1));
   }
 
   .title-hunters {
-    font-size: 22px;
+    font-size: calc((22px) * var(--game-font-scale, 1));
   }
 
   .main-menu-btn {
@@ -611,7 +615,7 @@ body.font-size-large {
     width: 34px;
     height: 34px;
     min-width: 34px;
-    font-size: 20px;
+    font-size: calc((20px) * var(--game-font-scale, 1));
   }
 
   .menu-btn-text {
@@ -623,7 +627,7 @@ body.font-size-large {
     height: 30px;
     top: -10px;
     right: -10px;
-    font-size: 10px;
+    font-size: calc((10px) * var(--game-font-scale, 1));
   }
 
   .main-menu-shortcuts {
@@ -640,11 +644,11 @@ body.font-size-large {
   .shortcut-key {
     width: 22px;
     height: 22px;
-    font-size: 8px;
+    font-size: calc((8px) * var(--game-font-scale, 1));
   }
 
   .shortcut-label {
-    font-size: 4.8px;
+    font-size: calc((4.8px) * var(--game-font-scale, 1));
   }
 
   .settings-panel {
@@ -729,7 +733,7 @@ body.font-size-large {
   border: 2px solid var(--px-blue-bright);
   color: var(--px-blue-bright);
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: calc((8px) * var(--game-font-scale, 1));
   box-shadow: 2px 2px 0 #000;
 }
 
@@ -749,7 +753,7 @@ body.font-size-large {
   right: -10px;
   width: 32px;
   height: 32px;
-  font-size: 11px;
+  font-size: calc((11px) * var(--game-font-scale, 1));
 }
 
 .access-reader-preview {

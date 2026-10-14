@@ -29,7 +29,7 @@
   background: #080d18;
   border-bottom: 3px solid #ff4f9a;
   color: #fff;
-  font-size: 6px;
+  font-size: calc((6px) * var(--game-font-scale, 1));
   line-height: 1.6;
 }
 
@@ -54,7 +54,7 @@
   padding-bottom: 9px;
   border-color: #ff4f9a;
   color: #fff;
-  font-size: 12px;
+  font-size: calc((12px) * var(--game-font-scale, 1));
   text-align: left;
   text-shadow: 2px 2px 0 #4d1230;
 }
@@ -63,7 +63,7 @@
   max-width: 780px;
   margin: 10px 0 12px;
   color: #eef8ff;
-  font-size: 8px;
+  font-size: calc((8px) * var(--game-font-scale, 1));
   line-height: 1.9;
 }
 
@@ -103,7 +103,7 @@
 .mission-panel-hard .question-label {
   margin: 15px 0 9px;
   color: #ffbf5b;
-  font-size: 7px;
+  font-size: calc((7px) * var(--game-font-scale, 1));
 }
 
 .mission-panel-hard #choices-container {
@@ -301,11 +301,11 @@ body.high-contrast-on .mission-panel-hard .syntax-token {
   }
 
   .mission-panel-hard .popup-header {
-    font-size: 10px;
+    font-size: calc((10px) * var(--game-font-scale, 1));
   }
 
   .mission-panel-hard .mission-desc {
-    font-size: 7px;
+    font-size: calc((7px) * var(--game-font-scale, 1));
   }
 
   .mission-panel-hard .code-block {

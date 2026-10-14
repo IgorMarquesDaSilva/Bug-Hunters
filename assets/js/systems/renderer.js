@@ -33,7 +33,8 @@ const Renderer = (() => {
 
     ctx.save();
 
-    ctx.font = "bold 9px 'Press Start 2P', monospace";
+    const fontScale = parseFloat(getComputedStyle(document.body).getPropertyValue("--game-font-scale")) || 1;
+    ctx.font = `bold ${9 * fontScale}px 'Press Start 2P', monospace`;
     ctx.fillStyle = "rgba(255,255,255,0.35)";
     ctx.textAlign = "left";
     ctx.fillText(`SETOR ${roomNum}`, 38, canvas.height - 20);

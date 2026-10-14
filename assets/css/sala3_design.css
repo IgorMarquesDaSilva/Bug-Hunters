@@ -120,7 +120,7 @@
      background: #1a2c3d;
      border: 5px solid #8190a5;
      color: #e8f4f8;
-     font-size: 9px;
+     font-size: calc((9px) * var(--game-font-scale, 1));
      line-height: 1.7;
      text-align: center;
      padding-top: 8px;
@@ -133,7 +133,7 @@
      left: 200px;
      top: 92px;
      color: #a83cff;
-     font-size: 68px;
+     font-size: calc((68px) * var(--game-font-scale, 1));
      line-height: 1;
      text-shadow: 0 0 12px rgba(168,60,255,0.7);
      z-index: 12;
@@ -158,7 +158,7 @@
      left: 72px;
      top: 18px;
      color: #dfffd8;
-     font-size: 8px;
+     font-size: calc((8px) * var(--game-font-scale, 1));
    }
    
    .sala3 .quarantine-power::before {
@@ -167,7 +167,7 @@
      left: 24px;
      top: 26px;
      color: #ffdf70;
-     font-size: 28px;
+     font-size: calc((28px) * var(--game-font-scale, 1));
      text-shadow: 0 0 10px rgba(255,223,112,0.8);
    }
    
@@ -371,7 +371,7 @@
      position: absolute;
      inset: 12px 6px;
      color: #e8f4f8;
-     font-size: 8px;
+     font-size: calc((8px) * var(--game-font-scale, 1));
      line-height: 1.7;
      text-align: center;
    }

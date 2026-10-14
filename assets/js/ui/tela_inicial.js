@@ -142,37 +142,7 @@
   }
 
   function applyFontSize(size) {
-    const validSizes = ["small", "normal", "large"];
-    const selectedSize = validSizes.includes(size) ? size : "normal";
-
-    document.body.classList.remove(
-      "font-size-small",
-      "font-size-normal",
-      "font-size-large"
-    );
-
-    document.body.classList.add(`font-size-${selectedSize}`);
-
-    const labelMap = {
-      small: "PEQUENA",
-      normal: "NORMAL",
-      large: "GRANDE"
-    };
-
-    const valueText = document.getElementById("font-size-access-value");
-
-    if (valueText) {
-      valueText.textContent = labelMap[selectedSize];
-    }
-
-    document.querySelectorAll(".font-option-btn").forEach(button => {
-      button.classList.toggle(
-        "active",
-        button.dataset.fontSize === selectedSize
-      );
-    });
-
-    localStorage.setItem(STORAGE_KEYS.fontSize, selectedSize);
+    window.AccessibilitySystem?.setFontSize(size, false);
   }
 
   function applyMobileControlSide(side) {
@@ -411,12 +381,6 @@
         applyMusicVolume(event.target.value);
       });
     }
-
-    document.querySelectorAll(".font-option-btn").forEach(button => {
-      button.addEventListener("click", () => {
-        applyFontSize(button.dataset.fontSize);
-      });
-    });
 
     document.querySelectorAll(".mobile-control-side-btn").forEach(button => {
       button.addEventListener("click", () => {
