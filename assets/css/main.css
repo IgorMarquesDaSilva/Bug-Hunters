@@ -37,7 +37,7 @@
      background-image:
        repeating-linear-gradient(0deg, transparent, transparent 7px, rgba(0,229,255,0.03) 7px, rgba(0,229,255,0.03) 8px),
        repeating-linear-gradient(90deg, transparent, transparent 7px, rgba(0,229,255,0.03) 7px, rgba(0,229,255,0.03) 8px);
-     font-family: 'Press Start 2P', monospace;
+     font-family: var(--game-font-family);
      min-height: 100vh;
      display: flex;
      flex-direction: column;
@@ -113,7 +113,7 @@
      background: var(--px-blue-mid);
      border: var(--px) solid var(--px-blue-light);
      color: var(--px-white);
-     font-family: 'Press Start 2P', monospace;
+     font-family: var(--game-font-family);
      font-size: calc((7px) * var(--game-font-scale, 1));
      padding: 10px 14px;
      cursor: pointer;
@@ -214,7 +214,7 @@
    
    .code-block pre {
      color: #a8ff78;
-     font-family: 'Press Start 2P', monospace;
+     font-family: var(--game-font-family);
      font-size: calc((7px) * var(--game-font-scale, 1)); white-space: pre-wrap; word-break: break-all;
      line-height: 2; text-shadow: 0 0 8px rgba(168,255,120,0.4);
    }
@@ -228,7 +228,7 @@
      background: #0d1929;
      border: 2px solid var(--px-border);
      color: var(--px-white);
-     font-family: 'Press Start 2P', monospace;
+     font-family: var(--game-font-family);
      font-size: calc((6px) * var(--game-font-scale, 1)); padding: 10px 14px; cursor: pointer;
      text-align: left; line-height: 1.8;
      box-shadow: 2px 2px 0 #000;
@@ -334,7 +334,7 @@
      background: transparent;
      border: none;
      color: var(--px-grey);
-     font-family: 'Press Start 2P', monospace;
+     font-family: var(--game-font-family);
      font-size: calc((6px) * var(--game-font-scale, 1));
      cursor: pointer;
      margin-top: 10px;
@@ -1243,7 +1243,7 @@
      background: #0d1929;
      border: 2px solid var(--px-border);
      color: var(--px-white);
-     font-family: 'Press Start 2P', monospace;
+     font-family: var(--game-font-family);
      font-size: calc((6px) * var(--game-font-scale, 1));
      padding: 10px 8px;
      line-height: 1.7;
@@ -1320,7 +1320,7 @@
      color: #69ff47;
      padding: 12px;
      margin: 10px 0;
-     font-family: 'Press Start 2P', monospace;
+     font-family: var(--game-font-family);
      font-size: calc((6px) * var(--game-font-scale, 1));
      line-height: 2;
      white-space: pre-wrap;
@@ -1960,7 +1960,7 @@
      background: rgba(0, 0, 0, 0.25);
      border: 2px solid rgba(79, 195, 247, 0.35);
      color: var(--px-grey);
-     font-family: 'Press Start 2P', monospace;
+     font-family: var(--game-font-family);
      font-size: calc((5px) * var(--game-font-scale, 1));
      padding: 8px 7px;
      line-height: 1.7;
@@ -2019,7 +2019,7 @@
      background: rgba(0, 0, 0, 0.28);
      border: 2px solid rgba(79, 195, 247, 0.35);
      color: var(--px-grey);
-     font-family: 'Press Start 2P', monospace;
+     font-family: var(--game-font-family);
      font-size: calc((5.5px) * var(--game-font-scale, 1));
      padding: 8px 7px;
      line-height: 1.8;
@@ -2242,7 +2242,7 @@
   border: 2px solid var(--px-blue-bright) !important;
   color: var(--px-blue-bright) !important;
   
-  font-family: 'Press Start 2P', monospace !important;
+  font-family: var(--game-font-family) !important;
   font-size: calc((6px) * var(--game-font-scale, 1)) !important;          /* Tamanho base do texto */
   line-height: 1 !important;
   padding: 3px 5px !important;        /* Margem proporcional nas 4 bordas */
@@ -2694,7 +2694,7 @@
   background: #000000 !important;
   border: 2px solid var(--px-blue-bright) !important;
   color: var(--px-blue-bright) !important;
-  font-family: 'Press Start 2P', monospace !important;
+  font-family: var(--game-font-family) !important;
   font-size: calc((6px) * var(--game-font-scale, 1)) !important;
   line-height: 1 !important;
   padding: 3px 5px !important;

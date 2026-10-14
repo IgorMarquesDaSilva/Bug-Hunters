@@ -137,7 +137,7 @@
   align-items: center;
   justify-content: center;
   color: #fff0ad;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--game-font-family);
   font-size: calc((12px) * var(--game-font-scale, 1));
   line-height: 1.35;
   text-align: center;
@@ -192,7 +192,7 @@
   left: 14px;
   top: 12px;
   color: #7df7ff;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--game-font-family);
   font-size: calc((9px) * var(--game-font-scale, 1));
   line-height: 1.35;
   opacity: 0.9;
@@ -226,7 +226,7 @@ img.ship-diagram {
   width: 210px;
   height: 38px;
   color: #c8f7ff;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--game-font-family);
   font-size: calc((8px) * var(--game-font-scale, 1));
   display: flex;
   align-items: center;
@@ -348,7 +348,7 @@ img.ship-diagram {
   right: 16px;
   top: 18px;
   color: #18304d;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--game-font-family);
   font-size: calc((8px) * var(--game-font-scale, 1));
   background: rgba(255,255,255,0.36);
   padding: 8px;
@@ -391,7 +391,7 @@ img.ship-diagram {
   left: 62px;
   bottom: 9px;
   color: #9eff93;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--game-font-family);
   font-size: calc((10px) * var(--game-font-scale, 1));
 }
 

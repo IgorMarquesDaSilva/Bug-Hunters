@@ -244,7 +244,7 @@
   background: transparent;
   border: none;
   color: var(--px-grey);
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--game-font-family);
   font-size: calc(6px * var(--game-font-scale, 1));
   cursor: pointer;
   margin-top: 2px;

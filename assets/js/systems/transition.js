@@ -183,7 +183,8 @@
           if (p > 0.3) {
             ctx.fillStyle = `rgba(0,229,255,${Math.min(1, (p-0.3)*3)})`;
             const fontScale = parseFloat(getComputedStyle(document.body).getPropertyValue("--game-font-scale")) || 1;
-            ctx.font      = `bold ${8 * fontScale}px 'Press Start 2P', monospace`;
+            const fontFamily = getComputedStyle(document.body).getPropertyValue("--game-font-family").trim();
+            ctx.font      = `bold ${8 * fontScale}px ${fontFamily}`;
             ctx.textAlign = "center";
             const sectorMap = {
               sala1: 1,

@@ -87,7 +87,7 @@
   overflow-x: auto;
   overflow-y: auto;
   color: #dce7f2;
-  font-family: Consolas, "Courier New", monospace;
+  font-family: var(--game-code-font-family);
   font-size: calc(13px * var(--game-font-scale, 1));
   line-height: 1.6;
   letter-spacing: 0;
@@ -155,7 +155,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   color: inherit;
-  font-family: Consolas, "Courier New", monospace;
+  font-family: var(--game-code-font-family);
   font-size: calc(12px * var(--game-font-scale, 1));
   line-height: 1.55;
   letter-spacing: 0;

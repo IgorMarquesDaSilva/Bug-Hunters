@@ -121,7 +121,7 @@
   align-items: center;
   justify-content: center;
   color: #77ff8c;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--game-font-family);
   font-size: calc((13px) * var(--game-font-scale, 1));
   line-height: 1.45;
   text-align: center;
@@ -485,7 +485,7 @@
   align-items: center;
   justify-content: center;
   color: #ffd55f;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--game-font-family);
   font-size: calc((13px) * var(--game-font-scale, 1));
   background: #8d5530;
   box-shadow: 0 0 10px rgba(255, 197, 70, 0.42);

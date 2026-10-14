@@ -65,6 +65,25 @@ const assert = require('node:assert/strict');
     await evaluate("AccessibilitySystem.setFontSize('small', false)");
     assert.equal(await evaluate("localStorage.getItem('bugHunters.fontSize')"), 'normal');
     console.log('OK: persistência e migração da opção pequena');
+    await evaluate("document.querySelector('[data-font-family=arial]').click(); Glossary.open(); GameState.activeIdx = 0; MissionSystem.startMission()");
+    const families = await evaluate(`Array.from(document.querySelectorAll('body, button, p, pre, code, .hud-action-label, .settings-label, .glossary-title, .code-choice-content, #room-map span')).map(el => getComputedStyle(el).fontFamily)`);
+    assert.ok(families.every(family => family.startsWith('Arial')), JSON.stringify([...new Set(families)]));
+    assert.equal(await evaluate("localStorage.getItem('bugHunters.fontFamily')"), 'arial');
+    assert.equal(await evaluate("document.querySelector('[data-font-family=arial]').getAttribute('aria-pressed')"), 'true');
+    for (const [size, expectedScale] of [['normal', 2], ['large', 3], ['giant', 4]]) {
+      await evaluate(`AccessibilitySystem.setFontSize('${size}', false)`);
+      assert.equal(await evaluate("Number(getComputedStyle(document.body).getPropertyValue('--game-font-scale'))"), expectedScale);
+    }
+    assert.ok(await evaluate("(() => { const original = ctx.fillText; let family = ''; ctx.fillText = function(...args) { family = this.font; return original.apply(this, args); }; try { Renderer.drawBackground(ctx, canvas); return family.includes('Arial'); } finally { ctx.fillText = original; } })()"));
+    await evaluate('location.reload()');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    assert.equal(await evaluate("document.body.classList.contains('font-family-arial')"), true);
+    assert.equal(await evaluate("Number(getComputedStyle(document.body).getPropertyValue('--game-font-scale'))"), 4);
+    await evaluate("document.querySelector('[data-font-family=default]').click()");
+    assert.equal(await evaluate("document.body.classList.contains('font-family-arial')"), false);
+    assert.ok(await evaluate("getComputedStyle(document.body).fontFamily.includes('Press Start 2P')"));
+    assert.equal(await evaluate("Number(getComputedStyle(document.body).getPropertyValue('--game-font-scale'))"), 2);
+    console.log('OK: Arial em todas as telas, códigos e canvas; persistência e retorno à fonte padrão');
   } finally {
     socket.close();
   }

@@ -8,7 +8,8 @@
   const STORAGE_KEYS = {
     screenReader: "bugHunters.accessibility.screenReader",
     highContrast: "bugHunters.accessibility.highContrast",
-    fontSize: "bugHunters.fontSize"
+    fontSize: "bugHunters.fontSize",
+    fontFamily: "bugHunters.fontFamily"
   };
 
   const FONT_ORDER = ["normal", "large", "giant"];
@@ -22,6 +23,7 @@
     screenReader: false,
     highContrast: false,
     fontSize: "normal",
+    fontFamily: "default",
     initialized: false
   };
 
@@ -243,9 +245,18 @@
     });
   }
 
+  function updateFontScale() {
+    const scales = {
+      default: { normal: 1, large: 1.5, giant: 2 },
+      arial: { normal: 2, large: 3, giant: 4 }
+    };
+    document.body.style.setProperty("--game-font-scale", scales[state.fontFamily][state.fontSize]);
+  }
+
   function setFontSize(size, shouldSpeak = true) {
     const selected = FONT_ORDER.includes(size) ? size : "normal";
     state.fontSize = selected;
+    updateFontScale();
 
     document.body.classList.remove("font-size-small", "font-size-normal", "font-size-large", "font-size-giant");
     document.body.classList.add(`font-size-${selected}`);
@@ -255,6 +266,22 @@
     const msg = `Tamanho da fonte alterado para ${FONT_LABEL[selected].toLowerCase()}.`;
     if (shouldSpeak) speak(msg);
     else updateLiveRegion(msg);
+  }
+
+  function setFontFamily(family, shouldSpeak = true) {
+    const selected = family === "arial" ? "arial" : "default";
+    state.fontFamily = selected;
+    updateFontScale();
+    document.body.classList.toggle("font-family-arial", selected === "arial");
+    localStorage.setItem(STORAGE_KEYS.fontFamily, selected);
+    setText("font-family-access-value", selected === "arial" ? "ARIAL" : "PADRÃO");
+    document.querySelectorAll("[data-font-family]").forEach(button => {
+      const active = button.dataset.fontFamily === selected;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+    const message = selected === "arial" ? "Fonte Arial ativada." : "Fonte padrão do jogo ativada.";
+    if (shouldSpeak) speak(message);
   }
 
   function changeFont(step) {
@@ -289,6 +316,9 @@
   }
 
   function setupButtons() {
+    document.querySelectorAll("[data-font-family]").forEach(button => {
+      button.addEventListener("click", () => setFontFamily(button.dataset.fontFamily));
+    });
     getById("btn-screen-reader")?.addEventListener("click", toggleScreenReader);
     getById("btn-high-contrast")?.addEventListener("click", toggleHighContrast);
     getById("btn-read-current")?.addEventListener("click", readCurrentInstructions);
@@ -359,6 +389,7 @@
   }
 
   function loadSavedSettings() {
+    setFontFamily(localStorage.getItem(STORAGE_KEYS.fontFamily), false);
     state.screenReader = localStorage.getItem(STORAGE_KEYS.screenReader) === "1";
     state.highContrast = localStorage.getItem(STORAGE_KEYS.highContrast) === "1";
     state.fontSize = localStorage.getItem(STORAGE_KEYS.fontSize) || "normal";
@@ -397,6 +428,7 @@
     toggleHighContrast,
     setHighContrast,
     setFontSize,
+    setFontFamily,
     readCurrentInstructions,
     isScreenReaderEnabled: () => state.screenReader
   };
