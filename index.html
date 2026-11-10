@@ -317,7 +317,10 @@
              CANVAS
         ========================================================== -->
 
-        <canvas id="gameCanvas" width="1000" height="600" tabindex="0" aria-label="Mapa do jogo. Use WASD ou as setas para mover. Ao detectar um bug, pressione Enter. Use Tab para acessar tutorial, glossário e configurações."></canvas>
+        <canvas id="gameCanvas" width="1000" height="600" tabindex="0" role="application" aria-label="Mapa interativo do Bug Hunters" aria-describedby="game-canvas-instructions"></canvas>
+
+        <p id="game-canvas-instructions" class="sr-only">Use W A S D ou as setas para mover o personagem. Pressione R para ouvir novamente a distância até o bug mais próximo. Com o Narrador do Windows, pressione Narrador mais Espaço para sair do modo de varredura ao jogar. Pressione Enter ao detectar um bug. Use Tab para acessar os controles do jogo.</p>
+        <div id="game-live-region" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
 
         <div id="sala4-screen-overlay-left"></div>
         <div id="sala4-screen-overlay-mid"></div>
@@ -659,13 +662,6 @@
               Ative recursos para jogar com teclado, leitura em voz alta, foco visível, alto contraste e fonte ampliada.
             </p>
 
-            <div
-              id="accessibility-live-region"
-              class="sr-only"
-              aria-live="polite"
-              aria-atomic="true">
-            </div>
-
             <div class="access-shortcuts" aria-label="Atalhos de acessibilidade">
               <span><kbd>D</kbd> abrir acessibilidade</span>
               <span><kbd>L</kbd> leitor de tela</span>
@@ -687,7 +683,7 @@
                     <div>
                       <span class="settings-label">LEITOR DE TELA DO JOGO</span>
                       <p class="settings-help">
-                        Narra instruções importantes, telas abertas, botões focados e o que o jogador deve fazer.
+                        Narração opcional do jogo. Para usar o Narrador do Windows, mantenha esta opção desligada e navegue normalmente pelos controles.
                       </p>
                     </div>
                   </div>
@@ -821,7 +817,7 @@
                 </div>
 
                 <p class="access-reader-preview" id="reader-instructions" tabindex="0">
-                  Instrução do leitor: para jogar, pressione A no menu inicial, escolha a dificuldade e use WASD ou as setas para mover o personagem. Ao encontrar um bug, pressione Enter no botão corrigir e escolha uma alternativa.
+                  Com o Narrador do Windows, entre no mapa com Tab e pressione Narrador mais Espaço para desligar o modo de varredura. Use WASD ou as setas para mover o personagem. Pressione R para repetir a distância e direção do bug mais próximo. Pressione Narrador mais Espaço novamente para voltar a ler a página. Ao encontrar um bug, pressione Enter para abrir a missão.
                 </p>
 
               </section>
@@ -830,7 +826,7 @@
 
             </div>
 
-            <p id="accessibility-status" class="access-status" role="status">
+            <p id="accessibility-status" class="access-status">
               Recursos prontos. Pressione L para ativar o leitor de tela do jogo.
             </p>
 
@@ -976,13 +972,6 @@
                 </div>
               </div>
 
-            </div>
-
-            <div
-              id="tutorial-live-region"
-              class="sr-only"
-              aria-live="polite"
-              aria-atomic="true">
             </div>
 
             <div id="tut-dots" class="tut-dots" aria-label="Progresso do tutorial"></div>
@@ -1173,7 +1162,8 @@
 
             <p
               class="mission-desc"
-              id="mission-desc">
+              id="mission-desc"
+              tabindex="0">
             </p>
 
             <div
@@ -1740,23 +1730,23 @@
   
   <script src="assets/js/systems/collision.js"></script>
   <script src="assets/js/systems/player.js?v=3"></script>
-  <script src="assets/js/systems/bugs.js?v=3"></script>
+  <script src="assets/js/systems/bugs.js?v=5"></script>
   <script src="assets/js/systems/renderer.js?v=16"></script>
   <script src="assets/js/systems/transition.js?v=16"></script>
   
   <script src="assets/js/ui/ui.js?v=6"></script>
   <script src="assets/js/ui/mobile-controls.js?v=2"></script>
   <script src="assets/js/ui/hud.js"></script>
-  <script src="assets/js/ui/mission.js?v=4"></script>
-  <script src="assets/js/ui/tutorial.js?v=3"></script>
+  <script src="assets/js/ui/mission.js?v=6"></script>
+  <script src="assets/js/ui/tutorial.js?v=4"></script>
   <script src="assets/js/ui/glossary.js?v=4"></script>
   <script src="assets/js/ui/responsive.js?v=9"></script>
   <script src="assets/js/systems/audio.js"></script>
   
-  <script src="assets/js/ui/keyboard.js"></script>
+  <script src="assets/js/ui/keyboard.js?v=2"></script>
   <script src="assets/js/core/game.js?v=4"></script>
   <script src="assets/js/ui/tela_inicial.js?v=15"></script>
-  <script src="assets/js/ui/accessibility.js?v=17"></script>
+  <script src="assets/js/ui/accessibility.js?v=18"></script>
 </body>
 
 </html>

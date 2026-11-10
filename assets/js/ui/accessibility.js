@@ -75,15 +75,11 @@
 
   function updateLiveRegion(message) {
     const clean = String(message || "").replace(/\s+/g, " ").trim();
-
-    ["accessibility-live-region", "tutorial-live-region"].forEach(id => {
-      const live = getById(id);
-      if (!live) return;
+    const live = getById("game-live-region");
+    if (live) {
       live.textContent = "";
-      window.setTimeout(() => {
-        live.textContent = clean;
-      }, 20);
-    });
+      window.setTimeout(() => { live.textContent = clean; }, 20);
+    }
 
     setText("accessibility-status", clean);
   }
@@ -152,15 +148,15 @@
     const active = visibleScreen();
 
     if (!active || active.id === "screen-main-menu") {
-      return "Você está no menu inicial. Pressione A para jogar, W para configurações ou D para acessibilidade.";
+      return "Você está no menu inicial. Use Tab para escolher jogar, configurações ou acessibilidade.";
     }
 
     const instructions = {
-      "screen-accessibility": "Você está na tela de acessibilidade. Pressione L para ligar ou desligar o leitor de tela, C para alto contraste, mais ou menos para mudar a fonte e Escape para voltar.",
+      "screen-accessibility": "Você está na tela de acessibilidade. Para usar o Narrador do Windows no mapa, pressione Narrador mais Espaço para sair do modo de varredura. Use Tab para navegar pelas opções e Escape para voltar.",
       "screen-settings": "Você está nas configurações de som. Use Tab para navegar pelos controles de volume e pelos botões que ativam ou removem o som de fundo e os sons dos botões.",
       "screen-difficulty": "Escolha a dificuldade. Use Tab para navegar e Enter para selecionar fácil, médio ou difícil.",
       "screen-tutorial": "Tutorial aberto. Use Próximo para avançar, Anterior para voltar, ou o botão Ler Etapa para ouvir a explicação atual.",
-      "screen-bug-popup": "Bug detectado. Escolha Corrigir Bug para iniciar a missão ou Ignorar para voltar ao mapa.",
+      "screen-bug-popup": "Bug detectado. Pressione Enter para iniciar a missão ou afaste-se para continuar no mapa.",
       "screen-mission": "Missão aberta. Leia o enunciado, o código e selecione uma alternativa. Use Tab para navegar e Enter para responder.",
       "screen-room-clear": "Setor limpo. Libere a porta e vá até ela para avançar.",
       "screen-next-level": "Acesso liberado. Pressione avançar para entrar no próximo setor.",
@@ -196,7 +192,7 @@
       return;
     }
 
-    const msg = "Leitor de tela do jogo ativado. " + getCurrentInstruction();
+    const msg = "Narração do jogo ativada. Desative esta opção se estiver usando o Narrador do Windows para não ouvir duas vozes. " + getCurrentInstruction();
     if (shouldSpeak) speak(msg, true);
     else updateLiveRegion(msg);
   }
@@ -384,7 +380,7 @@
       if (typeof originalBack === "function") originalBack();
       else if (window.UI?.showScreen) UI.showScreen("screen-main-menu");
 
-      speak("Menu inicial aberto. Pressione A para jogar, W para configurações ou D para acessibilidade.");
+      speak("Menu inicial aberto. Use Tab para escolher uma opção.");
     };
   }
 

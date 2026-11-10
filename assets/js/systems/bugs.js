@@ -4,8 +4,69 @@
 ============================================================ */
 
 const BugSystem = (() => {
+  let lastGuidanceTime = 0;
+  let lastGuidanceX = NaN;
+  let lastGuidanceY = NaN;
+
+  function nearestBug() {
+    const player = Player.state;
+    const x = player.x + player.hitboxOffsetX + player.hitboxW / 2;
+    const y = player.y + player.hitboxOffsetY + player.hitboxH / 2;
+
+    return GameState.bugs.reduce((nearest, bug) => {
+      if (!bug || bug.solved) return nearest;
+      const nearestX = Math.max(bug.x, Math.min(x, bug.x + bug.w));
+      const nearestY = Math.max(bug.y, Math.min(y, bug.y + bug.h));
+      const distance = Math.round(Math.hypot(nearestX - x, nearestY - y));
+      return !nearest || distance < nearest.distance ? { bug, distance, x, y } : nearest;
+    }, null);
+  }
+
+  function announceNearestBug(force = false) {
+    if (GameState.isPaused || document.activeElement?.id !== "gameCanvas") return;
+
+    const player = Player.state;
+    const now = Date.now();
+    if (!force && (!player.isMoving || now - lastGuidanceTime < 2500 ||
+      Math.hypot(player.x - lastGuidanceX, player.y - lastGuidanceY) < 24)) return;
+
+    refreshMissionPositions();
+    const nearest = nearestBug();
+    if (!nearest) return;
+
+    const { bug, distance, x, y } = nearest;
+    const dx = bug.x + bug.w / 2 - x;
+    const dy = bug.y + bug.h / 2 - y;
+    const directions = [];
+    if (Math.abs(dy) > 15) directions.push(dy < 0 ? "acima" : "abaixo");
+    if (Math.abs(dx) > 15) directions.push(dx < 0 ? "à esquerda" : "à direita");
+    const direction = directions.length ? directions.join(" e ") : "bem perto";
+    const mission = GameState.currentMissions()[bug.missionIdx];
+    const title = mission?.title?.split("—").slice(1).join("—").trim() || mission?.title || "bug";
+
+    lastGuidanceTime = now;
+    lastGuidanceX = player.x;
+    lastGuidanceY = player.y;
+    window.AccessibilitySystem?.speak?.(
+      `${title}: ${distance} pixels em linha reta, ${direction}. Pressione R para repetir a distância.`
+    );
+  }
+
+  document.addEventListener("focusin", event => {
+    if (event.target.id === "gameCanvas") announceNearestBug(true);
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.target.id !== "gameCanvas" || event.key.toLowerCase() !== "r" ||
+      event.repeat || event.ctrlKey || event.altKey || event.metaKey) return;
+    event.preventDefault();
+    announceNearestBug(true);
+  });
 
   function spawnBugs() {
+    lastGuidanceTime = 0;
+    lastGuidanceX = NaN;
+    lastGuidanceY = NaN;
     const missions = GameState.currentMissions();
 
     if (!missions.length) {
@@ -203,9 +264,14 @@ const BugSystem = (() => {
         }
 
         UI.showScreen("screen-bug-popup");
+        window.AccessibilitySystem?.speak?.(
+          `${document.getElementById("popup-bug-desc")?.textContent || "Bug detectado."} Pressione Enter para abrir a missão.`
+        );
         break;
       }
     }
+
+    if (GameState.activeIdx === -1) announceNearestBug();
   }
 
   function markSolved(index) {

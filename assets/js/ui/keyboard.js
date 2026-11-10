@@ -30,7 +30,7 @@ window.KeyboardNavigation = (() => {
       }
       screen.tabIndex = -1;
       const preferred = screenId === 'screen-mission'
-        ? screen.querySelector('.choice-btn') : null;
+        ? screen.querySelector('#mission-desc') : null;
       (preferred || focusable(screen)[0] || screen).focus();
     } else if (!screen && previous) {
       const target = returnTarget;

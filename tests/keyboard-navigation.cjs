@@ -40,6 +40,8 @@ const assert = require('node:assert/strict');
   try {
     await evaluate("localStorage.clear(); location.reload()");
     await wait(700);
+    assert.equal(await evaluate("document.getElementById('gameCanvas').getAttribute('role')"), 'application');
+    assert.equal(await evaluate("document.getElementById('game-live-region').getAttribute('aria-live')"), 'polite');
     assert.equal(await focus(), 'btn-main-play');
     await key('Tab', true);
     assert.equal(await focus(), 'btn-main-accessibility');
@@ -70,6 +72,11 @@ const assert = require('node:assert/strict');
         await key('Escape');
       }
       assert.equal(await focus(), 'gameCanvas');
+      if (difficulty === 0) {
+        await key('r');
+        await wait(40);
+        assert.match(await evaluate("document.getElementById('game-live-region').textContent"), /\d+ pixels em linha reta/, 'Distância do bug anunciada no mapa');
+      }
       const x = await evaluate('Player.state.x');
       await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'a', windowsVirtualKeyCode: 65 });
       await wait(80);
@@ -90,7 +97,20 @@ const assert = require('node:assert/strict');
         for (let mission = 0; mission < 5; mission++) {
           await evaluate(`GameState.activeIdx = ${mission}; Player.state.x = GameState.bugs[${mission}].x - Player.state.hitboxOffsetX; Player.state.y = GameState.bugs[${mission}].y - Player.state.hitboxOffsetY; UI.showScreen('screen-bug-popup')`);
           await key('Enter');
+          assert.equal(await focus(), 'mission-desc', 'Missão começa no enunciado');
+          await key('Tab');
+          assert.equal(await focus(), 'mission-code', 'Código acessível pelo Tab');
+          await key('Tab');
           assert.ok((await focus()).includes('choice-btn'));
+          if (difficulty === 0 && room === 0 && mission === 0) {
+            await wait(40);
+            assert.ok(await evaluate("document.getElementById('game-live-region').textContent.includes('Opção D:')"), 'Narrador recebe as quatro opções');
+            await key('Tab', true);
+            await key('Tab', true);
+            assert.equal(await focus(), 'mission-desc', 'Shift+Tab retorna ao enunciado');
+            await key('Tab');
+            await key('Tab');
+          }
           const correct = await evaluate(`GameState.currentMissions()[${mission}].correct`);
           for (let i = 0; i < correct; i++) await key('ArrowDown');
           await key('Enter');
@@ -120,6 +140,8 @@ const assert = require('node:assert/strict');
       for (let mission = 0; mission < 5; mission++) {
         await evaluate(`GameState.activeIdx = ${mission}; Player.state.x = GameState.bugs[${mission}].x - Player.state.hitboxOffsetX; Player.state.y = GameState.bugs[${mission}].y - Player.state.hitboxOffsetY; UI.showScreen('screen-bug-popup')`);
         await key('Enter');
+        await key('Tab');
+        await key('Tab');
         const correct = await evaluate(`GameState.currentMissions()[${mission}].correct`);
         if (correct === 0) await key('ArrowDown');
         await key('Enter');

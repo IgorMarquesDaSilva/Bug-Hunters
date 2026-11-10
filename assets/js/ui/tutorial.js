@@ -276,14 +276,6 @@ const TutorialSystem = (() => {
 
   function announce(message, forceVoice = false) {
     const clean = String(message || "").replace(/\s+/g, " ").trim();
-    const live = document.getElementById("tutorial-live-region");
-
-    if (live) {
-      live.textContent = "";
-      window.setTimeout(() => {
-        live.textContent = clean;
-      }, 20);
-    }
 
     if (window.AccessibilitySystem?.speak) {
       AccessibilitySystem.speak(clean, forceVoice);

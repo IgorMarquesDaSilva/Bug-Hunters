@@ -250,6 +250,12 @@ const MissionSystem = (() => {
     });
 
     UI.showScreen("screen-mission");
+    const options = mission.choices.map((choice, i) =>
+      `Opção ${String.fromCharCode(65 + i)}: ${choice}`
+    ).join(". ");
+    window.AccessibilitySystem?.speak?.(
+      `${mission.title}. ${mission.desc} Código: ${mission.code}. ${options}. Use Tab para percorrer o código e as respostas; Shift mais Tab volta ao enunciado.`
+    );
   }
 
   function selectAnswer(idx, btn) {
