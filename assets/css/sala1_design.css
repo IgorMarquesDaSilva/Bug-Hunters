@@ -93,6 +93,7 @@
 }
 
 #room-map.sala1 .desk {
+  position: absolute;
   width: 128px;
   height: 78px;
   background: linear-gradient(180deg, #f3fbff 0 58%, #c8d7ed 58% 100%);
@@ -104,47 +105,29 @@
   z-index: 8;
 }
 
+/* 2. Aplicação da imagem imgpc.jpg em cima de TODAS as mesas (.desk) */
 #room-map.sala1 .desk::before {
   content: "";
   position: absolute;
-  left: 13px;
-  right: 13px;
-  bottom: -22px;
-  height: 18px;
-  background:
-    linear-gradient(90deg, #315a9a 0 12px, transparent 12px calc(100% - 12px), #315a9a calc(100% - 12px));
-  opacity: 0.72;
+  left: 30px;
+  top: 8px;
+  width: 62px;
+  height: 58px;
+  background: url('../img/imgpc2.jpg') center / contain no-repeat;
+  image-rendering: pixelated;
+  z-index: 2;
 }
 
-#room-map.sala1 .monitor {
-  top: 10px;
-  left: 34px;
-  width: 60px;
-  height: 38px;
-  background: #101b34;
-  border: 5px solid #243b72;
-  box-shadow: 0 4px 0 rgba(0,0,0,0.26);
+/* 3. Oculta os antigos elementos de monitor e teclado das mesas normais */
+#room-map.sala1 .desk .monitor,
+#room-map.sala1 .desk .keyboard {
+  display: none !important;
 }
 
-#room-map.sala1 .monitor::after {
-  inset: 6px;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,0.15) 0 5px, transparent 5px 100%),
-    linear-gradient(#55f7ff 0 5px, transparent 5px 12px, #55f7ff 12px 16px, transparent 16px),
-    #16bff2;
-  box-shadow: 0 0 12px rgba(0, 229, 255, 0.82);
+#room-map.sala1 .desk .monitor::after {
+  content: none;
 }
 
-#room-map.sala1 .keyboard {
-  left: 25px;
-  bottom: 9px;
-  width: 78px;
-  height: 15px;
-  background:
-    repeating-linear-gradient(90deg, #7d90b4 0 6px, #d7e6fa 6px 9px),
-    #d7e6fa;
-  border-color: #60779b;
-}
 
 /* Posições redesenhadas — colisão acompanha porque os próprios objetos continuam sendo .collision */
 #room-map.sala1 .desk-top-1 { top: 108px; left: 126px; }
@@ -224,35 +207,47 @@
 }
 
 #room-map.sala1 .box {
+  position: absolute !important;
   width: 75px;
   height: 62px;
   bottom: 52px;
   background: linear-gradient(180deg, #f2a455, #c8742d);
   border: 4px solid #8d5229;
   box-shadow: 4px 4px 0 rgba(77, 59, 62, 0.28);
+  /* z-index 50 garante que a caixa fique ACIMA da mesa (z-index 8) 
+     e ACIMA do efeito de missão ativa (z-index 16) */
+  z-index: 50 !important;
 }
 
 #room-map.sala1 .box::before {
-  top: 25px;
+  content: "";
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  top: 18px;
+  height: 12px;
   background: #8d5229;
-  box-shadow: inset 0 9px 0 rgba(255,255,255,0.08);
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.15);
+  z-index: 51 !important;
 }
 
 #room-map.sala1 .box::after {
   content: "";
   position: absolute;
-  left: 27px;
-  top: 40px;
+  left: 23px;
+  top: 34px;
   width: 20px;
   height: 6px;
   background: #1cc4ff;
   border: 2px solid #315a9a;
+  z-index: 52 !important;
 }
 
 #room-map.sala1 .box-1 { left: 72px; }
 #room-map.sala1 .box-2 { left: 160px; }
 
 #room-map.sala1 .printer {
+  position: absolute;
   right: 165px;
   bottom: 48px;
   width: 188px;
@@ -262,25 +257,30 @@
   box-shadow: 5px 5px 0 rgba(31, 62, 122, 0.35);
 }
 
+/* Mantém a parte de trás/papel da impressora */
 #room-map.sala1 .printer::before {
+  content: "";
+  position: absolute;
   left: 88px;
   top: -27px;
   width: 54px;
   height: 32px;
   background: #4967a2;
-  border-color: #2f4e8c;
+  border: 4px solid #2f4e8c;
   box-shadow: inset 0 -8px 0 rgba(0,0,0,0.18);
 }
 
+/* 2. Substitui APENAS o visor/painel da frente pela imagem do teclado.png */
 #room-map.sala1 .printer::after {
-  left: 20px;
-  bottom: 17px;
-  width: 48px;
-  height: 26px;
-  background:
-    linear-gradient(90deg, #111d35 0 16px, #73efff 16px 21px, #111d35 21px),
-    #111d35;
-  border-color: #2f4e8c;
+  content: "";
+  position: absolute;
+  left: 15px;
+  bottom: 12px;
+  width: 75px;
+  height: 42px;
+  background: url('../img/teclado.png') center / contain no-repeat !important;
+  border: none !important;
+  image-rendering: pixelated;
 }
 
 #room-map.sala1 .plant {
