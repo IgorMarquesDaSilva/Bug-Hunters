@@ -143,7 +143,7 @@ const assert = require('node:assert/strict');
     // Verifica legibilidade e foco dos pares em fontes ampliadas e celular.
     for (const viewport of [{width:1440,height:900}, {width:390,height:844}, {width:844,height:390}]) {
       await send('Emulation.setDeviceMetricsOverride', { ...viewport, deviceScaleFactor:1, mobile:false });
-      await evaluate("(() => { selectDifficulty('medio'); const fixture = GameState.missionsData.medio.sala1.find(mission => mission.sourceQuestion === 7); GameState.missionSessions['medio:sala1'] = [fixture]; BugSystem.spawnBugs(); GameState.activeIdx=0; MissionSystem.startMission(); })()");
+      await evaluate("(() => { selectDifficulty('medio'); GameState.currentRoom='sala1'; Renderer.loadRoomBackground(); const fixture = GameState.missionsData.medio.sala1.find(mission => mission.sourceQuestion === 7); GameState.missionSessions['medio:sala1'] = [fixture]; BugSystem.spawnBugs(); GameState.activeIdx=0; MissionSystem.startMission(); })()");
       for (const family of ['default','arial']) {
         await evaluate(`document.querySelector('[data-font-family="${family}"]').click()`);
         for (const size of ['normal','large','giant']) {

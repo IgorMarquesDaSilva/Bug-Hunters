@@ -157,10 +157,11 @@
       "screen-difficulty": "Escolha a dificuldade. Use Tab para navegar e Enter para selecionar fácil, médio ou difícil.",
       "screen-tutorial": "Tutorial aberto. Use Próximo para avançar, Anterior para voltar, ou o botão Ler Etapa para ouvir a explicação atual.",
       "screen-bug-popup": "Bug detectado. Pressione Enter para iniciar a missão ou afaste-se para continuar no mapa.",
-      "screen-mission": "Missão aberta. Leia o enunciado e os blocos, quando houver. Escolha uma alternativa ou ligue os pares e confirme. Use Tab para navegar e Enter para escolher.",
+      "screen-mission": "Missão aberta. Escolha uma alternativa, ligue os pares ou encontre os pares no jogo da memória. Use Tab para navegar e Enter para escolher. Tutorial, glossário, atalhos e configurações continuam disponíveis; ao voltar, a atividade permanece como estava.",
       "screen-room-clear": "Setor limpo. Libere a porta e vá até ela para avançar.",
       "screen-next-level": "Acesso liberado. Pressione avançar para entrar no próximo setor.",
-      "screen-glossary": "Glossário aberto. Use Tab para navegar entre os temas e conteúdos."
+      "screen-glossary": "Glossário aberto. Use Tab para navegar entre os temas e conteúdos.",
+      "screen-shortcuts": "Atalhos do jogo. Use as setas para rolar a lista, Tab para chegar ao botão Voltar e Enter ou Escape para fechar."
     };
 
     return instructions[active.id] || "Use Tab para navegar, Enter para selecionar e Escape para voltar quando disponível.";
@@ -242,11 +243,13 @@
   }
 
   function updateFontScale() {
-    const scales = {
-      default: { normal: 1, large: 1.5, giant: 2 },
-      arial: { normal: 2, large: 3, giant: 4 }
-    };
-    document.body.style.setProperty("--game-font-scale", scales[state.fontFamily][state.fontSize]);
+    // A fonte pixelada ocupa mais espaço que a Arial no mesmo tamanho.
+    // A escala de ampliação permanece proporcional nas duas famílias.
+    const scales = { normal: 1, large: 1.5, giant: 2 };
+    const familyScale = state.fontFamily === "arial" ? 1 : 0.75;
+    document.body.style.setProperty("--game-font-scale", scales[state.fontSize] * familyScale);
+    document.body.style.setProperty("--game-code-scale", scales[state.fontSize]);
+    window.ResponsiveLayout?.update?.();
   }
 
   function setFontSize(size, shouldSpeak = true) {

@@ -52,7 +52,8 @@ body {
 }
 
 #room-map,
-#gameCanvas {
+#gameCanvas,
+#transitionCanvas {
   width: 1000px;
   height: 600px;
   transform: scale(var(--game-map-scale, 1));
@@ -203,18 +204,6 @@ body {
   #screen-main-menu {
     flex-direction: column;
     gap: 10px;
-  }
-
-  #screen-main-menu .main-menu-shortcuts {
-    position: static;
-    width: min(100%, 520px);
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  #screen-main-menu .shortcut-item {
-    min-width: 0;
   }
 
   .main-menu-panel {

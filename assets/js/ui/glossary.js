@@ -10,6 +10,7 @@ window.Glossary = (() => {
   ];
 
   function open() {
+    if (window.UI?.getActiveScreen() === "screen-glossary") return;
     const screen = document.getElementById("screen-glossary");
 
     if (!screen) {
@@ -19,7 +20,7 @@ window.Glossary = (() => {
 
     show(getCurrentPhaseKey(), 0);
 
-    if (window.UI?.showScreen) UI.showScreen("screen-glossary");
+    if (window.UI?.openSupport) UI.openSupport("screen-glossary");
     else {
       GameState.isPaused = true;
       screen.style.display = "flex";
@@ -27,8 +28,8 @@ window.Glossary = (() => {
   }
 
   function close() {
-    if (window.UI?.showScreen) {
-      UI.showScreen(null);
+    if (window.UI?.closeSupport) {
+      UI.closeSupport();
       return;
     }
 

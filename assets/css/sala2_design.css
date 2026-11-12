@@ -381,12 +381,12 @@
 
 @keyframes sala2-reactor-glow {
   from {
-    filter: drop-shadow(0 0 4px rgba(244, 241, 234, 0.4));
+    filter: drop-shadow(0 0 6px rgba(255, 36, 36, 0.65));
   }
   to {
     filter: 
-      drop-shadow(0 0 10px #ffffff) 
-      drop-shadow(0 0 20px rgba(244, 241, 234, 0.8));
+      drop-shadow(0 0 14px #ff3030)
+      drop-shadow(0 0 28px rgba(255, 36, 36, 0.85));
   }
 }
 
@@ -529,9 +529,18 @@
   z-index: 10;
   background: linear-gradient(90deg, #ffd18a 0 42%, #f0ad51 42% 100%);
   border: 7px solid #5e3a20;
-  box-shadow:
-    0 0 0 5px rgba(255, 215, 126, 0.14),
-    7px 7px 0 rgba(39, 32, 24, 0.35);
+  box-shadow: none;
+}
+
+#room-map.sala2 .door.portal-door-active {
+  animation: sala2-door-ready-pulse 0.75s infinite alternate;
+  border-color: #1b6b3c;
+  box-shadow: none;
+}
+
+@keyframes sala2-door-ready-pulse {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.25) saturate(1.35); }
 }
 
 #room-map.sala2 .door::before {
@@ -609,12 +618,12 @@
 #room-map.sala2 .wall-left::after { right: -12px; }
 #room-map.sala2 .wall-right::after { left: -12px; }
 
-/* ========================= BRILHO DAS TASKS (OFF-WHITE SUAVE) ========================= */
+/* ========================= DESTAQUES DAS MISSÕES EM VERMELHO ========================= */
 
 #room-map.sala2 .sala2-mission.mission-available {
-  outline: 2px solid #f4f1ea;
+  outline: 3px solid #df2424;
   outline-offset: 4px;
-  animation: sala2-task-glow-offwhite 1.2s infinite alternate ease-in-out;
+  animation: sala2-task-glow-red 1.2s infinite alternate ease-in-out;
 }
 
 #room-map.sala2 .sala2-mission.mission-solved {
@@ -623,15 +632,16 @@
   animation: none;
 }
 
-@keyframes sala2-task-glow-offwhite {
+@keyframes sala2-task-glow-red {
   from {
-    outline-color: #e2ddd3;
-    filter: drop-shadow(0 0 3px rgba(244, 241, 234, 0.35));
+    outline-color: #c91e1e;
+    filter: brightness(1.04) drop-shadow(0 0 6px rgba(255, 36, 36, 0.65));
   }
   to {
-    outline-color: #ffffff;
+    outline-color: #ff4040;
     filter: 
-      drop-shadow(0 0 6px #f4f1ea) 
-      drop-shadow(0 0 12px rgba(244, 241, 234, 0.6));
+      brightness(1.2) saturate(1.2)
+      drop-shadow(0 0 12px #ff2424)
+      drop-shadow(0 0 24px rgba(255, 36, 36, 0.85));
   }
 }

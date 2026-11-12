@@ -20,12 +20,13 @@ programação relacionadas à BNCC de Computação, com foco em:
 
 Cada partida possui quatro salas com cinco missões cada. Ao aproximar o
 personagem de um objeto destacado, o jogador abre uma questão de múltipla
-escolha ou uma atividade de ligar pares. Cada resposta recebe feedback e
+escolha, uma atividade de ligar pares ou um jogo da memória. Cada resposta recebe feedback e
 uma explicação do conceito.
 
 O banco contém 120 atividades adaptadas do documento `Bug_Hunters_Questoes.docx`:
-dez por fase e dificuldade. Cada seleção tem quatro questões e um desafio
-de associação, cobrindo cinco objetivos de aprendizagem do setor. O nível
+dez por fase e dificuldade. As três primeiras fases têm quatro questões e
+um desafio de associação. A última tem três questões, uma associação e um
+jogo da memória, mantendo cinco missões e até 25 pontos por fase. O nível
 Intermediário do documento corresponde ao Médio do jogo.
 
 Perguntas, alternativas, colunas da associação e objetos com bugs são
@@ -38,8 +39,11 @@ Todas as missões da sala precisam ser respondidas. Quando a pontuação mínima
 é atingida, a porta do próximo setor é liberada. Caso contrário, a sala pode
 ser reiniciada com valor reduzido por questão.
 
-O tutorial e o glossário podem ser abertos durante a partida. O personagem é
-controlado por `WASD` ou pelas setas direcionais.
+O tutorial, o glossário e a lista de atalhos podem ser abertos pela barra
+lateral durante toda a partida, inclusive nas perguntas. Fechar um apoio
+retoma a mesma atividade, com alternativas, ligações e cartas preservadas.
+O personagem é controlado por `WASD` ou pelas
+setas direcionais.
 
 ## Navegação somente pelo teclado
 
@@ -47,22 +51,26 @@ Todas as telas podem ser operadas sem mouse:
 
 | Contexto | Teclas | Ação |
 | --- | --- | --- |
-| Menus e janelas | Tab / Shift+Tab | Próximo / anterior controle, mantendo o foco na janela aberta |
+| Menus e janelas | Tab / Shift+Tab | Próximo / anterior controle; durante a partida, inclui a barra de apoios |
 | Botão focado | Enter / Espaço | Acionar o botão |
 | Associação | Tab e Enter | Escolher um item, ligar à resposta e confirmar; selecionar o item novamente permite trocar sua ligação |
+| Memória | Tab e Enter | Virar duas cartas e formar pares; quando não combinam, acionar Virar as cartas para tentar novamente |
 | Menu inicial | A / W / D | Jogar / configurações / acessibilidade |
 | Dificuldade e alternativas | Setas / Home / End | Percorrer opções / primeira / última opção |
 | Mapa focado | WASD / setas | Mover o personagem |
 | Mapa com bug detectado | Enter | Abrir missão |
+| Mapa focado | R | Ouvir novamente a distância e a direção do bug mais próximo |
 | Mapa | Tab | Acessar os botões de apoio; Shift+Tab retorna pelo mesmo percurso |
 | Tutorial | Direita / esquerda / R | Próxima etapa / anterior / narrar etapa |
 | Configurações | Setas no controle de volume | Ajustar volume |
-| Dificuldade, configurações, acessibilidade, tutorial, glossário e aviso de bug | Escape | Voltar / fechar |
+| Dificuldade, configurações, acessibilidade, tutorial, glossário, atalhos e aviso de bug | Escape | Voltar / fechar |
 | Acessibilidade | L / C / + / - | Narração / contraste / aumentar ou diminuir fonte |
 
-Ao responder uma missão, o foco passa ao botão Continuar. Ao fechar uma
-janela de apoio, volta ao controle que a abriu, quando disponível, ou ao
-mapa. O conteúdo do glossário e o código da missão recebem foco com Tab
+Ao responder uma missão, o foco passa ao botão Continuar. Ao fechar um
+apoio durante uma pergunta, o foco volta à atividade. No mapa, ele retorna
+ao botão que abriu o apoio; pressionar WASD ou uma seta já foca o mapa e
+move o personagem, sem exigir clique. Durante as perguntas, Tab percorre
+também os apoios da barra lateral. O conteúdo do glossário e o código recebem foco com Tab
 para permitir a leitura e a rolagem pelo teclado. O aviso de bug preserva
 a movimentação e não retira o foco do mapa.
 
@@ -70,6 +78,12 @@ As atividades de associação permitem reutilizar uma resposta, por exemplo
 ligando dois valores à categoria TEXTO. Todas as ligações precisam ser
 feitas antes da confirmação. A atividade completa vale os mesmos pontos
 de uma pergunta; somente a confirmação avalia os pares e encerra o desafio.
+
+A memória revisa dados, funções e reutilização com três, quatro ou cinco
+pares, conforme a dificuldade. As cartas são embaralhadas a cada tentativa
+da fase. Não há cronômetro nem limite de tentativas. Cartas que não combinam
+ficam abertas até o jogador escolher continuar, permitindo a leitura com
+leitor de tela. Encontrar todos os pares vale uma única resposta correta.
 
 ## Salas
 
@@ -136,6 +150,7 @@ O conteúdo variável fica separado da interface:
 - `assets/js/data/missions.json`: perguntas, alternativas e explicações;
 - `assets/js/data/rooms.json`: posição inicial do personagem em cada sala;
 - `assets/js/data/glossary-data.js`: conteúdo pedagógico do glossário.
+- `assets/js/data/memory-data.js`: pares e dificuldades do jogo da memória.
 
 O sorteio fica em `assets/js/systems/question-bank.js`. Cada questão tem
 um identificador, o número da questão de origem e um objetivo. A seleção
@@ -156,6 +171,12 @@ O jogo não salva pontuação, sala atual nem progresso da partida. O
 - alto contraste;
 - leitor de tela;
 - conclusão do tutorial.
+
+O tamanho Normal usa 12 px nos textos da fonte pixelada e 16 px na Arial,
+com subtextos menores em ambas. A fonte pixelada recebe um ajuste de 75%
+para compensar seus caracteres mais largos. Grande amplia cada base em
+50%, e Gigante em 100%. Os blocos do modo Difícil mantêm uma base de 16 px
+na fonte de código. As preferências salvas continuam sendo respeitadas.
 
 Essas preferências não dependem de banco de dados da plataforma.
 
@@ -212,5 +233,15 @@ dificuldades, erros, reinícios, associações com Tab/Enter e acessibilidade:
 ```powershell
 node tests/keyboard-navigation.cjs
 node tests/matching-challenge.cjs
+node tests/game-support-memory.cjs
+node tests/room-transitions.cjs
 node tests/font-scaling.cjs
 ```
+
+O teste de transições confere por captura de pixels que as salas 2, 3 e 4
+clareiam por inteiro, incluindo reator e telas, e que a porta da sala 2
+permanece sem sombra nos estados fechado e liberado.
+
+Se a inicialização estiver temporariamente configurada para outra sala,
+use `$env:BH_TEST_FROM_FIRST_ROOM='1'` antes do teste de navegação para
+percorrer as quatro fases sem alterar a configuração do projeto.

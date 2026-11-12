@@ -153,6 +153,7 @@ const MissionSystem = (() => {
 
     const isHardMode = GameState.difficulty === "dificil";
     const isMatching = mission.type === "matching";
+    const isMemory = mission.type === "memory";
     const isCodeChoice = isHardMode && mission.choiceFormat === "code";
     const missionScreen = document.getElementById("screen-mission");
     const missionPanel = missionScreen?.querySelector(".mission-panel");
@@ -164,7 +165,9 @@ const MissionSystem = (() => {
     missionPanel?.classList.toggle("mission-panel-hard", isHardMode);
 
     if (questionLabel) {
-      questionLabel.textContent = isMatching
+      questionLabel.textContent = isMemory
+        ? "▶ ENCONTRE OS PARES NA MEMÓRIA:"
+        : isMatching
         ? "▶ LIGUE CADA ITEM À RESPOSTA:"
         : isCodeChoice
         ? "▶ SELECIONE O BLOCO DE CÓDIGO CORRETO:"
@@ -208,9 +211,12 @@ const MissionSystem = (() => {
 
     const container = document.getElementById("choices-container");
     const matchingContainer = document.getElementById("matching-container");
+    const memoryContainer = document.getElementById("memory-container");
     MatchingChallenge.clear();
-    container.hidden = isMatching;
+    MemoryChallenge.clear();
+    container.hidden = isMatching || isMemory;
     matchingContainer.hidden = !isMatching;
+    memoryContainer.hidden = !isMemory;
     container.innerHTML = "";
     const hasWideCodeChoice =
       isCodeChoice &&
@@ -225,6 +231,9 @@ const MissionSystem = (() => {
 
     if (isMatching) {
       MatchingChallenge.render(matchingContainer, mission, correct => finishAnswer(correct, mission));
+    }
+    if (isMemory) {
+      MemoryChallenge.render(memoryContainer, mission, correct => finishAnswer(correct, mission));
     }
 
     (mission.choices || []).forEach((choice, i) => {
@@ -265,7 +274,9 @@ const MissionSystem = (() => {
     });
 
     UI.showScreen("screen-mission");
-    const options = isMatching
+    const options = isMemory
+      ? 'Use Tab e Enter para virar duas cartas e encontrar os pares. Não há cronômetro. As cartas incorretas ficam abertas até você escolher continuar.'
+      : isMatching
       ? `Itens: ${mission.pairs.map(pair => pair.left).join('; ')}. Respostas: ${mission.targets.join('; ')}. Use Tab e Enter para selecionar um item, ligar à resposta e confirmar. Uma resposta pode receber mais de um item.`
       : mission.choices.map((choice, i) =>
       `Opção ${String.fromCharCode(65 + i)}: ${choice}`
@@ -344,6 +355,7 @@ const MissionSystem = (() => {
 
   function closeMission() {
     MatchingChallenge.clear();
+    MemoryChallenge.clear();
     GameState.activeIdx = -1;
     GameState.popupCooldown = 90;
 

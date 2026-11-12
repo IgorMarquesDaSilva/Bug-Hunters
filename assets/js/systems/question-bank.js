@@ -31,6 +31,16 @@ const QuestionBank = (() => {
   }
 
   function prepare(mission) {
+    if (mission.type === 'memory') {
+      return {
+        ...mission,
+        pairs: mission.pairs.map(pair => ({...pair})),
+        cards: shuffle(mission.pairs.flatMap(pair => [
+          { id: `${pair.id}-left`, pairId: pair.id, text: pair.left },
+          { id: `${pair.id}-right`, pairId: pair.id, text: pair.right }
+        ]))
+      };
+    }
     if (mission.type === 'matching') {
       return {
         ...mission,
@@ -53,6 +63,27 @@ const QuestionBank = (() => {
       pool.filter(mission => mission.objective === objective),
       `${difficulty}:${room}:${objective}`
     ));
+    if (room === 'sala4' && selected.length) {
+      const candidates = selected.filter(mission => mission.type === 'choice');
+      const replaced = candidates.find(mission => mission.objective === 'reutilizar') || shuffle(candidates)[0];
+      const data = MEMORY_DATA[difficulty];
+      // A reutilização é o objetivo desta missão; os demais pares variam.
+      const selectedPairs = [data.pairs[0], ...shuffle(data.pairs.slice(1))].slice(0, data.count);
+      const pairs = selectedPairs.map(([left,right],index) => ({ id:`memory-${index}`,left,right }));
+      selected[selected.indexOf(replaced)] = {
+        id: `sala4-${difficulty}-memoria`,
+        replacesId: replaced.id,
+        objective: replaced.objective,
+        type: 'memory',
+        title: 'Central de Controle — Jogo da memória',
+        desc: `Encontre ${data.count} pares de código e significado. Vire duas cartas por vez. Você pode tentar novamente, sem limite de tempo.`,
+        code: '',
+        pairs,
+        success: 'Você encontrou os pares e revisou dados e ações do programa!',
+        hint: 'Leia cada código e pense no que ele faz.',
+        explanation: pairs.map(pair => `${pair.left} → ${pair.right}`).join('; ') + '.'
+      };
+    }
     return shuffle(selected).map(prepare);
   }
 

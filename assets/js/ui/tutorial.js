@@ -127,12 +127,13 @@ const TutorialSystem = (() => {
   let isOpen = false;
 
   function open(fromMenu = false) {
+    if (window.UI?.getActiveScreen() === "screen-tutorial") return;
     if (!fromMenu && localStorage.getItem("bh_tutorial_done") === "1") return;
 
     currentSlide = 0;
     isOpen = true;
 
-    if (window.UI?.showScreen) UI.showScreen("screen-tutorial");
+    if (window.UI?.openSupport) UI.openSupport("screen-tutorial");
     else if (typeof GameState !== "undefined") GameState.isPaused = true;
 
     render();
@@ -142,18 +143,18 @@ const TutorialSystem = (() => {
     isOpen = false;
     localStorage.setItem("bh_tutorial_done", "1");
 
-    if (window.UI?.showScreen) UI.showScreen(null);
+    if (window.UI?.closeSupport) UI.closeSupport();
     else {
       const overlay = document.getElementById("screen-tutorial");
       if (overlay) overlay.style.display = "none";
       if (typeof GameState !== "undefined") GameState.isPaused = false;
     }
 
-    announce("Tutorial fechado. Use WASD ou as setas para mover o personagem pelo mapa.", false);
+    announce("Tutorial fechado. Atividade retomada.", false);
   }
 
   function isActive() {
-    return isOpen;
+    return isOpen && (!window.UI || UI.getActiveScreen() === "screen-tutorial");
   }
 
   function next() {
@@ -303,7 +304,7 @@ const TutorialSystem = (() => {
   }
 
   document.addEventListener("keydown", event => {
-    if (!isOpen || event.defaultPrevented || event.ctrlKey || event.altKey || event.metaKey) return;
+    if (!isActive() || event.defaultPrevented || event.ctrlKey || event.altKey || event.metaKey) return;
 
     if (event.key === "ArrowRight") {
       event.preventDefault();

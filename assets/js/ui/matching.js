@@ -19,7 +19,7 @@ const MatchingChallenge = (() => {
     const instructions = document.createElement('p');
     instructions.id = 'matching-instructions';
     instructions.className = 'matching-instructions';
-    instructions.textContent = 'Use Tab para escolher um item e Enter para selecioná-lo. Depois escolha a resposta e pressione Enter para ligar. Uma resposta pode receber vários itens. Para trocar uma ligação, selecione o item de novo. Ao terminar, confirme as ligações.';
+    instructions.textContent = 'Use Tab para navegar e Enter para ligar um item à sua resposta. Repita e confirme. Para trocar uma ligação, selecione o item de novo.';
 
     const board = document.createElement('div');
     board.className = 'matching-board';

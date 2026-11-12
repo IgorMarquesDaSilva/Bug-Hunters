@@ -3,6 +3,7 @@ window.KeyboardNavigation = (() => {
   const selector = 'button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), a[href], [tabindex="0"]';
   let activeScreen = null;
   let returnTarget = null;
+  const screenFocus = new Map();
 
   function focusable(root) {
     return Array.from(root.querySelectorAll(selector)).filter(element =>
@@ -11,7 +12,19 @@ window.KeyboardNavigation = (() => {
     );
   }
 
-  function screenChanged(screenId) {
+  function currentItems() {
+    const items = activeScreen ? focusable(activeScreen) : [];
+    const hud = document.querySelector('.hud-panel');
+    if (hud && !hud.inert) items.push(...focusable(hud));
+    return items;
+  }
+
+  document.addEventListener('focusin', event => {
+    const screen = event.target.closest('.overlay');
+    if (screen) screenFocus.set(screen.id, event.target);
+  });
+
+  function screenChanged(screenId, { preferredFocus = null } = {}) {
     const previous = activeScreen;
     const screen = screenId ? document.getElementById(screenId) : null;
     const modal = Boolean(screen && screenId !== 'screen-bug-popup');
@@ -19,21 +32,26 @@ window.KeyboardNavigation = (() => {
       returnTarget = document.activeElement;
     }
     activeScreen = screen;
-    document.querySelectorAll('.hud-panel, #mobile-controls, #gameCanvas').forEach(element => {
+    document.querySelectorAll('#room-map, #mobile-controls, #gameCanvas').forEach(element => {
       element.inert = modal;
     });
+    const inGame = Boolean(window.UI?.isInGameSession());
+    const hud = document.querySelector('.hud-panel');
+    if (hud) hud.inert = !inGame;
     if (modal) {
       screen.setAttribute('role', 'dialog');
-      screen.setAttribute('aria-modal', 'true');
+      // Durante a partida, os apoios da barra lateral também são interativos.
+      screen.setAttribute('aria-modal', String(!inGame));
       if (!screen.hasAttribute('aria-labelledby') && !screen.hasAttribute('aria-label')) {
         screen.setAttribute('aria-label', screen.querySelector('.popup-header, h1, h2, .settings-title')?.textContent.trim() || 'Menu do jogo');
       }
       screen.tabIndex = -1;
-      const preferred = screenId === 'screen-mission'
-        ? screen.querySelector('#mission-desc') : null;
+      const preferred = preferredFocus && currentItems().includes(preferredFocus)
+        ? preferredFocus : screenId === 'screen-mission'
+          ? screen.querySelector('#mission-desc') : null;
       (preferred || focusable(screen)[0] || screen).focus();
     } else if (!screen && previous) {
-      const target = returnTarget;
+      const target = preferredFocus || returnTarget;
       returnTarget = null;
       if (target?.isConnected && !target.closest('.overlay, [inert]') && target.matches(selector) && target.getClientRects().length) {
         target.focus();
@@ -47,7 +65,7 @@ window.KeyboardNavigation = (() => {
     if (event.defaultPrevented || event.ctrlKey || event.altKey || event.metaKey) return;
     const modal = activeScreen && activeScreen.id !== 'screen-bug-popup';
     if (modal && event.key === 'Tab') {
-      const items = focusable(activeScreen);
+      const items = currentItems();
       const index = items.indexOf(document.activeElement);
       if (!items.length) {
         event.preventDefault();
@@ -64,6 +82,7 @@ window.KeyboardNavigation = (() => {
         'screen-settings': () => window.closeSettingsMenu(),
         'screen-accessibility': () => window.backToMainMenu(),
         'screen-glossary': () => window.Glossary.close(),
+        'screen-shortcuts': () => window.ShortcutHelp.close(),
         'screen-tutorial': () => TutorialSystem.close(),
         'screen-bug-popup': () => UI.closePopup()
       };
@@ -80,8 +99,8 @@ window.KeyboardNavigation = (() => {
     }
     // Setas percorrem grupos de opções; controles de volume e blocos
     // de texto mantêm o comportamento nativo de ajuste e rolagem.
-    const group = event.target.closest('.diff-btn')?.parentElement ||
-      event.target.closest('.choice-btn, .matching-item')?.parentElement;
+    const group = event.target.closest?.('.diff-btn')?.parentElement ||
+      event.target.closest?.('.choice-btn, .matching-item, .memory-card')?.parentElement;
     if (group && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
       const items = focusable(group);
       if (!items.length) return;
@@ -94,5 +113,5 @@ window.KeyboardNavigation = (() => {
     }
   });
 
-  return { screenChanged };
+  return { screenChanged, getScreenFocus: id => screenFocus.get(id) };
 })();

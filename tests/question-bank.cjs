@@ -13,6 +13,7 @@ seededMath.random = () => {
   return seed / 2 ** 32;
 };
 const context = vm.createContext({ Math: seededMath, resetScoreSent() {} });
+vm.runInContext(read('assets/js/data/memory-data.js'), context);
 vm.runInContext(read('assets/js/systems/question-bank.js') + '\nglobalThis.bankSystem = QuestionBank;', context);
 vm.runInContext(read('assets/js/core/state.js') + '\nglobalThis.state = GameState;', context);
 const system = context.bankSystem;
@@ -59,13 +60,22 @@ for (const [difficulty, rooms] of Object.entries(bank)) {
       assert.equal(new Set(selected.map(item => item.id)).size, 5);
       assert.equal(new Set(selected.map(item => item.objective)).size, 5);
       assert.equal(selected.filter(item => item.type === 'matching').length, 1);
+      assert.equal(selected.filter(item => item.type === 'memory').length, room === 'sala4' ? 1 : 0);
       for (const item of selected) {
-        seen.add(item.id);
-        const original = pool.find(original => original.id === item.id);
+        const sourceId = item.replacesId || item.id;
+        seen.add(sourceId);
+        const original = pool.find(original => original.id === sourceId);
         assert.ok(original, 'Respeita a fase e a dificuldade');
+        assert.equal(item.objective, original.objective);
         if (item.type === 'choice') {
           assert.equal(item.choices[item.correct], original.choices[original.correct], 'Gabarito acompanha o embaralhamento');
           optionOrders.add(item.choices.join('|'));
+        } else if (item.type === 'memory') {
+          assert.equal(item.pairs.length, {facil:3,medio:4,dificil:5}[difficulty]);
+          assert.equal(item.cards.length, item.pairs.length * 2);
+          assert.equal(new Set(item.cards.map(card => card.id)).size, item.cards.length);
+          for (const pair of item.pairs) assert.equal(item.cards.filter(card => card.pairId === pair.id).length, 2);
+          assert.ok(item.pairs.some(pair => pair.left === 'Reutilizar uma função'));
         } else {
           assert.notStrictEqual(item.pairs, original.pairs);
           assert.notStrictEqual(item.pairs[0], original.pairs.find(pair => pair.id === item.pairs[0].id));
@@ -74,10 +84,10 @@ for (const [difficulty, rooms] of Object.entries(bank)) {
         const cycle = firstCycle.get(item.objective);
         const size = groups.get(item.objective).length;
         if (cycle.length < size) {
-          assert.ok(!cycle.includes(item.id), 'Cada variante aparece antes da repetição');
-          cycle.push(item.id);
+          assert.ok(!cycle.includes(sourceId), 'Cada variante aparece antes da repetição');
+          cycle.push(sourceId);
         } else if (draw === size && size > 1) {
-          assert.notEqual(item.id, cycle.at(-1), 'Nova volta não repete a última questão');
+          assert.notEqual(sourceId, cycle.at(-1), 'Nova volta não repete a última questão');
         }
       }
     }

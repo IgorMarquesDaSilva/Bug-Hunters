@@ -9,6 +9,10 @@ body.font-family-arial {
   --game-code-font-family: Arial, sans-serif;
 }
 
+body {
+  --game-landscape-hud-height: calc(88px * var(--game-font-scale, 1));
+}
+
 .font-family-options {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -16,6 +20,7 @@ body.font-family-arial {
 }
 
 .hud-panel .hud-action-label {
+  font-size: calc(14px * var(--game-font-scale, 1));
   min-width: 0;
   max-width: 100%;
   white-space: normal;
@@ -43,6 +48,57 @@ body.font-family-arial {
 .menu-btn-content,
 .menu-btn-text {
   min-width: 0;
+}
+
+.popup-header,
+.settings-title,
+.glossary-title,
+.tutorial-topbar,
+.title-bug,
+.title-hunters {
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
+.mission-panel-hard .hard-mission-strip {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mission-panel-hard .hard-mission-strip > span {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.mission-panel-hard .hard-mission-type { flex: 1 1 220px; }
+
+.choice-btn,
+.main-menu-subtitle,
+.mission-desc,
+.explanation,
+.matching-instructions,
+.glossary-text {
+  line-height: 1.7;
+}
+
+.mission-panel:not(.mission-panel-hard) { max-width: 860px; }
+
+/* Textos de apoio mantêm um degrau abaixo do conteúdo e dos botões. */
+.main-menu-subtitle,
+.diff-desc,
+.settings-intro,
+.explanation,
+.tutorial-tip,
+.tutorial-phase,
+.tutorial-warning {
+  font-size: calc(14px * var(--game-font-scale, 1));
+}
+
+.settings-help,
+.access-reader-preview,
+.tutorial-image-caption,
+.matching-instructions {
+  font-size: calc(13px * var(--game-font-scale, 1));
 }
 
 .menu-btn-text,
@@ -136,6 +192,11 @@ body.font-family-arial {
 }
 
 @media (max-width: 900px) {
+  .hud-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hud-panel .panel-content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .hud-panel .hud-action-icon {
     font-size: 15px;
   }
@@ -156,6 +217,58 @@ body.font-family-arial {
 
   .main-menu-btn i {
     font-size: 20px;
+  }
+}
+
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+  body.mobile-landscape-layout .game-wrapper,
+  body.mobile-force-landscape .game-wrapper {
+    grid-template-rows: var(--game-landscape-hud-height) minmax(0, var(--game-stage-height, 304px));
+  }
+
+  body.mobile-landscape-layout .hud-panel,
+  body.mobile-force-landscape .hud-panel {
+    height: var(--game-landscape-hud-height);
+  }
+
+  body.mobile-landscape-layout .hud-panel .panel-content,
+  body.mobile-force-landscape .hud-panel .panel-content {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  body.mobile-landscape-layout .hud-panel .stat,
+  body.mobile-force-landscape .hud-panel .stat {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  body.mobile-landscape-layout:is(.font-size-large, .font-size-giant) .game-wrapper,
+  body.mobile-force-landscape:is(.font-size-large, .font-size-giant) .game-wrapper {
+    height: auto;
+    grid-template-rows: auto minmax(0, var(--game-stage-height, 304px));
+    overflow: visible;
+  }
+
+  body.mobile-landscape-layout:is(.font-size-large, .font-size-giant) .hud-panel,
+  body.mobile-force-landscape:is(.font-size-large, .font-size-giant) .hud-panel {
+    height: auto;
+    min-height: var(--game-landscape-hud-height);
+    overflow: visible;
+  }
+
+  body.mobile-landscape-layout:is(.font-size-large, .font-size-giant):not(.mobile-force-landscape) {
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
+
+  body.mobile-landscape-layout:is(.font-size-large, .font-size-giant):not(.mobile-force-landscape) > .game-container {
+    height: auto;
+  }
+
+  body.mobile-force-landscape:is(.font-size-large, .font-size-giant) > .game-container {
+    overflow-y: auto;
   }
 }
 

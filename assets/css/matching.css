@@ -4,11 +4,13 @@
 .matching-instructions,
 .matching-status {
   color: var(--px-white);
-  font-size: calc(7px * var(--game-font-scale, 1));
+  font-size: calc(14px * var(--game-font-scale, 1));
   line-height: 2;
   text-align: left;
   overflow-wrap: anywhere;
 }
+
+.matching-instructions { font-size: calc(13px * var(--game-font-scale, 1)); }
 
 .matching-board {
   position: relative;
@@ -42,7 +44,7 @@
 
 .matching-column-title {
   color: #ffcf79;
-  font-size: calc(7px * var(--game-font-scale, 1));
+  font-size: calc(14px * var(--game-font-scale, 1));
   line-height: 1.8;
   text-align: left;
   overflow-wrap: anywhere;
@@ -58,7 +60,7 @@
   background: #0a1729;
   color: #fff;
   font-family: var(--game-font-family);
-  font-size: calc(7px * var(--game-font-scale, 1));
+  font-size: calc(16px * var(--game-font-scale, 1));
   line-height: 1.9;
   text-align: left;
   overflow-wrap: anywhere;

@@ -1,0 +1,39 @@
+.memory-instructions,
+.memory-status {
+  font-size: calc(13px * var(--game-font-scale, 0.75));
+  line-height: 1.8;
+  margin: 10px 0;
+  overflow-wrap: anywhere;
+}
+
+.memory-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.memory-card {
+  min-width: 0;
+  min-height: 100px;
+  padding: 12px 8px;
+  background: #153454;
+  border: 3px solid #6ab7e5;
+  color: #fff;
+  font-family: var(--game-font-family);
+  font-size: calc(14px * var(--game-font-scale, 0.75));
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.memory-card.revealed { background: #081725; border-color: #ffc66d; }
+.memory-card.paired { background: #163a2b; border-color: #83e5b1; }
+.memory-card:focus-visible { outline: 3px solid #ffca6f; outline-offset: 2px; }
+.memory-card:disabled { opacity: 1; cursor: default; }
+body.high-contrast-on .memory-card { color: #fff; background: #000; border-color: #fff; }
+body.high-contrast-on .memory-card.revealed { border-color: #ff0; }
+
+@media (max-width: 560px) {
+  .memory-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

@@ -37,6 +37,10 @@ const assert = require('node:assert/strict');
   }
   const focus = () => evaluate('document.activeElement.id || document.activeElement.className');
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+  async function firstRoomFixture() {
+    if (process.env.BH_TEST_FROM_FIRST_ROOM !== '1') return;
+    await evaluate("GameState.currentRoom='sala1'; Renderer.loadRoomBackground(); BugSystem.spawnBugs(); CollisionSystem.loadZones(); Player.resetToRoomStart(); HUD.update()");
+  }
   async function tabUntil(expression) {
     for (let i = 0; i < 45; i++) {
       if (await evaluate(expression)) return;
@@ -60,6 +64,13 @@ const assert = require('node:assert/strict');
       }
       assert.equal(await focus(), 'btn-confirm-matching');
       await key('Enter');
+    } else if (mission.type === 'memory') {
+      for (const pair of mission.pairs) {
+        for (const card of mission.cards.filter(card => card.pairId === pair.id)) {
+          await tabUntil(`document.activeElement.dataset.cardId === ${JSON.stringify(card.id)}`);
+          await key('Enter');
+        }
+      }
     } else {
       await key('Tab');
       if (mission.code) {
@@ -81,6 +92,7 @@ const assert = require('node:assert/strict');
     assert.equal(await evaluate("document.getElementById('gameCanvas').getAttribute('role')"), 'application');
     assert.equal(await evaluate("document.getElementById('game-live-region').getAttribute('aria-live')"), 'polite');
     assert.equal(await focus(), 'btn-main-play');
+    assert.equal(await evaluate("document.querySelector('.main-menu-shortcuts')"), null, 'Painel antigo de atalhos removido');
     await key('Tab', true);
     assert.equal(await focus(), 'btn-main-accessibility');
     await key(' ');
@@ -100,6 +112,7 @@ const assert = require('node:assert/strict');
       for (let i = 0; i < difficulty; i++) await key('ArrowDown');
       assert.equal(await evaluate("Array.from(document.querySelectorAll('.diff-btn')).indexOf(document.activeElement)"), difficulty);
       await key('Enter');
+      await firstRoomFixture();
       assert.equal(await evaluate('GameState.currentRoom'), 'sala1', 'Partida começa na primeira fase');
       if (difficulty === 0) {
         assert.equal(await focus(), 'tut-btn-next');
@@ -130,6 +143,27 @@ const assert = require('node:assert/strict');
       assert.ok((await focus()).includes('glossary-subtab'), 'Glossário preserva o foco ao reconstruir menu');
       await key('Escape');
       assert.ok((await focus()).includes('hud-action-glossary'), 'Foco retorna ao botão que abriu o glossário');
+      await key('Tab');
+      assert.equal(await focus(), 'btn-hud-shortcuts');
+      await key('Enter');
+      assert.equal(await focus(), 'shortcuts-content', 'Lista de atalhos recebe foco para rolagem');
+      assert.equal(await evaluate('GameState.isPaused'), true, 'Ajuda pausa a exploração');
+      const shortcuts = await evaluate("document.getElementById('shortcuts-content').textContent");
+      for (const command of ['Tab', 'Enter', 'Espaço', 'Shift + Tab', 'Home', 'End', 'W A S D', 'Escape', 'Narrador', 'Acessibilidade']) {
+        assert.ok(shortcuts.includes(command), `Ajuda inclui ${command}`);
+      }
+      await key('Tab');
+      assert.equal(await focus(), 'btn-shortcuts-close');
+      await key('Tab');
+      assert.ok((await focus()).includes('hud-action-tutorial'), 'Atalhos mantém a barra lateral acessível');
+      for (let button=0; button<4; button++) await key('Tab');
+      assert.equal(await focus(), 'shortcuts-content', 'Tab permanece na janela de atalhos');
+      await key('Escape');
+      assert.equal(await focus(), 'btn-hud-shortcuts', 'Escape devolve foco ao botão Atalhos');
+      await key('Enter');
+      await key('Tab');
+      await key('Enter');
+      assert.equal(await focus(), 'btn-hud-shortcuts', 'Atalhos também fecha somente com Tab e Enter');
       // Posições são fixtures: respostas e progressão são acionadas por teclas reais.
       for (let room = 0; room < 4; room++) {
         await evaluate("UI.showScreen(null); document.getElementById('gameCanvas').focus()");
@@ -162,6 +196,7 @@ const assert = require('node:assert/strict');
     // Fluxo de falha: errar, reiniciar a fase e voltar do Game Over.
     await key('Enter');
     await key('Enter');
+    await firstRoomFixture();
     for (let attempt = 0; attempt < 4; attempt++) {
       for (let mission = 0; mission < 5; mission++) {
         await evaluate(`GameState.activeIdx = ${mission}; Player.state.x = GameState.bugs[${mission}].x - Player.state.hitboxOffsetX; Player.state.y = GameState.bugs[${mission}].y - Player.state.hitboxOffsetY; UI.showScreen('screen-bug-popup')`);

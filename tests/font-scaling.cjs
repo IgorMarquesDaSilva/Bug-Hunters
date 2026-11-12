@@ -28,7 +28,7 @@ const assert = require('node:assert/strict');
     return result.result.value;
   }
   try {
-    await evaluate('location.reload()');
+    await evaluate('localStorage.clear(); location.reload()');
     await new Promise(resolve => setTimeout(resolve, 1000));
     for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }, { width: 844, height: 390 }]) {
       await send('Emulation.setDeviceMetricsOverride', { ...viewport, deviceScaleFactor: 1, mobile: false });
@@ -38,6 +38,12 @@ const assert = require('node:assert/strict');
       const measure = () => evaluate(`(${JSON.stringify(selectors)}).map(s => { const el = document.querySelector(s); return el ? [s, parseFloat(getComputedStyle(el).fontSize)] : null; }).filter(Boolean)`);
       const normal = await measure();
       assert.ok(normal.length >= 9, 'Cobertura das telas');
+      const readable = await evaluate(`['.menu-btn-text', '.glossary-text', '.tutorial-text', '#mission-desc', '#mission-code', '.code-choice-content', '.choice-btn', '#feedback-msg'].map(selector => { const element = document.querySelector(selector); return element ? [selector, parseFloat(getComputedStyle(element).fontSize)] : null; }).filter(Boolean)`);
+      for (const [selector, size] of readable) assert.ok(size >= 12, `${viewport.width}px: ${selector} mantém a base pixelada de leitura (${size}px)`);
+      assert.equal(await evaluate("Number(getComputedStyle(document.body).getPropertyValue('--game-font-scale'))"), 0.75);
+      for (const [subtext, primary] of [['.main-menu-subtitle', '.menu-btn-text'], ['.settings-help', '.settings-label'], ['.diff-desc', '.diff-label']]) {
+        assert.ok(await evaluate(`parseFloat(getComputedStyle(document.querySelector('${subtext}')).fontSize) < parseFloat(getComputedStyle(document.querySelector('${primary}')).fontSize)`), `${subtext} menor que ${primary}`);
+      }
       for (const [size, scale] of [['large', 1.5], ['giant', 2]]) {
         await evaluate(`document.querySelector('[data-font-size="${size}"]').click()`);
         const measurements = await measure();
@@ -52,8 +58,10 @@ const assert = require('node:assert/strict');
       await evaluate("AccessibilitySystem.setFontSize('giant', false); UI.showScreen(null)");
       const hudOverflow = await evaluate(`Array.from(document.querySelectorAll('.hud-action-btn')).filter(el => el.getClientRects().length).map(el => ({ name: el.textContent.trim(), width: el.clientWidth, height: el.clientHeight, sw: el.scrollWidth, sh: el.scrollHeight, overflow: el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1 }))`);
       assert.ok(hudOverflow.every(item => !item.overflow), JSON.stringify(hudOverflow));
-      for (const screen of ['screen-main-menu', 'screen-settings', 'screen-accessibility']) {
-        await evaluate(`UI.showScreen('${screen}')`);
+      const clippedStats = await evaluate(`(() => { const hud = document.querySelector('.hud-panel').getBoundingClientRect(); return [...document.querySelectorAll('.hud-panel .stat-label, .hud-panel .stat-value')].filter(el => { const rect = el.getBoundingClientRect(); return rect.bottom > hud.bottom + 1 || rect.top < hud.top - 1; }).map(el => el.textContent.trim()); })()`);
+      assert.deepEqual(clippedStats, [], 'Pontuação e rótulos permanecem dentro do HUD com fonte Gigante');
+      for (const screen of ['screen-main-menu', 'screen-settings', 'screen-accessibility', 'screen-shortcuts']) {
+        await evaluate(screen === 'screen-shortcuts' ? 'ShortcutHelp.open()' : `UI.showScreen('${screen}')`);
         const overflow = await evaluate(`Array.from(document.querySelectorAll('#${screen} button')).filter(el => el.getClientRects().length).filter(el => { const content = el.querySelector('.menu-btn-text, .access-btn-text') || el; const range = document.createRange(); range.selectNodeContents(content); const button = el.getBoundingClientRect(); return Array.from(range.getClientRects()).some(rect => rect.width > 0 && (rect.left < button.left - 1 || rect.right > button.right + 1 || rect.top < button.top - 1 || rect.bottom > button.bottom + 1)); }).map(el => el.textContent.trim())`);
         assert.deepEqual(overflow, [], `${screen}: texto fora do botão`);
       }
@@ -64,13 +72,19 @@ const assert = require('node:assert/strict');
     assert.equal(await evaluate("document.body.classList.contains('font-size-giant')"), true);
     await evaluate("AccessibilitySystem.setFontSize('small', false)");
     assert.equal(await evaluate("localStorage.getItem('bugHunters.fontSize')"), 'normal');
+    await evaluate('location.reload()');
+    await new Promise(resolve => setTimeout(resolve, 800));
+    assert.equal(await evaluate("parseFloat(getComputedStyle(document.querySelector('.main-menu-subtitle')).fontSize)"), 10.5, 'Preferência Normal salva mantém a proporção da fonte pixelada');
     console.log('OK: persistência e migração da opção pequena');
     await evaluate("document.querySelector('[data-font-family=arial]').click(); Glossary.open(); GameState.activeIdx = 0; MissionSystem.startMission()");
     const families = await evaluate(`Array.from(document.querySelectorAll('body, button, p, pre, code, .hud-action-label, .settings-label, .glossary-title, .code-choice-content, #room-map span')).map(el => getComputedStyle(el).fontFamily)`);
     assert.ok(families.every(family => family.startsWith('Arial')), JSON.stringify([...new Set(families)]));
     assert.equal(await evaluate("localStorage.getItem('bugHunters.fontFamily')"), 'arial');
     assert.equal(await evaluate("document.querySelector('[data-font-family=arial]').getAttribute('aria-pressed')"), 'true');
-    for (const [size, expectedScale] of [['normal', 2], ['large', 3], ['giant', 4]]) {
+    await evaluate("AccessibilitySystem.setFontSize('normal', false)");
+    assert.equal(await evaluate("parseFloat(getComputedStyle(document.querySelector('.menu-btn-text')).fontSize)"), 16, 'Arial preserva seu tamanho de leitura');
+    assert.equal(await evaluate("parseFloat(getComputedStyle(document.querySelector('.main-menu-subtitle')).fontSize)"), 14, 'Arial também mantém o subtítulo menor');
+    for (const [size, expectedScale] of [['normal', 1], ['large', 1.5], ['giant', 2]]) {
       await evaluate(`AccessibilitySystem.setFontSize('${size}', false)`);
       assert.equal(await evaluate("Number(getComputedStyle(document.body).getPropertyValue('--game-font-scale'))"), expectedScale);
     }
@@ -78,11 +92,11 @@ const assert = require('node:assert/strict');
     await evaluate('location.reload()');
     await new Promise(resolve => setTimeout(resolve, 1000));
     assert.equal(await evaluate("document.body.classList.contains('font-family-arial')"), true);
-    assert.equal(await evaluate("Number(getComputedStyle(document.body).getPropertyValue('--game-font-scale'))"), 4);
+    assert.equal(await evaluate("Number(getComputedStyle(document.body).getPropertyValue('--game-font-scale'))"), 2);
     await evaluate("document.querySelector('[data-font-family=default]').click()");
     assert.equal(await evaluate("document.body.classList.contains('font-family-arial')"), false);
     assert.ok(await evaluate("getComputedStyle(document.body).fontFamily.includes('Press Start 2P')"));
-    assert.equal(await evaluate("Number(getComputedStyle(document.body).getPropertyValue('--game-font-scale'))"), 2);
+    assert.equal(await evaluate("Number(getComputedStyle(document.body).getPropertyValue('--game-font-scale'))"), 1.5);
     console.log('OK: Arial em todas as telas, códigos e canvas; persistência e retorno à fonte padrão');
   } finally {
     socket.close();

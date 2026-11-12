@@ -10,19 +10,22 @@
 
   <title>BUG HUNTERS</title>
 
-  <link rel="stylesheet" href="assets/css/main.css?v=16">
+  <link rel="stylesheet" href="assets/css/main.css?v=20">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="assets/css/tela_inicial.css?v=16">
-  <link rel="stylesheet" href="assets/css/tutorial.css?v=16">
-  <link rel="stylesheet" href="assets/css/dificil_mission.css?v=16">
+  <link rel="stylesheet" href="assets/css/tela_inicial.css?v=18">
+  <link rel="stylesheet" href="assets/css/tutorial.css?v=17">
+  <link rel="stylesheet" href="assets/css/dificil_mission.css?v=18">
   <link rel="stylesheet" href="assets/css/sala1_design.css?v=16">
-  <link rel="stylesheet" href="assets/css/sala2_design.css?v=17">
-  <link rel="stylesheet" href="assets/css/sala3_design.css?v=17">
+  <link rel="stylesheet" href="assets/css/sala2_design.css?v=20">
+  <link rel="stylesheet" href="assets/css/sala3_design.css?v=19">
   <link rel="stylesheet" href="assets/css/sala4_design.css?v=17">
-  <link rel="stylesheet" href="assets/css/responsive.css?v=16">
-  <link rel="stylesheet" href="assets/css/mobile.css?v=16">
-  <link rel="stylesheet" href="assets/css/font-layout.css?v=16">
-  <link rel="stylesheet" href="assets/css/matching.css">
+  <link rel="stylesheet" href="assets/css/responsive.css?v=17">
+  <link rel="stylesheet" href="assets/css/mobile.css?v=17">
+  <link rel="stylesheet" href="assets/css/font-layout.css?v=18">
+  <link rel="stylesheet" href="assets/css/matching.css?v=3">
+  <link rel="stylesheet" href="assets/css/shortcuts.css">
+  <link rel="stylesheet" href="assets/css/memory.css?v=2">
+  <link rel="stylesheet" href="assets/css/support.css?v=2">
 </head>
 
 <body>
@@ -328,6 +331,7 @@
         <div id="sala4-screen-overlay-right"></div>
 
         <div id="sala2-reactor-overlay" class="sala2-mission mission-point"></div>
+        <canvas id="transitionCanvas" width="1000" height="600" aria-hidden="true"></canvas>
         <!-- =========================================================
              TELA INICIAL
         ========================================================== -->
@@ -336,25 +340,6 @@
           id="screen-main-menu"
           class="overlay main-menu-overlay"
           style="display:flex;">
-
-          <div class="main-menu-shortcuts" aria-label="Atalhos do menu inicial">
-
-            <div class="shortcut-item">
-              <span class="shortcut-key">A</span>
-              <span class="shortcut-label">JOGAR</span>
-            </div>
-
-            <div class="shortcut-item">
-              <span class="shortcut-key">W</span>
-              <span class="shortcut-label">CONFIG</span>
-            </div>
-
-            <div class="shortcut-item">
-              <span class="shortcut-key">D</span>
-              <span class="shortcut-label">ACESSO</span>
-            </div>
-
-          </div>
 
           <div class="main-menu-panel">
 
@@ -846,6 +831,20 @@
 
         </div>
 
+        <!-- Ajuda de teclado, acessível também com Tab e Enter. -->
+        <div id="screen-shortcuts" class="overlay" style="display:none;"
+          role="dialog" aria-modal="true" aria-labelledby="shortcuts-title">
+          <div class="popup-content shortcuts-panel">
+            <h2 id="shortcuts-title" class="popup-header">ATALHOS DO JOGO</h2>
+            <p class="shortcuts-intro">Tab e Enter permitem navegar e escolher usando uma tecla de cada vez. Os demais atalhos são opções de apoio.</p>
+            <div id="shortcuts-content" class="shortcuts-content" tabindex="0"
+              role="region" aria-label="Lista de atalhos; use as setas para rolar"></div>
+            <div class="popup-actions shortcuts-actions">
+              <button id="btn-shortcuts-close" class="cyber-btn" type="button" onclick="ShortcutHelp.close()">◀ VOLTAR AO JOGO</button>
+            </div>
+          </div>
+        </div>
+
         <!-- =========================================================
              GLOSSÁRIO
         ========================================================== -->
@@ -1189,6 +1188,7 @@
 
             <div id="choices-container"></div>
             <div id="matching-container" hidden></div>
+            <div id="memory-container" hidden></div>
 
             <div
               id="explanation-box"
@@ -1641,6 +1641,15 @@
         </div>
 
         <div class="hud-tutorial-btn">
+          <button id="btn-hud-shortcuts" class="cyber-btn hud-action-btn hud-action-shortcuts"
+            type="button" aria-label="Abrir atalhos do jogo" aria-haspopup="dialog"
+            aria-controls="screen-shortcuts" onclick="ShortcutHelp.open()">
+            <span class="hud-action-icon" aria-hidden="true"><i class="bi bi-keyboard"></i></span>
+            <span class="hud-action-label">ATALHOS</span>
+          </button>
+        </div>
+
+        <div class="hud-tutorial-btn">
 
           <button
             class="cyber-btn hud-action-btn hud-action-settings"
@@ -1728,30 +1737,33 @@
   <script src="assets/js/data/glossary-data.js?v=2"></script>
   
   <script src="assets/js/core/config.js"></script>
-  <script src="assets/js/systems/question-bank.js"></script>
+  <script src="assets/js/data/memory-data.js?v=2"></script>
+  <script src="assets/js/systems/question-bank.js?v=3"></script>
   <script src="assets/js/core/state.js?v=2"></script>
   <script src="assets/js/core/platform.js"></script>
   
   <script src="assets/js/systems/collision.js"></script>
-  <script src="assets/js/systems/player.js?v=3"></script>
+  <script src="assets/js/systems/player.js?v=5"></script>
   <script src="assets/js/systems/bugs.js?v=6"></script>
   <script src="assets/js/systems/renderer.js?v=16"></script>
-  <script src="assets/js/systems/transition.js?v=17"></script>
+  <script src="assets/js/systems/transition.js?v=18"></script>
   
-  <script src="assets/js/ui/ui.js?v=6"></script>
+  <script src="assets/js/ui/ui.js?v=8"></script>
   <script src="assets/js/ui/mobile-controls.js?v=2"></script>
   <script src="assets/js/ui/hud.js"></script>
-  <script src="assets/js/ui/matching.js"></script>
-  <script src="assets/js/ui/mission.js?v=7"></script>
-  <script src="assets/js/ui/tutorial.js?v=5"></script>
-  <script src="assets/js/ui/glossary.js?v=5"></script>
-  <script src="assets/js/ui/responsive.js?v=9"></script>
+  <script src="assets/js/ui/matching.js?v=2"></script>
+  <script src="assets/js/ui/memory.js?v=2"></script>
+  <script src="assets/js/ui/mission.js?v=9"></script>
+  <script src="assets/js/ui/tutorial.js?v=7"></script>
+  <script src="assets/js/ui/glossary.js?v=7"></script>
+  <script src="assets/js/ui/shortcuts.js?v=3"></script>
+  <script src="assets/js/ui/responsive.js?v=10"></script>
   <script src="assets/js/systems/audio.js"></script>
   
-  <script src="assets/js/ui/keyboard.js?v=3"></script>
-  <script src="assets/js/core/game.js?v=5"></script>
-  <script src="assets/js/ui/tela_inicial.js?v=15"></script>
-  <script src="assets/js/ui/accessibility.js?v=19"></script>
+  <script src="assets/js/ui/keyboard.js?v=6"></script>
+  <script src="assets/js/core/game.js?v=6"></script>
+  <script src="assets/js/ui/tela_inicial.js?v=17"></script>
+  <script src="assets/js/ui/accessibility.js?v=22"></script>
 </body>
 
 </html>

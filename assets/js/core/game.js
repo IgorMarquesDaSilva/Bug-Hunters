@@ -4,6 +4,8 @@
 
    const canvas = document.getElementById("gameCanvas");
    const ctx    = canvas.getContext("2d");
+   const transitionCanvas = document.getElementById("transitionCanvas");
+   const transitionCtx = transitionCanvas.getContext("2d");
    
    // ── Carrega dados ─────────────────────────────────────────────
    async function loadGameData() {
@@ -37,7 +39,7 @@
 
      GameState.resetFull();
      GameState.difficulty  = selectedDifficulty;
-     GameState.currentRoom = "sala1";
+     GameState.currentRoom = "sala4";
      
    
      Renderer.loadRoomBackground();
@@ -81,7 +83,8 @@
      BugSystem.draw(ctx);
      CollisionSystem.drawDebug(ctx);
      Player.draw(ctx);
-     TransitionSystem.draw(ctx, canvas);  // sobrepõe a transição por cima de tudo
+     transitionCtx.clearRect(0, 0, transitionCanvas.width, transitionCanvas.height);
+     TransitionSystem.draw(transitionCtx, transitionCanvas);
    }
    
    // ── Game loop ─────────────────────────────────────────────────

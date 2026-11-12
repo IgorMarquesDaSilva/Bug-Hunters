@@ -3,8 +3,8 @@
    Animação de transição entre salas — efeito pixel art.
 
    COMO FUNCIONA:
-   - Usa o próprio canvas para sobrepor a animação
-   - 3 fases: FADE_OUT → FLASH → FADE_IN
+   - Usa um canvas dedicado acima de todas as camadas do cenário
+   - 4 fases: FADE_OUT → FLASH → SCANLINE → FADE_IN
    - Durante a transição o jogo fica pausado
    - Ao fim chama um callback (ex: carregar a sala nova)
 

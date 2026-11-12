@@ -4,8 +4,10 @@
 ============================================================ */
 
 window.UI = (() => {
+  let activeScreenId = null;
+  let supportReturn = null;
 
-  function showScreen(screenId) {
+  function displayScreen(screenId, preferredFocus = null) {
     const proximityPrompt = document.getElementById("screen-bug-popup");
     const wasProximityPromptOpen =
       proximityPrompt && getComputedStyle(proximityPrompt).display !== "none";
@@ -29,6 +31,11 @@ window.UI = (() => {
     document.querySelectorAll(".overlay").forEach(screen => {
       screen.style.display = "none";
     });
+
+    activeScreenId = screenId;
+    document.body.dataset.activeScreen = screenId || "gameplay";
+    document.body.classList.toggle("in-game-session", Boolean(GameState.difficulty) &&
+      !["screen-main-menu", "screen-difficulty"].includes(screenId));
 
     const missionScreen = document.getElementById("screen-mission");
     const opensHardMission =
@@ -58,14 +65,41 @@ window.UI = (() => {
       if (screen) {
         screen.style.display = "flex";
         GameState.isPaused = !opensProximityPrompt;
-        window.KeyboardNavigation?.screenChanged(screenId);
+        window.KeyboardNavigation?.screenChanged(screenId, { preferredFocus });
       }
 
       return;
     }
 
     GameState.isPaused = false;
-    window.KeyboardNavigation?.screenChanged(null);
+    window.KeyboardNavigation?.screenChanged(null, { preferredFocus });
+  }
+
+  function showScreen(screenId) {
+    supportReturn = null;
+    displayScreen(screenId);
+  }
+
+  function openSupport(screenId) {
+    if (activeScreenId === screenId) return false;
+    if (!supportReturn) {
+      const origin = activeScreenId === "screen-bug-popup" ? null : activeScreenId;
+      supportReturn = {
+        screenId: origin,
+        focus: origin
+          ? window.KeyboardNavigation?.getScreenFocus(origin)
+          : document.activeElement
+      };
+    }
+    displayScreen(screenId);
+    return true;
+  }
+
+  function closeSupport() {
+    const origin = supportReturn;
+    supportReturn = null;
+    // A missão continua montada: alternativas, cartas e ligações não mudam.
+    displayScreen(origin?.screenId || null, origin?.focus || null);
   }
 
   function closePopup() {
@@ -84,6 +118,10 @@ window.UI = (() => {
 
   return {
     showScreen,
+    openSupport,
+    closeSupport,
+    getActiveScreen: () => activeScreenId,
+    isInGameSession: () => document.body.classList.contains("in-game-session"),
     closePopup,
     showMainMenu
   };

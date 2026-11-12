@@ -30,7 +30,7 @@
   background: rgba(0, 0, 0, 0.28);
   border: 2px solid rgba(79, 195, 247, 0.42);
   color: var(--px-grey);
-  font-size: calc(5.5px * var(--game-font-scale, 1));
+  font-size: calc(14px * var(--game-font-scale, 1));
   line-height: 1.8;
   letter-spacing: 1px;
   box-shadow: 3px 3px 0 #000;
@@ -139,7 +139,7 @@
 .tutorial-image-caption {
   color: var(--px-grey);
   text-align: center;
-  font-size: calc(5.5px * var(--game-font-scale, 1));
+  font-size: calc(14px * var(--game-font-scale, 1));
   line-height: 1.9;
   letter-spacing: 0.4px;
 }
@@ -166,7 +166,7 @@
 .tutorial-panel .tut-text {
   text-align: left;
   line-height: 2.25;
-  font-size: calc(7px * var(--game-font-scale, 1));
+  font-size: calc(16px * var(--game-font-scale, 1));
   color: var(--px-white);
   margin: 0;
 }
@@ -181,7 +181,7 @@
 .tutorial-phase,
 .tutorial-warning {
   padding: 9px 10px;
-  font-size: calc(6px * var(--game-font-scale, 1));
+  font-size: calc(16px * var(--game-font-scale, 1));
   line-height: 2;
   box-shadow: 3px 3px 0 #000;
 }
@@ -245,7 +245,7 @@
   border: none;
   color: var(--px-grey);
   font-family: var(--game-font-family);
-  font-size: calc(6px * var(--game-font-scale, 1));
+  font-size: calc(16px * var(--game-font-scale, 1));
   cursor: pointer;
   margin-top: 2px;
   padding: 6px;

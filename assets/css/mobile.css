@@ -304,11 +304,11 @@
   }
 
   .hud-panel .stat-label {
-    font-size: calc((5px) * var(--game-font-scale, 1));
+    font-size: calc((14px) * var(--game-font-scale, 1));
   }
 
   .hud-panel .stat-value {
-    font-size: calc((7px) * var(--game-font-scale, 1));
+    font-size: calc((16px) * var(--game-font-scale, 1));
   }
 
   .hud-panel .hud-tutorial-btn {
@@ -380,7 +380,7 @@
     place-items: center;
     min-width: 0;
     padding: 0 10px 0 6px;
-    font-size: calc((6px) * var(--game-font-scale, 1));
+    font-size: calc((16px) * var(--game-font-scale, 1));
     overflow-wrap: anywhere;
   }
 
@@ -601,12 +601,12 @@
   }
 
   .hud-panel .stat-label {
-    font-size: calc((4px) * var(--game-font-scale, 1));
+    font-size: calc((14px) * var(--game-font-scale, 1));
     letter-spacing: 0;
   }
 
   .hud-panel .stat-value {
-    font-size: calc((6px) * var(--game-font-scale, 1));
+    font-size: calc((16px) * var(--game-font-scale, 1));
   }
 
   .hud-panel .hud-tutorial-btn {
@@ -680,8 +680,8 @@
   body.mobile-force-landscape .hud-panel .stat {
     min-width: 0; gap: 3px; padding: 0 2px; border-bottom: 0;
   }
-  body.mobile-force-landscape .hud-panel .stat-label { font-size: calc((4px) * var(--game-font-scale, 1)); letter-spacing: 0; }
-  body.mobile-force-landscape .hud-panel .stat-value { font-size: calc((6px) * var(--game-font-scale, 1)); }
+  body.mobile-force-landscape .hud-panel .stat-label { font-size: calc((14px) * var(--game-font-scale, 1)); letter-spacing: 0; }
+  body.mobile-force-landscape .hud-panel .stat-value { font-size: calc((16px) * var(--game-font-scale, 1)); }
   body.mobile-force-landscape .hud-panel .hud-tutorial-btn {
     flex: 0 0 46px; min-width: 0; padding: 3px 2px;
   }
@@ -846,12 +846,12 @@
   }
 
   body.mobile-landscape-layout .hud-panel .stat-label {
-    font-size: calc((4px) * var(--game-font-scale, 1));
+    font-size: calc((14px) * var(--game-font-scale, 1));
     letter-spacing: 0;
   }
 
   body.mobile-landscape-layout .hud-panel .stat-value {
-    font-size: calc((6px) * var(--game-font-scale, 1));
+    font-size: calc((16px) * var(--game-font-scale, 1));
   }
 
   body.mobile-landscape-layout .hud-panel .hud-tutorial-btn {

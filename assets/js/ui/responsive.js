@@ -9,7 +9,7 @@ window.ResponsiveLayout = (() => {
   const MAX_SCALE = 1.35;
   const COMPACT_BREAKPOINT = 900;
   const LANDSCAPE_CONTROLS_WIDTH = 132;
-  const LANDSCAPE_HUD_HEIGHT = 42;
+  const LANDSCAPE_HUD_HEIGHT = 88;
   const LANDSCAPE_COLUMN_GAP = 28;
   // As molduras pixeladas projetam 6 px para fora de cada painel.
   // A folga de 14 px impede que HUD e mapa se atravessem visualmente.
@@ -66,7 +66,7 @@ window.ResponsiveLayout = (() => {
       ? LANDSCAPE_CONTROLS_WIDTH + LANDSCAPE_COLUMN_GAP
       : 0;
     const reservedLandscapeHeight = compactLandscape
-      ? LANDSCAPE_HUD_HEIGHT + LANDSCAPE_ROW_GAP
+      ? (parseFloat(getComputedStyle(hud).height) || LANDSCAPE_HUD_HEIGHT) + LANDSCAPE_ROW_GAP
       : 0;
     const availableWidth = Math.max(
       280,
@@ -79,7 +79,7 @@ window.ResponsiveLayout = (() => {
       compact && !compactLandscape
         ? MAX_SCALE
         : Math.max(
-            0.4,
+            compactLandscape ? 0.28 : 0.4,
             (
               viewport.height - bodyInsets.vertical - frameBorder -
               reservedLandscapeHeight

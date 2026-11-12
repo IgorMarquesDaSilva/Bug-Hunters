@@ -777,7 +777,7 @@
 /* ========================= BRILHO DAS TASKS ========================= */
 
 #room-map.sala3 .sala3-mission.mission-available {
-  outline: 3px solid rgba(79, 195, 247, 0.38);
+  outline: 3px solid #155e38;
   outline-offset: 5px;
   animation: sala3-task-glow 1.05s infinite alternate;
 }
@@ -790,12 +790,14 @@
 
 @keyframes sala3-task-glow {
   from {
-    filter: drop-shadow(0 0 4px rgba(79,195,247,0.35));
+    outline-color: #12472b;
+    filter: drop-shadow(0 0 4px rgba(21,94,56,0.6));
   }
   to {
+    outline-color: #2e7549;
     filter:
-      drop-shadow(0 0 12px rgba(79,195,247,0.86))
-      drop-shadow(0 0 22px rgba(168,60,255,0.38));
+      drop-shadow(0 0 12px rgba(21,94,56,0.95))
+      drop-shadow(0 0 22px rgba(46,117,73,0.7));
   }
 }
 

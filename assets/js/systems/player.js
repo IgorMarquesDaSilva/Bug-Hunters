@@ -62,12 +62,14 @@ window.Player = (() => {
 
   document.addEventListener("keydown", e => {
     if (GameState.isPaused || e.defaultPrevented || e.ctrlKey || e.altKey || e.metaKey) return;
-    if (e.target !== document.getElementById("gameCanvas") && e.target !== document.body) return;
-    keys[e.key.toLowerCase()] = true;
-
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
-      e.preventDefault();
-    }
+    if (!GameState.difficulty || GameState.isGameOver) return;
+    const key = e.key.toLowerCase();
+    if (!["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright"].includes(key)) return;
+    if (e.target.closest?.('input, textarea, select, [contenteditable="true"]')) return;
+    e.preventDefault();
+    // Focar antes de registrar a tecla evita que focusin apague o movimento.
+    document.getElementById("gameCanvas")?.focus();
+    keys[key] = true;
   });
 
   document.addEventListener("keyup", e => {

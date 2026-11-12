@@ -29,7 +29,7 @@
   background: #080d18;
   border-bottom: 3px solid #ff4f9a;
   color: #fff;
-  font-size: calc((6px) * var(--game-font-scale, 1));
+  font-size: calc((16px) * var(--game-font-scale, 1));
   line-height: 1.6;
 }
 
@@ -54,7 +54,7 @@
   padding-bottom: 9px;
   border-color: #ff4f9a;
   color: #fff;
-  font-size: calc((12px) * var(--game-font-scale, 1));
+  font-size: calc((20px) * var(--game-font-scale, 1));
   text-align: left;
   text-shadow: 2px 2px 0 #4d1230;
 }
@@ -63,7 +63,7 @@
   max-width: 780px;
   margin: 10px 0 12px;
   color: #eef8ff;
-  font-size: calc((8px) * var(--game-font-scale, 1));
+  font-size: calc((16px) * var(--game-font-scale, 1));
   line-height: 1.9;
 }
 
@@ -88,7 +88,7 @@
   overflow-y: auto;
   color: #dce7f2;
   font-family: var(--game-code-font-family);
-  font-size: calc(13px * var(--game-font-scale, 1));
+  font-size: calc(16px * var(--game-code-scale, 1));
   line-height: 1.6;
   letter-spacing: 0;
   tab-size: 4;
@@ -103,7 +103,7 @@
 .mission-panel-hard .question-label {
   margin: 15px 0 9px;
   color: #ffbf5b;
-  font-size: calc((7px) * var(--game-font-scale, 1));
+  font-size: calc((14px) * var(--game-font-scale, 1));
 }
 
 .mission-panel-hard #choices-container {
@@ -144,7 +144,7 @@
   background: #101722;
   border-right: 2px solid #34485d;
   color: #4fd9ff;
-  font-size: calc(9px * var(--game-font-scale, 1));
+  font-size: calc(16px * var(--game-font-scale, 1));
 }
 
 .mission-panel-hard .code-choice-content {
@@ -156,7 +156,7 @@
   overflow-y: hidden;
   color: inherit;
   font-family: var(--game-code-font-family);
-  font-size: calc(12px * var(--game-font-scale, 1));
+  font-size: calc(16px * var(--game-code-scale, 1));
   line-height: 1.55;
   letter-spacing: 0;
   tab-size: 4;
@@ -301,11 +301,11 @@ body.high-contrast-on .mission-panel-hard .syntax-token {
   }
 
   .mission-panel-hard .popup-header {
-    font-size: calc((10px) * var(--game-font-scale, 1));
+    font-size: calc((20px) * var(--game-font-scale, 1));
   }
 
   .mission-panel-hard .mission-desc {
-    font-size: calc((7px) * var(--game-font-scale, 1));
+    font-size: calc((16px) * var(--game-font-scale, 1));
   }
 
   .mission-panel-hard .code-block {
@@ -313,7 +313,7 @@ body.high-contrast-on .mission-panel-hard .syntax-token {
   }
 
   .mission-panel-hard .code-block pre {
-    font-size: calc(12px * var(--game-font-scale, 1));
+    font-size: calc(16px * var(--game-code-scale, 1));
     overflow-x: hidden;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
@@ -330,7 +330,7 @@ body.high-contrast-on .mission-panel-hard .syntax-token {
   .mission-panel-hard .code-choice-content {
     padding: 12px 10px;
     overflow-x: hidden;
-    font-size: calc(11px * var(--game-font-scale, 1));
+    font-size: calc(16px * var(--game-code-scale, 1));
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }
