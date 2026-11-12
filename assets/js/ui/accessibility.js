@@ -157,7 +157,7 @@
       "screen-difficulty": "Escolha a dificuldade. Use Tab para navegar e Enter para selecionar fácil, médio ou difícil.",
       "screen-tutorial": "Tutorial aberto. Use Próximo para avançar, Anterior para voltar, ou o botão Ler Etapa para ouvir a explicação atual.",
       "screen-bug-popup": "Bug detectado. Pressione Enter para iniciar a missão ou afaste-se para continuar no mapa.",
-      "screen-mission": "Missão aberta. Leia o enunciado, o código e selecione uma alternativa. Use Tab para navegar e Enter para responder.",
+      "screen-mission": "Missão aberta. Leia o enunciado e os blocos, quando houver. Escolha uma alternativa ou ligue os pares e confirme. Use Tab para navegar e Enter para escolher.",
       "screen-room-clear": "Setor limpo. Libere a porta e vá até ela para avançar.",
       "screen-next-level": "Acesso liberado. Pressione avançar para entrar no próximo setor.",
       "screen-glossary": "Glossário aberto. Use Tab para navegar entre os temas e conteúdos."

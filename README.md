@@ -2,8 +2,8 @@
 
 Jogo educativo em HTML, CSS e JavaScript para alunos do 7º ao 9º ano do
 Ensino Fundamental. O jogador explora quatro setores de um sistema digital,
-localiza bugs e resolve desafios de lógica de programação escritos em
-Portugol.
+localiza bugs e resolve desafios de lógica com blocos simplificados,
+adequados a quem está começando a programar.
 
 ## Objetivo pedagógico
 
@@ -13,14 +13,26 @@ programação relacionadas à BNCC de Computação, com foco em:
 - tipos de dados e variáveis;
 - operadores;
 - estruturas condicionais;
-- funções e procedimentos;
+- criação, chamada e reutilização de funções;
 - leitura, análise e correção de algoritmos.
 
 ## Mecânica principal
 
 Cada partida possui quatro salas com cinco missões cada. Ao aproximar o
 personagem de um objeto destacado, o jogador abre uma questão de múltipla
-escolha, recebe feedback imediato e consulta uma explicação da resposta.
+escolha ou uma atividade de ligar pares. Cada resposta recebe feedback e
+uma explicação do conceito.
+
+O banco contém 120 atividades adaptadas do documento `Bug_Hunters_Questoes.docx`:
+dez por fase e dificuldade. Cada seleção tem quatro questões e um desafio
+de associação, cobrindo cinco objetivos de aprendizagem do setor. O nível
+Intermediário do documento corresponde ao Médio do jogo.
+
+Perguntas, alternativas, colunas da associação e objetos com bugs são
+sorteados. Cada fase tem mais de cinco objetos candidatos, mas somente os
+cinco selecionados ficam destacados. As variantes de cada objetivo rodam
+antes de se repetir; ao reiniciar uma fase, uma nova seleção é preparada.
+A rotação continua entre partidas enquanto a página permanece aberta.
 
 Todas as missões da sala precisam ser respondidas. Quando a pontuação mínima
 é atingida, a porta do próximo setor é liberada. Caso contrário, a sala pode
@@ -37,6 +49,7 @@ Todas as telas podem ser operadas sem mouse:
 | --- | --- | --- |
 | Menus e janelas | Tab / Shift+Tab | Próximo / anterior controle, mantendo o foco na janela aberta |
 | Botão focado | Enter / Espaço | Acionar o botão |
+| Associação | Tab e Enter | Escolher um item, ligar à resposta e confirmar; selecionar o item novamente permite trocar sua ligação |
 | Menu inicial | A / W / D | Jogar / configurações / acessibilidade |
 | Dificuldade e alternativas | Setas / Home / End | Percorrer opções / primeira / última opção |
 | Mapa focado | WASD / setas | Mover o personagem |
@@ -53,12 +66,24 @@ mapa. O conteúdo do glossário e o código da missão recebem foco com Tab
 para permitir a leitura e a rolagem pelo teclado. O aviso de bug preserva
 a movimentação e não retira o foco do mapa.
 
+As atividades de associação permitem reutilizar uma resposta, por exemplo
+ligando dois valores à categoria TEXTO. Todas as ligações precisam ser
+feitas antes da confirmação. A atividade completa vale os mesmos pontos
+de uma pergunta; somente a confirmação avalia os pares e encerra o desafio.
+
 ## Salas
 
 1. **Laboratório de Inicialização:** tipos de dados e variáveis.
 2. **Núcleo de Energia:** operadores e manipulação de valores.
 3. **Laboratório de Segurança:** condições e tomada de decisão.
-4. **Central de Controle:** funções, procedimentos e integração dos conceitos.
+4. **Central de Controle:** criar, chamar e reutilizar funções, com variáveis.
+
+As três dificuldades mantêm o tema de cada sala. O glossário usa a mesma
+notação das perguntas: `=` guarda, `==` compara igualdade, `true`/`false`
+são booleanos, `se`/`senão` escolhem caminhos, e `função`/`chamar`
+representam criação e execução de ações. São blocos pedagógicos, sem exigir
+a sintaxe completa de uma linguagem. Inconsistências do banco original
+foram corrigidas, incluindo a regra de energia `>= 10 e ativo == true`.
 
 ## Dificuldades
 
@@ -111,6 +136,12 @@ O conteúdo variável fica separado da interface:
 - `assets/js/data/missions.json`: perguntas, alternativas e explicações;
 - `assets/js/data/rooms.json`: posição inicial do personagem em cada sala;
 - `assets/js/data/glossary-data.js`: conteúdo pedagógico do glossário.
+
+O sorteio fica em `assets/js/systems/question-bank.js`. Cada questão tem
+um identificador, o número da questão de origem e um objetivo. A seleção
+é mantida estável durante a tentativa, para que o gabarito não mude ao abrir
+ou responder uma missão. O glossário apresenta os conceitos e exemplos,
+sem referências a números fixos de missão.
 
 Os arquivos JSON são carregados por `fetch`, portanto o projeto deve ser
 executado por HTTP e não pela abertura direta do `index.html`.
@@ -165,3 +196,21 @@ python -m http.server 8000
 ```
 
 Depois acesse `http://localhost:8000`.
+
+## Verificação
+
+Validação do banco, cobertura dos objetivos, rotação e gabaritos:
+
+```powershell
+node tests/question-bank.cjs
+```
+
+Com o jogo em `http://127.0.0.1:8000` e Chrome de testes com depuração na
+porta 9222, os testes abaixo verificam partidas completas nas três
+dificuldades, erros, reinícios, associações com Tab/Enter e acessibilidade:
+
+```powershell
+node tests/keyboard-navigation.cjs
+node tests/matching-challenge.cjs
+node tests/font-scaling.cjs
+```

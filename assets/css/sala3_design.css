@@ -776,8 +776,7 @@
 
 /* ========================= BRILHO DAS TASKS ========================= */
 
-#room-map.sala3 .sala3-mission.mission-available,
-#room-map.sala3 .sala3-mission:not(.mission-solved) {
+#room-map.sala3 .sala3-mission.mission-available {
   outline: 3px solid rgba(79, 195, 247, 0.38);
   outline-offset: 5px;
   animation: sala3-task-glow 1.05s infinite alternate;

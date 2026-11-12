@@ -367,8 +367,8 @@
 
 /* --- BRILHO DA TASK NO REATOR --- */
 
-#room-map.sala2 ~ #sala2-reactor-overlay:not(.mission-solved)::before,
-#room-map.sala2 ~ #sala2-reactor-overlay:not(.mission-solved)::after {
+#room-map.sala2 ~ #sala2-reactor-overlay.mission-available::before,
+#room-map.sala2 ~ #sala2-reactor-overlay.mission-available::after {
   animation: sala2-reactor-glow 1.2s infinite alternate ease-in-out !important;
 }
 
@@ -611,8 +611,7 @@
 
 /* ========================= BRILHO DAS TASKS (OFF-WHITE SUAVE) ========================= */
 
-#room-map.sala2 .sala2-mission.mission-available,
-#room-map.sala2 .sala2-mission:not(.mission-solved) {
+#room-map.sala2 .sala2-mission.mission-available {
   outline: 2px solid #f4f1ea;
   outline-offset: 4px;
   animation: sala2-task-glow-offwhite 1.2s infinite alternate ease-in-out;

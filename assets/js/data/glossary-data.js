@@ -1,573 +1,212 @@
 const GLOSSARY_DATA = {
   fase1: {
-    title: "Fase 1 — Tipos de Dados e Variáveis",
-    intro: "Nesta fase você aprende como um programa guarda informações. Em Portugol, cada informação precisa ter um tipo correto.",
+    title: "Fase 1 — Tipos de dados e variáveis",
+    intro: "Um jogo guarda números, palavras e estados. Os exemplos usam os blocos simples do jogo: = guarda um valor, aspas marcam texto e true/false representam verdadeiro/falso.",
     categories: [
       {
-        title: "1. Variáveis",
-        description: "Variáveis são espaços na memória usados para guardar valores durante a execução do programa.",
+        title: "1. Número, texto e booleano",
+        description: "Observe o valor e veja se ele tem aspas.",
         topics: [
           {
-            title: "O que é uma variável?",
-            text: "Uma variável funciona como uma caixa com nome. Dentro dela você guarda um valor para usar depois.",
-            code: `inteiro energia <- 100
-caractere nome <- "Bug Hunter"
-logico sistemaAtivo <- verdadeiro`,
-            output: `energia guarda 100
-nome guarda "Bug Hunter"
-sistemaAtivo guarda verdadeiro`,
-            wrong: `Criar uma variável sem tipo.
-
-Errado:
-energia <- 100
-
-Certo:
-inteiro energia <- 100`,
-            tip: "Sempre pense: qual tipo de informação eu quero guardar?",
-            missions: "Missões 01, 03 e 10"
+            title: "Número",
+            text: "É um valor usado para contar ou calcular, como vidas e pontos. Pode ter uma parte decimal, como 30.5.",
+            code: 'vidas = 3\npontos = 25',
+            output: 'vidas guarda o número 3. pontos guarda o número 25.',
+            wrong: '"3" tem aspas: é texto. Para contar vidas, use 3 sem aspas.',
+            tip: "0 também é um número."
           },
           {
-            title: "Atribuição com <-",
-            text: "O operador <- significa recebe. Ele guarda um valor dentro de uma variável.",
-            code: `inteiro pontos <- 0
-pontos <- pontos + 5`,
-            output: `pontos começa com 0
-depois passa a valer 5`,
-            wrong: `Confundir atribuição com comparação.
-
-Errado em uma condição:
-se pontos <- 5 entao
-
-Certo:
-se pontos = 5 entao`,
-            tip: "Use <- para guardar valor. Use = para comparar.",
-            missions: "Missões 03, 07 e 12"
+            title: "Texto",
+            text: "É uma palavra, nome ou mensagem escrita entre aspas. Até um número vira texto quando fica entre aspas.",
+            code: 'nome = "Lia"\naviso = "energia baixa"\ncodigo = "10"',
+            output: 'Os três valores são textos.',
+            wrong: 'nome = Lia não representa o texto "Lia". Use aspas para guardar a palavra.',
+            tip: '10 é número. "10" é texto.'
+          },
+          {
+            title: "Booleano: true e false",
+            text: "Guarda um de dois estados: true significa verdadeiro e false significa falso. Serve para indicar se o som está ligado ou se o jogador está ativo.",
+            code: 'somLigado = true\nativo = false',
+            output: 'O som está ligado e o jogador está inativo.',
+            wrong: '"true" e "false", com aspas, são textos. Booleanos ficam sem aspas.',
+            tip: "0 e 1 são números. Neste jogo, os booleanos são true e false."
           }
         ]
       },
       {
-        title: "2. Tipos de Dados",
-        description: "Tipos de dados indicam que tipo de valor uma variável pode guardar.",
+        title: "2. Variáveis e correções",
+        description: "Uma variável funciona como uma caixa com nome para guardar um valor.",
         topics: [
           {
-            title: "Inteiro",
-            text: "O tipo inteiro guarda números sem casas decimais. É usado para vidas, pontos, níveis, contadores e quantidades.",
-            code: `inteiro vidas <- 3
-inteiro bugs <- 0
-inteiro nivel <- 2`,
-            output: `3
-0
-2`,
-            wrong: `Colocar número entre aspas.
-
-Errado:
-inteiro vidas <- "3"
-
-Certo:
-inteiro vidas <- 3`,
-            tip: "Se o valor serve para contar ou calcular, provavelmente é inteiro.",
-            missions: "Missões 03, 06, 07 e 10"
+            title: "Dar um nome e guardar um valor",
+            text: "O nome fica antes do sinal = e o valor fica depois. Escolha um nome que ajude a entender o que será guardado.",
+            code: 'idade = 12\nnome = "Ana"\njogadorAtivo = true',
+            tip: "Idade guarda um número, nome guarda texto e jogadorAtivo guarda um estado."
           },
           {
-            title: "Real",
-            text: "O tipo real guarda números com casas decimais.",
-            code: `real temperatura <- 36.5
-real velocidade <- 2.75`,
-            output: `36.5
-2.75`,
-            wrong: `Usar inteiro quando precisa de decimal.
-
-Errado:
-inteiro temperatura <- 36.5
-
-Certo:
-real temperatura <- 36.5`,
-            tip: "Use real quando o número pode ter vírgula ou ponto decimal.",
-            missions: "Aparece em desafios de energia, temperatura e cálculo."
-          },
-          {
-            title: "Caractere",
-            text: "O tipo caractere representa textos, palavras, nomes e mensagens. Normalmente o texto fica entre aspas.",
-            code: `caractere nome <- "Igor"
-caractere setor <- "Laboratorio"
-caractere mensagem <- "Sistema online"`,
-            output: `Igor
-Laboratorio
-Sistema online`,
-            wrong: `Esquecer as aspas.
-
-Errado:
-caractere nome <- Igor
-
-Certo:
-caractere nome <- "Igor"`,
-            tip: "Se for palavra, frase ou mensagem, use aspas.",
-            missions: "Missões 09 e 10"
-          },
-          {
-            title: "Lógico",
-            text: "O tipo lógico guarda apenas dois valores: verdadeiro ou falso. Ele é usado em decisões.",
-            code: `logico ativo <- verdadeiro
-logico bugEncontrado <- falso`,
-            output: `ativo está verdadeiro
-bugEncontrado está falso`,
-            wrong: `Colocar verdadeiro ou falso entre aspas.
-
-Errado:
-logico ativo <- "verdadeiro"
-
-Certo:
-logico ativo <- verdadeiro`,
-            tip: "Use lógico quando a resposta for sim/não, ligado/desligado ou verdadeiro/falso.",
-            missions: "Missões 04, 10, 12, 13 e 15"
-          }
-        ]
-      },
-      {
-        title: "3. Leitura e Escrita",
-        description: "Programas também podem mostrar informações na tela ou receber dados do usuário.",
-        topics: [
-          {
-            title: "Comando escreva",
-            text: "O comando escreva mostra uma mensagem ou valor na tela.",
-            code: `escreva("Sistema online")
-escreva(energia)`,
-            output: `Sistema online
-100`,
-            wrong: `Tentar mostrar texto sem aspas.
-
-Errado:
-escreva(Sistema online)
-
-Certo:
-escreva("Sistema online")`,
-            tip: "Texto direto precisa de aspas. Variável não precisa.",
-            missions: "Missões 06 e 10"
+            title: "Conferir o tipo antes de corrigir",
+            text: "Pense no uso da informação. Quantas vidas? Qual nome? O jogador está ativo? Depois confira as aspas e o valor.",
+            code: 'vidas = 2\nnome = "Bug"\nativo = false',
+            wrong: 'vidas = "2" guarda texto. Para usar a quantidade na contagem, corrija para vidas = 2.',
+            tip: "Nos desafios de ligar, uma resposta pode servir para mais de um item. Dois textos podem ser ligados à mesma caixa TEXTO."
           }
         ]
       }
     ]
   },
-
   fase2: {
     title: "Fase 2 — Operadores",
-    intro: "Nesta fase você aprende a calcular, comparar valores e montar expressões em Portugol.",
+    intro: "Operadores são sinais que permitem calcular e comparar. Leia o sinal com atenção: trocar + por * muda o resultado.",
     categories: [
       {
-        title: "1. Operadores Aritméticos",
-        description: "Operadores aritméticos são usados para fazer contas.",
+        title: "1. Fazer contas",
+        description: "Use os números e o sinal para descobrir o resultado.",
         topics: [
           {
-            title: "Soma, subtração, multiplicação e divisão",
-            text: "Esses operadores funcionam como na matemática.",
-            code: `inteiro soma <- 8 + 2
-inteiro subtracao <- 10 - 3
-inteiro multiplicacao <- 4 * 2
-inteiro divisao <- 8 / 2`,
-            output: `soma = 10
-subtracao = 7
-multiplicacao = 8
-divisao = 4`,
-            wrong: `Confundir símbolo de multiplicação.
-
-Errado:
-resultado <- 4 x 2
-
-Certo:
-resultado <- 4 * 2`,
-            tip: "Em programação, multiplicação usa * e divisão usa /.",
-            missions: "Missões 03, 05 e 10"
+            title: "Somar e subtrair",
+            text: "O sinal + soma: junta quantidades. O sinal - subtrai: retira uma quantidade de outra.",
+            code: '5 + 3 → 8\n10 - 4 → 6',
+            wrong: '6 * 3 dá 18. Para chegar a 9 usando 6 e 3, use 6 + 3.',
+            tip: "Faça uma conta por vez."
           },
           {
-            title: "Prioridade das operações",
-            text: "Multiplicação e divisão acontecem antes de soma e subtração.",
-            code: `inteiro resultado <- 10 + 3 * 2`,
-            output: `resultado = 16`,
-            wrong: `Achar que o código será lido apenas da esquerda para direita.
-
-10 + 3 * 2 não é 26.
-Primeiro faz 3 * 2, depois soma 10.`,
-            tip: "Use parênteses quando quiser deixar a ordem mais clara.",
-            missions: "Missão 03"
+            title: "Multiplicar e dividir",
+            text: "O sinal * multiplica. O sinal / divide. Para encontrar a metade de um número, divida por 2.",
+            code: '3 * 4 → 12\n20 / 2 → 10\n10 / 5 → 2',
+            tip: "8 + 4 dá 12; 8 * 4 dá 32; 8 / 4 dá 2. Os mesmos números podem produzir resultados diferentes."
           },
           {
-            title: "Resto da divisão",
-            text: "O operador % retorna o resto de uma divisão. Ele é muito usado para verificar números pares e ímpares.",
-            code: `se numero % 2 = 0 entao
-    escreva("Par")
-senao
-    escreva("Impar")
-fimse`,
-            output: `Se numero for 4: Par
-Se numero for 5: Impar`,
-            wrong: `Confundir divisão com resto.
-
-8 / 2 resulta 4.
-8 % 2 resulta 0.`,
-            tip: "Se o resto da divisão por 2 for 0, o número é par.",
-            missions: "Missões 06 e 05 do modo difícil"
+            title: "Atualizar a pontuação",
+            text: "O resultado de uma conta pode ser guardado em uma variável.",
+            code: 'pontos = 10 + 5',
+            output: 'pontos passa a guardar 15.',
+            tip: "Se a pontuação aumenta de 10 para 15, foram somados 5 pontos."
           }
         ]
       },
       {
-        title: "2. Operadores Relacionais",
-        description: "São usados para comparar valores. O resultado sempre será verdadeiro ou falso.",
+        title: "2. Comparar valores",
+        description: "Uma comparação responde verdadeiro ou falso.",
         topics: [
           {
-            title: "Igualdade",
-            text: "Em Portugol, o sinal = pode ser usado para comparar valores dentro de condições.",
-            code: `se nivel = 3 entao
-    subirNivel()
-fimse`,
-            output: `Se nivel for 3, subirNivel() executa.`,
-            wrong: `Confundir comparação com atribuição.
-
-Atribuição:
-nivel <- 3
-
-Comparação:
-nivel = 3`,
-            tip: "Dentro de uma condição, = testa se os valores são iguais.",
-            missions: "Missões 07 e 12"
+            title: "Maior, menor e igual",
+            text: "Use > para maior que, < para menor que e == para igual a. O sinal >= significa maior ou igual; <= significa menor ou igual.",
+            code: 'vidas > 2\nenergia < 5\npontos == 10\nenergia >= 10',
+            output: 'Se energia for 10, energia >= 10 é true e energia > 10 é false.',
+            tip: "Em >=, o valor do limite também é aceito."
           },
           {
-            title: "Maior e menor",
-            text: "Use > para maior que, < para menor que, >= para maior ou igual, <= para menor ou igual.",
-            code: `se energia < 20 entao
-    retornarBase()
-fimse
-
-se temperatura > 90 entao
-    emitirAlerta()
-fimse`,
-            output: `As ações executam apenas se as condições forem verdadeiras.`,
-            wrong: `Inverter o sinal.
-
-energia < 20 significa energia menor que 20.
-energia > 20 significa energia maior que 20.`,
-            tip: "A abertura do sinal sempre fica para o maior valor.",
-            missions: "Missões 01, 04, 11 e 14"
-          },
-          {
-            title: "Diferente",
-            text: "O operador <> significa diferente.",
-            code: `se senha <> "admin" entao
-    bloquear()
-fimse`,
-            output: `Se senha for diferente de "admin", bloqueia.`,
-            wrong: `Usar != em vez de <> quando o padrão esperado da aula é Portugol.`,
-            tip: "Em Portugol, use <> para diferente.",
-            missions: "Missões de comparação e validação."
-          }
-        ]
-      },
-      {
-        title: "3. Operadores Lógicos",
-        description: "Operadores lógicos combinam condições.",
-        topics: [
-          {
-            title: "Operador e",
-            text: "O operador e exige que todas as condições sejam verdadeiras.",
-            code: `se energia > 10 e sistemaAtivo = verdadeiro entao
-    continuar()
-fimse`,
-            output: `Só continua se energia > 10 e sistemaAtivo for verdadeiro.`,
-            wrong: `Usar e quando apenas uma condição já deveria bastar.`,
-            tip: "Use e quando tudo precisa acontecer ao mesmo tempo.",
-            missions: "Missões 04, 12 e 13"
-          },
-          {
-            title: "Operador ou",
-            text: "O operador ou executa se pelo menos uma condição for verdadeira.",
-            code: `se temperatura > 90 ou falha = verdadeiro entao
-    alerta()
-fimse`,
-            output: `Se qualquer uma das condições for verdadeira, alerta() executa.`,
-            wrong: `Achar que ou exige as duas condições. Quem exige as duas é o e.`,
-            tip: "Use ou quando existem caminhos alternativos.",
-            missions: "Missões 04, 13 e 14"
+            title: "Guardar é diferente de comparar",
+            text: "Nos blocos deste jogo, = guarda um valor. Para perguntar se dois valores são iguais, use ==.",
+            code: 'energia = 8\nenergia == 10 → false\nenergia < 10 → true',
+            wrong: "energia = 10 muda o valor guardado; energia == 10 verifica se o valor já é 10.",
+            tip: "Leia pontos > 20 ou pontos == 20 como: pontos é maior que 20 ou é exatamente 20."
           }
         ]
       }
     ]
   },
-
   fase3: {
-    title: "Fase 3 — Condições e Decisões",
-    intro: "Nesta fase você aprende como o programa toma decisões usando se, senao e condições compostas.",
+    title: "Fase 3 — Condições e decisões",
+    intro: "Uma condição ajuda o jogo a escolher uma ação. A seta → mostra o que fazer quando a condição for verdadeira.",
     categories: [
       {
-        title: "1. Estrutura Se",
-        description: "A estrutura se executa um bloco de comandos apenas quando uma condição é verdadeira.",
+        title: "1. Se e senão",
+        description: "Leia a condição e só depois escolha a ação.",
         topics: [
           {
-            title: "Como funciona o se",
-            text: "O se é usado quando o programa precisa decidir se uma ação deve acontecer.",
-            code: `se risco > 50 entao
-    ativarQuarentena()
-fimse`,
-            output: `Se risco for maior que 50, a quarentena será ativada.`,
-            wrong: `Criar um se sem condição.
-
-Errado:
-se entao
-    ativar()
-fimse
-
-Certo:
-se risco > 50 entao
-    ativar()
-fimse`,
-            tip: "Leia como: se isso for verdade, faça aquilo.",
-            missions: "Missões 11 e 15"
+            title: "Se: testar antes de agir",
+            text: "O bloco se verifica uma condição. A ação indicada acontece quando ela é verdadeira.",
+            code: 'se energia < 5 → recarregar\nse vidas == 0 → game over',
+            output: 'Com energia = 3, a primeira decisão manda recarregar.',
+            tip: "Uma condição pode comparar números ou verificar um booleano."
           },
           {
-            title: "Condição verdadeira ou falsa",
-            text: "Toda condição precisa gerar um resultado lógico: verdadeiro ou falso.",
-            code: `inteiro energia <- 3
-
-se energia < 5 entao
-    escreva("Recarregar")
-fimse`,
-            output: `Recarregar`,
-            wrong: `Usar um valor solto como condição sem comparação.`,
-            tip: "Pergunte: essa frase pode ser respondida com verdadeiro ou falso?",
-            missions: "Missões 11, 12 e 14"
+            title: "Senão: o outro caminho",
+            text: "O bloco senão indica o que fazer quando a condição do se for falsa.",
+            code: 'se ativo == true → continuar\nsenão → parar',
+            output: 'Com ativo = false, o programa escolhe parar.',
+            wrong: "Trocar as ações faz o sistema agir no momento errado. Energia baixa pede recarga."
+          },
+          {
+            title: "Senão se: mais possibilidades",
+            text: "Os testes são lidos de cima para baixo. Quando um caminho é escolhido, os próximos caminhos dessa decisão são ignorados.",
+            code: 'se vidas == 0 → game over\nsenão se vidas < 3 → cuidado\nsenão → continuar',
+            output: '0 vidas: game over. 2 vidas: cuidado. 3 vidas: continuar.',
+            tip: "Teste vidas == 0 antes de vidas < 3 para que zero siga para game over."
           }
         ]
       },
       {
-        title: "2. Estrutura Senao",
-        description: "O senao cria um caminho alternativo quando a condição do se é falsa.",
+        title: "2. Juntar condições",
+        description: "As palavras e e ou mudam o que é necessário para agir.",
         topics: [
           {
-            title: "Quando usar senao",
-            text: "Use senao quando existir uma ação alternativa.",
-            code: `se energia < 5 entao
-    recarregar()
-senao
-    continuar()
-fimse`,
-            output: `Se energia < 5: recarregar()
-Caso contrário: continuar()`,
-            wrong: `Colocar condição no senao.
-
-Errado:
-senao energia >= 5
-
-Certo:
-senao`,
-            tip: "O senao significa caso contrário.",
-            missions: "Missões 12, 14 e 15"
+            title: "E: as duas precisam valer",
+            text: "Com e, todas as condições ligadas precisam ser verdadeiras.",
+            code: 'se chave == true e vidas > 0 → abrir porta',
+            output: 'É preciso ter a chave e também ter vidas.',
+            wrong: "Com energia = 12 e ativo = false, energia > 10 e ativo == true é false. Só a primeira parte é verdadeira.",
+            tip: "Energia suficiente e jogador ativo: confira as duas partes."
           },
           {
-            title: "Fluxo de decisão",
-            text: "Em um se/senao, apenas um dos blocos será executado.",
-            code: `se acesso = falso entao
-    bloquear()
-senao
-    liberar()
-fimse`,
-            output: `Se acesso for falso: bloquear.
-Se não for falso: liberar.`,
-            wrong: `Achar que os dois blocos podem executar ao mesmo tempo.`,
-            tip: "O programa escolhe um caminho.",
-            missions: "Missões 12 e 15"
-          }
-        ]
-      },
-      {
-        title: "3. Condições Compostas",
-        description: "Condições compostas unem duas ou mais verificações.",
-        topics: [
-          {
-            title: "Usando e",
-            text: "Use e quando todas as condições precisam ser verdadeiras.",
-            code: `se cartaoValido = verdadeiro e senhaCorreta = verdadeiro entao
-    liberarPorta()
-fimse`,
-            output: `Só libera se cartão e senha estiverem corretos.`,
-            wrong: `Se uma condição for falsa, tudo será falso.`,
-            tip: "e é mais restritivo.",
-            missions: "Missões 13 e 14"
-          },
-          {
-            title: "Usando ou",
-            text: "Use ou quando qualquer uma das condições pode liberar a ação.",
-            code: `se admin = verdadeiro ou autorizado = verdadeiro entao
-    liberarAcesso()
-fimse`,
-            output: `Libera se admin for verdadeiro ou autorizado for verdadeiro.`,
-            wrong: `Usar e quando o objetivo era aceitar uma das opções.`,
-            tip: "ou é mais flexível.",
-            missions: "Missões 13 e 14"
-          },
-          {
-            title: "Condição aninhada",
-            text: "Uma condição aninhada é um se dentro de outro se.",
-            code: `se energia > 10 entao
-    se sistemaAtivo = verdadeiro entao
-        iniciar()
-    fimse
-fimse`,
-            output: `Só inicia se as duas verificações passarem.`,
-            wrong: `Esquecer o fimse de cada bloco.`,
-            tip: "Cada se precisa ter seu próprio fimse.",
-            missions: "Missões avançadas de lógica."
+            title: "Ou: pelo menos uma precisa valer",
+            text: "Com ou, basta uma das condições ser verdadeira. Se as duas forem verdadeiras, a regra também é atendida.",
+            code: 'se energia > 10 ou emergencia == true → ativar',
+            output: 'O sistema pode ativar com energia alta ou com o modo emergência ligado.',
+            tip: "Para resolver uma associação, leia a regra apresentada e avalie os valores de cada situação."
           }
         ]
       }
     ]
   },
-
   fase4: {
-    title: "Fase 4 — Funções, Procedimentos e Organização",
-    intro: "Nesta fase você aprende a organizar comandos em blocos reutilizáveis.",
+    title: "Fase 4 — Funções e organização",
+    intro: "Uma variável guarda um dado. Uma função reúne ações com um nome para usá-las quando for preciso. Aqui usamos blocos simplificados, sem exigir a escrita de uma linguagem de programação.",
     categories: [
       {
-        title: "1. Procedimentos",
-        description: "Procedimentos executam comandos, mas não devolvem um valor.",
+        title: "1. Criar e chamar funções",
+        description: "Criar prepara uma ação; chamar faz essa ação acontecer.",
         topics: [
           {
-            title: "Criando procedimento",
-            text: "Use procedimento quando quiser agrupar comandos que executam uma ação.",
-            code: `procedimento verificarErro()
-    escreva("Verificando erro")
-fimprocedimento`,
-            output: `Verificando erro`,
-            wrong: `Criar procedimento e achar que ele executa sozinho.`,
-            tip: "Depois de criar, você precisa chamar o procedimento.",
-            missions: "Missão 05"
+            title: "Criar uma função",
+            text: "O bloco função dá um nome a uma ação ou conjunto de ações. Nos desafios, função abrirPorta representa a criação dessa ação.",
+            code: 'função abrirPorta',
+            tip: "Use um nome que mostre a ação, como abrirPorta, verificarEnergia ou mostrarMensagem."
           },
           {
-            title: "Chamando procedimento",
-            text: "Chamar um procedimento significa mandar ele executar.",
-            code: `verificarErro()`,
-            output: `Executa os comandos dentro do procedimento.`,
-            wrong: `Esquecer os parênteses na chamada.`,
-            tip: "Nome seguido de () geralmente indica chamada.",
-            missions: "Missões de funções e organização."
+            title: "Chamar uma função",
+            text: "O bloco chamar executa uma função que já foi criada. Criar uma função, por si só, não significa executar a ação.",
+            code: 'função verificarEnergia\nchamar verificarEnergia',
+            output: 'Primeiro a ação é criada. Depois é executada.',
+            wrong: "Se a função já existe e a pergunta pede para usá-la, escolha chamar, em vez de criar outra vez."
+          },
+          {
+            title: "Reutilizar ações",
+            text: "Uma função pode ser chamada em vários momentos. Isso ajuda a organizar o programa e evita montar a mesma ação toda vez.",
+            code: 'função mostrarMensagem\nchamar mostrarMensagem\nchamar mostrarMensagem',
+            output: 'A função foi criada uma vez e chamada duas vezes.',
+            tip: "Funções são úteis quando uma mesma ação precisa acontecer novamente."
           }
         ]
       },
       {
-        title: "2. Funções",
-        description: "Funções executam comandos e podem devolver um valor com retorne.",
+        title: "2. Dados, ações e sequência",
+        description: "Combine o que aprendeu nas fases anteriores.",
         topics: [
           {
-            title: "Criando função com retorno",
-            text: "Use função quando precisar calcular ou devolver um resultado.",
-            code: `funcao inteiro dobrar(inteiro n)
-    retorne n * 2
-fimfuncao`,
-            output: `dobrar(4) retorna 8`,
-            wrong: `Criar função sem retorne quando ela deveria devolver valor.`,
-            tip: "Se a função tem tipo, normalmente precisa retornar algo.",
-            missions: "Missões 05, 09 e 10"
+            title: "Separar dado e ação",
+            text: "Variáveis guardam números, textos e booleanos. Funções organizam ações; a chamada executa essas ações.",
+            code: 'pontos = 20\nfunção abrirPorta\nchamar abrirPorta',
+            output: 'pontos = 20: guardar dado. função abrirPorta: criar ação. chamar abrirPorta: executar ação.',
+            tip: "Pergunte o que o bloco faz: guarda, cria ou executa?"
           },
           {
-            title: "Parâmetros",
-            text: "Parâmetros são valores enviados para uma função ou procedimento.",
-            code: `funcao inteiro somar(inteiro a, inteiro b)
-    retorne a + b
-fimfuncao
-
-resultado <- somar(3, 5)`,
-            output: `resultado = 8`,
-            wrong: `Chamar a função com quantidade errada de valores.`,
-            tip: "Parâmetro é o dado que entra na função.",
-            missions: "Missões sobre função e cálculo."
-          },
-          {
-            title: "Retorno",
-            text: "O comando retorne envia um valor de volta para quem chamou a função.",
-            code: `funcao caractere verificar(inteiro n)
-    se n > 10 entao
-        retorne "alto"
-    fimse
-
-    retorne "baixo"
-fimfuncao`,
-            output: `verificar(5) retorna "baixo"`,
-            wrong: `Escrever Retorne com letra maiúscula se o ambiente exigir minúsculo.`,
-            tip: "retorne finaliza a função e devolve um valor.",
-            missions: "Missões 01 e 09 do modo difícil"
-          }
-        ]
-      },
-      {
-        title: "3. Escopo e Reutilização",
-        description: "Escopo define onde uma variável existe. Reutilização evita repetir código.",
-        topics: [
-          {
-            title: "Variável local",
-            text: "Uma variável criada dentro de uma função ou procedimento só existe ali dentro.",
-            code: `inteiro x <- 10
-
-procedimento alterar()
-    inteiro x <- 99
-fimprocedimento
-
-alterar()
-escreva(x)`,
-            output: `10`,
-            wrong: `Achar que o x local altera o x de fora.`,
-            tip: "Variável dentro de procedimento é local.",
-            missions: "Missão 04 do modo difícil"
-          },
-          {
-            title: "Reutilização de código",
-            text: "Se um conjunto de comandos aparece várias vezes, ele pode virar função ou procedimento.",
-            code: `procedimento corrigirBug()
-    desligarErro()
-    atualizarSistema()
-    registrarLog()
-fimprocedimento`,
-            output: `O mesmo bloco pode ser usado em várias partes do programa.`,
-            wrong: `Copiar e colar o mesmo código várias vezes.`,
-            tip: "Código repetido é sinal de que pode virar procedimento.",
-            missions: "Missões finais e desafios avançados."
-          }
-        ]
-      },
-      {
-        title: "4. Vetores e Registros",
-        description: "Estruturas que permitem guardar vários dados ou dados organizados.",
-        topics: [
-          {
-            title: "Vetor",
-            text: "Vetor guarda vários valores do mesmo tipo em uma única estrutura.",
-            code: `inteiro numeros[3] <- {10, 20, 30}
-escreva(numeros[2])`,
-            output: `20`,
-            wrong: `Acessar uma posição que não existe.
-
-numeros[4] não existe em um vetor de 3 posições.`,
-            tip: "Sempre confira o tamanho do vetor.",
-            missions: "Missões 03, 08 e 10 do modo médio/difícil"
-          },
-          {
-            title: "Registro",
-            text: "Registro agrupa vários campos relacionados em uma mesma estrutura.",
-            code: `tipo Jogador
-    caractere nome
-    inteiro nivel
-fimtipo
-
-Jogador jogador
-jogador.nome <- "Igor"
-jogador.nivel <- 3`,
-            output: `jogador.nome = "Igor"
-jogador.nivel = 3`,
-            wrong: `Tentar acessar campo como vetor.
-
-Errado:
-jogador["nome"]
-
-Certo:
-jogador.nome`,
-            tip: "Use ponto para acessar campos de registro.",
-            missions: "Missão 08 do modo difícil"
+            title: "Organizar os blocos",
+            text: "Siga a ordem pedida no enunciado. Nos desafios, crie a função antes de chamá-la e guarde cada dado com seu tipo correto.",
+            code: 'função verificarEnergia\npontos = 30\nchamar verificarEnergia',
+            wrong: 'pontos = "30" guarda texto. Para pontuação, use pontos = 30.',
+            tip: "Confira uma linha por vez: o nome, o tipo do valor e o momento da chamada."
           }
         ]
       }

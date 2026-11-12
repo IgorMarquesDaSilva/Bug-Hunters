@@ -16,12 +16,13 @@
   <link rel="stylesheet" href="assets/css/tutorial.css?v=16">
   <link rel="stylesheet" href="assets/css/dificil_mission.css?v=16">
   <link rel="stylesheet" href="assets/css/sala1_design.css?v=16">
-  <link rel="stylesheet" href="assets/css/sala2_design.css?v=16">
-    <link rel="stylesheet" href="assets/css/sala3_design.css?v=16">
-  <link rel="stylesheet" href="assets/css/sala4_design.css?v=16">
+  <link rel="stylesheet" href="assets/css/sala2_design.css?v=17">
+  <link rel="stylesheet" href="assets/css/sala3_design.css?v=17">
+  <link rel="stylesheet" href="assets/css/sala4_design.css?v=17">
   <link rel="stylesheet" href="assets/css/responsive.css?v=16">
   <link rel="stylesheet" href="assets/css/mobile.css?v=16">
   <link rel="stylesheet" href="assets/css/font-layout.css?v=16">
+  <link rel="stylesheet" href="assets/css/matching.css">
 </head>
 
 <body>
@@ -68,19 +69,19 @@
           </div>
 
           <!-- mesa normal -->
-          <div class="desk desk-top-2 collision">
+          <div class="desk desk-top-2 collision mission-point sala1-mission">
             <div class="monitor"></div>
             <div class="keyboard"></div>
           </div>
 
           <!-- servidor normal -->
-          <div class="server-rack server-1 collision"></div>
+          <div class="server-rack server-1 collision mission-point sala1-mission"></div>
 
           <!-- MISSÃO 2 -->
           <div class="server-rack server-2 collision mission-point sala1-mission"></div>
 
           <!-- mesa normal -->
-          <div class="desk desk-left-1 collision">
+          <div class="desk desk-left-1 collision mission-point sala1-mission">
             <div class="monitor"></div>
             <div class="keyboard"></div>
           </div>
@@ -98,7 +99,7 @@
           </div>
 
           <!-- mesa normal -->
-          <div class="desk desk-right-2 collision">
+          <div class="desk desk-right-2 collision mission-point sala1-mission">
             <div class="monitor"></div>
             <div class="keyboard"></div>
           </div>
@@ -148,7 +149,7 @@
           <div class="reactor collision mission-point sala2-mission"></div>
 
           <!-- caixa normal -->
-          <div class="energy-box energy-box-1 collision"></div>
+          <div class="energy-box energy-box-1 collision mission-point sala2-mission"></div>
 
           <!-- MISSÃO 9 -->
           <div class="energy-box energy-box-2 collision mission-point sala2-mission"></div>
@@ -157,9 +158,9 @@
           <div class="energy-terminal terminal-1 collision mission-point sala2-mission"></div>
 
           <!-- terminais normais -->
-          <div class="energy-terminal terminal-2 collision"></div>
+          <div class="energy-terminal terminal-2 collision mission-point sala2-mission"></div>
 
-          <div class="energy-terminal terminal-3 collision"></div>
+          <div class="energy-terminal terminal-3 collision mission-point sala2-mission"></div>
 
           <!-- cabos -->
           <div class="cable cable-1"></div>
@@ -192,7 +193,7 @@
           </div>
 
           <!-- estação esquerda -->
-          <div class="side-workstation collision">
+          <div class="side-workstation collision mission-point sala3-mission">
 
             <div class="side-monitor collision"></div>
 
@@ -235,7 +236,7 @@
           </div>
 
           <!-- terminal direito -->
-          <div class="recovery-terminal collision"></div>
+          <div class="recovery-terminal collision mission-point sala3-mission"></div>
 
           <!-- prateleira -->
           <div class="safety-shelf collision"></div>
@@ -295,12 +296,12 @@
             <div class="nav-keyboard"></div>
           </div>
 
-          <div class="side-terminal terminal-left collision">
+          <div class="side-terminal terminal-left collision mission-point sala4-mission">
             <div class="side-terminal-screen collision"></div>
             <div class="side-terminal-chair collision"></div>
           </div>
 
-          <div class="side-terminal terminal-right collision">
+          <div class="side-terminal terminal-right collision mission-point sala4-mission">
             <div class="side-terminal-screen collision"></div>
           </div>
 
@@ -1134,6 +1135,7 @@
         <div
           id="screen-mission"
           class="overlay"
+          aria-labelledby="mission-title"
           style="display:none;">
 
           <div class="popup-content mission-panel">
@@ -1143,7 +1145,7 @@
               aria-hidden="true">
 
               <span class="hard-mission-mode">MODO DIFÍCIL</span>
-              <span class="hard-mission-type">DESAFIO DE CÓDIGO</span>
+              <span class="hard-mission-type">DESAFIO DE LÓGICA</span>
               <span
                 class="hard-mission-sector"
                 id="hard-mission-sector">
@@ -1168,7 +1170,7 @@
 
             <div
               class="code-block"
-              data-file-label="■ CODIGO.ptg">
+              data-file-label="■ BLOCOS DO JOGO">
 
               <pre
                 id="mission-code"
@@ -1186,6 +1188,7 @@
             </div>
 
             <div id="choices-container"></div>
+            <div id="matching-container" hidden></div>
 
             <div
               id="explanation-box"
@@ -1722,31 +1725,33 @@
        SCRIPTS
   ========================================================== -->
 
-  <script src="assets/js/data/glossary-data.js"></script>
+  <script src="assets/js/data/glossary-data.js?v=2"></script>
   
   <script src="assets/js/core/config.js"></script>
-  <script src="assets/js/core/state.js"></script>
+  <script src="assets/js/systems/question-bank.js"></script>
+  <script src="assets/js/core/state.js?v=2"></script>
   <script src="assets/js/core/platform.js"></script>
   
   <script src="assets/js/systems/collision.js"></script>
   <script src="assets/js/systems/player.js?v=3"></script>
-  <script src="assets/js/systems/bugs.js?v=5"></script>
+  <script src="assets/js/systems/bugs.js?v=6"></script>
   <script src="assets/js/systems/renderer.js?v=16"></script>
-  <script src="assets/js/systems/transition.js?v=16"></script>
+  <script src="assets/js/systems/transition.js?v=17"></script>
   
   <script src="assets/js/ui/ui.js?v=6"></script>
   <script src="assets/js/ui/mobile-controls.js?v=2"></script>
   <script src="assets/js/ui/hud.js"></script>
-  <script src="assets/js/ui/mission.js?v=6"></script>
-  <script src="assets/js/ui/tutorial.js?v=4"></script>
-  <script src="assets/js/ui/glossary.js?v=4"></script>
+  <script src="assets/js/ui/matching.js"></script>
+  <script src="assets/js/ui/mission.js?v=7"></script>
+  <script src="assets/js/ui/tutorial.js?v=5"></script>
+  <script src="assets/js/ui/glossary.js?v=5"></script>
   <script src="assets/js/ui/responsive.js?v=9"></script>
   <script src="assets/js/systems/audio.js"></script>
   
-  <script src="assets/js/ui/keyboard.js?v=2"></script>
-  <script src="assets/js/core/game.js?v=4"></script>
+  <script src="assets/js/ui/keyboard.js?v=3"></script>
+  <script src="assets/js/core/game.js?v=5"></script>
   <script src="assets/js/ui/tela_inicial.js?v=15"></script>
-  <script src="assets/js/ui/accessibility.js?v=18"></script>
+  <script src="assets/js/ui/accessibility.js?v=19"></script>
 </body>
 
 </html>

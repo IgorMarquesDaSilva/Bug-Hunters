@@ -25,20 +25,23 @@ const MissionSystem = (() => {
     "fimprocedimento",
     "fimse",
     "funcao",
+    "função",
+    "chamar",
     "inicio",
     "para",
     "passo",
     "procedimento",
     "retorne",
     "se",
-    "senao"
+    "senao",
+    "senão"
   ]);
   const PORTUGOL_LOGIC = new Set(["e", "nao", "ou"]);
-  const PORTUGOL_LITERALS = new Set(["falso", "verdadeiro"]);
+  const PORTUGOL_LITERALS = new Set(["false", "true"]);
   const PORTUGOL_TOKEN_PATTERN =
-    /\/\/[^\r\n]*|"(?:\\.|[^"\\])*"|\b\d+(?:\.\d+)?\b|<-|>=|<=|<>|[=+\-*/%><]|\b[A-Za-z_][A-Za-z0-9_]*\b|\s+|./g;
+    /\/\/[^\r\n]*|"(?:\\.|[^"\\])*"|\b\d+(?:\.\d+)?\b|==|<-|>=|<=|<>|[=+\-*/%><]|[\p{L}_][\p{L}\p{N}_]*|\s+|./gu;
   const PORTUGOL_IDENTIFIER_PATTERN = /^[A-Za-z_][A-Za-z0-9_]*$/;
-  const PORTUGOL_OPERATOR_PATTERN = /^(?:<-|>=|<=|<>|[=+\-*/%><])$/;
+  const PORTUGOL_OPERATOR_PATTERN = /^(?:==|<-|>=|<=|<>|[=+\-*/%><])$/;
 
   function setText(id, value) {
     const el = document.getElementById(id);
@@ -146,9 +149,11 @@ const MissionSystem = (() => {
     const bug = GameState.bugs[idx];
     const mission = GameState.currentMissions()[bug.missionIdx];
 
-    if (!mission) return;
+    if (!mission || bug.solved) return;
 
     const isHardMode = GameState.difficulty === "dificil";
+    const isMatching = mission.type === "matching";
+    const isCodeChoice = isHardMode && mission.choiceFormat === "code";
     const missionScreen = document.getElementById("screen-mission");
     const missionPanel = missionScreen?.querySelector(".mission-panel");
     const questionLabel = document.getElementById("question-label");
@@ -159,15 +164,16 @@ const MissionSystem = (() => {
     missionPanel?.classList.toggle("mission-panel-hard", isHardMode);
 
     if (questionLabel) {
-      questionLabel.textContent = isHardMode
+      questionLabel.textContent = isMatching
+        ? "▶ LIGUE CADA ITEM À RESPOSTA:"
+        : isCodeChoice
         ? "▶ SELECIONE O BLOCO DE CÓDIGO CORRETO:"
         : "▶ SELECIONE A RESPOSTA CORRETA:";
     }
 
     if (codeBlock) {
-      codeBlock.dataset.fileLabel = isHardMode
-        ? "■ CONTEXTO.ptg"
-        : "■ CODIGO.ptg";
+      codeBlock.dataset.fileLabel = "■ BLOCOS DO JOGO";
+      codeBlock.hidden = !mission.code;
     }
 
     if (hardMissionSector) {
@@ -201,9 +207,13 @@ const MissionSystem = (() => {
     updateProgressBar();
 
     const container = document.getElementById("choices-container");
+    const matchingContainer = document.getElementById("matching-container");
+    MatchingChallenge.clear();
+    container.hidden = isMatching;
+    matchingContainer.hidden = !isMatching;
     container.innerHTML = "";
     const hasWideCodeChoice =
-      isHardMode &&
+      isCodeChoice &&
       mission.choices.some(choice => {
         const lines = choice.split("\n");
         const longestLine = Math.max(...lines.map(line => line.length));
@@ -213,15 +223,20 @@ const MissionSystem = (() => {
 
     container.classList.toggle("choices-wide-code", hasWideCodeChoice);
 
-    mission.choices.forEach((choice, i) => {
+    if (isMatching) {
+      MatchingChallenge.render(matchingContainer, mission, correct => finishAnswer(correct, mission));
+    }
+
+    (mission.choices || []).forEach((choice, i) => {
       const btn = document.createElement("button");
       const choiceLetter = String.fromCharCode(65 + i);
 
-      btn.className = isHardMode
+      btn.type = "button";
+      btn.className = isCodeChoice
         ? "choice-btn code-choice-btn"
         : "choice-btn";
 
-      if (isHardMode) {
+      if (isCodeChoice) {
         const marker = document.createElement("span");
         marker.className = "code-choice-marker";
         marker.textContent = choiceLetter;
@@ -239,7 +254,7 @@ const MissionSystem = (() => {
 
       btn.setAttribute(
         "aria-label",
-        isHardMode
+        isCodeChoice
           ? `Opcao ${choiceLetter}, bloco de codigo: ${choice}`
           : `Opcao ${choiceLetter}: ${choice}`
       );
@@ -250,11 +265,13 @@ const MissionSystem = (() => {
     });
 
     UI.showScreen("screen-mission");
-    const options = mission.choices.map((choice, i) =>
+    const options = isMatching
+      ? `Itens: ${mission.pairs.map(pair => pair.left).join('; ')}. Respostas: ${mission.targets.join('; ')}. Use Tab e Enter para selecionar um item, ligar à resposta e confirmar. Uma resposta pode receber mais de um item.`
+      : mission.choices.map((choice, i) =>
       `Opção ${String.fromCharCode(65 + i)}: ${choice}`
     ).join(". ");
     window.AccessibilitySystem?.speak?.(
-      `${mission.title}. ${mission.desc} Código: ${mission.code}. ${options}. Use Tab para percorrer o código e as respostas; Shift mais Tab volta ao enunciado.`
+      `${mission.title}. ${mission.desc} ${mission.code ? `Blocos: ${mission.code}. ` : ''}${options}. Use Tab para navegar e Enter para escolher.`
     );
   }
 
@@ -269,36 +286,45 @@ const MissionSystem = (() => {
 
     const mission = GameState.currentMissions()[bug.missionIdx];
 
-    if (!mission) return;
+    if (!mission || mission.type !== "choice" || !mission.choices[idx]) return;
 
     document.querySelectorAll(".choice-btn").forEach(button => {
       button.disabled = true;
     });
 
-    const expBox = document.getElementById("explanation-box");
-    expBox.textContent = mission.explanation;
-    expBox.style.display = "block";
-
-    const feedback = document.getElementById("feedback-msg");
     const answeredCorrectly = idx === mission.correct;
 
     if (answeredCorrectly) {
-      const pts = getPointsPerQuestion();
-
       btn.classList.add("correct");
-      GameState.score = Math.min(100, GameState.score + pts);
-      GameState.roomScore += pts;
-
-      feedback.textContent = `✓ CORRETO! +${pts} pts`;
-      feedback.className = "feedback ok";
-      if (window.GameAudio) GameAudio.playConfirm();
     } else {
       btn.classList.add("wrong");
 
       const btns = document.querySelectorAll(".choice-btn");
       if (btns[mission.correct]) btns[mission.correct].classList.add("correct");
 
-      feedback.textContent = "✗ ERRADO! +0 pts. Veja a resposta correta.";
+    }
+
+    finishAnswer(answeredCorrectly, mission);
+  }
+
+  function finishAnswer(answeredCorrectly, mission) {
+    const activeIdx = GameState.activeIdx;
+    const bug = GameState.bugs[activeIdx];
+    if (!bug || bug.solved || GameState.currentMissions()[bug.missionIdx] !== mission) return;
+
+    const expBox = document.getElementById("explanation-box");
+    expBox.textContent = `${answeredCorrectly ? mission.success : mission.hint}\n${mission.explanation}`;
+    expBox.style.display = "block";
+    const feedback = document.getElementById("feedback-msg");
+    if (answeredCorrectly) {
+      const pts = getPointsPerQuestion();
+      GameState.score = Math.min(100, GameState.score + pts);
+      GameState.roomScore += pts;
+      feedback.textContent = `✓ CORRETO! +${pts} pts`;
+      feedback.className = "feedback ok";
+      if (window.GameAudio) GameAudio.playConfirm();
+    } else {
+      feedback.textContent = "✗ AINDA NÃO! +0 pts. Confira a explicação.";
       feedback.className = "feedback err";
       if (window.GameAudio) GameAudio.playError();
     }
@@ -317,6 +343,7 @@ const MissionSystem = (() => {
   }
 
   function closeMission() {
+    MatchingChallenge.clear();
     GameState.activeIdx = -1;
     GameState.popupCooldown = 90;
 
@@ -380,6 +407,7 @@ const MissionSystem = (() => {
     GameState.popupCooldown = 0;
     GameState.portal = { visible: false, triggered: false, pulse: 0 };
     GameState.roomRestarts[room] = nextRestart;
+    GameState.prepareRoomMissions();
 
     Renderer.loadRoomBackground();
     CollisionSystem.loadZones();

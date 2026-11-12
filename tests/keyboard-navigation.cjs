@@ -26,7 +26,7 @@ const assert = require('node:assert/strict');
   }
   async function evaluate(expression) {
     const result = await send('Runtime.evaluate', { expression, returnByValue: true });
-    if (result.exceptionDetails) throw new Error(result.exceptionDetails.text);
+    if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text);
     return result.result.value;
   }
   async function key(key, shift = false) {
@@ -37,6 +37,44 @@ const assert = require('node:assert/strict');
   }
   const focus = () => evaluate('document.activeElement.id || document.activeElement.className');
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+  async function tabUntil(expression) {
+    for (let i = 0; i < 45; i++) {
+      if (await evaluate(expression)) return;
+      await key('Tab');
+    }
+    assert.fail(`Controle não alcançado com Tab: ${expression}`);
+  }
+  async function answerMission(correctly = true) {
+    const mission = await evaluate('GameState.currentMissions()[GameState.bugs[GameState.activeIdx].missionIdx]');
+    if (mission.type === 'matching') {
+      assert.equal(await evaluate("document.getElementById('btn-confirm-matching').disabled"), true);
+      assert.equal(await evaluate("document.getElementById('mission-code').getClientRects().length"), 0);
+      for (let index = 0; index < mission.pairs.length; index++) {
+        const pair = mission.pairs[index];
+        await tabUntil(`document.activeElement.dataset.pairId === ${JSON.stringify(pair.id)}`);
+        await key('Enter');
+        const target = !correctly && index === 0 ? mission.targets.find(target => target !== pair.right) : pair.right;
+        await tabUntil(`document.activeElement.matches('.matching-target') && document.activeElement.dataset.target === ${JSON.stringify(target)}`);
+        await key('Enter');
+        assert.equal(await evaluate('GameState.bugs[GameState.activeIdx].solved'), false, 'Ligar não responde antes da confirmação');
+      }
+      assert.equal(await focus(), 'btn-confirm-matching');
+      await key('Enter');
+    } else {
+      await key('Tab');
+      if (mission.code) {
+        assert.equal(await focus(), 'mission-code', 'Blocos acessíveis pelo Tab');
+        await key('Tab');
+      }
+      assert.ok((await focus()).includes('choice-btn'));
+      const index = correctly ? mission.correct : (mission.correct + 1) % mission.choices.length;
+      await tabUntil(`document.activeElement === document.querySelectorAll('#choices-container .choice-btn')[${index}]`);
+      await key('Enter');
+    }
+    assert.equal(await focus(), 'btn-next', 'Resposta passa o foco ao botão Continuar');
+    assert.equal(await evaluate("document.getElementById('feedback-msg').classList.contains('ok')"), correctly);
+    assert.ok(await evaluate("document.getElementById('explanation-box').textContent.length > 10"));
+  }
   try {
     await evaluate("localStorage.clear(); location.reload()");
     await wait(700);
@@ -62,6 +100,7 @@ const assert = require('node:assert/strict');
       for (let i = 0; i < difficulty; i++) await key('ArrowDown');
       assert.equal(await evaluate("Array.from(document.querySelectorAll('.diff-btn')).indexOf(document.activeElement)"), difficulty);
       await key('Enter');
+      assert.equal(await evaluate('GameState.currentRoom'), 'sala1', 'Partida começa na primeira fase');
       if (difficulty === 0) {
         assert.equal(await focus(), 'tut-btn-next');
         await key('Enter');
@@ -98,23 +137,7 @@ const assert = require('node:assert/strict');
           await evaluate(`GameState.activeIdx = ${mission}; Player.state.x = GameState.bugs[${mission}].x - Player.state.hitboxOffsetX; Player.state.y = GameState.bugs[${mission}].y - Player.state.hitboxOffsetY; UI.showScreen('screen-bug-popup')`);
           await key('Enter');
           assert.equal(await focus(), 'mission-desc', 'Missão começa no enunciado');
-          await key('Tab');
-          assert.equal(await focus(), 'mission-code', 'Código acessível pelo Tab');
-          await key('Tab');
-          assert.ok((await focus()).includes('choice-btn'));
-          if (difficulty === 0 && room === 0 && mission === 0) {
-            await wait(40);
-            assert.ok(await evaluate("document.getElementById('game-live-region').textContent.includes('Opção D:')"), 'Narrador recebe as quatro opções');
-            await key('Tab', true);
-            await key('Tab', true);
-            assert.equal(await focus(), 'mission-desc', 'Shift+Tab retorna ao enunciado');
-            await key('Tab');
-            await key('Tab');
-          }
-          const correct = await evaluate(`GameState.currentMissions()[${mission}].correct`);
-          for (let i = 0; i < correct; i++) await key('ArrowDown');
-          await key('Enter');
-          assert.equal(await focus(), 'btn-next');
+          await answerMission();
           await key('Enter');
           await wait(140);
           if (mission < 4) assert.equal(await focus(), 'gameCanvas', 'Missão devolve foco ao mapa');
@@ -125,7 +148,10 @@ const assert = require('node:assert/strict');
         assert.equal(await evaluate('GameState.portal.visible'), true);
         await evaluate("GameState.portal.triggered = true; UI.showScreen('screen-next-level')");
         await key('Enter');
-        if (room < 3) await wait(2200);
+        if (room < 3) {
+          for (let frame = 0; frame < 80 && await evaluate('TransitionSystem.isActive()'); frame++) await wait(100);
+          assert.equal(await evaluate('TransitionSystem.isActive()'), false, 'Transição concluída antes da próxima fase');
+        }
       }
       assert.equal(await evaluate("document.getElementById('screen-win').style.display"), 'flex');
       assert.equal(await evaluate('GameState.score'), 100);
@@ -140,11 +166,7 @@ const assert = require('node:assert/strict');
       for (let mission = 0; mission < 5; mission++) {
         await evaluate(`GameState.activeIdx = ${mission}; Player.state.x = GameState.bugs[${mission}].x - Player.state.hitboxOffsetX; Player.state.y = GameState.bugs[${mission}].y - Player.state.hitboxOffsetY; UI.showScreen('screen-bug-popup')`);
         await key('Enter');
-        await key('Tab');
-        await key('Tab');
-        const correct = await evaluate(`GameState.currentMissions()[${mission}].correct`);
-        if (correct === 0) await key('ArrowDown');
-        await key('Enter');
+        await answerMission(false);
         await key('Enter');
         await wait(140);
       }

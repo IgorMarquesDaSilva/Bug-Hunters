@@ -130,7 +130,7 @@ window.Glossary = (() => {
           </p>
 
           ${topic.code ? `
-            <p class="glossary-label">EXEMPLO EM PORTUGOL:</p>
+            <p class="glossary-label">EXEMPLO COM BLOCOS DO JOGO:</p>
             <pre class="glossary-code">${escapeHtml(topic.code)}</pre>
           ` : ""}
 

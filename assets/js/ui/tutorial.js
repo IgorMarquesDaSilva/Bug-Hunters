@@ -36,9 +36,9 @@ const TutorialSystem = (() => {
       image: "player-lado-direito.png",
       imageAlt: "Personagem virado para a direita próximo a um terminal do sistema.",
       caption: "Ao encontrar uma falha, escolha corrigir bug para iniciar o desafio.",
-      text: "Cada fase possui 5 bugs. Ao chegar perto de um ponto de missão, uma janela aparece. Clique em Corrigir Bug para responder ao desafio.",
+      text: "Cada fase possui 5 bugs sorteados de acordo com o tema e a dificuldade. Ao chegar perto de um objeto destacado, pressione Enter no mapa ou acione Corrigir Bug para abrir a atividade.",
       extra: [
-        { type: "warning", text: "Leia o enunciado com calma: muitas perguntas pedem para completar código, interpretar uma condição ou escolher o bloco correto." }
+        { type: "warning", text: "Uma atividade por fase pede para ligar pares. Use Tab e Enter para escolher um item, escolher a resposta e confirmar as ligações. A mesma resposta pode servir para vários itens." }
       ]
     },
     {
@@ -58,7 +58,7 @@ const TutorialSystem = (() => {
       caption: "Primeiro setor: tipos de dados.",
       text: "Na primeira fase, você aprende que programas trabalham com diferentes tipos de informação: números, textos e valores lógicos.",
       extra: [
-        { type: "phase", text: "Você deve identificar dados como 50, \"energia\", verdadeiro e falso, além de corrigir valores incompatíveis em variáveis." }
+        { type: "phase", text: "Você deve identificar dados como 50, \"energia\", true (verdadeiro) e false (falso), além de corrigir os valores das variáveis." }
       ]
     },
     {

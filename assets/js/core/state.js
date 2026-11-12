@@ -5,6 +5,7 @@
 const GameState = {
   missionsData:   null,
   roomsData:      null,
+  missionSessions: {},
 
   difficulty:     null,
   currentRoom:    "sala1",
@@ -46,6 +47,7 @@ const GameState = {
     this.isPaused       = false;
     this.isGameOver     = false;
     this.bugs           = [];
+    this.missionSessions = {};
     this.portal         = { visible: false, triggered: false, pulse: 0 };
     this.collisionZones = [];
   },
@@ -60,7 +62,16 @@ const GameState = {
 
   currentMissions() {
     if (!this.missionsData || !this.difficulty) return [];
-    return this.missionsData[this.difficulty]?.[this.currentRoom] ?? [];
+    const key = `${this.difficulty}:${this.currentRoom}`;
+    if (!this.missionSessions[key]) this.prepareRoomMissions();
+    return this.missionSessions[key];
+  },
+
+  prepareRoomMissions() {
+    const key = `${this.difficulty}:${this.currentRoom}`;
+    this.missionSessions[key] = QuestionBank.select(
+      this.missionsData, this.difficulty, this.currentRoom
+    );
   },
 
   currentRoomData() {

@@ -81,7 +81,7 @@ window.KeyboardNavigation = (() => {
     // Setas percorrem grupos de opções; controles de volume e blocos
     // de texto mantêm o comportamento nativo de ajuste e rolagem.
     const group = event.target.closest('.diff-btn')?.parentElement ||
-      event.target.closest('.choice-btn')?.parentElement;
+      event.target.closest('.choice-btn, .matching-item')?.parentElement;
     if (group && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
       const items = focusable(group);
       if (!items.length) return;

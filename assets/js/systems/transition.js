@@ -89,7 +89,9 @@
         case "fade_in":
           state.phase  = "idle";
           state.active = false;
-          GameState.isPaused = false;
+          // Uma janela pode ter sido aberta durante a animação. Nesse caso,
+          // o fim da transição preserva a pausa e o foco da atividade.
+          GameState.isPaused = document.body.classList.contains("overlay-open");
           break;
       }
     }

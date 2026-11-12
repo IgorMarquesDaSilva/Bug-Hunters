@@ -2,612 +2,2759 @@
   "facil": {
     "sala1": [
       {
-        "title": "MISSÃO 01 — Condição de Energia",
-        "desc": "O robô deve retornar à base quando a energia estiver baixa. Qual palavra completa o código?",
-        "code": "___ energia < 20 entao\n    retornarBase()",
-        "choices": ["se", "para", "enquanto", "procedimento"],
-        "correct": 0,
-        "explanation": "\"se\" verifica uma condição. Se energia < 20 for verdadeiro, a ação é executada."
+        "id": "sala1-facil-01",
+        "sourceQuestion": 1,
+        "title": "Tipos de dados — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Muito bem! Você identificou os três tipos de dados.",
+        "hint": "Lembre: números aparecem sem aspas, textos usam aspas e true/false são booleanos.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "25",
+            "right": "número"
+          },
+          {
+            "id": "pair-1",
+            "left": "\"bug\"",
+            "right": "texto"
+          },
+          {
+            "id": "pair-2",
+            "left": "true",
+            "right": "booleano"
+          }
+        ],
+        "targets": [
+          "número",
+          "texto",
+          "booleano"
+        ],
+        "explanation": "25 → número; \"bug\" → texto; true → booleano."
       },
       {
-        "title": "MISSÃO 02 — Loop de Escaneamento",
-        "desc": "O sistema precisa repetir o escaneamento 5 vezes. Qual estrutura usar?",
-        "code": "___ i de 1 ate 5 faca\n    escanear(i)",
-        "choices": ["se", "para", "procedimento", "retorne"],
+        "id": "sala1-facil-02",
+        "sourceQuestion": 2,
+        "title": "Tipos de dados — Investigue o bug",
+        "desc": "Qual opção representa um texto?",
+        "code": "",
+        "success": "Isso! \"energia\" é um texto porque está entre aspas.",
+        "hint": "Os textos são escritos entre aspas. Número não leva aspas e true/false são booleanos.",
+        "type": "choice",
+        "objective": "textos",
+        "choices": [
+          "10",
+          "\"energia\"",
+          "true",
+          "false"
+        ],
         "correct": 1,
-        "explanation": "\"para\" repete um bloco de código várias vezes — ideal para percorrer intervalos numéricos."
+        "choiceFormat": "text",
+        "explanation": "Resposta: \"energia\"."
       },
       {
-        "title": "MISSÃO 03 — Valor Inicial",
-        "desc": "O contador de bugs deve começar em zero. Qual opção está correta?",
-        "code": "inteiro bugs <- ___\nescreva(bugs)",
-        "choices": ["\"zero\"", "verdadeiro", "0", "vazio"],
-        "correct": 2,
-        "explanation": "Para guardar o número zero, usamos 0 sem aspas."
+        "id": "sala1-facil-03",
+        "sourceQuestion": 3,
+        "title": "Tipos de dados — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Perfeito! Cada valor foi colocado na categoria certa.",
+        "hint": "Leia o valor com atenção: 8 é número, \"robô\" é texto e false é booleano.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "8",
+            "right": "número"
+          },
+          {
+            "id": "pair-1",
+            "left": "\"robô\"",
+            "right": "texto"
+          },
+          {
+            "id": "pair-2",
+            "left": "false",
+            "right": "booleano"
+          }
+        ],
+        "targets": [
+          "número",
+          "texto",
+          "booleano"
+        ],
+        "explanation": "8 → número; \"robô\" → texto; false → booleano."
       },
       {
-        "title": "MISSÃO 04 — Operador Lógico",
-        "desc": "O sistema só age se a energia estiver ok E o status for ativo. Qual operador usar?",
-        "code": "se energia > 10 ___ status = \"ativo\" entao\n    continuar()",
-        "choices": ["ou", "nao", "e", "+"],
-        "correct": 2,
-        "explanation": "\"e\" exige que ambas as condições sejam verdadeiras."
+        "id": "sala1-facil-04",
+        "sourceQuestion": 4,
+        "title": "Tipos de dados — Corrija o bloco",
+        "desc": "Corrija a variável para guardar um número.",
+        "code": "idade = \"12\"",
+        "success": "Muito bem! A variável agora guarda um número.",
+        "hint": "As aspas transformam 12 em texto. Para guardar um número, use 12 sem aspas.",
+        "type": "choice",
+        "objective": "corrigir-tipos",
+        "choices": [
+          "idade = 12",
+          "idade = \"12\"",
+          "idade = true"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: idade = 12."
       },
       {
-        "title": "MISSÃO 05 — Definindo Procedimento",
-        "desc": "O programador quer criar um procedimento chamado verificarErro. Como começar?",
-        "code": "___ verificarErro()\n    retorne verdadeiro",
-        "choices": ["var", "funcao", "procedimento", "criar"],
+        "id": "sala1-facil-05",
+        "sourceQuestion": 5,
+        "title": "Tipos de dados — Investigue o bug",
+        "desc": "A variável portaAberta deve guardar verdadeiro ou falso. Qual valor booleano indica que a porta está aberta?",
+        "code": "",
+        "success": "Certo! true pode representar uma condição verdadeira, como uma porta aberta.",
+        "hint": "Para indicar verdadeiro ou falso, usamos booleanos: true ou false.",
+        "type": "choice",
+        "objective": "booleanos",
+        "choices": [
+          "30",
+          "\"aberta\"",
+          "true",
+          "30.5"
+        ],
         "correct": 2,
-        "explanation": "Em Portugol, usamos procedimento para definir um bloco reutilizável sem retorno."
+        "choiceFormat": "text",
+        "explanation": "Resposta: true."
+      },
+      {
+        "id": "sala1-facil-06",
+        "sourceQuestion": 6,
+        "title": "Tipos de dados — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Ótimo! Você percebeu a diferença entre 10 e \"10\".",
+        "hint": "Mesmo contendo um número, \"10\" entre aspas é texto.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "0",
+            "right": "número"
+          },
+          {
+            "id": "pair-1",
+            "left": "\"10\"",
+            "right": "texto"
+          },
+          {
+            "id": "pair-2",
+            "left": "false",
+            "right": "booleano"
+          }
+        ],
+        "targets": [
+          "número",
+          "texto",
+          "booleano"
+        ],
+        "explanation": "0 → número; \"10\" → texto; false → booleano."
+      },
+      {
+        "id": "sala1-facil-07",
+        "sourceQuestion": 7,
+        "title": "Tipos de dados — Complete o bloco",
+        "desc": "Complete o bloco para guardar o nome do jogador como texto.",
+        "code": "nome = [ ? ]",
+        "success": "Acertou! O nome foi guardado como texto.",
+        "hint": "Um nome é texto. Use aspas, como em \"Bug\".",
+        "type": "choice",
+        "objective": "textos",
+        "choices": [
+          "\"Bug\"",
+          "Bug",
+          "true"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: \"Bug\"."
+      },
+      {
+        "id": "sala1-facil-08",
+        "sourceQuestion": 8,
+        "title": "Tipos de dados — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Muito bem! A classificação está correta.",
+        "hint": "Observe as aspas e o valor true. Eles mostram o tipo de cada dado.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "7",
+            "right": "número"
+          },
+          {
+            "id": "pair-1",
+            "left": "\"energia\"",
+            "right": "texto"
+          },
+          {
+            "id": "pair-2",
+            "left": "true",
+            "right": "booleano"
+          }
+        ],
+        "targets": [
+          "número",
+          "texto",
+          "booleano"
+        ],
+        "explanation": "7 → número; \"energia\" → texto; true → booleano."
+      },
+      {
+        "id": "sala1-facil-09",
+        "sourceQuestion": 9,
+        "title": "Tipos de dados — Investigue o bug",
+        "desc": "Qual opção representa o número dez?",
+        "code": "",
+        "success": "Isso! 10 sem aspas representa um número.",
+        "hint": "\"10\" é texto. O número dez é escrito como 10, sem aspas.",
+        "type": "choice",
+        "objective": "numeros",
+        "choices": [
+          "\"10\"",
+          "10",
+          "true",
+          "false"
+        ],
+        "correct": 1,
+        "choiceFormat": "text",
+        "explanation": "Resposta: 10."
+      },
+      {
+        "id": "sala1-facil-10",
+        "sourceQuestion": 10,
+        "title": "Tipos de dados — Corrija o bloco",
+        "desc": "A variável ativo deve receber um valor booleano. Corrija o bloco.",
+        "code": "ativo = \"true\"",
+        "success": "Perfeito! ativo agora recebe um booleano.",
+        "hint": "\"true\" é texto. Para usar um booleano, retire as aspas e use true.",
+        "type": "choice",
+        "objective": "booleanos",
+        "choices": [
+          "ativo = true",
+          "ativo = \"true\"",
+          "ativo = 12"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: ativo = true."
       }
     ],
     "sala2": [
       {
-        "title": "MISSÃO 06 — Saída do Programa",
-        "desc": "O robô precisa exibir uma mensagem na tela. Qual comando usamos em Portugol?",
-        "code": "___ (\"Sistema online!\")",
-        "choices": ["imprima", "escreva", "mostre", "exiba"],
+        "id": "sala2-facil-01",
+        "sourceQuestion": 1,
+        "title": "Operadores — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Muito bem! Você reconheceu os operadores básicos.",
+        "hint": "Lembre: + soma, - subtrai e * multiplica.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "+",
+            "right": "somar"
+          },
+          {
+            "id": "pair-1",
+            "left": "-",
+            "right": "subtrair"
+          },
+          {
+            "id": "pair-2",
+            "left": "*",
+            "right": "multiplicar"
+          }
+        ],
+        "targets": [
+          "somar",
+          "subtrair",
+          "multiplicar"
+        ],
+        "explanation": "+ → somar; - → subtrair; * → multiplicar."
+      },
+      {
+        "id": "sala2-facil-02",
+        "sourceQuestion": 2,
+        "title": "Operadores — Investigue o bug",
+        "desc": "Qual é o resultado de 5 + 3?",
+        "code": "",
+        "success": "Acertou! 5 + 3 = 8.",
+        "hint": "O sinal + indica uma soma. Junte 5 com 3.",
+        "type": "choice",
+        "objective": "calcular",
+        "choices": [
+          "2",
+          "8",
+          "15",
+          "53"
+        ],
         "correct": 1,
-        "explanation": "\"escreva()\" é o comando do Portugol para exibir informações na tela."
+        "choiceFormat": "text",
+        "explanation": "Resposta: 8."
       },
       {
-        "title": "MISSÃO 07 — Comparação",
-        "desc": "O sistema verifica se dois valores são iguais. Qual operador usar?",
-        "code": "se nivel ___ 3 entao\n    subirNivel()",
-        "choices": ["<-", "=>", "=", "<>"],
-        "correct": 2,
-        "explanation": "\"=\" compara se dois valores são iguais em Portugol. \"<-\" atribui valor."
+        "id": "sala2-facil-03",
+        "sourceQuestion": 3,
+        "title": "Operadores — Complete o bloco",
+        "desc": "Complete para somar 4 com 6.",
+        "code": "4 [ ? ] 6",
+        "success": "Isso! O resultado é 10.",
+        "hint": "Para juntar os valores, use o operador +.",
+        "type": "choice",
+        "objective": "somar",
+        "choices": [
+          "+",
+          "-",
+          "*"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: +."
       },
       {
-        "title": "MISSÃO 08 — Repetição com Condição",
-        "desc": "O robô deve continuar patrulhando enquanto não encontrar um bug. Qual estrutura usar?",
-        "code": "___ bugEncontrado = falso faca\n    patrulhar()",
-        "choices": ["se", "para", "enquanto", "procedimento"],
-        "correct": 2,
-        "explanation": "\"enquanto\" repete um bloco enquanto a condição for verdadeira."
+        "id": "sala2-facil-04",
+        "sourceQuestion": 4,
+        "title": "Operadores — Escolha os blocos",
+        "desc": "Escolha a expressão que resulta em 10.",
+        "code": "",
+        "success": "Perfeito! 7 + 3 = 10.",
+        "hint": "Procure a operação que aumenta o valor: a soma.",
+        "type": "choice",
+        "objective": "somar",
+        "choices": [
+          "7 + 3",
+          "7 - 3",
+          "7 * 3"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: 7 + 3."
       },
       {
-        "title": "MISSÃO 09 — Tipo de Dado",
-        "desc": "O nome do jogador é um texto. Qual tipo de dado representa texto em Portugol?",
-        "code": "___ nome <- \"Igor\"\nescreva(nome)",
-        "choices": ["inteiro", "real", "caractere", "logico"],
-        "correct": 2,
-        "explanation": "\"caractere\" representa texto em Portugol."
+        "id": "sala2-facil-05",
+        "sourceQuestion": 5,
+        "title": "Operadores — Investigue o bug",
+        "desc": "Qual operador usamos para diminuir um valor?",
+        "code": "",
+        "success": "Isso! O sinal - indica subtração.",
+        "hint": "Para diminuir, use o operador -.",
+        "type": "choice",
+        "objective": "escolher-operador",
+        "choices": [
+          "+",
+          "-",
+          "*",
+          "/"
+        ],
+        "correct": 1,
+        "choiceFormat": "text",
+        "explanation": "Resposta: -."
       },
       {
-        "title": "MISSÃO 10 — Valor Lógico",
-        "desc": "O sistema precisa guardar se o jogador está ativo ou não. Qual valor representa verdadeiro?",
-        "code": "logico ativo <- ___\nse ativo entao\n    jogar()",
-        "choices": ["1", "sim", "verdadeiro", "true"],
-        "correct": 2,
-        "explanation": "\"verdadeiro\" é o valor lógico verdadeiro em Portugol."
+        "id": "sala2-facil-06",
+        "sourceQuestion": 6,
+        "title": "Operadores — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Muito bem! Você fez as três operações.",
+        "hint": "Faça uma conta por vez e observe o operador usado.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "2 + 3",
+            "right": "5"
+          },
+          {
+            "id": "pair-1",
+            "left": "10 - 4",
+            "right": "6"
+          },
+          {
+            "id": "pair-2",
+            "left": "3 * 2",
+            "right": "6"
+          }
+        ],
+        "targets": [
+          "5",
+          "6",
+          "8"
+        ],
+        "explanation": "2 + 3 → 5; 10 - 4 → 6; 3 * 2 → 6."
+      },
+      {
+        "id": "sala2-facil-07",
+        "sourceQuestion": 7,
+        "title": "Operadores — Corrija o bloco",
+        "desc": "A conta deveria resultar em 9. Qual expressão usa o operador correto com 6 e 3?",
+        "code": "6 * 3 → 18\nResultado esperado: 9",
+        "success": "Certo! O operador + produz 9.",
+        "hint": "Se o resultado esperado é 9, procure a operação que junta 6 e 3.",
+        "type": "choice",
+        "objective": "escolher-operador",
+        "choices": [
+          "6 + 3",
+          "6 * 3",
+          "6 - 3"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: 6 + 3."
+      },
+      {
+        "id": "sala2-facil-08",
+        "sourceQuestion": 8,
+        "title": "Operadores — Complete o bloco",
+        "desc": "Complete para descobrir se energia é maior que 10.",
+        "code": "energia [ ? ] 10",
+        "success": "Muito bem! > significa maior que.",
+        "hint": "Para perguntar se um valor é maior, use >.",
+        "type": "choice",
+        "objective": "comparar",
+        "choices": [
+          ">",
+          "<",
+          "=="
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: >."
+      },
+      {
+        "id": "sala2-facil-09",
+        "sourceQuestion": 9,
+        "title": "Operadores — Investigue o bug",
+        "desc": "Qual operador verifica se dois valores são iguais?",
+        "code": "",
+        "success": "Acertou! == é usado para comparar dois valores.",
+        "hint": "O operador de comparação de igualdade é ==.",
+        "type": "choice",
+        "objective": "comparar",
+        "choices": [
+          "=",
+          "==",
+          ">",
+          "<"
+        ],
+        "correct": 1,
+        "choiceFormat": "text",
+        "explanation": "Resposta: ==."
+      },
+      {
+        "id": "sala2-facil-10",
+        "sourceQuestion": 10,
+        "title": "Operadores — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Excelente! Você organizou os operadores corretamente.",
+        "hint": "Olhe para o significado de cada símbolo: + soma, - subtrai, * multiplica.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "+",
+            "right": "SOMA"
+          },
+          {
+            "id": "pair-1",
+            "left": "-",
+            "right": "SUBTRAÇÃO"
+          },
+          {
+            "id": "pair-2",
+            "left": "*",
+            "right": "MULTIPLICAÇÃO"
+          }
+        ],
+        "targets": [
+          "SOMA",
+          "SUBTRAÇÃO",
+          "MULTIPLICAÇÃO"
+        ],
+        "explanation": "+ → SOMA; - → SUBTRAÇÃO; * → MULTIPLICAÇÃO."
       }
     ],
     "sala3": [
       {
-        "title": "MISSÃO 11 — Decisão Simples",
-        "desc": "O sistema de quarentena só deve ativar se o risco for maior que 50. Qual estrutura completa o código?",
-        "code": "___ risco > 50 entao\n    ativarQuarentena()\nfimse",
-        "choices": ["se", "para", "enquanto", "funcao"],
+        "id": "sala3-facil-01",
+        "sourceQuestion": 1,
+        "title": "Condições — Escolha os blocos",
+        "desc": "Escolha a estrutura: se energia for menor que 5, recarregar.",
+        "code": "",
+        "success": "Muito bem! O programa toma uma decisão usando uma condição.",
+        "hint": "Procure a ordem: se + condição + ação.",
+        "type": "choice",
+        "objective": "montar-decisao",
+        "choices": [
+          "se energia < 5 → recarregar",
+          "se energia > 5 → recarregar",
+          "se energia < 5 → continuar"
+        ],
         "correct": 0,
-        "explanation": "Usamos \"se\" quando o programa precisa tomar uma decisão com base em uma condição."
+        "choiceFormat": "code",
+        "explanation": "Resposta: se energia < 5 → recarregar."
       },
       {
-        "title": "MISSÃO 12 — Caminho Alternativo",
-        "desc": "Se o acesso for negado, o sistema deve bloquear. Caso contrário, deve liberar. Qual palavra cria o caminho alternativo?",
-        "code": "se acesso = falso entao\n    bloquear()\n___\n    liberar()\nfimse",
-        "choices": ["senao", "enquanto", "para", "retorne"],
+        "id": "sala3-facil-02",
+        "sourceQuestion": 2,
+        "title": "Condições — Investigue o bug",
+        "desc": "Para que serve o bloco \"se\"?",
+        "code": "",
+        "success": "Isso! O bloco se verifica uma condição antes de executar uma ação.",
+        "hint": "O bloco se pergunta: \"essa condição é verdadeira?\".",
+        "type": "choice",
+        "objective": "reconhecer-condicao",
+        "choices": [
+          "Para guardar um texto",
+          "Para tomar uma decisão",
+          "Para somar números",
+          "Para criar uma variável"
+        ],
+        "correct": 1,
+        "choiceFormat": "text",
+        "explanation": "Resposta: Para tomar uma decisão."
+      },
+      {
+        "id": "sala3-facil-03",
+        "sourceQuestion": 3,
+        "title": "Condições — Complete o bloco",
+        "desc": "A variável portaLiberada indica que a porta pode abrir. Qual ação completa a decisão?",
+        "code": "se portaLiberada == true → [ ? ]",
+        "success": "Acertou! A ação combina com a condição.",
+        "hint": "Pense no que deve acontecer quando a porta estiver aberta ou liberada.",
+        "type": "choice",
+        "objective": "escolher-acao",
+        "choices": [
+          "abrir porta",
+          "somar 2",
+          "guardar 5"
+        ],
         "correct": 0,
-        "explanation": "\"senao\" define o que acontece quando a condição do \"se\" é falsa."
+        "choiceFormat": "code",
+        "explanation": "Resposta: abrir porta."
       },
       {
-        "title": "MISSÃO 13 — Operador E",
-        "desc": "A porta só libera se o cartão for válido e a senha estiver correta.",
-        "code": "se cartaoValido = verdadeiro ___ senhaCorreta = verdadeiro entao\n    liberarPorta()\nfimse",
-        "choices": ["ou", "e", "+", "<-"],
-        "correct": 1,
-        "explanation": "O operador \"e\" exige que as duas condições sejam verdadeiras ao mesmo tempo."
+        "id": "sala3-facil-04",
+        "sourceQuestion": 4,
+        "title": "Condições — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Perfeito! Cada condição recebeu a ação correspondente.",
+        "hint": "Quando a energia está baixa, recarregamos. Quando não está baixa, podemos continuar.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "energia < 5",
+            "right": "recarregar"
+          },
+          {
+            "id": "pair-1",
+            "left": "energia >= 5",
+            "right": "continuar"
+          }
+        ],
+        "targets": [
+          "recarregar",
+          "continuar"
+        ],
+        "explanation": "energia < 5 → recarregar; energia >= 5 → continuar."
       },
       {
-        "title": "MISSÃO 14 — Operador OU",
-        "desc": "O reator deve emitir alerta se a temperatura estiver alta ou se houver falha no núcleo.",
-        "code": "se temperatura > 90 ___ falhaNucleo = verdadeiro entao\n    emitirAlerta()\nfimse",
-        "choices": ["e", "ou", "*", "senao"],
+        "id": "sala3-facil-05",
+        "sourceQuestion": 5,
+        "title": "Condições — Investigue o bug",
+        "desc": "Qual palavra usamos quando queremos indicar a segunda possibilidade de uma decisão?",
+        "code": "",
+        "success": "Certo! senão representa a outra possibilidade.",
+        "hint": "Em uma estrutura se/senão, o senão acontece quando a condição do se não é atendida.",
+        "type": "choice",
+        "objective": "senao",
+        "choices": [
+          "então",
+          "senão",
+          "variável",
+          "função"
+        ],
         "correct": 1,
-        "explanation": "O operador \"ou\" executa a ação se pelo menos uma condição for verdadeira."
+        "choiceFormat": "text",
+        "explanation": "Resposta: senão."
       },
       {
-        "title": "MISSÃO 15 — Condição Correta",
-        "desc": "Complete a condição para recuperar os dados apenas quando o backup estiver disponível.",
-        "code": "se backupDisponivel = ___ entao\n    recuperarDados()\nfimse",
-        "choices": ["\"verdadeiro\"", "verdadeiro", "10", "texto"],
-        "correct": 1,
-        "explanation": "Em Portugol, verdadeiro é um valor lógico e não deve estar entre aspas."
+        "id": "sala3-facil-06",
+        "sourceQuestion": 6,
+        "title": "Condições — Escolha os blocos",
+        "desc": "Escolha a sequência: se vidas == 0 → game over.",
+        "code": "",
+        "success": "Muito bem! A decisão está completa.",
+        "hint": "Coloque a condição depois de se e a ação depois da condição.",
+        "type": "choice",
+        "objective": "montar-decisao",
+        "choices": [
+          "se vidas == 0 → game over",
+          "se vidas > 0 → game over",
+          "vidas = \"game over\""
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: se vidas == 0 → game over."
+      },
+      {
+        "id": "sala3-facil-07",
+        "sourceQuestion": 7,
+        "title": "Condições — Corrija o bloco",
+        "desc": "Corrija a ação que deve acontecer quando energia < 5.",
+        "code": "se energia < 5 → continuar",
+        "success": "Isso! Energia baixa pede recarga.",
+        "hint": "Leia a condição: quando a energia está baixa, a ação deve ser recarregar.",
+        "type": "choice",
+        "objective": "escolher-acao",
+        "choices": [
+          "se energia < 5 → recarregar",
+          "se energia < 5 → continuar",
+          "se energia > 5 → recarregar"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: se energia < 5 → recarregar."
+      },
+      {
+        "id": "sala3-facil-08",
+        "sourceQuestion": 8,
+        "title": "Condições — Complete o bloco",
+        "desc": "Complete a estrutura com senão.",
+        "code": "se ativo == true → continuar\nsenão → [ ? ]",
+        "success": "Perfeito! Quando ativo não for verdadeiro, o sistema para.",
+        "hint": "O senão mostra o que acontece quando a condição não é atendida.",
+        "type": "choice",
+        "objective": "senao",
+        "choices": [
+          "parar",
+          "continuar",
+          "somar pontos"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: parar."
+      },
+      {
+        "id": "sala3-facil-09",
+        "sourceQuestion": 9,
+        "title": "Condições — Investigue o bug",
+        "desc": "Qual opção mostra uma condição?",
+        "code": "",
+        "success": "Isso! energia < 5 é uma comparação usada como condição.",
+        "hint": "Uma condição normalmente compara valores ou verifica verdadeiro/falso.",
+        "type": "choice",
+        "objective": "reconhecer-condicao",
+        "choices": [
+          "10 + 2",
+          "nome = \"Ana\"",
+          "energia < 5",
+          "pontos = 20"
+        ],
+        "correct": 2,
+        "choiceFormat": "text",
+        "explanation": "Resposta: energia < 5."
+      },
+      {
+        "id": "sala3-facil-10",
+        "sourceQuestion": 10,
+        "title": "Condições — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Muito bem! Você relacionou condição e ação.",
+        "hint": "Pense no que o sistema precisa fazer em cada situação.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "porta fechada",
+            "right": "abrir"
+          },
+          {
+            "id": "pair-1",
+            "left": "energia baixa",
+            "right": "recarregar"
+          },
+          {
+            "id": "pair-2",
+            "left": "jogador ativo",
+            "right": "continuar"
+          }
+        ],
+        "targets": [
+          "abrir",
+          "recarregar",
+          "continuar"
+        ],
+        "explanation": "porta fechada → abrir; energia baixa → recarregar; jogador ativo → continuar."
       }
     ],
     "sala4": [
       {
-        "title": "MISSÃO 16 — Criar Função",
-        "desc": "A central precisa organizar a checagem de energia em uma função. Qual palavra inicia corretamente esse bloco?",
-        "code": "___ verificarEnergia()\n    escreva(\"Energia verificada\")\nfimfuncao",
-        "choices": ["funcao", "variavel", "enquanto", "senao"],
-        "correct": 0,
-        "explanation": "Usamos \"funcao\" para criar um bloco reutilizável de comandos."
+        "id": "sala4-facil-01",
+        "sourceQuestion": 1,
+        "title": "Funções — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Muito bem! Você identificou criar e chamar uma função.",
+        "hint": "O bloco função cria/define a função; chamar usa uma função que já existe.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "criar uma função",
+            "right": "função"
+          },
+          {
+            "id": "pair-1",
+            "left": "usar uma função",
+            "right": "chamar"
+          }
+        ],
+        "targets": [
+          "função",
+          "chamar"
+        ],
+        "explanation": "criar uma função → função; usar uma função → chamar."
       },
       {
-        "title": "MISSÃO 17 — Chamar Rotina",
-        "desc": "A função ja foi criada. Qual comando executa verificarEnergia?",
-        "code": "funcao verificarEnergia()\n    escreva(\"OK\")\nfimfuncao\n\n___",
-        "choices": ["verificarEnergia()", "funcao verificarEnergia", "variavel verificarEnergia", "se verificarEnergia"],
+        "id": "sala4-facil-02",
+        "sourceQuestion": 2,
+        "title": "Funções — Investigue o bug",
+        "desc": "Qual opção mostra uma variável?",
+        "code": "",
+        "success": "Isso! pontos é uma variável que guarda um valor.",
+        "hint": "Procure a opção que guarda um valor em um nome.",
+        "type": "choice",
+        "objective": "variaveis",
+        "choices": [
+          "pontos = 20",
+          "chamar abrirPorta",
+          "função abrirPorta",
+          "se energia < 5"
+        ],
         "correct": 0,
-        "explanation": "Para executar uma função, chamamos seu nome seguido de parênteses."
+        "choiceFormat": "text",
+        "explanation": "Resposta: pontos = 20."
       },
       {
-        "title": "MISSÃO 18 — Guardar Resultado",
-        "desc": "O sistema precisa guardar a quantidade de falhas encontradas. Qual declaração está correta?",
-        "code": "___ falhas <- 0",
-        "choices": ["inteiro", "texto", "logico", "funcao"],
+        "id": "sala4-facil-03",
+        "sourceQuestion": 3,
+        "title": "Funções — Complete o bloco",
+        "desc": "Complete o bloco para usar a função verificarEnergia.",
+        "code": "[ ? ] verificarEnergia",
+        "success": "Certo! Para usar uma função já criada, usamos chamar.",
+        "hint": "A função já existe. Agora precisamos chamá-la para executar sua ação.",
+        "type": "choice",
+        "objective": "chamar-funcao",
+        "choices": [
+          "chamar",
+          "criar",
+          "variável"
+        ],
         "correct": 0,
-        "explanation": "Como falhas guarda uma quantidade numérica inteira, o tipo correto é inteiro."
+        "choiceFormat": "code",
+        "explanation": "Resposta: chamar."
       },
       {
-        "title": "MISSÃO 19 — Usar Parâmetro",
-        "desc": "A função deve receber o setor que será analisado. Qual chamada envia o valor \"ponte\"?",
-        "code": "funcao analisarSetor(caractere setor)\n    escreva(setor)\nfimfuncao\n\n___",
-        "choices": ["analisarSetor(\"ponte\")", "analisarSetor()", "funcao analisarSetor(\"ponte\")", "setor <- analisarSetor"],
+        "id": "sala4-facil-04",
+        "sourceQuestion": 4,
+        "title": "Funções — Escolha os blocos",
+        "desc": "Escolha uma função chamada abrirPorta.",
+        "code": "",
+        "success": "Perfeito! A função foi criada com nome.",
+        "hint": "Coloque o bloco função antes do nome da função.",
+        "type": "choice",
+        "objective": "criar-funcao",
+        "choices": [
+          "função abrirPorta",
+          "chamar abrirPorta",
+          "abrirPorta = 10"
+        ],
         "correct": 0,
-        "explanation": "O valor enviado para uma função fica dentro dos parênteses da chamada."
+        "choiceFormat": "code",
+        "explanation": "Resposta: função abrirPorta."
       },
       {
-        "title": "MISSÃO 20 — Função com Decisão",
-        "desc": "Complete a decisão para chamar reparo() apenas se houver erro no sistema.",
-        "code": "funcao verificarErro(logico erro)\n    se erro = ___ entao\n        reparo()\n    fimse\nfimfuncao",
-        "choices": ["verdadeiro", "\"verdadeiro\"", "0", "texto"],
+        "id": "sala4-facil-05",
+        "sourceQuestion": 5,
+        "title": "Funções — Investigue o bug",
+        "desc": "Para que serve uma função?",
+        "code": "",
+        "success": "Muito bem! Uma função ajuda a organizar e usar uma ação novamente.",
+        "hint": "Funções servem para agrupar ações que podem ser reutilizadas.",
+        "type": "choice",
+        "objective": "reutilizar",
+        "choices": [
+          "Para guardar somente números",
+          "Para organizar e reutilizar ações",
+          "Para comparar dois números",
+          "Para apagar variáveis"
+        ],
+        "correct": 1,
+        "choiceFormat": "text",
+        "explanation": "Resposta: Para organizar e reutilizar ações."
+      },
+      {
+        "id": "sala4-facil-06",
+        "sourceQuestion": 6,
+        "title": "Funções — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Excelente! Você separou armazenamento de valores e ações.",
+        "hint": "Variáveis guardam valores; funções representam ações organizadas.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "pontos = 10",
+            "right": "VARIÁVEL"
+          },
+          {
+            "id": "pair-1",
+            "left": "nome = \"Lia\"",
+            "right": "VARIÁVEL"
+          },
+          {
+            "id": "pair-2",
+            "left": "função abrirPorta",
+            "right": "FUNÇÃO"
+          },
+          {
+            "id": "pair-3",
+            "left": "função verificarEnergia",
+            "right": "FUNÇÃO"
+          }
+        ],
+        "targets": [
+          "VARIÁVEL",
+          "FUNÇÃO"
+        ],
+        "explanation": "pontos = 10 → VARIÁVEL; nome = \"Lia\" → VARIÁVEL; função abrirPorta → FUNÇÃO; função verificarEnergia → FUNÇÃO."
+      },
+      {
+        "id": "sala4-facil-07",
+        "sourceQuestion": 7,
+        "title": "Funções — Corrija o bloco",
+        "desc": "A função já existe. Corrija o bloco para executá-la.",
+        "code": "função abrirPorta",
+        "success": "Acertou! A função foi chamada corretamente.",
+        "hint": "Se a função já foi criada, use chamar para executá-la.",
+        "type": "choice",
+        "objective": "chamar-funcao",
+        "choices": [
+          "chamar abrirPorta",
+          "função abrirPorta",
+          "abrirPorta = true"
+        ],
         "correct": 0,
-        "explanation": "verdadeiro é um valor lógico. Ele não deve ficar entre aspas."
+        "choiceFormat": "code",
+        "explanation": "Resposta: chamar abrirPorta."
+      },
+      {
+        "id": "sala4-facil-08",
+        "sourceQuestion": 8,
+        "title": "Funções — Complete o bloco",
+        "desc": "Complete a variável com o valor 20.",
+        "code": "pontos = [ ? ]",
+        "success": "Muito bem! pontos recebeu um número.",
+        "hint": "Como pontos será usado como pontuação, use 20 sem aspas.",
+        "type": "choice",
+        "objective": "variaveis",
+        "choices": [
+          "20",
+          "\"20\"",
+          "true"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: 20."
+      },
+      {
+        "id": "sala4-facil-09",
+        "sourceQuestion": 9,
+        "title": "Funções — Investigue o bug",
+        "desc": "Qual opção cria uma função chamada verificarEnergia?",
+        "code": "",
+        "success": "Isso! Essa opção cria a função com o nome indicado.",
+        "hint": "Para criar a função, use o bloco função antes do nome.",
+        "type": "choice",
+        "objective": "criar-funcao",
+        "choices": [
+          "chamar verificarEnergia",
+          "função verificarEnergia",
+          "energia = 10",
+          "se energia < 5"
+        ],
+        "correct": 1,
+        "choiceFormat": "text",
+        "explanation": "Resposta: função verificarEnergia."
+      },
+      {
+        "id": "sala4-facil-10",
+        "sourceQuestion": 10,
+        "title": "Funções — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Muito bem! Você identificou os três conceitos.",
+        "hint": "Pense no que cada linha faz: guardar valor, usar função ou criar função.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "pontos = 20",
+            "right": "variável"
+          },
+          {
+            "id": "pair-1",
+            "left": "chamar abrirPorta",
+            "right": "chamar função"
+          },
+          {
+            "id": "pair-2",
+            "left": "função verificarEnergia",
+            "right": "criar função"
+          }
+        ],
+        "targets": [
+          "variável",
+          "chamar função",
+          "criar função"
+        ],
+        "explanation": "pontos = 20 → variável; chamar abrirPorta → chamar função; função verificarEnergia → criar função."
       }
     ]
   },
-
   "medio": {
     "sala1": [
       {
-        "title": "MISSÃO 01 — O que esse código faz?",
-        "desc": "Leia o código abaixo. O que será exibido quando energia for 15?",
-        "code": "inteiro energia <- 15\nse energia < 20 entao\n    escreva(\"Retornando\")\nsenao\n    escreva(\"Operando\")\nfimse",
-        "choices": ["Operando", "Retornando", "Nada", "Erro"],
-        "correct": 1,
-        "explanation": "Como energia 15 é menor que 20, a condição é verdadeira e exibe \"Retornando\"."
+        "id": "sala1-medio-01",
+        "sourceQuestion": 1,
+        "title": "Tipos de dados — Escolha os blocos",
+        "desc": "Escolha a linha que guarda 25 como valor da variável pontos.",
+        "code": "pontos = [ ? ]",
+        "success": "Muito bem! A variável pontos recebeu um número.",
+        "hint": "Para guardar 25 como número, use 25 sem aspas e o sinal = para atribuir o valor.",
+        "type": "choice",
+        "objective": "numeros",
+        "choices": [
+          "pontos = 25",
+          "pontos = \"25\"",
+          "pontos = true"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: pontos = 25."
       },
       {
-        "title": "MISSÃO 02 — Quantas vezes repete?",
-        "desc": "Quantas vezes a função escanear() será chamada?",
-        "code": "para i de 1 ate 3 faca\n    escanear(i)\n    escreva(i)\nfimpara",
-        "choices": ["2 vezes", "3 vezes", "4 vezes", "1 vez"],
+        "id": "sala1-medio-02",
+        "sourceQuestion": 2,
+        "title": "Tipos de dados — Investigue o bug",
+        "desc": "Uma variável chamada nome deve guardar a palavra \"Bug\". Qual opção está correta?",
+        "code": "",
+        "success": "Certo! O texto foi guardado corretamente.",
+        "hint": "Palavras e nomes precisam estar entre aspas quando são textos.",
+        "type": "choice",
+        "objective": "textos",
+        "choices": [
+          "nome = Bug",
+          "nome = \"Bug\"",
+          "nome = true",
+          "nome = 0"
+        ],
         "correct": 1,
-        "explanation": "\"para i de 1 ate 3\" executa 3 vezes."
+        "choiceFormat": "text",
+        "explanation": "Resposta: nome = \"Bug\"."
       },
       {
-        "title": "MISSÃO 03 — Resultado da operação",
-        "desc": "Qual será o valor de resultado após executar o código?",
-        "code": "inteiro x <- 10\ninteiro y <- 3\ninteiro resultado <- x + y * 2",
-        "choices": ["26", "16", "13", "23"],
-        "correct": 1,
-        "explanation": "Multiplicação vem antes da soma. y * 2 = 6, então 10 + 6 = 16."
+        "id": "sala1-medio-03",
+        "sourceQuestion": 3,
+        "title": "Tipos de dados — Corrija o bloco",
+        "desc": "Corrija a variável abaixo para que ela possa receber um estado verdadeiro ou falso.",
+        "code": "ativo = \"false\"",
+        "success": "Acertou! ativo agora guarda um booleano.",
+        "hint": "Retire as aspas de false. Com aspas, ele vira texto.",
+        "type": "choice",
+        "objective": "booleanos",
+        "choices": [
+          "ativo = false",
+          "ativo = \"false\"",
+          "ativo = \"ativo\""
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: ativo = false."
       },
       {
-        "title": "MISSÃO 04 — Condição composta",
-        "desc": "Em quais casos o sistema vai executar alerta()?",
-        "code": "se energia < 10 ou temperatura > 80 entao\n    alerta()\nfimse",
-        "choices": ["Só se as duas forem verdadeiras", "Se energia < 10 OU temperatura > 80", "Nunca executa", "Sempre executa"],
-        "correct": 1,
-        "explanation": "\"ou\" executa se qualquer uma das condições for verdadeira."
+        "id": "sala1-medio-04",
+        "sourceQuestion": 4,
+        "title": "Tipos de dados — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Excelente! As variáveis estão com tipos adequados.",
+        "hint": "Pense no que cada variável representa: idade é quantidade, nome é palavra e ativo indica uma condição.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "idade",
+            "right": "número"
+          },
+          {
+            "id": "pair-1",
+            "left": "nome",
+            "right": "texto"
+          },
+          {
+            "id": "pair-2",
+            "left": "ativo",
+            "right": "booleano"
+          }
+        ],
+        "targets": [
+          "número",
+          "texto",
+          "booleano"
+        ],
+        "explanation": "idade → número; nome → texto; ativo → booleano."
       },
       {
-        "title": "MISSÃO 05 — Valor de retorno",
-        "desc": "O que a função retorna quando chamada com dobrar(4)?",
-        "code": "funcao inteiro dobrar(inteiro n)\n    retorne n * 2\nfimfuncao\n\nresultado <- dobrar(4)",
-        "choices": ["4", "2", "8", "16"],
+        "id": "sala1-medio-05",
+        "sourceQuestion": 5,
+        "title": "Tipos de dados — Investigue o bug",
+        "desc": "Qual linha guarda corretamente a palavra \"energia\"?",
+        "code": "",
+        "success": "Isso! A palavra foi guardada como texto.",
+        "hint": "Sem aspas, energia seria lido como um nome, não como o texto desejado.",
+        "type": "choice",
+        "objective": "textos",
+        "choices": [
+          "energia = energia",
+          "energia = 10",
+          "energia = \"energia\"",
+          "energia = false"
+        ],
         "correct": 2,
-        "explanation": "A função multiplica n por 2. Com n = 4, retorna 8."
+        "choiceFormat": "text",
+        "explanation": "Resposta: energia = \"energia\"."
+      },
+      {
+        "id": "sala1-medio-06",
+        "sourceQuestion": 6,
+        "title": "Tipos de dados — Complete o bloco",
+        "desc": "Complete o valor de jogadorAtivo para indicar que o jogador está ativo.",
+        "code": "jogadorAtivo = [ ? ]",
+        "success": "Muito bem! A variável recebeu um booleano.",
+        "hint": "Use true sem aspas para representar verdadeiro.",
+        "type": "choice",
+        "objective": "booleanos",
+        "choices": [
+          "true",
+          "\"true\"",
+          "1"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: true."
+      },
+      {
+        "id": "sala1-medio-07",
+        "sourceQuestion": 7,
+        "title": "Tipos de dados — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Perfeito! Você separou valores parecidos sem confundir seus tipos.",
+        "hint": "Compare os símbolos: aspas indicam texto; true e false indicam booleano.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "0",
+            "right": "número"
+          },
+          {
+            "id": "pair-1",
+            "left": "\"bug\"",
+            "right": "texto"
+          },
+          {
+            "id": "pair-2",
+            "left": "true",
+            "right": "booleano"
+          },
+          {
+            "id": "pair-3",
+            "left": "\"0\"",
+            "right": "texto"
+          },
+          {
+            "id": "pair-4",
+            "left": "false",
+            "right": "booleano"
+          }
+        ],
+        "targets": [
+          "número",
+          "texto",
+          "booleano"
+        ],
+        "explanation": "0 → número; \"bug\" → texto; true → booleano; \"0\" → texto; false → booleano."
+      },
+      {
+        "id": "sala1-medio-08",
+        "sourceQuestion": 8,
+        "title": "Tipos de dados — Corrija o bloco",
+        "desc": "O valor da variável vidas está como texto. Corrija para que seja usado em uma contagem.",
+        "code": "vidas = \"4\"",
+        "success": "Certo! 4 agora pode ser usado como número.",
+        "hint": "Retire as aspas para transformar \"4\" em número.",
+        "type": "choice",
+        "objective": "numeros",
+        "choices": [
+          "vidas = 4",
+          "vidas = \"4\"",
+          "vidas = false"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: vidas = 4."
+      },
+      {
+        "id": "sala1-medio-09",
+        "sourceQuestion": 9,
+        "title": "Tipos de dados — Investigue o bug",
+        "desc": "Qual variável seria mais adequada para guardar se o som está ligado?",
+        "code": "",
+        "success": "Boa! O nome da variável indica que ela guarda um estado verdadeiro ou falso.",
+        "hint": "Procure a variável cujo nome combina com uma condição que pode ser verdadeira ou falsa.",
+        "type": "choice",
+        "objective": "nomear-variaveis",
+        "choices": [
+          "nome",
+          "quantidade",
+          "somLigado",
+          "idade"
+        ],
+        "correct": 2,
+        "choiceFormat": "text",
+        "explanation": "Resposta: somLigado."
+      },
+      {
+        "id": "sala1-medio-10",
+        "sourceQuestion": 10,
+        "title": "Tipos de dados — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Excelente! Você relacionou valor, significado e tipo.",
+        "hint": "Use o significado de cada variável para escolher o valor mais adequado.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "\"Ana\"",
+            "right": "nome"
+          },
+          {
+            "id": "pair-1",
+            "left": "12",
+            "right": "idade"
+          },
+          {
+            "id": "pair-2",
+            "left": "false",
+            "right": "ativo"
+          }
+        ],
+        "targets": [
+          "nome",
+          "idade",
+          "ativo"
+        ],
+        "explanation": "\"Ana\" → nome; 12 → idade; false → ativo."
       }
     ],
     "sala2": [
       {
-        "title": "MISSÃO 06 — Saída do loop",
-        "desc": "Quais números serão impressos por esse código?",
-        "code": "para i de 1 ate 4 faca\n    se i % 2 = 0 entao\n        escreva(i)\n    fimse\nfimpara",
-        "choices": ["1, 3", "2, 4", "1, 2, 3, 4", "0, 2, 4"],
-        "correct": 1,
-        "explanation": "2 e 4 são os números pares entre 1 e 4."
+        "id": "sala2-medio-01",
+        "sourceQuestion": 1,
+        "title": "Operadores — Escolha os blocos",
+        "desc": "Escolha uma expressão que resulte em 15 usando 12, 3 e o operador adequado.",
+        "code": "",
+        "success": "Muito bem! 12 + 3 = 15.",
+        "hint": "Escolha o operador que aumenta 12 para chegar a 15.",
+        "type": "choice",
+        "objective": "calcular",
+        "choices": [
+          "12 + 3",
+          "12 - 3",
+          "12 / 3"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: 12 + 3."
       },
       {
-        "title": "MISSÃO 07 — Enquanto com contador",
-        "desc": "Quantas vezes 'tick' será exibido?",
-        "code": "inteiro cont <- 0\nenquanto cont < 3 faca\n    escreva(\"tick\")\n    cont <- cont + 1\nfimenquanto",
-        "choices": ["2 vezes", "3 vezes", "4 vezes", "infinito"],
-        "correct": 1,
-        "explanation": "cont assume 0, 1 e 2. Portanto, executa 3 vezes."
-      },
-      {
-        "title": "MISSÃO 08 — Vetor e índice",
-        "desc": "Qual valor será exibido?",
-        "code": "caractere setores[4] <- {\"A\", \"B\", \"C\", \"D\"}\nescreva(setores[3])",
-        "choices": ["A", "B", "C", "D"],
+        "id": "sala2-medio-02",
+        "sourceQuestion": 2,
+        "title": "Operadores — Investigue o bug",
+        "desc": "Qual expressão verifica se vidas é maior que 2?",
+        "code": "",
+        "success": "Certo! > verifica se o valor é maior.",
+        "hint": "Leia a palavra \"maior\" e escolha o operador correspondente: >.",
+        "type": "choice",
+        "objective": "maior-e-menor",
+        "choices": [
+          "vidas < 2",
+          "vidas == 2",
+          "vidas > 2",
+          "vidas = 2"
+        ],
         "correct": 2,
-        "explanation": "Considerando índice inicial em 1, setores[3] é \"C\"."
+        "choiceFormat": "text",
+        "explanation": "Resposta: vidas > 2."
       },
       {
-        "title": "MISSÃO 09 — Função com condição",
-        "desc": "O que a função retorna quando chamada com verificar(5)?",
-        "code": "funcao caractere verificar(inteiro n)\n    se n > 10 entao\n        retorne \"alto\"\n    fimse\n    retorne \"baixo\"\nfimfuncao",
-        "choices": ["alto", "baixo", "verdadeiro", "nulo"],
-        "correct": 1,
-        "explanation": "5 não é maior que 10, então a função retorna \"baixo\"."
+        "id": "sala2-medio-03",
+        "sourceQuestion": 3,
+        "title": "Operadores — Corrija o bloco",
+        "desc": "O sistema precisa calcular 6 - 2. Corrija a expressão.",
+        "code": "6 + 2\nResultado esperado: 4",
+        "success": "Perfeito! A subtração produz 4.",
+        "hint": "A expressão precisava diminuir 2 de 6.",
+        "type": "choice",
+        "objective": "atualizar-valores",
+        "choices": [
+          "6 - 2",
+          "6 + 2",
+          "6 * 2"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: 6 - 2."
       },
       {
-        "title": "MISSÃO 10 — Concatenação",
-        "desc": "Qual será a saída do código?",
-        "code": "caractere nome <- \"Bug\"\ncaractere tipo <- \"Hunter\"\nescreva(nome + \" \" + tipo)",
-        "choices": ["BugHunter", "Bug Hunter", "nome tipo", "Erro"],
+        "id": "sala2-medio-04",
+        "sourceQuestion": 4,
+        "title": "Operadores — Complete o bloco",
+        "desc": "Complete a comparação para testar se energia é menor que 5.",
+        "code": "energia [ ? ] 5",
+        "success": "Acertou! A comparação está correta.",
+        "hint": "A palavra \"menor\" corresponde ao símbolo <.",
+        "type": "choice",
+        "objective": "maior-e-menor",
+        "choices": [
+          "<",
+          ">",
+          "=="
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: <."
+      },
+      {
+        "id": "sala2-medio-05",
+        "sourceQuestion": 5,
+        "title": "Operadores — Investigue o bug",
+        "desc": "Qual opção representa uma comparação de igualdade?",
+        "code": "",
+        "success": "Isso! == compara dois valores.",
+        "hint": "Procure a opção que usa ==.",
+        "type": "choice",
+        "objective": "igualdade",
+        "choices": [
+          "10 + 10",
+          "energia == 20",
+          "pontos > 5",
+          "vidas < 3"
+        ],
         "correct": 1,
-        "explanation": "O operador + junta textos. O resultado é \"Bug Hunter\"."
+        "choiceFormat": "text",
+        "explanation": "Resposta: energia == 20."
+      },
+      {
+        "id": "sala2-medio-06",
+        "sourceQuestion": 6,
+        "title": "Operadores — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Muito bem! Você resolveu as três contas.",
+        "hint": "Faça cada conta separadamente e não troque os operadores.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "10 + 5",
+            "right": "15"
+          },
+          {
+            "id": "pair-1",
+            "left": "10 - 5",
+            "right": "5"
+          },
+          {
+            "id": "pair-2",
+            "left": "10 / 5",
+            "right": "2"
+          }
+        ],
+        "targets": [
+          "15",
+          "5",
+          "2"
+        ],
+        "explanation": "10 + 5 → 15; 10 - 5 → 5; 10 / 5 → 2."
+      },
+      {
+        "id": "sala2-medio-07",
+        "sourceQuestion": 7,
+        "title": "Operadores — Escolha os blocos",
+        "desc": "Escolha a expressão que resulta em 12.",
+        "code": "",
+        "success": "Perfeito! 3 * 4 = 12.",
+        "hint": "Entre os blocos, o operador * permite chegar a 12.",
+        "type": "choice",
+        "objective": "calcular",
+        "choices": [
+          "3 * 4",
+          "3 + 4",
+          "3 - 4"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: 3 * 4."
+      },
+      {
+        "id": "sala2-medio-08",
+        "sourceQuestion": 8,
+        "title": "Operadores — Corrija o bloco",
+        "desc": "Corrija a comparação: o sistema deve verificar se pontos é igual a 10.",
+        "code": "pontos > 10",
+        "success": "Certo! == é o operador correto para igualdade.",
+        "hint": "Não use > ou < quando a pergunta é se os valores são iguais.",
+        "type": "choice",
+        "objective": "igualdade",
+        "choices": [
+          "pontos == 10",
+          "pontos > 10",
+          "pontos < 10"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: pontos == 10."
+      },
+      {
+        "id": "sala2-medio-09",
+        "sourceQuestion": 9,
+        "title": "Operadores — Investigue o bug",
+        "desc": "Se energia = 8, qual comparação fica verdadeira?",
+        "code": "",
+        "success": "Muito bem! 8 é menor que 10.",
+        "hint": "Compare 8 com 10: ele é menor, então use <.",
+        "type": "choice",
+        "objective": "maior-e-menor",
+        "choices": [
+          "energia > 10",
+          "energia == 10",
+          "energia < 10",
+          "energia = 10"
+        ],
+        "correct": 2,
+        "choiceFormat": "text",
+        "explanation": "Resposta: energia < 10."
+      },
+      {
+        "id": "sala2-medio-10",
+        "sourceQuestion": 10,
+        "title": "Operadores — Complete o bloco",
+        "desc": "Complete para calcular a nova pontuação: pontos = 10 + 5.",
+        "code": "pontos = 10 [ ? ] 5",
+        "success": "Acertou! A pontuação final é 15.",
+        "hint": "Quando a pontuação aumenta de 10 para 15, a operação é soma.",
+        "type": "choice",
+        "objective": "atualizar-valores",
+        "choices": [
+          "+",
+          "-",
+          "*"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: +."
       }
     ],
     "sala3": [
       {
-        "title": "MISSÃO 11 — Análise de Condição",
-        "desc": "Com risco igual a 70, o que será executado?",
-        "code": "inteiro risco <- 70\nse risco > 50 entao\n    escreva(\"Quarentena ativa\")\nsenao\n    escreva(\"Área segura\")\nfimse",
-        "choices": ["Área segura", "Quarentena ativa", "Nada", "Erro de sintaxe"],
-        "correct": 1,
-        "explanation": "Como 70 é maior que 50, a condição é verdadeira."
-      },
-      {
-        "title": "MISSÃO 12 — Condição com E",
-        "desc": "Quando o acesso será liberado?",
-        "code": "se cartao = verdadeiro e senha = verdadeiro entao\n    liberar()\nfimse",
-        "choices": ["Quando apenas o cartão for verdadeiro", "Quando apenas a senha for verdadeira", "Quando cartão e senha forem verdadeiros", "Sempre será liberado"],
-        "correct": 2,
-        "explanation": "Com o operador \"e\", todas as condições precisam ser verdadeiras."
-      },
-      {
-        "title": "MISSÃO 13 — Condição com OU",
-        "desc": "Em qual caso o alerta será ativado?",
-        "code": "se temperatura > 90 ou falha = verdadeiro entao\n    alerta()\nfimse",
-        "choices": ["Somente se as duas forem verdadeiras", "Se pelo menos uma condição for verdadeira", "Nunca será ativado", "Apenas se temperatura for menor que 90"],
-        "correct": 1,
-        "explanation": "Com \"ou\", basta uma das condições ser verdadeira."
-      },
-      {
-        "title": "MISSÃO 14 — Fluxo Se/Senão",
-        "desc": "Qual mensagem será exibida se energia for 3?",
-        "code": "inteiro energia <- 3\nse energia < 5 entao\n    escreva(\"Recarregar\")\nsenao\n    escreva(\"Continuar\")\nfimse",
-        "choices": ["Continuar", "Recarregar", "Ambas", "Nenhuma"],
-        "correct": 1,
-        "explanation": "Como energia é menor que 5, executa o bloco do \"se\"."
-      },
-      {
-        "title": "MISSÃO 15 — Decisão Encadeada",
-        "desc": "Qual estrutura permite testar uma condição e depois uma alternativa?",
-        "code": "se risco > 80 entao\n    alertaMaximo()\nsenao\n    verificarSistema()\nfimse",
-        "choices": ["se/senao", "para", "funcao", "escreva"],
+        "id": "sala3-medio-01",
+        "sourceQuestion": 1,
+        "title": "Condições — Escolha os blocos",
+        "desc": "Escolha a sequência: se energia > 10 e ativo == true → ativar.",
+        "code": "",
+        "success": "Perfeito! As duas condições precisam ser verdadeiras.",
+        "hint": "Use e para juntar as duas condições antes da ação.",
+        "type": "choice",
+        "objective": "exigir-duas-condicoes",
+        "choices": [
+          "se energia > 10 e ativo == true → ativar",
+          "se energia > 10 ou ativo == true → ativar",
+          "se energia < 10 e ativo == true → ativar"
+        ],
         "correct": 0,
-        "explanation": "A estrutura se/senao permite criar caminhos diferentes."
+        "choiceFormat": "code",
+        "explanation": "Resposta: se energia > 10 e ativo == true → ativar."
+      },
+      {
+        "id": "sala3-medio-02",
+        "sourceQuestion": 2,
+        "title": "Condições — Investigue o bug",
+        "desc": "Por que usamos \"e\" entre duas condições?",
+        "code": "",
+        "success": "Isso! \"e\" liga duas condições que precisam ser atendidas.",
+        "hint": "Quando usamos e, as duas partes precisam ser verdadeiras.",
+        "type": "choice",
+        "objective": "operadores-logicos",
+        "choices": [
+          "Para somar números",
+          "Para exigir que as duas condições sejam verdadeiras",
+          "Para criar texto",
+          "Para repetir um comando"
+        ],
+        "correct": 1,
+        "choiceFormat": "text",
+        "explanation": "Resposta: Para exigir que as duas condições sejam verdadeiras."
+      },
+      {
+        "id": "sala3-medio-03",
+        "sourceQuestion": 3,
+        "title": "Condições — Corrija o bloco",
+        "desc": "O sistema deve abrir a porta somente se chave == true e energia > 0.",
+        "code": "se [ ? ] → abrir porta",
+        "success": "Muito bem! A regra ficou completa.",
+        "hint": "A porta só pode abrir quando as duas condições forem atendidas, então use e.",
+        "type": "choice",
+        "objective": "exigir-duas-condicoes",
+        "choices": [
+          "chave == true e energia > 0",
+          "chave == true ou energia > 0",
+          "chave == false e energia > 0"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: chave == true e energia > 0."
+      },
+      {
+        "id": "sala3-medio-04",
+        "sourceQuestion": 4,
+        "title": "Condições — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Excelente! Você diferenciou e de ou.",
+        "hint": "Use e quando as duas condições são necessárias; ou quando qualquer uma delas pode servir.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "duas condições precisam ser verdadeiras",
+            "right": "e"
+          },
+          {
+            "id": "pair-1",
+            "left": "pelo menos uma condição precisa ser verdadeira",
+            "right": "ou"
+          }
+        ],
+        "targets": [
+          "e",
+          "ou"
+        ],
+        "explanation": "duas condições precisam ser verdadeiras → e; pelo menos uma condição precisa ser verdadeira → ou."
+      },
+      {
+        "id": "sala3-medio-05",
+        "sourceQuestion": 5,
+        "title": "Condições — Investigue o bug",
+        "desc": "Se energia = 4, a condição \"energia < 5\" é verdadeira?",
+        "code": "",
+        "success": "Certo! 4 é menor que 5.",
+        "hint": "Compare 4 e 5: 4 está abaixo de 5.",
+        "type": "choice",
+        "objective": "avaliar-condicao",
+        "choices": [
+          "Sim",
+          "Não",
+          "Só com senão",
+          "Não é possível saber"
+        ],
+        "correct": 0,
+        "choiceFormat": "text",
+        "explanation": "Resposta: Sim."
+      },
+      {
+        "id": "sala3-medio-06",
+        "sourceQuestion": 6,
+        "title": "Condições — Escolha os blocos",
+        "desc": "Qual sequência verifica primeiro se vidas é zero, depois se é menor que 3 e, por fim, permite continuar?",
+        "code": "",
+        "success": "Muito bem! Você criou decisões em sequência.",
+        "hint": "Comece pela primeira condição e depois organize as outras possibilidades em ordem.",
+        "type": "choice",
+        "objective": "caminhos-da-decisao",
+        "choices": [
+          "se vidas == 0 → game over\nsenão se vidas < 3 → cuidado\nsenão → continuar",
+          "se vidas < 3 → cuidado\nsenão se vidas == 0 → game over\nsenão → continuar",
+          "se vidas == 0 → continuar\nsenão se vidas < 3 → cuidado\nsenão → game over"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: se vidas == 0 → game over\nsenão se vidas < 3 → cuidado\nsenão → continuar."
+      },
+      {
+        "id": "sala3-medio-07",
+        "sourceQuestion": 7,
+        "title": "Condições — Complete o bloco",
+        "desc": "O sistema só pode ativar quando a energia é maior ou igual a 10 e ativo é true. Qual operador completa o bloco?",
+        "code": "se energia [ ? ] 10 e ativo == true → ativar",
+        "success": "Perfeito! A condição exige energia suficiente e sistema ativo.",
+        "hint": "Use >= para incluir tanto a energia igual a 10 quanto a energia maior que 10. Com e, o jogador também precisa estar ativo.",
+        "type": "choice",
+        "objective": "avaliar-condicao",
+        "choices": [
+          ">=",
+          ">",
+          "<"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: >=."
+      },
+      {
+        "id": "sala3-medio-08",
+        "sourceQuestion": 8,
+        "title": "Condições — Corrija o bloco",
+        "desc": "A ação está no bloco errado. Se energia < 5, deve recarregar; caso contrário, continuar.",
+        "code": "se energia < 5 → continuar\nsenão → recarregar",
+        "success": "Acertou! As duas ações agora estão nos lugares corretos.",
+        "hint": "Confira qual ação combina com energia baixa e qual combina com energia suficiente.",
+        "type": "choice",
+        "objective": "caminhos-da-decisao",
+        "choices": [
+          "se energia < 5 → recarregar\nsenão → continuar",
+          "se energia < 5 → continuar\nsenão → recarregar",
+          "se energia > 5 → recarregar\nsenão → continuar"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: se energia < 5 → recarregar\nsenão → continuar."
+      },
+      {
+        "id": "sala3-medio-09",
+        "sourceQuestion": 9,
+        "title": "Condições — Investigue o bug",
+        "desc": "Qual opção representa duas condições ligadas por \"ou\"?",
+        "code": "",
+        "success": "Isso! A palavra ou permite que uma das condições seja suficiente.",
+        "hint": "Procure a opção que apresenta duas condições separadas por \"ou\".",
+        "type": "choice",
+        "objective": "operadores-logicos",
+        "choices": [
+          "energia > 10 ou ativo == true",
+          "energia > 10 e ativo == true",
+          "energia > 10",
+          "ativo == true"
+        ],
+        "correct": 0,
+        "choiceFormat": "text",
+        "explanation": "Resposta: energia > 10 ou ativo == true."
+      },
+      {
+        "id": "sala3-medio-10",
+        "sourceQuestion": 10,
+        "title": "Condições — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Muito bem! Você usou a condição junto com o valor recebido.",
+        "hint": "Compare a energia com 5 e veja qual ação corresponde.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "energia = 3 e ativo = true",
+            "right": "recarregar"
+          },
+          {
+            "id": "pair-1",
+            "left": "energia = 8 e ativo = true",
+            "right": "continuar"
+          }
+        ],
+        "targets": [
+          "recarregar",
+          "continuar"
+        ],
+        "explanation": "energia = 3 e ativo = true → recarregar; energia = 8 e ativo = true → continuar."
       }
     ],
     "sala4": [
       {
-        "title": "MISSÃO 16 — Retorno da Função",
-        "desc": "O que será exibido ao chamar calcularBonus(10)?",
-        "code": "funcao inteiro calcularBonus(inteiro pontos)\n    retorne pontos + 5\nfimfuncao\n\nescreva(calcularBonus(10))",
-        "choices": ["10", "15", "5", "Erro"],
-        "correct": 1,
-        "explanation": "A função recebe 10, soma 5 e retorna 15."
-      },
-      {
-        "title": "MISSÃO 17 — Variável Atualizada",
-        "desc": "Após executar o código, qual será o valor de energia?",
-        "code": "inteiro energia <- 20\nenergia <- energia - 5\nverificarEnergia(energia)",
-        "choices": ["25", "20", "15", "5"],
-        "correct": 2,
-        "explanation": "A variável começa em 20 e depois recebe 20 - 5, ficando com 15."
-      },
-      {
-        "title": "MISSÃO 18 — Parâmetro Correto",
-        "desc": "Qual assinatura permite receber um número inteiro chamado nivel?",
-        "code": "___",
-        "choices": ["funcao verificarNivel(inteiro nivel)", "funcao verificarNivel(caractere nivel)", "inteiro verificarNivel()", "chamar verificarNivel(nivel)"],
+        "id": "sala4-medio-01",
+        "sourceQuestion": 1,
+        "title": "Funções — Escolha os blocos",
+        "desc": "Escolha duas linhas: criar a função verificarEnergia e depois chamá-la.",
+        "code": "",
+        "success": "Muito bem! Você criou e depois usou a função.",
+        "hint": "Primeiro a função precisa existir. Depois ela pode ser chamada.",
+        "type": "choice",
+        "objective": "sequencia",
+        "choices": [
+          "função verificarEnergia\nchamar verificarEnergia",
+          "chamar verificarEnergia\nfunção verificarEnergia",
+          "verificarEnergia = true\nchamar verificarEnergia"
+        ],
         "correct": 0,
-        "explanation": "O parâmetro precisa informar o tipo e o nome: inteiro nivel."
+        "choiceFormat": "code",
+        "explanation": "Resposta: função verificarEnergia\nchamar verificarEnergia."
       },
       {
-        "title": "MISSÃO 19 — Organizando Ações",
-        "desc": "Qual trecho reutiliza corretamente uma função para recuperar dois setores?",
-        "code": "funcao recuperar(caractere setor)\n    escreva(setor)\nfimfuncao\n\n___",
-        "choices": ["recuperar(\"ponte\")\nrecuperar(\"motor\")", "funcao recuperar(\"ponte\")", "setor recuperar()", "recuperar <- \"ponte\""],
+        "id": "sala4-medio-02",
+        "sourceQuestion": 2,
+        "title": "Funções — Investigue o bug",
+        "desc": "Qual linha representa uma variável usada para guardar a quantidade de vidas?",
+        "code": "",
+        "success": "Certo! vidas é uma variável que guarda o número 3.",
+        "hint": "Uma variável aparece recebendo um valor.",
+        "type": "choice",
+        "objective": "variaveis",
+        "choices": [
+          "vidas = 3",
+          "função vidas",
+          "chamar vidas",
+          "se vidas > 0"
+        ],
         "correct": 0,
-        "explanation": "Uma mesma função pode ser chamada várias vezes com valores diferentes."
+        "choiceFormat": "text",
+        "explanation": "Resposta: vidas = 3."
       },
       {
-        "title": "MISSÃO 20 — Integrando Conceitos",
-        "desc": "Com energia = 12 e ativo = verdadeiro, o que a função deve retornar?",
-        "code": "funcao logico podeAtivar(inteiro energia, logico ativo)\n    se energia > 10 e ativo = verdadeiro entao\n        retorne verdadeiro\n    senao\n        retorne falso\n    fimse\nfimfuncao",
-        "choices": ["verdadeiro", "falso", "12", "ativo"],
+        "id": "sala4-medio-03",
+        "sourceQuestion": 3,
+        "title": "Funções — Corrija o bloco",
+        "desc": "O sistema deve guardar o nome \"Lia\" e a pontuação 25. Corrija os dois blocos.",
+        "code": "nome = 25\npontos = \"25\"",
+        "success": "Perfeito! Cada variável recebeu um valor do tipo adequado.",
+        "hint": "Nome é texto; pontos é número.",
+        "type": "choice",
+        "objective": "variaveis",
+        "choices": [
+          "nome = \"Lia\"\npontos = 25",
+          "nome = 25\npontos = \"25\"",
+          "nome = \"Lia\"\npontos = \"25\""
+        ],
         "correct": 0,
-        "explanation": "As duas condições são verdadeiras, então a função retorna verdadeiro."
+        "choiceFormat": "code",
+        "explanation": "Resposta: nome = \"Lia\"\npontos = 25."
+      },
+      {
+        "id": "sala4-medio-04",
+        "sourceQuestion": 4,
+        "title": "Funções — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Excelente! Você distinguiu armazenamento, criação e execução.",
+        "hint": "Pergunte: está guardando um valor, criando uma ação ou executando uma ação?",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "pontos = 20",
+            "right": "guardar valor"
+          },
+          {
+            "id": "pair-1",
+            "left": "função abrirPorta",
+            "right": "criar ação"
+          },
+          {
+            "id": "pair-2",
+            "left": "chamar abrirPorta",
+            "right": "executar ação"
+          }
+        ],
+        "targets": [
+          "guardar valor",
+          "criar ação",
+          "executar ação"
+        ],
+        "explanation": "pontos = 20 → guardar valor; função abrirPorta → criar ação; chamar abrirPorta → executar ação."
+      },
+      {
+        "id": "sala4-medio-05",
+        "sourceQuestion": 5,
+        "title": "Funções — Investigue o bug",
+        "desc": "Por que é útil criar uma função para abrir uma porta?",
+        "code": "",
+        "success": "Isso! A função evita repetir a mesma ação toda hora.",
+        "hint": "Funções ajudam a organizar e reutilizar ações.",
+        "type": "choice",
+        "objective": "reutilizar",
+        "choices": [
+          "Porque ela pode ser chamada quando for necessária",
+          "Porque transforma texto em número",
+          "Porque apaga todas as variáveis",
+          "Porque substitui o operador >"
+        ],
+        "correct": 0,
+        "choiceFormat": "text",
+        "explanation": "Resposta: Porque ela pode ser chamada quando for necessária."
+      },
+      {
+        "id": "sala4-medio-06",
+        "sourceQuestion": 6,
+        "title": "Funções — Complete o bloco",
+        "desc": "Complete a sequência correta para verificar a energia.",
+        "code": "função verificarEnergia\n[ ? ] verificarEnergia",
+        "success": "Acertou! A função é criada primeiro e chamada depois.",
+        "hint": "Depois de criar a função, use chamar para executá-la.",
+        "type": "choice",
+        "objective": "sequencia",
+        "choices": [
+          "chamar",
+          "variável",
+          "função"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: chamar."
+      },
+      {
+        "id": "sala4-medio-07",
+        "sourceQuestion": 7,
+        "title": "Funções — Corrija o bloco",
+        "desc": "A função verificarEnergia já foi criada. Qual sequência guarda 10 pontos e depois executa a função?",
+        "code": "função verificarEnergia já criada\npontos = 10\n[ ? ] verificarEnergia",
+        "success": "Muito bem! O valor continua separado da ação da função.",
+        "hint": "A variável guarda a pontuação e chamar executa a função.",
+        "type": "choice",
+        "objective": "criar-e-chamar",
+        "choices": [
+          "pontos = 10\nchamar verificarEnergia",
+          "pontos = 10\nfunção verificarEnergia",
+          "pontos = \"10\"\nverificarEnergia = true"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: pontos = 10\nchamar verificarEnergia."
+      },
+      {
+        "id": "sala4-medio-08",
+        "sourceQuestion": 8,
+        "title": "Funções — Escolha os blocos",
+        "desc": "Escolha uma função chamada mostrarMensagem.",
+        "code": "",
+        "success": "Perfeito! A função foi criada corretamente.",
+        "hint": "Use função antes do nome da ação.",
+        "type": "choice",
+        "objective": "criar-e-chamar",
+        "choices": [
+          "função mostrarMensagem",
+          "chamar mostrarMensagem",
+          "mostrarMensagem = \"função\""
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: função mostrarMensagem."
+      },
+      {
+        "id": "sala4-medio-09",
+        "sourceQuestion": 9,
+        "title": "Funções — Investigue o bug",
+        "desc": "Qual conjunto está organizado corretamente?",
+        "code": "",
+        "success": "Muito bem! Primeiro a função é criada e depois chamada.",
+        "hint": "Observe a ordem: criar a função antes de usá-la.",
+        "type": "choice",
+        "objective": "sequencia",
+        "choices": [
+          "função abrirPorta → chamar abrirPorta → pontos = 10",
+          "chamar abrirPorta → função abrirPorta → pontos = 10",
+          "pontos = 10 → variável abrirPorta → chamar função",
+          "abrirPorta = 10 → função pontos"
+        ],
+        "correct": 0,
+        "choiceFormat": "text",
+        "explanation": "Resposta: função abrirPorta → chamar abrirPorta → pontos = 10."
+      },
+      {
+        "id": "sala4-medio-10",
+        "sourceQuestion": 10,
+        "title": "Funções — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Excelente! Você separou os dados das ações do sistema.",
+        "hint": "Variáveis guardam dados; funções representam ações.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "nome = \"Bug\"",
+            "right": "DADO"
+          },
+          {
+            "id": "pair-1",
+            "left": "vidas = 2",
+            "right": "DADO"
+          },
+          {
+            "id": "pair-2",
+            "left": "função abrirPorta",
+            "right": "AÇÃO"
+          },
+          {
+            "id": "pair-3",
+            "left": "função verificarEnergia",
+            "right": "AÇÃO"
+          }
+        ],
+        "targets": [
+          "DADO",
+          "AÇÃO"
+        ],
+        "explanation": "nome = \"Bug\" → DADO; vidas = 2 → DADO; função abrirPorta → AÇÃO; função verificarEnergia → AÇÃO."
       }
     ]
   },
-
   "dificil": {
     "sala1": [
       {
-        "title": "MISSÃO 01 — Inicializar Energia",
-        "desc": "A energia deve começar em 50 e receber um bônus inicial de 10. Qual código faz energia terminar com 60 sem declarar essa variável novamente?",
-        "code": "// Declare energia e bonusInicial como inteiros.\n// Depois, atualize apenas a variável energia.",
+        "id": "sala1-dificil-01",
+        "sourceQuestion": 1,
+        "title": "Tipos de dados — Corrija o bloco",
+        "desc": "O sistema precisa guardar 3 vidas, o nome \"Lia\" e o jogador ativo. Escolha os três blocos com os tipos corretos.",
+        "code": "vidas = \"3\"\nnome = 4\nativo = \"true\"",
+        "success": "Muito bem! Você ajustou número, texto e booleano conforme o uso de cada variável.",
+        "hint": "Confira uma por uma: vidas deve ser número, nome deve ser texto e ativo deve ser booleano.",
+        "type": "choice",
+        "objective": "corrigir-tipos",
         "choices": [
-          "inteiro energia <- 50\ninteiro bonusInicial <- 10\nenergia <- energia + bonusInicial",
-          "inteiro energia <- 50\ninteiro bonusInicial <- 10\ninteiro energia <- 50 + bonusInicial",
-          "inteiro energia <- 50\ncaractere bonusInicial <- \"10\"\nenergia <- energia + bonusInicial",
-          "inteiro energia <- 50\ninteiro bonusInicial <- 10\nbonusInicial <- energia + bonusInicial"
+          "vidas = 3\nnome = \"Lia\"\nativo = true",
+          "vidas = \"3\"\nnome = \"Lia\"\nativo = true",
+          "vidas = 3\nnome = 4\nativo = \"true\""
         ],
         "correct": 0,
-        "explanation": "energia e bonusInicial são declaradas uma vez. Depois, energia recebe seu valor atual mais o bônus, terminando com 60."
+        "choiceFormat": "code",
+        "explanation": "Resposta: vidas = 3\nnome = \"Lia\"\nativo = true."
       },
       {
-        "title": "MISSÃO 02 — Registrar Nome do Bug",
-        "desc": "O sistema deve registrar um nome de bug, começar com o alerta desligado e depois atualizar os dois valores. Qual código mantém os tipos corretos sem redeclarar variáveis?",
-        "code": "// nomeBug começa como \"Falha de energia\" e muda para \"Sobrecarga\".\n// alertaAtivo começa falso e muda para verdadeiro.",
+        "id": "sala1-dificil-02",
+        "sourceQuestion": 2,
+        "title": "Tipos de dados — Investigue o bug",
+        "desc": "Vidas deve ser número, nome deve ser texto e ativo deve ser booleano. Qual conjunto tem todos os tipos corretos?",
+        "code": "",
+        "success": "Perfeito! Cada variável recebeu um valor do tipo adequado.",
+        "hint": "Veja a função de cada variável e confira as aspas e os valores true/false.",
+        "type": "choice",
+        "objective": "corrigir-tipos",
         "choices": [
-          "caractere nomeBug <- \"Falha de energia\"\nlogico alertaAtivo <- falso\ncaractere nomeBug <- \"Sobrecarga\"\nalertaAtivo <- verdadeiro",
-          "caractere nomeBug <- \"Falha de energia\"\nlogico alertaAtivo <- \"falso\"\nnomeBug <- \"Sobrecarga\"\nalertaAtivo <- \"verdadeiro\"",
-          "caractere nomeBug <- \"Falha de energia\"\nlogico alertaAtivo <- falso\nnomeBug <- \"Sobrecarga\"\nalertaAtivo <- verdadeiro",
-          "caractere nomeBug <- \"Falha de energia\"\nlogico alertaAtivo <- falso\nnomeBug <- verdadeiro\nalertaAtivo <- \"Sobrecarga\""
-        ],
-        "correct": 2,
-        "explanation": "As variáveis são declaradas uma vez. Depois, nomeBug recebe outro texto e alertaAtivo recebe outro valor lógico."
-      },
-      {
-        "title": "MISSÃO 03 — Configurar Diagnóstico",
-        "desc": "O diagnóstico precisa guardar uma temperatura decimal, uma quantidade inteira de tentativas e um estado lógico de conexão. Qual código usa tipos compatíveis com todos os valores?",
-        "code": "// temperatura = 36.5\n// tentativas = 3\n// conectado = falso",
-        "choices": [
-          "inteiro temperatura <- 36.5\ninteiro tentativas <- 3\nlogico conectado <- falso",
-          "real temperatura <- 36.5\ninteiro tentativas <- 3\nlogico conectado <- falso",
-          "real temperatura <- 36.5\ninteiro tentativas <- \"3\"\ncaractere conectado <- \"falso\"",
-          "logico temperatura <- verdadeiro\nreal tentativas <- 3.0\ninteiro conectado <- 0"
+          "vidas=\"3\", nome=10, ativo=\"true\"",
+          "vidas=3, nome=\"Lia\", ativo=true",
+          "vidas=true, nome=3, ativo=\"false\"",
+          "vidas=\"3\", nome=\"Lia\", ativo=false"
         ],
         "correct": 1,
-        "explanation": "Temperaturas decimais usam real, quantidades sem casas decimais usam inteiro e estados usam logico."
+        "choiceFormat": "text",
+        "explanation": "Resposta: vidas=3, nome=\"Lia\", ativo=true."
       },
       {
-        "title": "MISSÃO 04 — Registrar Reparo",
-        "desc": "O diagnóstico encontrou 4 erros. Após reparar exatamente um deles, o contador deve diminuir e o estado reparado deve virar verdadeiro. Qual atualização está correta?",
-        "code": "inteiro erros <- 4\nlogico reparado <- falso",
-        "choices": [
-          "erros <- erros - 1\nreparado = verdadeiro",
-          "erros <- erros + 1\nreparado <- verdadeiro",
-          "erros <- 1\nreparado <- verdadeiro",
-          "erros <- erros - 1\nreparado <- verdadeiro"
+        "id": "sala1-dificil-03",
+        "sourceQuestion": 3,
+        "title": "Tipos de dados — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Muito bem! Você não confundiu texto com booleano.",
+        "hint": "Mesmo parecendo um comando, \"true\" com aspas continua sendo texto.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "\"12\"",
+            "right": "texto"
+          },
+          {
+            "id": "pair-1",
+            "left": "12",
+            "right": "número"
+          },
+          {
+            "id": "pair-2",
+            "left": "false",
+            "right": "booleano"
+          },
+          {
+            "id": "pair-3",
+            "left": "\"true\"",
+            "right": "texto"
+          }
         ],
-        "correct": 3,
-        "explanation": "erros recebe 4 - 1, ficando com 3. reparado recebe o valor lógico verdadeiro por meio de <-."
+        "targets": [
+          "texto",
+          "número",
+          "booleano"
+        ],
+        "explanation": "\"12\" → texto; 12 → número; false → booleano; \"true\" → texto."
       },
       {
-        "title": "MISSÃO 05 — Preparar Diagnóstico",
-        "desc": "O relatório precisa guardar o código numérico 17, a mensagem \"Falha crítica\" e o estado crítico verdadeiro. Em seguida, o código deve aumentar em 3. Qual solução mantém tipos e atualizações corretos?",
-        "code": "// codigo termina com 20.\n// mensagem continua sendo texto.\n// critico continua sendo lógico.",
+        "id": "sala1-dificil-04",
+        "sourceQuestion": 4,
+        "title": "Tipos de dados — Complete o bloco",
+        "desc": "Complete o bloco para armazenar a pontuação e o nome do jogador.",
+        "code": "pontos = [ ? ]\nnome = [ ? ]",
+        "success": "Acertou! Pontuação é número e nome é texto.",
+        "hint": "Use número sem aspas para pontos e texto entre aspas para nome.",
+        "type": "choice",
+        "objective": "textos",
         "choices": [
-          "inteiro codigo <- 17\ncaractere mensagem <- \"Falha crítica\"\nlogico critico <- verdadeiro\ncodigo <- codigo + 3",
-          "inteiro codigo <- 17\ncaractere mensagem <- \"Falha crítica\"\nlogico critico <- verdadeiro\nmensagem <- codigo + 3",
-          "caractere codigo <- \"17\"\ncaractere mensagem <- \"Falha crítica\"\nlogico critico <- verdadeiro\ncodigo <- codigo + 3",
-          "inteiro codigo <- 17\ncaractere mensagem <- \"Falha crítica\"\nlogico critico <- \"verdadeiro\"\ncodigo <- 3"
+          "pontos = 50\nnome = \"Bia\"",
+          "pontos = \"50\"\nnome = \"Bia\"",
+          "pontos = true\nnome = 50"
         ],
         "correct": 0,
-        "explanation": "Cada valor usa seu tipo correspondente, e codigo é atualizado somando 3 ao valor anterior."
+        "choiceFormat": "code",
+        "explanation": "Resposta: pontos = 50\nnome = \"Bia\"."
+      },
+      {
+        "id": "sala1-dificil-05",
+        "sourceQuestion": 5,
+        "title": "Tipos de dados — Investigue o bug",
+        "desc": "Qual opção contém apenas valores booleanos?",
+        "code": "",
+        "success": "Isso! true e false são os valores booleanos usados para verdadeiro e falso.",
+        "hint": "Os valores booleanos são true e false sem aspas.",
+        "type": "choice",
+        "objective": "booleanos",
+        "choices": [
+          "true e false",
+          "0 e 1",
+          "\"true\" e \"false\"",
+          "10 e \"10\""
+        ],
+        "correct": 0,
+        "choiceFormat": "text",
+        "explanation": "Resposta: true e false."
+      },
+      {
+        "id": "sala1-dificil-06",
+        "sourceQuestion": 6,
+        "title": "Tipos de dados — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Excelente! Você usou o significado das variáveis para escolher os valores.",
+        "hint": "Nome é texto, vidas é número e ativo representa uma condição.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "\"Lia\"",
+            "right": "nome"
+          },
+          {
+            "id": "pair-1",
+            "left": "5",
+            "right": "vidas"
+          },
+          {
+            "id": "pair-2",
+            "left": "false",
+            "right": "ativo"
+          }
+        ],
+        "targets": [
+          "nome",
+          "vidas",
+          "ativo"
+        ],
+        "explanation": "\"Lia\" → nome; 5 → vidas; false → ativo."
+      },
+      {
+        "id": "sala1-dificil-07",
+        "sourceQuestion": 7,
+        "title": "Tipos de dados — Corrija o bloco",
+        "desc": "O sistema deve guardar se a porta está fechada. Corrija o valor.",
+        "code": "portaFechada = \"true\"",
+        "success": "Muito bem! O estado foi representado por um booleano.",
+        "hint": "Uma condição verdadeira deve usar true sem aspas.",
+        "type": "choice",
+        "objective": "booleanos",
+        "choices": [
+          "portaFechada = true",
+          "portaFechada = \"true\"",
+          "portaFechada = false"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: portaFechada = true."
+      },
+      {
+        "id": "sala1-dificil-08",
+        "sourceQuestion": 8,
+        "title": "Tipos de dados — Escolha os blocos",
+        "desc": "Escolha uma linha que guarde o valor 0 na variável erros.",
+        "code": "erros = [ ? ]",
+        "success": "Certo! A contagem de erros começa em 0.",
+        "hint": "Contagens são números. Use 0 sem aspas.",
+        "type": "choice",
+        "objective": "numeros",
+        "choices": [
+          "erros = 0",
+          "erros = \"0\"",
+          "erros = false"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: erros = 0."
+      },
+      {
+        "id": "sala1-dificil-09",
+        "sourceQuestion": 9,
+        "title": "Tipos de dados — Investigue o bug",
+        "desc": "Uma variável precisa guardar o texto \"energia baixa\". Qual linha está correta?",
+        "code": "",
+        "success": "Perfeito! A mensagem foi guardada como texto.",
+        "hint": "Frases e palavras devem ficar entre aspas.",
+        "type": "choice",
+        "objective": "textos",
+        "choices": [
+          "aviso = energia baixa",
+          "aviso = \"energia baixa\"",
+          "aviso = false",
+          "aviso = 10"
+        ],
+        "correct": 1,
+        "choiceFormat": "text",
+        "explanation": "Resposta: aviso = \"energia baixa\"."
+      },
+      {
+        "id": "sala1-dificil-10",
+        "sourceQuestion": 10,
+        "title": "Tipos de dados — Corrija o bloco",
+        "desc": "O jogador tem 2 vidas, chama-se \"Bug\" e está inativo. Qual conjunto corrige os três valores?",
+        "code": "vidas = \"2\"\nnome = false\nativo = \"false\"",
+        "success": "Muito bem! Você corrigiu os três tipos de dados.",
+        "hint": "Confira o papel de cada variável antes de escolher o valor: número, texto ou booleano.",
+        "type": "choice",
+        "objective": "corrigir-tipos",
+        "choices": [
+          "vidas = 2\nnome = \"Bug\"\nativo = false",
+          "vidas = \"2\"\nnome = \"Bug\"\nativo = false",
+          "vidas = 2\nnome = false\nativo = \"false\""
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: vidas = 2\nnome = \"Bug\"\nativo = false."
       }
     ],
     "sala2": [
       {
-        "title": "MISSÃO 06 — Somar Energia",
-        "desc": "A central deve somar energiaBase e bonus antes de triplicar o resultado. Qual código calcula exatamente (8 + 2) × 3?",
-        "code": "inteiro energiaBase <- 8\ninteiro bonus <- 2\n// total deve terminar com 30.",
+        "id": "sala2-dificil-01",
+        "sourceQuestion": 1,
+        "title": "Operadores — Escolha os blocos",
+        "desc": "Escolha uma expressão que resulte em 18 usando 6 e 3.",
+        "code": "",
+        "success": "Muito bem! 6 * 3 = 18.",
+        "hint": "Procure a operação que transforma 6 e 3 em 18.",
+        "type": "choice",
+        "objective": "multiplicar",
         "choices": [
-          "inteiro total <- energiaBase + bonus * 3",
-          "inteiro total <- (energiaBase + bonus) * 3",
-          "inteiro total <- energiaBase * 3 + bonus",
-          "inteiro total <- (energiaBase + 3) * bonus"
-        ],
-        "correct": 1,
-        "explanation": "Os parênteses obrigam a soma 8 + 2 a acontecer antes da multiplicação por 3."
-      },
-      {
-        "title": "MISSÃO 07 — Calcular Consumo",
-        "desc": "O núcleo começa com 100 unidades. Três módulos consomem 18 unidades cada e, depois, uma reserva devolve 10. Qual expressão calcula a energia final?",
-        "code": "// energiaFinal deve terminar com 56.",
-        "choices": [
-          "inteiro energiaFinal <- (100 - 3) * 18 + 10",
-          "inteiro energiaFinal <- 100 - (3 + 18) + 10",
-          "inteiro energiaFinal <- 100 - 3 * (18 + 10)",
-          "inteiro energiaFinal <- 100 - 3 * 18 + 10"
-        ],
-        "correct": 3,
-        "explanation": "Primeiro ocorre 3 * 18 = 54. Depois, 100 - 54 + 10 resulta em 56."
-      },
-      {
-        "title": "MISSÃO 08 — Distribuir Carga",
-        "desc": "Três sensores registraram 8, 14 e 20. Qual expressão soma as leituras antes de dividir por 3 para obter a média 14?",
-        "code": "// A soma completa precisa acontecer antes da divisão.",
-        "choices": [
-          "inteiro media <- 8 + 14 + 20 / 3",
-          "inteiro media <- (8 + 14 + 20) * 3",
-          "inteiro media <- (8 + 14 + 20) / 3",
-          "inteiro media <- (8 + 14 + 20) / 2"
-        ],
-        "correct": 2,
-        "explanation": "Os parênteses produzem 42 antes da divisão. Em seguida, 42 / 3 resulta em 14."
-      },
-      {
-        "title": "MISSÃO 09 — Validar Identificador",
-        "desc": "Um código é válido somente quando numero é par, maior ou igual a 10 e menor que 100. Qual expressão lógica representa todas as regras?",
-        "code": "// As três comparações precisam ser verdadeiras ao mesmo tempo.",
-        "choices": [
-          "logico valido <- numero % 2 = 0 e numero >= 10 e numero < 100",
-          "logico valido <- numero % 2 = 0 ou numero >= 10 ou numero < 100",
-          "logico valido <- numero % 2 = 1 e numero > 10 e numero <= 100",
-          "logico valido <- numero / 2 = 0 e numero >= 10 e numero < 100"
+          "6 * 3",
+          "6 + 3",
+          "6 / 3"
         ],
         "correct": 0,
-        "explanation": "numero % 2 = 0 verifica se o número é par, e liga essa regra aos dois limites obrigatórios."
+        "choiceFormat": "code",
+        "explanation": "Resposta: 6 * 3."
       },
       {
-        "title": "MISSÃO 10 — Validar Operação",
-        "desc": "A operação é permitida quando energia é pelo menos 30 e temperatura é menor que 80. Uma emergência também deve permitir a operação, mesmo que essas duas regras falhem. Qual expressão está correta?",
-        "code": "// Regra normal: energia e temperatura adequadas.\n// Exceção: emergencia = verdadeiro.",
+        "id": "sala2-dificil-02",
+        "sourceQuestion": 2,
+        "title": "Operadores — Investigue o bug",
+        "desc": "Qual condição verifica se pontos é maior ou igual a 20?",
+        "code": "",
+        "success": "Boa! A condição cobre 20 e também valores maiores que 20.",
+        "hint": "Pense em duas situações: pontos pode ser exatamente 20 ou maior que 20.",
+        "type": "choice",
+        "objective": "avaliar-comparacoes",
         "choices": [
-          "logico permitido <- energia >= 30 e (temperatura < 80 ou emergencia = verdadeiro)",
-          "logico permitido <- (energia >= 30 e temperatura < 80) ou emergencia = verdadeiro",
-          "logico permitido <- (energia >= 30 ou temperatura < 80) e emergencia = verdadeiro",
-          "logico permitido <- energia >= 30 ou (temperatura < 80 e emergencia = verdadeiro)"
+          "pontos > 20",
+          "pontos == 20",
+          "pontos > 20 ou pontos == 20",
+          "pontos < 20"
         ],
-        "correct": 1,
-        "explanation": "Os parênteses agrupam as duas exigências normais. O ou permite que a emergência funcione como uma exceção independente."
+        "correct": 2,
+        "choiceFormat": "text",
+        "explanation": "Resposta: pontos > 20 ou pontos == 20."
+      },
+      {
+        "id": "sala2-dificil-03",
+        "sourceQuestion": 3,
+        "title": "Operadores — Corrija o bloco",
+        "desc": "O resultado esperado é 7. Corrija a expressão.",
+        "code": "10 + 3 → 13\nResultado esperado: 7",
+        "success": "Perfeito! A expressão agora produz 7.",
+        "hint": "Para sair de 10 e chegar a 7, precisamos diminuir 3.",
+        "type": "choice",
+        "objective": "calcular",
+        "choices": [
+          "10 - 3",
+          "10 + 3",
+          "10 * 3"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: 10 - 3."
+      },
+      {
+        "id": "sala2-dificil-04",
+        "sourceQuestion": 4,
+        "title": "Operadores — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Excelente! Você escolheu os três operadores corretamente.",
+        "hint": "Associe as palavras maior, menor e igual aos símbolos correspondentes.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "valor maior que 8",
+            "right": ">"
+          },
+          {
+            "id": "pair-1",
+            "left": "valor menor que 8",
+            "right": "<"
+          },
+          {
+            "id": "pair-2",
+            "left": "valor igual a 8",
+            "right": "=="
+          }
+        ],
+        "targets": [
+          ">",
+          "<",
+          "=="
+        ],
+        "explanation": "valor maior que 8 → >; valor menor que 8 → <; valor igual a 8 → ==."
+      },
+      {
+        "id": "sala2-dificil-05",
+        "sourceQuestion": 5,
+        "title": "Operadores — Investigue o bug",
+        "desc": "Qual expressão calcula a metade de 20?",
+        "code": "",
+        "success": "Isso! 20 dividido por 2 resulta em 10.",
+        "hint": "Para encontrar a metade, divida o valor por 2.",
+        "type": "choice",
+        "objective": "calcular",
+        "choices": [
+          "20 + 2",
+          "20 - 2",
+          "20 * 2",
+          "20 / 2"
+        ],
+        "correct": 3,
+        "choiceFormat": "text",
+        "explanation": "Resposta: 20 / 2."
+      },
+      {
+        "id": "sala2-dificil-06",
+        "sourceQuestion": 6,
+        "title": "Operadores — Complete o bloco",
+        "desc": "Complete a expressão para verificar se a energia está exatamente em 15.",
+        "code": "energia [ ? ] 15",
+        "success": "Acertou! A comparação verifica igualdade.",
+        "hint": "A palavra \"exatamente\" indica que os dois valores devem ser iguais.",
+        "type": "choice",
+        "objective": "corrigir-comparacoes",
+        "choices": [
+          "==",
+          ">",
+          "<"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: ==."
+      },
+      {
+        "id": "sala2-dificil-07",
+        "sourceQuestion": 7,
+        "title": "Operadores — Escolha os blocos",
+        "desc": "Escolha uma expressão que resulte em 20 usando 5 e 4.",
+        "code": "",
+        "success": "Muito bem! 5 * 4 = 20.",
+        "hint": "Teste a multiplicação entre 5 e 4.",
+        "type": "choice",
+        "objective": "multiplicar",
+        "choices": [
+          "5 * 4",
+          "5 + 4",
+          "5 - 4"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: 5 * 4."
+      },
+      {
+        "id": "sala2-dificil-08",
+        "sourceQuestion": 8,
+        "title": "Operadores — Corrija o bloco",
+        "desc": "A condição está invertida. O sistema deve continuar quando vidas for maior que 0.",
+        "code": "vidas < 0",
+        "success": "Perfeito! Agora a condição representa vidas maiores que zero.",
+        "hint": "Leia a frase: \"maior que 0\" corresponde a > 0.",
+        "type": "choice",
+        "objective": "corrigir-comparacoes",
+        "choices": [
+          "vidas > 0",
+          "vidas < 0",
+          "vidas == 0"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: vidas > 0."
+      },
+      {
+        "id": "sala2-dificil-09",
+        "sourceQuestion": 9,
+        "title": "Operadores — Investigue o bug",
+        "desc": "Se pontos = 25, qual condição é verdadeira?",
+        "code": "",
+        "success": "Certo! 25 é maior que 20.",
+        "hint": "Compare 25 com 20 e observe qual frase é verdadeira.",
+        "type": "choice",
+        "objective": "avaliar-comparacoes",
+        "choices": [
+          "pontos < 10",
+          "pontos == 10",
+          "pontos > 20",
+          "pontos < 20"
+        ],
+        "correct": 2,
+        "choiceFormat": "text",
+        "explanation": "Resposta: pontos > 20."
+      },
+      {
+        "id": "sala2-dificil-10",
+        "sourceQuestion": 10,
+        "title": "Operadores — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Excelente! Você comparou operações diferentes com os mesmos números.",
+        "hint": "Preste atenção ao operador: ele muda completamente o resultado.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "8 + 4",
+            "right": "12"
+          },
+          {
+            "id": "pair-1",
+            "left": "8 * 4",
+            "right": "32"
+          },
+          {
+            "id": "pair-2",
+            "left": "8 / 4",
+            "right": "2"
+          }
+        ],
+        "targets": [
+          "12",
+          "32",
+          "2"
+        ],
+        "explanation": "8 + 4 → 12; 8 * 4 → 32; 8 / 4 → 2."
       }
     ],
     "sala3": [
       {
-        "title": "MISSÃO 11 — Recarregar Sistema",
-        "desc": "O sistema deve recarregar somente quando energia for menor que 20 e o backup estiver disponível. Em qualquer outro caso, deve registrar uma falha. Qual código cria esse fluxo?",
-        "code": "// recarregar(): apenas com energia baixa e backup.\n// registrarFalha(): todos os outros casos.",
+        "id": "sala3-dificil-01",
+        "sourceQuestion": 1,
+        "title": "Condições — Escolha os blocos",
+        "desc": "Escolha uma decisão completa: se energia > 10 e ativo == true → ativar; senão → esperar.",
+        "code": "",
+        "success": "Excelente! A estrutura trata os dois caminhos do sistema.",
+        "hint": "Primeiro monte as duas condições com e; depois coloque a ação e o senão.",
+        "type": "choice",
+        "objective": "exigir-duas-condicoes",
         "choices": [
-          "se energia < 20 ou backupDisponivel = verdadeiro entao\n    recarregar()\nsenao\n    registrarFalha()\nfimse",
-          "se energia >= 20 e backupDisponivel = verdadeiro entao\n    recarregar()\nsenao\n    registrarFalha()\nfimse",
-          "se energia < 20 e backupDisponivel = verdadeiro entao\n    recarregar()\nsenao\n    registrarFalha()\nfimse",
-          "se energia < 20 e backupDisponivel = falso entao\n    recarregar()\nsenao\n    registrarFalha()\nfimse"
-        ],
-        "correct": 2,
-        "explanation": "O operador e exige energia baixa e backup disponível. Se qualquer requisito falhar, o bloco senao registra a falha."
-      },
-      {
-        "title": "MISSÃO 12 — Escolher Caminho",
-        "desc": "O acesso deve ser bloqueado se a porta estiver travada ou se o alarme estiver ativo. Somente quando nenhuma dessas situações ocorrer o acesso será liberado. Qual código atende à regra?",
-        "code": "// Uma única condição de perigo já deve bloquear o acesso.",
-        "choices": [
-          "se portaTravada = verdadeiro ou alarmeAtivo = verdadeiro entao\n    bloquearAcesso()\nsenao\n    liberarAcesso()\nfimse",
-          "se portaTravada = verdadeiro e alarmeAtivo = verdadeiro entao\n    bloquearAcesso()\nsenao\n    liberarAcesso()\nfimse",
-          "se portaTravada = falso ou alarmeAtivo = falso entao\n    bloquearAcesso()\nsenao\n    liberarAcesso()\nfimse",
-          "se portaTravada = verdadeiro ou alarmeAtivo = verdadeiro entao\n    liberarAcesso()\nsenao\n    bloquearAcesso()\nfimse"
+          "se energia > 10 e ativo == true → ativar\nsenão → esperar",
+          "se energia > 10 ou ativo == true → ativar\nsenão → esperar",
+          "se energia < 10 e ativo == true → ativar\nsenão → esperar"
         ],
         "correct": 0,
-        "explanation": "O operador ou bloqueia quando pelo menos um perigo existe. O senao só libera quando ambos são falsos."
+        "choiceFormat": "code",
+        "explanation": "Resposta: se energia > 10 e ativo == true → ativar\nsenão → esperar."
       },
       {
-        "title": "MISSÃO 13 — Ativar Quarentena",
-        "desc": "A quarentena exige risco maior que 70 e, além disso, contaminação confirmada ou falha no sensor. Qual condição preserva exatamente essa prioridade?",
-        "code": "// risco > 70 é sempre obrigatório.\n// Depois, basta contaminado ou sensorFalhou.",
+        "id": "sala3-dificil-02",
+        "sourceQuestion": 2,
+        "title": "Condições — Investigue o bug",
+        "desc": "Qual condição permite ativar quando energia é maior que 10 ou quando o modo emergência está ligado?",
+        "code": "",
+        "success": "Perfeito! Basta uma das duas condições ser verdadeira.",
+        "hint": "A palavra \"ou\" indica que qualquer uma das duas situações permite a ação.",
+        "type": "choice",
+        "objective": "aceitar-uma-condicao",
         "choices": [
-          "se (risco > 70 e contaminado = verdadeiro) ou sensorFalhou = verdadeiro entao\n    ativarQuarentena()\nfimse",
-          "se risco > 70 ou (contaminado = verdadeiro e sensorFalhou = verdadeiro) entao\n    ativarQuarentena()\nfimse",
-          "se risco > 70 e contaminado = verdadeiro e sensorFalhou = verdadeiro entao\n    ativarQuarentena()\nfimse",
-          "se risco > 70 e (contaminado = verdadeiro ou sensorFalhou = verdadeiro) entao\n    ativarQuarentena()\nfimse"
-        ],
-        "correct": 3,
-        "explanation": "Os parênteses agrupam as duas possibilidades secundárias, enquanto e mantém risco > 70 como requisito obrigatório."
-      },
-      {
-        "title": "MISSÃO 14 — Liberar Acesso",
-        "desc": "Um administrador pode entrar diretamente. Outros usuários só entram quando possuem autorização e cartão válido ao mesmo tempo. Qual condição implementa essa regra?",
-        "code": "// admin é uma exceção independente.\n// Para os demais, autorizado e cartaoValido são obrigatórios.",
-        "choices": [
-          "se (admin = verdadeiro ou autorizado = verdadeiro) e cartaoValido = verdadeiro entao\n    liberarAcesso()\nfimse",
-          "se admin = verdadeiro ou (autorizado = verdadeiro e cartaoValido = verdadeiro) entao\n    liberarAcesso()\nfimse",
-          "se admin = verdadeiro e (autorizado = verdadeiro ou cartaoValido = verdadeiro) entao\n    liberarAcesso()\nfimse",
-          "se admin = verdadeiro ou autorizado = verdadeiro ou cartaoValido = verdadeiro entao\n    liberarAcesso()\nfimse"
+          "energia > 10 e emergencia == true",
+          "energia > 10 ou emergencia == true",
+          "energia < 10 ou emergencia == false",
+          "energia == 10"
         ],
         "correct": 1,
-        "explanation": "O ou separa a exceção do administrador. Os parênteses exigem autorização e cartão válido para os demais usuários."
+        "choiceFormat": "text",
+        "explanation": "Resposta: energia > 10 ou emergencia == true."
       },
       {
-        "title": "MISSÃO 15 — Classificar Risco",
-        "desc": "O setor deve ser isolado se risco for maior que 80. Caso contrário, deve ser monitorado quando risco for maior que 50 e ainda não estiver monitorado. Nos demais casos, mantém a operação. Qual fluxo está correto?",
-        "code": "// Verifique primeiro o risco mais alto.\n// monitorar(): risco > 50 e monitorado = falso.",
+        "id": "sala3-dificil-03",
+        "sourceQuestion": 3,
+        "title": "Condições — Corrija o bloco",
+        "desc": "Corrija a condição para liberar a porta somente quando chave == true e vidas > 0.",
+        "code": "se [ ? ] → abrir porta",
+        "success": "Muito bem! As duas condições precisam ser atendidas.",
+        "hint": "A porta depende das duas regras, então use e.",
+        "type": "choice",
+        "objective": "exigir-duas-condicoes",
         "choices": [
-          "se risco > 80 entao\n    isolar()\nsenao\n    se risco > 50 ou monitorado = falso entao\n        monitorar()\n    senao\n        manterOperacao()\n    fimse\nfimse",
-          "se risco > 50 e monitorado = falso entao\n    monitorar()\nsenao\n    se risco > 80 entao\n        isolar()\n    senao\n        manterOperacao()\n    fimse\nfimse",
-          "se risco > 80 entao\n    isolar()\nsenao\n    se risco > 50 e monitorado = falso entao\n        monitorar()\n    senao\n        manterOperacao()\n    fimse\nfimse",
-          "se risco > 80 entao\n    isolar()\nsenao\n    se risco > 50 e monitorado = verdadeiro entao\n        monitorar()\n    senao\n        manterOperacao()\n    fimse\nfimse"
+          "chave == true e vidas > 0",
+          "chave == true ou vidas > 0",
+          "chave == false e vidas > 0"
         ],
-        "correct": 2,
-        "explanation": "O risco mais alto é testado primeiro. A decisão interna usa e para exigir risco intermediário e ausência de monitoramento."
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: chave == true e vidas > 0."
+      },
+      {
+        "id": "sala3-dificil-04",
+        "sourceQuestion": 4,
+        "title": "Condições — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Isso! Você aplicou e e ou corretamente.",
+        "hint": "Pense se o sistema precisa das duas condições ou apenas de uma.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "duas condições obrigatórias",
+            "right": "e"
+          },
+          {
+            "id": "pair-1",
+            "left": "pelo menos uma condição já basta",
+            "right": "ou"
+          }
+        ],
+        "targets": [
+          "e",
+          "ou"
+        ],
+        "explanation": "duas condições obrigatórias → e; pelo menos uma condição já basta → ou."
+      },
+      {
+        "id": "sala3-dificil-05",
+        "sourceQuestion": 5,
+        "title": "Condições — Investigue o bug",
+        "desc": "Se energia = 12 e ativo = false, a condição \"energia > 10 e ativo == true\" é verdadeira?",
+        "code": "",
+        "success": "Certo! Energia está alta, mas ativo é false; por isso as duas condições não são verdadeiras.",
+        "hint": "Com e, as duas condições precisam ser verdadeiras.",
+        "type": "choice",
+        "objective": "avaliar-condicao",
+        "choices": [
+          "Sim",
+          "Não",
+          "Só o primeiro bloco é suficiente",
+          "Depende da soma"
+        ],
+        "correct": 1,
+        "choiceFormat": "text",
+        "explanation": "Resposta: Não."
+      },
+      {
+        "id": "sala3-dificil-06",
+        "sourceQuestion": 6,
+        "title": "Condições — Escolha os blocos",
+        "desc": "Qual sequência verifica primeiro se vidas é zero, depois se a energia é menor que 5 e, por fim, permite continuar?",
+        "code": "",
+        "success": "Excelente! Você organizou três caminhos possíveis.",
+        "hint": "Veja a ordem: primeiro vidas, depois energia e por fim a ação do último senão.",
+        "type": "choice",
+        "objective": "caminhos-da-decisao",
+        "choices": [
+          "se vidas == 0 → game over\nsenão se energia < 5 → recarregar\nsenão → continuar",
+          "se energia < 5 → recarregar\nsenão se vidas == 0 → game over\nsenão → continuar",
+          "se vidas == 0 → continuar\nsenão se energia < 5 → recarregar\nsenão → game over"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: se vidas == 0 → game over\nsenão se energia < 5 → recarregar\nsenão → continuar."
+      },
+      {
+        "id": "sala3-dificil-07",
+        "sourceQuestion": 7,
+        "title": "Condições — Complete o bloco",
+        "desc": "Complete a condição: liberar bônus quando pontos > 20 ou nível == 4.",
+        "code": "se pontos [ ? ] 20 ou nível == 4 → liberar bônus",
+        "success": "Muito bem! A condição aceita uma das duas situações.",
+        "hint": "Pontos precisam ser maiores que 20, enquanto nível precisa ser exatamente 4.",
+        "type": "choice",
+        "objective": "aceitar-uma-condicao",
+        "choices": [
+          ">",
+          "<",
+          "=="
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: >."
+      },
+      {
+        "id": "sala3-dificil-08",
+        "sourceQuestion": 8,
+        "title": "Condições — Corrija o bloco",
+        "desc": "O sistema está continuando mesmo quando não deveria. Corrija: se ativo == false → parar; senão → continuar.",
+        "code": "se ativo == false → continuar\nsenão → parar",
+        "success": "Perfeito! As ações agora correspondem às condições.",
+        "hint": "Quando ativo é false, o sistema deve parar. Caso contrário, continua.",
+        "type": "choice",
+        "objective": "avaliar-condicao",
+        "choices": [
+          "se ativo == false → parar\nsenão → continuar",
+          "se ativo == false → continuar\nsenão → parar",
+          "se ativo == true → parar\nsenão → continuar"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: se ativo == false → parar\nsenão → continuar."
+      },
+      {
+        "id": "sala3-dificil-09",
+        "sourceQuestion": 9,
+        "title": "Condições — Investigue o bug",
+        "desc": "Qual estrutura atende a estas regras: \"se energia < 5, recarregar; caso contrário, continuar\"?",
+        "code": "",
+        "success": "Acertou! Essa estrutura representa exatamente as duas possibilidades.",
+        "hint": "Compare cada regra com a condição e com a ação indicada.",
+        "type": "choice",
+        "objective": "caminhos-da-decisao",
+        "choices": [
+          "se energia > 5 → recarregar",
+          "se energia < 5 → recarregar; senão → continuar",
+          "se energia == 5 → continuar",
+          "senão → recarregar"
+        ],
+        "correct": 1,
+        "choiceFormat": "text",
+        "explanation": "Resposta: se energia < 5 → recarregar; senão → continuar."
+      },
+      {
+        "id": "sala3-dificil-10",
+        "sourceQuestion": 10,
+        "title": "Condições — Ligue os pares",
+        "desc": "Ligue cada situação à ação. Regra: se energia < 5, recarregar; senão, se ativo == true, ativar; senão, esperar.",
+        "code": "",
+        "success": "Excelente! Você analisou as condições antes de decidir a ação.",
+        "hint": "Observe primeiro a energia e depois o estado de ativo.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "energia = 3, ativo = true",
+            "right": "recarregar"
+          },
+          {
+            "id": "pair-1",
+            "left": "energia = 12, ativo = true",
+            "right": "ativar"
+          },
+          {
+            "id": "pair-2",
+            "left": "energia = 12, ativo = false",
+            "right": "esperar"
+          }
+        ],
+        "targets": [
+          "recarregar",
+          "ativar",
+          "esperar"
+        ],
+        "explanation": "energia = 3, ativo = true → recarregar; energia = 12, ativo = true → ativar; energia = 12, ativo = false → esperar."
       }
     ],
     "sala4": [
       {
-        "title": "MISSÃO 16 — Criar Função",
-        "desc": "Qual função recebe energiaBase, consumo e multiplicador, subtrai o consumo antes de multiplicar e retorna o resultado inteiro?",
-        "code": "// resultado = (energiaBase - consumo) * multiplicador",
+        "id": "sala4-dificil-01",
+        "sourceQuestion": 1,
+        "title": "Funções — Escolha os blocos",
+        "desc": "Escolha o conjunto: pontos = 20; função verificarEnergia; chamar verificarEnergia.",
+        "code": "",
+        "success": "Muito bem! Você organizou variável, criação de função e chamada.",
+        "hint": "Leia a função de cada bloco e mantenha a criação antes da chamada.",
+        "type": "choice",
+        "objective": "sequencia",
         "choices": [
-          "funcao inteiro calcularEnergia(inteiro energiaBase, inteiro consumo, inteiro multiplicador)\n    retorne (energiaBase - consumo) * multiplicador\nfimfuncao",
-          "funcao inteiro calcularEnergia(inteiro energiaBase, inteiro consumo, inteiro multiplicador)\n    retorne energiaBase - consumo * multiplicador\nfimfuncao",
-          "funcao real calcularEnergia(inteiro energiaBase, inteiro consumo, inteiro multiplicador)\n    retorne (consumo - energiaBase) * multiplicador\nfimfuncao",
-          "procedimento calcularEnergia(inteiro energiaBase, inteiro consumo, inteiro multiplicador)\n    escreva((energiaBase - consumo) * multiplicador)\nfimprocedimento"
+          "pontos = 20\nfunção verificarEnergia\nchamar verificarEnergia",
+          "pontos = 20\nchamar verificarEnergia\nfunção verificarEnergia",
+          "pontos = \"20\"\nfunção verificarEnergia\nchamar pontos"
         ],
         "correct": 0,
-        "explanation": "A função recebe os três parâmetros, usa parênteses para subtrair antes da multiplicação e devolve um inteiro."
+        "choiceFormat": "code",
+        "explanation": "Resposta: pontos = 20\nfunção verificarEnergia\nchamar verificarEnergia."
       },
       {
-        "title": "MISSÃO 17 — Guardar Retorno",
-        "desc": "A função calcularEnergia recebe energiaBase, consumo e multiplicador, nessa ordem. Qual código envia 30, 5 e 2 e guarda o resultado 50 em energiaFinal?",
-        "code": "funcao inteiro calcularEnergia(inteiro energiaBase, inteiro consumo, inteiro multiplicador)\n    retorne (energiaBase - consumo) * multiplicador\nfimfuncao",
+        "id": "sala4-dificil-02",
+        "sourceQuestion": 2,
+        "title": "Funções — Investigue o bug",
+        "desc": "Qual opção usa corretamente uma variável e uma função?",
+        "code": "",
+        "success": "Perfeito! pontos guarda um valor e a função é chamada para executar uma ação.",
+        "hint": "Procure uma linha de atribuição para a variável e chamar para a função.",
+        "type": "choice",
+        "objective": "dados-e-acoes",
         "choices": [
-          "inteiro energiaFinal <- calcularEnergia(30, 2, 5)",
-          "inteiro energiaFinal <- calcularEnergia(30 - 5 * 2)",
-          "inteiro energiaFinal <- calcularEnergia(5, 30, 2)",
-          "inteiro energiaFinal <- calcularEnergia(30, 5, 2)"
+          "pontos = 20 e chamar verificarEnergia",
+          "função pontos = 20 e variável verificarEnergia",
+          "chamar pontos = 20 e função 20",
+          "pontos == 20 e verificarEnergia = true"
         ],
-        "correct": 3,
-        "explanation": "Os argumentos seguem a ordem dos parâmetros: 30 - 5 é calculado primeiro e o resultado é multiplicado por 2."
+        "correct": 0,
+        "choiceFormat": "text",
+        "explanation": "Resposta: pontos = 20 e chamar verificarEnergia."
       },
       {
-        "title": "MISSÃO 18 — Validar Código",
-        "desc": "A função ehCodigoValido deve retornar verdadeiro somente quando numero for positivo e par. Qual implementação representa as duas exigências?",
-        "code": "// positivo: numero > 0\n// par: numero % 2 = 0",
+        "id": "sala4-dificil-03",
+        "sourceQuestion": 3,
+        "title": "Funções — Corrija o bloco",
+        "desc": "Escolha a sequência que primeiro cria verificarEnergia, depois guarda 20 pontos e só então chama a função.",
+        "code": "chamar verificarEnergia\npontos = 20\nfunção verificarEnergia",
+        "success": "Excelente! Agora a função existe antes de ser chamada.",
+        "hint": "Uma função precisa ser criada antes de ser usada. Depois você pode chamar a função.",
+        "type": "choice",
+        "objective": "sequencia",
         "choices": [
-          "funcao logico ehCodigoValido(inteiro numero)\n    retorne numero > 0 ou numero % 2 = 0\nfimfuncao",
-          "funcao logico ehCodigoValido(inteiro numero)\n    retorne numero > 0 e numero % 2 = 0\nfimfuncao",
-          "funcao logico ehCodigoValido(inteiro numero)\n    retorne numero < 0 e numero % 2 = 0\nfimfuncao",
-          "funcao logico ehCodigoValido(inteiro numero)\n    retorne numero > 0 e numero % 2 <> 0\nfimfuncao"
+          "função verificarEnergia\npontos = 20\nchamar verificarEnergia",
+          "chamar verificarEnergia\npontos = 20\nfunção verificarEnergia",
+          "função verificarEnergia\nchamar verificarEnergia\npontos = 20"
         ],
-        "correct": 1,
-        "explanation": "O operador e exige que numero > 0 e numero % 2 = 0 sejam verdadeiros ao mesmo tempo."
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: função verificarEnergia\npontos = 20\nchamar verificarEnergia."
       },
       {
-        "title": "MISSÃO 19 — Diagnosticar Energia",
-        "desc": "A função deve retornar \"critico\" quando energia for menor que 20 ou temperatura for pelo menos 90; \"atencao\" quando apenas energia for menor que 40; e \"estavel\" nos demais casos. Qual código respeita a prioridade?",
-        "code": "// Teste o estado crítico antes do estado de atenção.",
-        "choices": [
-          "funcao caractere diagnosticar(inteiro energia, inteiro temperatura)\n    se energia < 40 entao\n        retorne \"atencao\"\n    senao\n        se energia < 20 ou temperatura >= 90 entao\n            retorne \"critico\"\n        senao\n            retorne \"estavel\"\n        fimse\n    fimse\nfimfuncao",
-          "funcao caractere diagnosticar(inteiro energia, inteiro temperatura)\n    se energia < 20 e temperatura >= 90 entao\n        retorne \"critico\"\n    senao\n        se energia < 40 entao\n            retorne \"atencao\"\n        senao\n            retorne \"estavel\"\n        fimse\n    fimse\nfimfuncao",
-          "funcao caractere diagnosticar(inteiro energia, inteiro temperatura)\n    se energia < 20 ou temperatura >= 90 entao\n        retorne \"critico\"\n    senao\n        se energia < 40 entao\n            retorne \"atencao\"\n        senao\n            retorne \"estavel\"\n        fimse\n    fimse\nfimfuncao",
-          "funcao caractere diagnosticar(inteiro energia, inteiro temperatura)\n    se energia < 20 ou temperatura >= 90 entao\n        retorne \"atencao\"\n    senao\n        se energia < 40 entao\n            retorne \"critico\"\n        senao\n            retorne \"estavel\"\n        fimse\n    fimse\nfimfuncao"
+        "id": "sala4-dificil-04",
+        "sourceQuestion": 4,
+        "title": "Funções — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Muito bem! Você entendeu como variável e função trabalham juntas.",
+        "hint": "Variável guarda; função organiza; chamar executa.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "pontos = 20",
+            "right": "guardar informação"
+          },
+          {
+            "id": "pair-1",
+            "left": "função verificarEnergia",
+            "right": "organizar uma ação"
+          },
+          {
+            "id": "pair-2",
+            "left": "chamar verificarEnergia",
+            "right": "usar a ação"
+          }
         ],
-        "correct": 2,
-        "explanation": "A condição crítica vem primeiro e usa ou. Só quando ela é falsa o código verifica o nível de atenção."
+        "targets": [
+          "guardar informação",
+          "organizar uma ação",
+          "usar a ação"
+        ],
+        "explanation": "pontos = 20 → guardar informação; função verificarEnergia → organizar uma ação; chamar verificarEnergia → usar a ação."
       },
       {
-        "title": "MISSÃO 20 — Liberar a Central",
-        "desc": "A central só pode ser liberada quando motor e rota estiverem prontos e a soma de energiaBase com reserva for pelo menos 100. Qual função calcula e retorna todas as exigências?",
-        "code": "// energiaTotal = energiaBase + reserva\n// motor, rota e energiaTotal suficiente são obrigatórios.",
+        "id": "sala4-dificil-05",
+        "sourceQuestion": 5,
+        "title": "Funções — Investigue o bug",
+        "desc": "Qual situação mostra melhor o uso de uma função?",
+        "code": "",
+        "success": "Isso! Essa é uma das principais utilidades das funções: reutilizar uma ação.",
+        "hint": "Funções ajudam quando uma mesma ação precisa ser usada mais de uma vez.",
+        "type": "choice",
+        "objective": "reutilizar",
         "choices": [
-          "funcao logico liberarCentral(logico motor, logico rota, inteiro energiaBase, inteiro reserva)\n    inteiro energiaTotal <- energiaBase + reserva\n    retorne motor ou rota ou energiaTotal >= 100\nfimfuncao",
-          "funcao logico liberarCentral(logico motor, logico rota, inteiro energiaBase, inteiro reserva)\n    inteiro energiaTotal <- energiaBase + reserva\n    retorne motor e rota e energiaBase >= 100\nfimfuncao",
-          "procedimento liberarCentral(logico motor, logico rota, inteiro energiaBase, inteiro reserva)\n    inteiro energiaTotal <- energiaBase + reserva\n    escreva(motor e rota e energiaTotal >= 100)\nfimprocedimento",
-          "funcao logico liberarCentral(logico motor, logico rota, inteiro energiaBase, inteiro reserva)\n    inteiro energiaTotal <- energiaBase + reserva\n    retorne motor e rota e energiaTotal >= 100\nfimfuncao"
+          "Fazer a mesma ação em vários momentos usando chamar",
+          "Guardar um único número",
+          "Comparar dois valores",
+          "Escrever uma palavra entre aspas"
         ],
-        "correct": 3,
-        "explanation": "A função soma as duas fontes de energia e usa e para exigir motor, rota e energia total suficiente."
+        "correct": 0,
+        "choiceFormat": "text",
+        "explanation": "Resposta: Fazer a mesma ação em vários momentos usando chamar."
+      },
+      {
+        "id": "sala4-dificil-06",
+        "sourceQuestion": 6,
+        "title": "Funções — Complete o bloco",
+        "desc": "Complete o sistema: primeiro crie a função abrirPorta; depois use-a.",
+        "code": "[ ? ] abrirPorta\n[ ? ] abrirPorta",
+        "success": "Certo! A ordem está correta: criar e depois chamar.",
+        "hint": "Não é possível chamar a função antes de criá-la dentro da lógica proposta.",
+        "type": "choice",
+        "objective": "integrar-blocos",
+        "choices": [
+          "função abrirPorta\nchamar abrirPorta",
+          "chamar abrirPorta\nfunção abrirPorta",
+          "variável abrirPorta\nchamar abrirPorta"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: função abrirPorta\nchamar abrirPorta."
+      },
+      {
+        "id": "sala4-dificil-07",
+        "sourceQuestion": 7,
+        "title": "Funções — Corrija o bloco",
+        "desc": "Escolha a sequência que guarda 30 como número, cria verificarEnergia e depois chama a função.",
+        "code": "pontos = \"30\"\nfunção verificarEnergia\n[ ? ] verificarEnergia",
+        "success": "Perfeito! O número foi corrigido e a função foi usada na ordem certa.",
+        "hint": "Retire as aspas de 30 e mantenha a criação da função antes da chamada.",
+        "type": "choice",
+        "objective": "integrar-blocos",
+        "choices": [
+          "pontos = 30\nfunção verificarEnergia\nchamar verificarEnergia",
+          "pontos = \"30\"\nfunção verificarEnergia\nchamar verificarEnergia",
+          "pontos = 30\nchamar verificarEnergia\nfunção verificarEnergia"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: pontos = 30\nfunção verificarEnergia\nchamar verificarEnergia."
+      },
+      {
+        "id": "sala4-dificil-08",
+        "sourceQuestion": 8,
+        "title": "Funções — Escolha os blocos",
+        "desc": "Escolha uma solução simples: criar abrirPorta, guardar portaAberta = false e depois chamar abrirPorta.",
+        "code": "",
+        "success": "Muito bem! Você combinou função, variável e chamada.",
+        "hint": "Separe o que cria a ação, o que guarda o estado e o que executa a ação.",
+        "type": "choice",
+        "objective": "integrar-blocos",
+        "choices": [
+          "função abrirPorta\nportaAberta = false\nchamar abrirPorta",
+          "chamar abrirPorta\nportaAberta = false\nfunção abrirPorta",
+          "função abrirPorta\nportaAberta = \"false\"\nchamar abrirPorta"
+        ],
+        "correct": 0,
+        "choiceFormat": "code",
+        "explanation": "Resposta: função abrirPorta\nportaAberta = false\nchamar abrirPorta."
+      },
+      {
+        "id": "sala4-dificil-09",
+        "sourceQuestion": 9,
+        "title": "Funções — Investigue o bug",
+        "desc": "Qual linha está correta para guardar o texto \"energia\" e usar a função verificarEnergia?",
+        "code": "",
+        "success": "Excelente! A variável guarda texto e a função é chamada corretamente.",
+        "hint": "Use aspas para o texto e chamar para executar a função.",
+        "type": "choice",
+        "objective": "dados-e-acoes",
+        "choices": [
+          "energia = \"energia\"; chamar verificarEnergia",
+          "energia = energia; função verificarEnergia",
+          "energia = 10; função \"verificarEnergia\"",
+          "energia == \"energia\"; verificarEnergia = chamar"
+        ],
+        "correct": 0,
+        "choiceFormat": "text",
+        "explanation": "Resposta: energia = \"energia\"; chamar verificarEnergia."
+      },
+      {
+        "id": "sala4-dificil-10",
+        "sourceQuestion": 10,
+        "title": "Funções — Ligue os pares",
+        "desc": "Ligue cada item ao seu correspondente. Uma mesma resposta pode ser usada mais de uma vez.",
+        "code": "",
+        "success": "Perfeito! Você identificou o papel de cada bloco.",
+        "hint": "Variável guarda valor; função cria a ação; chamar executa a ação criada.",
+        "type": "matching",
+        "objective": "associar-conceitos",
+        "pairs": [
+          {
+            "id": "pair-0",
+            "left": "vidas = 2",
+            "right": "VARIÁVEL"
+          },
+          {
+            "id": "pair-1",
+            "left": "função mostrarMensagem",
+            "right": "CRIAR FUNÇÃO"
+          },
+          {
+            "id": "pair-2",
+            "left": "chamar mostrarMensagem",
+            "right": "CHAMAR FUNÇÃO"
+          }
+        ],
+        "targets": [
+          "VARIÁVEL",
+          "CRIAR FUNÇÃO",
+          "CHAMAR FUNÇÃO"
+        ],
+        "explanation": "vidas = 2 → VARIÁVEL; função mostrarMensagem → CRIAR FUNÇÃO; chamar mostrarMensagem → CHAMAR FUNÇÃO."
       }
     ]
   }

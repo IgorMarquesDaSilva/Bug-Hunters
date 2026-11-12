@@ -34,7 +34,7 @@ const assert = require('node:assert/strict');
       await send('Emulation.setDeviceMetricsOverride', { ...viewport, deviceScaleFactor: 1, mobile: false });
       await evaluate("localStorage.setItem('bh_tutorial_done', '1'); selectDifficulty('dificil'); AccessibilitySystem.setFontSize('normal', false)");
       const selectors = ['.main-menu-title', '.diff-label', '.stat-value', '.settings-label', '#font-size-access-value', '.glossary-title', '.tutorial-text', '#mission-desc', '#mission-code', '.code-choice-content', '#feedback-msg', '.room-clear-title'];
-      await evaluate("Glossary.open(); GameState.activeIdx = 0; MissionSystem.startMission(); MissionSystem.selectAnswer(0, document.querySelector('.choice-btn'))");
+      await evaluate("Glossary.open(); GameState.activeIdx = GameState.bugs.findIndex(bug => { const mission = GameState.currentMissions()[bug.missionIdx]; return mission.type === 'choice' && mission.choiceFormat === 'code'; }); MissionSystem.startMission(); MissionSystem.selectAnswer(0, document.querySelector('.choice-btn'))");
       const measure = () => evaluate(`(${JSON.stringify(selectors)}).map(s => { const el = document.querySelector(s); return el ? [s, parseFloat(getComputedStyle(el).fontSize)] : null; }).filter(Boolean)`);
       const normal = await measure();
       assert.ok(normal.length >= 9, 'Cobertura das telas');

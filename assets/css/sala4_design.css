@@ -558,8 +558,7 @@ img.ship-diagram {
 
 /* ========================= BRILHO DAS TASKS ========================= */
 
-#room-map.sala4 .sala4-mission.mission-available,
-#room-map.sala4 .sala4-mission:not(.mission-solved) {
+#room-map.sala4 .sala4-mission.mission-available {
   outline: 3px solid rgba(101, 240, 255, 0.40);
   outline-offset: 5px;
   animation: sala4-task-glow 1.05s infinite alternate;

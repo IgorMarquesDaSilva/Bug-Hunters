@@ -1,6 +1,6 @@
 /* ============================================================
    assets/js/systems/bugs.js
-   Sistema de missões fixas por sala.
+   Distribuição de missões sorteadas entre os objetos de cada sala.
 ============================================================ */
 
 const BugSystem = (() => {
@@ -88,6 +88,8 @@ const BugSystem = (() => {
     document.querySelectorAll("#room-map .mission-point").forEach(point => {
       point.classList.remove("mission-available", "mission-solved");
     });
+    const reactorOverlay = document.getElementById("sala2-reactor-overlay");
+    reactorOverlay?.classList.remove("mission-available", "mission-solved");
 
     const missionSelectorMap = {
       sala1: "#room-map .sala1-mission",
@@ -99,7 +101,9 @@ const BugSystem = (() => {
     const missionSelector =
       missionSelectorMap[GameState.currentRoom] || "#room-map .sala1-mission";
 
-    const points = Array.from(document.querySelectorAll(missionSelector));
+    const points = QuestionBank.shuffle(
+      Array.from(document.querySelectorAll(missionSelector))
+    );
 
     const mapRect = roomMap.getBoundingClientRect();
     const scaleX = canvas.width / mapRect.width;
@@ -121,6 +125,9 @@ const BugSystem = (() => {
       }
 
       el.classList.add("mission-available");
+      if (GameState.currentRoom === "sala2" && el.classList.contains("reactor")) {
+        reactorOverlay?.classList.add("mission-available");
+      }
 
       const rect = el.getBoundingClientRect();
 
@@ -292,7 +299,10 @@ const BugSystem = (() => {
 
       if (bug.el.classList.contains("reactor")) {
         const overlay = document.getElementById("sala2-reactor-overlay");
-        if (overlay) overlay.classList.add("mission-solved");
+        if (overlay) {
+          overlay.classList.remove("mission-available");
+          overlay.classList.add("mission-solved");
+        }
       }
     }
   }
