@@ -106,7 +106,9 @@ window.GameAudio = (() => {
   };
 
   function readNumber(key, fallback) {
-    const value = Number(localStorage.getItem(key));
+    const stored = localStorage.getItem(key);
+    if (stored === null) return fallback;
+    const value = Number(stored);
 
     return Number.isFinite(value)
       ? Math.min(1, Math.max(0, value))
@@ -580,7 +582,12 @@ window.GameAudio = (() => {
       startTrack("victory");
     });
 
-    playConfirm();
+    playLevelComplete();
+  }
+
+  function playResultReveal(total = false) {
+    playTone({ frequency: total ? 1046 : 740, endFrequency: total ? 1568 : 880,
+      duration: total ? 0.35 : 0.07, type: 'triangle', volume: total ? 0.16 : 0.07 });
   }
 
   function playGameOver() {
@@ -1377,6 +1384,7 @@ window.GameAudio = (() => {
     playMenuAmbient,
     playRoom,
     playVictory,
+    playResultReveal,
     playGameOver,
     playClick,
     playConfirm,

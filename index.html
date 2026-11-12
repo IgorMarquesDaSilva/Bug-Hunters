@@ -25,7 +25,8 @@
   <link rel="stylesheet" href="assets/css/matching.css?v=3">
   <link rel="stylesheet" href="assets/css/shortcuts.css">
   <link rel="stylesheet" href="assets/css/memory.css?v=2">
-  <link rel="stylesheet" href="assets/css/support.css?v=2">
+  <link rel="stylesheet" href="assets/css/support.css?v=3">
+  <link rel="stylesheet" href="assets/css/results.css?v=1">
 </head>
 
 <body>
@@ -1313,7 +1314,8 @@
 
             <p class="mission-desc">
 
-              Ao reiniciar, os pontos desta fase sao removidos.<br>
+              Você pode reiniciar uma única fase, uma vez por partida.<br>
+              Ao reiniciar, os pontos desta tentativa são removidos.<br>
               Cada pergunta passara a valer
               <span id="retry-next-points" class="highlight">4</span> pts.
 
@@ -1383,133 +1385,12 @@
              VITÓRIA
         ========================================================== -->
 
-        <div
-          id="screen-win"
-          class="overlay"
-          style="display:none;">
-
-          <div class="popup-content center">
-
-            <div class="popup-header">
-              ★ MISSÃO CONCLUÍDA!
-            </div>
-
-            <p class="mission-desc">
-              Todos os desafios foram concluidos.
-            </p>
-
-            <p class="mission-desc">
-
-              Dificuldade:
-              <span id="final-diff" class="highlight"></span>
-
-            </p>
-
-            <p class="mission-desc">
-              Pontuação Final:
-            </p>
-
-            <p style="margin:10px 0 20px;">
-
-              <span
-                id="final-score"
-                class="score-highlight">
-
-                0
-
-              </span>
-
-              <span class="highlight">
-                / 100
-              </span>
-
-            </p>
-
-            <div class="popup-actions">
-
-              <button
-                class="cyber-btn"
-                onclick="backToMenu()">
-
-                ▶ MENU
-
-              </button>
-
-              <button
-                class="cyber-btn secondary"
-                onclick="restartGame()">
-
-                ↺ JOGAR NOVAMENTE
-
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-        
-
-        <div
-          id="screen-gameover"
-          class="overlay"
-          style="display:none;">
-
-          <div class="popup-content center">
-
-            <div
-              class="popup-header"
-              style="color:#ff4444; border-color:#ff4444;">
-
-              ✖ GAME OVER
-
-            </div>
-
-            <p
-              id="gameover-reason"
-              class="mission-desc">
-
-              Pontuacao minima nao atingida.
-            </p>
-
-            <p class="mission-desc">
-
-              Pontuação:
-              <span id="gameover-score" class="highlight">0</span>
-
-            </p>
-
-            <div class="popup-actions">
-
-              <button
-                class="cyber-btn"
-                onclick="backToMenu()">
-
-                ▶ MENU
-
-              </button>
-
-              <button
-                class="cyber-btn secondary"
-                onclick="restartGame()">
-
-                ↺ TENTAR NOVAMENTE
-
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
+        <div id="screen-win" class="overlay" style="display:none;"></div>
+        <div id="screen-gameover" class="overlay" style="display:none;"></div>
 
       </div>
 
-      <!-- =========================================================
-           HUD
-      ========================================================== -->
-
+      <!-- HUD: pontuação, cronômetro e apoios -->
       <aside class="hud-panel">
 
         <div class="panel-header">
@@ -1600,6 +1481,11 @@
 
             </span>
 
+          </div>
+
+          <div class="stat run-clock" role="timer" aria-label="Tempo total da partida" aria-live="off">
+            <span class="stat-label">TEMPO</span>
+            <span id="hud-time" class="stat-value">00:00</span>
           </div>
 
         </div>
@@ -1730,40 +1616,43 @@
 
   </main>
 
+  <canvas id="screenTransitionCanvas" width="1000" height="600" aria-hidden="true" hidden></canvas>
+
   <!-- =========================================================
        SCRIPTS
   ========================================================== -->
 
   <script src="assets/js/data/glossary-data.js?v=2"></script>
   
-  <script src="assets/js/core/config.js"></script>
-  <script src="assets/js/data/memory-data.js?v=2"></script>
-  <script src="assets/js/systems/question-bank.js?v=3"></script>
-  <script src="assets/js/core/state.js?v=2"></script>
+  <script src="assets/js/core/config.js?v=1"></script>
+  <script src="assets/js/data/memory-data.js?v=3"></script>
+  <script src="assets/js/systems/question-bank.js?v=4"></script>
+  <script src="assets/js/core/state.js?v=3"></script>
   <script src="assets/js/core/platform.js"></script>
   
   <script src="assets/js/systems/collision.js"></script>
   <script src="assets/js/systems/player.js?v=5"></script>
   <script src="assets/js/systems/bugs.js?v=6"></script>
   <script src="assets/js/systems/renderer.js?v=16"></script>
-  <script src="assets/js/systems/transition.js?v=18"></script>
+  <script src="assets/js/systems/transition.js?v=19"></script>
   
-  <script src="assets/js/ui/ui.js?v=8"></script>
+  <script src="assets/js/ui/ui.js?v=9"></script>
   <script src="assets/js/ui/mobile-controls.js?v=2"></script>
-  <script src="assets/js/ui/hud.js"></script>
+  <script src="assets/js/ui/hud.js?v=1"></script>
   <script src="assets/js/ui/matching.js?v=2"></script>
-  <script src="assets/js/ui/memory.js?v=2"></script>
-  <script src="assets/js/ui/mission.js?v=9"></script>
-  <script src="assets/js/ui/tutorial.js?v=7"></script>
+  <script src="assets/js/ui/memory.js?v=3"></script>
+  <script src="assets/js/ui/mission.js?v=10"></script>
+  <script src="assets/js/ui/results.js?v=1"></script>
+  <script src="assets/js/ui/tutorial.js?v=8"></script>
   <script src="assets/js/ui/glossary.js?v=7"></script>
-  <script src="assets/js/ui/shortcuts.js?v=3"></script>
+  <script src="assets/js/ui/shortcuts.js?v=4"></script>
   <script src="assets/js/ui/responsive.js?v=10"></script>
-  <script src="assets/js/systems/audio.js"></script>
+  <script src="assets/js/systems/audio.js?v=1"></script>
   
-  <script src="assets/js/ui/keyboard.js?v=6"></script>
-  <script src="assets/js/core/game.js?v=6"></script>
-  <script src="assets/js/ui/tela_inicial.js?v=17"></script>
-  <script src="assets/js/ui/accessibility.js?v=22"></script>
+  <script src="assets/js/ui/keyboard.js?v=7"></script>
+  <script src="assets/js/core/game.js?v=7"></script>
+  <script src="assets/js/ui/tela_inicial.js?v=18"></script>
+  <script src="assets/js/ui/accessibility.js?v=23"></script>
 </body>
 
 </html>

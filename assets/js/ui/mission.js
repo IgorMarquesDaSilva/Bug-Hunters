@@ -275,7 +275,7 @@ const MissionSystem = (() => {
 
     UI.showScreen("screen-mission");
     const options = isMemory
-      ? 'Use Tab e Enter para virar duas cartas e encontrar os pares. Não há cronômetro. As cartas incorretas ficam abertas até você escolher continuar.'
+      ? `Use Tab e Enter para virar duas cartas e encontrar os pares. ${mission.errorLimit === 0 ? 'O primeiro erro encerra a missão.' : `A missão termina no ${mission.errorLimit}º erro.`} Não há limite de tempo. As cartas incorretas permanecem abertas para leitura.`
       : isMatching
       ? `Itens: ${mission.pairs.map(pair => pair.left).join('; ')}. Respostas: ${mission.targets.join('; ')}. Use Tab e Enter para selecionar um item, ligar à resposta e confirmar. Uma resposta pode receber mais de um item.`
       : mission.choices.map((choice, i) =>
@@ -327,8 +327,10 @@ const MissionSystem = (() => {
     expBox.textContent = `${answeredCorrectly ? mission.success : mission.hint}\n${mission.explanation}`;
     expBox.style.display = "block";
     const feedback = document.getElementById("feedback-msg");
+    const earnedPoints = answeredCorrectly ? getPointsPerQuestion() : 0;
+    GameState.recordAnswer(mission, answeredCorrectly, earnedPoints);
     if (answeredCorrectly) {
-      const pts = getPointsPerQuestion();
+      const pts = earnedPoints;
       GameState.score = Math.min(100, GameState.score + pts);
       GameState.roomScore += pts;
       feedback.textContent = `✓ CORRETO! +${pts} pts`;
@@ -373,16 +375,18 @@ const MissionSystem = (() => {
     const requiredScore = getRequiredScoreToAdvance();
 
     if (GameState.score >= requiredScore) {
+      GameState.finishRoomAttempt('cleared');
       setText("room-clear-score", GameState.score);
       setText("room-clear-required", requiredScore);
       UI.showScreen("screen-room-clear");
       return;
     }
 
+    GameState.finishRoomAttempt('failed');
     const nextRestart = getRoomRestarts() + 1;
 
-    if (nextRestart >= CONFIG.score.gameOverRestartCount) {
-      _gameOver("A pontuacao minima nao pode mais ser alcancada nesta fase.");
+    if (GameState.totalRoomRestarts() >= CONFIG.score.maxRoomRestarts) {
+      _gameOver("A pontuação mínima não foi atingida e o único reinício da partida já foi utilizado.");
       return;
     }
 
@@ -404,11 +408,12 @@ const MissionSystem = (() => {
   }
 
   function restartCurrentRoom() {
+    if (UI.getActiveScreen() !== 'screen-room-retry' || GameState.isGameOver) return;
     const room = GameState.currentRoom;
     const nextRestart = getRoomRestarts(room) + 1;
 
-    if (nextRestart >= CONFIG.score.gameOverRestartCount) {
-      _gameOver("A pontuacao minima nao pode mais ser alcancada nesta fase.");
+    if (GameState.totalRoomRestarts() >= CONFIG.score.maxRoomRestarts) {
+      _gameOver("O único reinício da partida já foi utilizado.");
       return;
     }
 
@@ -420,6 +425,7 @@ const MissionSystem = (() => {
     GameState.portal = { visible: false, triggered: false, pulse: 0 };
     GameState.roomRestarts[room] = nextRestart;
     GameState.prepareRoomMissions();
+    GameState.startRoomAttempt();
 
     Renderer.loadRoomBackground();
     CollisionSystem.loadZones();
@@ -459,7 +465,7 @@ const MissionSystem = (() => {
   }
 
   function goToNextRoom() {
-    console.log("▶ Chamou goToNextRoom()"); // Para testar no console F12
+    if (GameState.isGameOver || TransitionSystem.isActive()) return;
 
     // 1. Fecha qualquer tela/modal ativa
     if (typeof UI !== "undefined" && UI.showScreen) {
@@ -505,6 +511,7 @@ const MissionSystem = (() => {
       if (typeof BugSystem !== "undefined" && BugSystem.spawnBugs) {
         BugSystem.spawnBugs(); //[cite: 12]
       }
+      GameState.startRoomAttempt();
       if (typeof Player !== "undefined" && Player.resetToRoomStart) {
         Player.resetToRoomStart(); //[cite: 12]
       }
@@ -525,22 +532,20 @@ const MissionSystem = (() => {
   }
 
   function _finishGame() {
-    document.getElementById("final-score").textContent = GameState.score;
-
-    document.getElementById("final-diff").textContent =
-      CONFIG.difficulties[GameState.difficulty].label;
-
+    if (GameState.isGameOver) return;
+    GameState.stopClock();
+    GameState.isGameOver = true;
     sendFinalScore({
       score: GameState.score,
       difficulty: getPlatformDifficulty() || GameState.difficulty
     });
 
-    if (window.GameAudio) GameAudio.playVictory();
-
-    UI.showScreen("screen-win");
+    ResultsScreen.open(true);
   }
 
   function _gameOver(reason) {
+    if (GameState.isGameOver) return;
+    GameState.stopClock();
     GameState.isGameOver = true;
     GameState.activeIdx = -1;
 
@@ -549,12 +554,7 @@ const MissionSystem = (() => {
       difficulty: getPlatformDifficulty() || GameState.difficulty
     });
 
-    setText("gameover-reason", reason || "A pontuacao minima nao foi atingida.");
-    setText("gameover-score", GameState.score);
-
-    if (window.GameAudio) GameAudio.playGameOver();
-
-    UI.showScreen("screen-gameover");
+    ResultsScreen.open(false, reason || "A pontuação mínima não foi atingida.");
   }
 
   return {

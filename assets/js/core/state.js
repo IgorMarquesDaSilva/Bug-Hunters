@@ -30,6 +30,65 @@ const GameState = {
   portal: { visible: false, triggered: false, pulse: 0 },
 
   collisionZones: [],
+  run: null,
+
+  startRun() {
+    this.run = { startedAt: performance.now(), finishedAt: null, rooms: {} };
+    this.startRoomAttempt();
+  },
+
+  elapsedTime() {
+    if (!this.run) return 0;
+    return Math.max(0, (this.run.finishedAt ?? performance.now()) - this.run.startedAt);
+  },
+
+  stopClock() {
+    if (this.run && this.run.finishedAt === null) this.run.finishedAt = performance.now();
+  },
+
+  totalRoomRestarts() {
+    return Object.values(this.roomRestarts).reduce((sum, count) => sum + count, 0);
+  },
+
+  startRoomAttempt() {
+    if (!this.run) return;
+    const room = this.run.rooms[this.currentRoom] ||= { attempts: [] };
+    room.total = this.currentMissions().length;
+    room.attempts.push({ answers: [], score: 0, outcome: 'playing' });
+  },
+
+  recordAnswer(mission, correct, points) {
+    if (!this.run) return;
+    if (!this.run.rooms[this.currentRoom]) this.startRoomAttempt();
+    const attempt = this.run.rooms[this.currentRoom].attempts.at(-1);
+    if (attempt.answers.some(answer => answer.id === mission.id)) return;
+    attempt.answers.push({ id: mission.id, type: mission.type, correct, points });
+    attempt.score += points;
+  },
+
+  finishRoomAttempt(outcome) {
+    const attempt = this.run?.rooms[this.currentRoom]?.attempts.at(-1);
+    if (attempt) attempt.outcome = outcome;
+  },
+
+  getRunSummary() {
+    const rooms = Object.entries(this.run?.rooms || {}).sort(([a], [b]) => a.localeCompare(b))
+      .map(([id, room]) => {
+        const attempt = room.attempts.at(-1);
+        return {
+          id, total: room.total, answered: attempt.answers.length,
+          correct: attempt.answers.filter(answer => answer.correct).length,
+          score: attempt.score, outcome: attempt.outcome,
+          restarts: this.roomRestarts[id],
+          discarded: room.attempts.slice(0, -1).map(previous => ({
+            correct: previous.answers.filter(answer => answer.correct).length,
+            score: previous.score
+          }))
+        };
+      });
+    return { rooms, score: this.score, difficulty: this.difficulty,
+      elapsed: this.elapsedTime(), restarts: this.totalRoomRestarts() };
+  },
 
   resetProgress() {
     this.score          = 0;
@@ -50,6 +109,7 @@ const GameState = {
     this.missionSessions = {};
     this.portal         = { visible: false, triggered: false, pulse: 0 };
     this.collisionZones = [];
+    this.run            = null;
   },
 
   resetFull() {

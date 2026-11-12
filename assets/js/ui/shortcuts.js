@@ -6,7 +6,8 @@ window.ShortcutHelp = (() => {
       entries: [
         ['Tab', 'Ir ao próximo controle. Use Tab e Enter para navegar e escolher, uma tecla de cada vez.'],
         ['Enter', 'Acionar o botão focado ou escolher uma resposta. Nas associações, selecionar o item, ligar à resposta e confirmar.'],
-        ['Tab e Enter', 'No jogo da memória, virar duas cartas. Se não forem um par, acionar Virar as cartas para continuar.'],
+        ['Tab e Enter', 'No jogo da memória, virar duas cartas. Antes do limite de erros, acionar Virar as cartas para continuar. Fácil: a missão termina no 4º erro; médio: no 2º; difícil: no 1º.'],
+        ['Enter no título do resumo', 'Revelar todos os resultados imediatamente. Depois, usar Tab para consultar cada estatística e chegar aos botões.'],
         ['Espaço', 'Também aciona um botão focado.'],
         ['Shift + Tab', 'Voltar ao controle anterior. Este atalho é opcional.'],
         ['Setas / Home / End', 'Nas dificuldades e respostas, percorrer opções ou ir à primeira e à última.'],

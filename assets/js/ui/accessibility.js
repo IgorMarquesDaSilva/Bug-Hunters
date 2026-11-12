@@ -160,6 +160,8 @@
       "screen-mission": "Missão aberta. Escolha uma alternativa, ligue os pares ou encontre os pares no jogo da memória. Use Tab para navegar e Enter para escolher. Tutorial, glossário, atalhos e configurações continuam disponíveis; ao voltar, a atividade permanece como estava.",
       "screen-room-clear": "Setor limpo. Libere a porta e vá até ela para avançar.",
       "screen-next-level": "Acesso liberado. Pressione avançar para entrar no próximo setor.",
+      "screen-win": "Missão concluída. O resumo revela os acertos por fase, o tempo total, o reinício e, por último, a pontuação total. Enter no título revela tudo. Use Tab para consultar os resultados e os botões Menu e Jogar novamente.",
+      "screen-gameover": "Fim de partida. O resumo mostra os acertos, o tempo, o reinício utilizado e a pontuação. Enter no título revela tudo. Use Tab para consultar os resultados e os botões.",
       "screen-glossary": "Glossário aberto. Use Tab para navegar entre os temas e conteúdos.",
       "screen-shortcuts": "Atalhos do jogo. Use as setas para rolar a lista, Tab para chegar ao botão Voltar e Enter ou Escape para fechar."
     };

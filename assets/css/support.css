@@ -1,6 +1,9 @@
 /* A barra continua disponível durante as atividades e janelas de apoio. */
 @media (max-width: 900px), (hover: none) and (pointer: coarse) {
-  body.in-game-session.overlay-open { --support-bar-height: 56px; }
+  body.in-game-session.overlay-open {
+    --support-clock-height: max(22px, calc(22px * var(--game-font-scale, 1)));
+    --support-bar-height: calc(60px + var(--support-clock-height));
+  }
 
   body.in-game-session.overlay-open .hud-panel {
     visibility: visible;
@@ -16,6 +19,7 @@
     min-height: 0;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: var(--support-clock-height) minmax(44px, 1fr);
     gap: 6px;
     padding: 3px;
     z-index: 1200;
@@ -23,9 +27,34 @@
   }
 
   body.in-game-session.overlay-open .hud-panel .panel-header,
-  body.in-game-session.overlay-open .hud-panel .panel-content,
   body.in-game-session.overlay-open .hud-panel .panel-footer {
     display: none;
+  }
+
+  body.in-game-session.overlay-open .hud-panel .panel-content { display: contents; }
+  body.in-game-session.overlay-open .hud-panel .stat { display: none; }
+  body.in-game-session.overlay-open .hud-panel .run-clock {
+    display: flex;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    min-height: 0;
+  }
+
+  body.in-game-session.overlay-open .run-clock :is(.stat-label, .stat-value) {
+    font-size: calc(13px * var(--game-font-scale, 0.75));
+    line-height: 1.4;
+  }
+
+  body.mobile-landscape-layout .hud-panel .panel-content,
+  body.mobile-force-landscape .hud-panel .panel-content {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
   body.in-game-session.overlay-open .hud-panel .hud-tutorial-btn {
@@ -69,5 +98,14 @@
 
   body.in-game-session.overlay-open .glossary-panel {
     height: calc(100dvh - var(--support-bar-height) - 24px - env(safe-area-inset-top));
+  }
+
+  body.mobile-force-landscape.in-game-session.overlay-open .popup-content,
+  body.mobile-force-landscape.in-game-session.overlay-open .main-menu-panel {
+    max-height: calc(var(--manual-landscape-height) - var(--support-bar-height) - 24px);
+  }
+
+  body.mobile-force-landscape.in-game-session.overlay-open .glossary-panel {
+    height: calc(var(--manual-landscape-height) - var(--support-bar-height) - 24px);
   }
 }

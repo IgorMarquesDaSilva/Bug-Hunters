@@ -2,6 +2,7 @@
 const MEMORY_DATA = {
   facil: {
     count: 3,
+    errorLimit: 4,
     pairs: [
       ['Reutilizar uma função', 'Chamar a mesma ação novamente'],
       ['pontos = 20', 'Guardar uma pontuação'],
@@ -12,6 +13,7 @@ const MEMORY_DATA = {
   },
   medio: {
     count: 4,
+    errorLimit: 2,
     pairs: [
       ['Reutilizar uma função', 'Chamar a mesma ação novamente'],
       ['vidas = 3', 'Guardar a quantidade de vidas'],
@@ -22,6 +24,7 @@ const MEMORY_DATA = {
   },
   dificil: {
     count: 5,
+    errorLimit: 0,
     pairs: [
       ['Reutilizar uma função', 'Executar a mesma ação em vários momentos'],
       ['portaAberta = false', 'Guardar um estado booleano'],

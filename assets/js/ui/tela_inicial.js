@@ -354,7 +354,9 @@
     applyMobileOrientation(selectedMode, false);
   }
   function setupSettingsControls() {
-    const savedVolume = String(Math.round((Number(localStorage.getItem(STORAGE_KEYS.musicVolume)) || 0.8) * 100));
+    const storedVolume = localStorage.getItem(STORAGE_KEYS.musicVolume);
+    const numericVolume = storedVolume === null ? 0.8 : Number(storedVolume);
+    const savedVolume = String(Math.round((Number.isFinite(numericVolume) ? numericVolume : 0.8) * 100));
     const savedFontSize = localStorage.getItem(STORAGE_KEYS.fontSize) ?? "normal";
     const savedMobileControlSide =
       localStorage.getItem(STORAGE_KEYS.mobileControlSide) ?? "right";

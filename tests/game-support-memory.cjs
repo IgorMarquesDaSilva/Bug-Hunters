@@ -115,6 +115,17 @@ const assert = require('node:assert/strict');
       await checkHelpersPreserveMission();
       assert.equal(await evaluate("document.querySelectorAll('.memory-card.revealed').length"),1,'Carta aberta permanece após os apoios');
       await reveal(wrong);
+      if (difficulty === 'dificil') {
+        assert.equal(await evaluate('document.activeElement.id'),'btn-next');
+        assert.equal(await evaluate('GameState.score'),0,'Primeiro erro encerra a memória difícil');
+        await checkHelpersPreserveMission();
+        await missionFixture('memory',difficulty);
+        const freshMemory = await evaluate('GameState.currentMissions()[GameState.bugs[GameState.activeIdx].missionIdx]');
+        for (const pair of freshMemory.pairs) for (const card of freshMemory.cards.filter(card=>card.pairId===pair.id)) await reveal(card);
+        assert.equal(await evaluate('GameState.score'),5);
+        console.log('OK: memória difícil, primeiro erro e partida perfeita preservam acesso aos apoios');
+        continue;
+      }
       assert.equal(await evaluate('document.activeElement.id'),'btn-memory-cover');
       await wait(400);
       assert.equal(await evaluate("document.querySelectorAll('.memory-card.revealed').length"),2,'Leitura das cartas não depende de tempo');

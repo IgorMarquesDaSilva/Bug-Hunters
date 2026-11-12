@@ -98,7 +98,7 @@ const TutorialSystem = (() => {
       caption: "Cada resposta gera feedback para ajudar no aprendizado.",
       text: "Ao responder corretamente, você ganha pontos. Se errar, o jogo mostra a resposta correta e uma explicação para você aprender com o erro.",
       extra: [
-        { type: "warning", text: "Cada pergunta vale 5 pontos. Se a fase for reiniciada, os pontos daquela fase são removidos e cada pergunta passa a valer menos." }
+        { type: "warning", text: "Cada pergunta vale 5 pontos. Existe um único reinício de fase em toda a partida: os pontos dessa tentativa são removidos e cada acerto na fase reiniciada vale 4 pontos. O tempo continua contando, sem limite para terminar." }
       ]
     },
     {

@@ -3,7 +3,26 @@
 ============================================================ */
 
 window.HUD = (() => {
+  let lastClock = '';
+
+  function formatTime(milliseconds) {
+    const seconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const pad = value => String(value).padStart(2, '0');
+    return minutes >= 60
+      ? `${pad(Math.floor(minutes / 60))}:${pad(minutes % 60)}:${pad(seconds % 60)}`
+      : `${pad(minutes)}:${pad(seconds % 60)}`;
+  }
+
+  function updateClock() {
+    const time = formatTime(GameState.elapsedTime());
+    if (time === lastClock) return;
+    lastClock = time;
+    setText('hud-time', time);
+  }
+
   function update() {
+    updateClock();
     const total = GameState.currentMissions().length || CONFIG.minBugsToPass;
     const diff = GameState.difficulty;
     const cfg = diff ? CONFIG.difficulties[diff] : null;
@@ -50,6 +69,6 @@ window.HUD = (() => {
   }
 
   return {
-    update
+    update, updateClock, formatTime
   };
 })();

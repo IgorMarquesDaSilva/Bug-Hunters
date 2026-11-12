@@ -39,7 +39,7 @@ const assert = require('node:assert/strict');
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
   async function firstRoomFixture() {
     if (process.env.BH_TEST_FROM_FIRST_ROOM !== '1') return;
-    await evaluate("GameState.currentRoom='sala1'; Renderer.loadRoomBackground(); BugSystem.spawnBugs(); CollisionSystem.loadZones(); Player.resetToRoomStart(); HUD.update()");
+    await evaluate("GameState.currentRoom='sala1'; Renderer.loadRoomBackground(); BugSystem.spawnBugs(); CollisionSystem.loadZones(); Player.resetToRoomStart(); GameState.startRun(); HUD.update()");
   }
   async function tabUntil(expression) {
     for (let i = 0; i < 45; i++) {
@@ -182,7 +182,7 @@ const assert = require('node:assert/strict');
         assert.equal(await evaluate('GameState.portal.visible'), true);
         await evaluate("GameState.portal.triggered = true; UI.showScreen('screen-next-level')");
         await key('Enter');
-        if (room < 3) {
+        {
           for (let frame = 0; frame < 80 && await evaluate('TransitionSystem.isActive()'); frame++) await wait(100);
           assert.equal(await evaluate('TransitionSystem.isActive()'), false, 'Transição concluída antes da próxima fase');
         }
@@ -190,6 +190,9 @@ const assert = require('node:assert/strict');
       assert.equal(await evaluate("document.getElementById('screen-win').style.display"), 'flex');
       assert.equal(await evaluate('GameState.score'), 100);
       await key('Enter');
+      await tabUntil("document.activeElement.id === 'final-menu'");
+      await key('Enter');
+      for (let frame = 0; frame < 80 && await evaluate('TransitionSystem.isActive()'); frame++) await wait(100);
       assert.equal(await focus(), 'btn-main-play');
       console.log(`OK: dificuldade ${difficulty + 1}, quatro fases e 20 missões por teclado`);
     }
@@ -197,7 +200,7 @@ const assert = require('node:assert/strict');
     await key('Enter');
     await key('Enter');
     await firstRoomFixture();
-    for (let attempt = 0; attempt < 4; attempt++) {
+    for (let attempt = 0; attempt < 2; attempt++) {
       for (let mission = 0; mission < 5; mission++) {
         await evaluate(`GameState.activeIdx = ${mission}; Player.state.x = GameState.bugs[${mission}].x - Player.state.hitboxOffsetX; Player.state.y = GameState.bugs[${mission}].y - Player.state.hitboxOffsetY; UI.showScreen('screen-bug-popup')`);
         await key('Enter');
@@ -205,12 +208,18 @@ const assert = require('node:assert/strict');
         await key('Enter');
         await wait(140);
       }
+      for (let frame = 0; frame < 80 && await evaluate('TransitionSystem.isActive()'); frame++) await wait(100);
       assert.equal(await evaluate("Array.from(document.querySelectorAll('.overlay')).find(e => e.style.display !== 'none').id"),
-        attempt < 3 ? 'screen-room-retry' : 'screen-gameover');
+        attempt === 0 ? 'screen-room-retry' : 'screen-gameover');
       await key('Enter');
+      if (attempt === 1) {
+        await tabUntil("document.activeElement.id === 'gameover-menu'");
+        await key('Enter');
+        for (let frame = 0; frame < 80 && await evaluate('TransitionSystem.isActive()'); frame++) await wait(100);
+      }
     }
     assert.equal(await focus(), 'btn-main-play');
-    console.log('OK: respostas erradas, três reinícios e retorno do Game Over');
+    console.log('OK: respostas erradas, reinício único e retorno do Game Over');
     console.log('OK: foco, Tab reverso, Espaço, Escape, volume, tutorial, glossário e movimento');
   } finally {
     socket.close();

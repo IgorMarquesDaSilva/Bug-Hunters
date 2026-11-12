@@ -64,14 +64,14 @@ window.UI = (() => {
 
       if (screen) {
         screen.style.display = "flex";
-        GameState.isPaused = !opensProximityPrompt;
+        GameState.isPaused = !opensProximityPrompt || TransitionSystem.isActive();
         window.KeyboardNavigation?.screenChanged(screenId, { preferredFocus });
       }
 
       return;
     }
 
-    GameState.isPaused = false;
+    GameState.isPaused = TransitionSystem.isActive();
     window.KeyboardNavigation?.screenChanged(null, { preferredFocus });
   }
 

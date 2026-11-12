@@ -50,7 +50,7 @@ window.KeyboardNavigation = (() => {
         ? preferredFocus : screenId === 'screen-mission'
           ? screen.querySelector('#mission-desc') : null;
       (preferred || focusable(screen)[0] || screen).focus();
-    } else if (!screen && previous) {
+    } else if (!screen && (previous || preferredFocus)) {
       const target = preferredFocus || returnTarget;
       returnTarget = null;
       if (target?.isConnected && !target.closest('.overlay, [inert]') && target.matches(selector) && target.getClientRects().length) {

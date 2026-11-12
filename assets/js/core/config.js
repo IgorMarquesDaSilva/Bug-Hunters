@@ -18,7 +18,7 @@ const CONFIG = {
     basePointsPerQuestion: 5,
     minPointsPerQuestion: 1,
     minimumPhaseFloor: 6,
-    gameOverRestartCount: 4,
+    maxRoomRestarts: 1,
     minCorrectByRoom: {
       sala1: 2,
       sala2: 2,

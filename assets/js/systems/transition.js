@@ -26,7 +26,23 @@
       callback:  null,      // função chamada no meio da transição
       scanY:     0,         // posição da linha de scan animada
       glitchOff: [],        // offsets aleatórios para o glitch
+      fullscreen: false,
+      onComplete: null,
+      label: null,
     };
+    const fullCanvas = document.getElementById('screenTransitionCanvas');
+    const fullCtx = fullCanvas.getContext('2d');
+    const gameRoot = document.querySelector('main.game-container');
+    let previousInert = false;
+
+    // Evita que Enter mantido pressionado ou um segundo clique atravesse a troca de telas.
+    ['keydown', 'keyup', 'click', 'pointerdown'].forEach(type => {
+      document.addEventListener(type, event => {
+        if (!state.active || !state.fullscreen) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }, true);
+    });
   
     // Duração de cada fase em frames (60fps)
     const DURATION = {
@@ -42,12 +58,15 @@
      * Inicia a transição.
      * @param {Function} onMidpoint — chamado quando a tela está preta (troca a sala aqui)
      */
-    function play(onMidpoint) {
+    function play(onMidpoint, { fullscreen = false, label = null, onComplete = null } = {}) {
       if (state.active) return;
       state.active    = true;
       state.phase     = "fade_out";
       state.progress  = 0;
       state.callback  = onMidpoint;
+      state.fullscreen = fullscreen;
+      state.label = label;
+      state.onComplete = onComplete;
       state.scanY     = 0;
       state.glitchOff = Array.from({ length: 8 }, () => ({
         y:     Math.random() * 600,
@@ -56,6 +75,13 @@
         alpha: 0.3 + Math.random() * 0.5
       }));
       GameState.isPaused = true;
+      window.Player?.clearDirectionInput?.();
+      window.MobileControls?.releaseAll?.();
+      if (fullscreen) {
+        previousInert = gameRoot.inert;
+        gameRoot.inert = true;
+        fullCanvas.hidden = false;
+      }
     }
   
     function isActive() { return state.active; }
@@ -89,9 +115,20 @@
         case "fade_in":
           state.phase  = "idle";
           state.active = false;
+          if (state.fullscreen) {
+            fullCtx.clearRect(0, 0, fullCanvas.width, fullCanvas.height);
+            fullCanvas.hidden = true;
+            gameRoot.inert = previousInert;
+            window.KeyboardNavigation?.screenChanged(UI.getActiveScreen(), {
+              preferredFocus: UI.getActiveScreen() ? null : document.getElementById('gameCanvas')
+            });
+          }
           // Uma janela pode ter sido aberta durante a animação. Nesse caso,
           // o fim da transição preserva a pausa e o foco da atividade.
           GameState.isPaused = document.body.classList.contains("overlay-open");
+          const onComplete = state.onComplete;
+          state.onComplete = null;
+          onComplete?.();
           break;
       }
     }
@@ -99,6 +136,16 @@
     // ── Draw — sobrepõe no canvas ─────────────────────────────
     function draw(ctx, canvas) {
       if (!state.active) return;
+
+      if (state.fullscreen) {
+        if (fullCanvas.width !== window.innerWidth || fullCanvas.height !== window.innerHeight) {
+          fullCanvas.width = window.innerWidth;
+          fullCanvas.height = window.innerHeight;
+        }
+        ctx = fullCtx;
+        canvas = fullCanvas;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
   
       const W = canvas.width, H = canvas.height;
       const p = state.progress;
@@ -186,7 +233,7 @@
             ctx.fillStyle = `rgba(0,229,255,${Math.min(1, (p-0.3)*3)})`;
             const fontScale = parseFloat(getComputedStyle(document.body).getPropertyValue("--game-font-scale")) || 1;
             const fontFamily = getComputedStyle(document.body).getPropertyValue("--game-font-family").trim();
-            ctx.font      = `bold ${8 * fontScale}px ${fontFamily}`;
+            ctx.font      = `bold ${(state.fullscreen ? 14 : 8) * fontScale}px ${fontFamily}`;
             ctx.textAlign = "center";
             const sectorMap = {
               sala1: 1,
@@ -196,8 +243,8 @@
             };
             const sectorNumber = sectorMap[GameState.currentRoom] || 1;
 
-            ctx.fillText("CARREGANDO SETOR " + sectorNumber + "...",
-              W/2, H/2 + 40);
+            ctx.fillText(state.label || "CARREGANDO SETOR " + sectorNumber + "...",
+              W/2, H/2 + 40, W - 32);
           }
           break;
         }

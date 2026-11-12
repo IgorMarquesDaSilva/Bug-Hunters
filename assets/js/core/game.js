@@ -37,17 +37,20 @@
 
      if (!CONFIG.difficulties[selectedDifficulty]) return;
 
+     ResultsScreen.cancel();
      GameState.resetFull();
      GameState.difficulty  = selectedDifficulty;
-     GameState.currentRoom = "sala4";
+     GameState.currentRoom = "sala1";
      
    
      Renderer.loadRoomBackground();
      BugSystem.spawnBugs();
      CollisionSystem.loadZones();
      Player.resetToRoomStart();
+     GameState.startRun();
      HUD.update();
      UI.showScreen(null);
+     window.GameAudio?.playRoom(GameState.currentRoom);
      
    
      // Abre tutorial se for a primeira vez
@@ -55,21 +58,31 @@
    }
    
    function backToMenu() {
-     GameState.resetFull();
-     HUD.update();
-     UI.showScreen("screen-main-menu");
+     if (TransitionSystem.isActive()) return;
+     ResultsScreen.cancel();
+     TransitionSystem.play(() => {
+       GameState.resetFull();
+       HUD.update();
+       UI.showScreen("screen-main-menu");
+       window.GameAudio?.playMenuAmbient();
+     }, { fullscreen: true, label: 'VOLTANDO AO MENU...' });
    }
    
    function restartGame() {
+     if (TransitionSystem.isActive()) return;
      const prev = GameState.difficulty;
-     if (prev) selectDifficulty(prev);
-     else      backToMenu();
+     if (!prev) { backToMenu(); return; }
+     ResultsScreen.cancel();
+     TransitionSystem.play(() => selectDifficulty(prev), {
+       fullscreen: true, label: 'INICIANDO NOVA PARTIDA...'
+     });
    }
    
    // ── Update ────────────────────────────────────────────────────
    function update() {
-     if (GameState.isGameOver) return;
+     HUD.updateClock();
      TransitionSystem.update();           // atualiza animação de transição
+     if (GameState.isGameOver) return;
      if (!TutorialSystem.isActive()) {    // bloqueia movimento durante tutorial
        Player.update();
      }

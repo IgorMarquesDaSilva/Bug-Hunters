@@ -81,9 +81,25 @@ de uma pergunta; somente a confirmação avalia os pares e encerra o desafio.
 
 A memória revisa dados, funções e reutilização com três, quatro ou cinco
 pares, conforme a dificuldade. As cartas são embaralhadas a cada tentativa
-da fase. Não há cronômetro nem limite de tentativas. Cartas que não combinam
-ficam abertas até o jogador escolher continuar, permitindo a leitura com
-leitor de tela. Encontrar todos os pares vale uma única resposta correta.
+da fase. Não há limite de tempo. A missão é considerada errada no quarto
+erro no Fácil, no segundo no Médio e no primeiro no Difícil. Antes desse
+limite, cartas que não combinam ficam abertas até o jogador escolher
+continuar, permitindo a leitura com leitor de tela. Encontrar todos os
+pares vale uma única resposta correta; atingir o limite encerra a missão
+sem pontos.
+
+O cronômetro da partida aparece no HUD, incluindo durante perguntas e
+consultas. Ele mede o tempo desde a escolha da dificuldade até o
+encerramento, inclui o reinício de fase e só zera ao iniciar outra partida
+ou voltar ao menu. Não existe penalidade nem limite de tempo.
+
+Ao terminar, uma transição de TV antiga abre o resumo com som de vitória
+(ou de fim de partida). Os acertos por fase, o tempo e o reinício aparecem
+um por vez; a pontuação total vem por último e libera os botões. As fases
+reiniciadas mostram os acertos da última tentativa e os pontos descartados
+da anterior. Enter no título revela tudo sem esperar. Tab permite consultar
+cada resultado e alcançar os botões. Menu e Jogar novamente usam o mesmo
+efeito de TV antiga, com proteção contra acionamentos repetidos.
 
 ## Salas
 
@@ -119,9 +135,12 @@ jogador escolhe a dificuldade na tela inicial.
   fracionados.
 - As Salas 1 e 2 exigem dois acertos mínimos.
 - As Salas 3 e 4 exigem três acertos mínimos.
-- A cada reinício, o valor da pergunta diminui em um ponto.
+- Há um único reinício de fase por partida, utilizável em qualquer sala.
+- Os pontos da tentativa perdida são removidos; na fase reiniciada,
+  cada acerto passa de 5 para 4 pontos.
 - A pontuação mínima da sala nunca fica abaixo de 6 pontos.
-- O quarto reinício encerra a partida.
+- Se a pontuação mínima não for atingida após usar esse reinício, a
+  partida termina, inclusive quando a nova falha ocorre em outra sala.
 
 Pontos excedentes das salas anteriores podem compensar erros nas salas
 seguintes, conforme a proposta do jogo.
@@ -224,6 +243,7 @@ Validação do banco, cobertura dos objetivos, rotação e gabaritos:
 
 ```powershell
 node tests/question-bank.cjs
+node tests/run-summary.cjs
 ```
 
 Com o jogo em `http://127.0.0.1:8000` e Chrome de testes com depuração na
@@ -234,6 +254,7 @@ dificuldades, erros, reinícios, associações com Tab/Enter e acessibilidade:
 node tests/keyboard-navigation.cjs
 node tests/matching-challenge.cjs
 node tests/game-support-memory.cjs
+node tests/results-memory.cjs
 node tests/room-transitions.cjs
 node tests/font-scaling.cjs
 ```

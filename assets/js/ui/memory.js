@@ -10,13 +10,16 @@ const MemoryChallenge = (() => {
     const matched = new Set();
     let revealed = [];
     let attempts = 0;
+    let mistakes = 0;
+    const errorLimit = mission.errorLimit ?? MEMORY_DATA[GameState.difficulty].errorLimit;
+    const failureAt = Math.max(1, errorLimit);
     let finished = false;
     let waiting = false;
 
     const instructions = document.createElement('p');
     instructions.className = 'memory-instructions';
     instructions.id = 'memory-instructions';
-    instructions.textContent = 'Use Tab e Enter para virar duas cartas. Procure um código e seu significado. Se não formarem par, acione Virar as cartas para continuar. As cartas não se escondem sozinhas.';
+    instructions.textContent = `Use Tab e Enter para virar duas cartas. Procure um código e seu significado. ${errorLimit === 0 ? 'No difícil, o primeiro erro encerra a missão.' : `A missão é considerada errada no ${errorLimit}º erro.`} Antes desse limite, acione Virar as cartas para continuar. As cartas não se escondem sozinhas.`;
     const board = document.createElement('div');
     board.className = 'memory-board';
     board.setAttribute('role', 'group');
@@ -34,7 +37,7 @@ const MemoryChallenge = (() => {
     next.setAttribute('aria-describedby', 'memory-status');
 
     function announce(message) {
-      status.textContent = `${matched.size / 2} de ${mission.pairs.length} pares. ${attempts} tentativas. ${message}`;
+      status.textContent = `${matched.size / 2} de ${mission.pairs.length} pares. ${attempts} tentativas. ${mistakes} ${mistakes === 1 ? 'erro' : 'erros'}. ${message}`;
       window.AccessibilitySystem?.speak?.(status.textContent);
     }
 
@@ -88,8 +91,15 @@ const MemoryChallenge = (() => {
             buttons.get(remaining.id).focus();
           }
         } else {
-          waiting = true;
+          mistakes++;
           buttons.forEach(item => { item.disabled = true; });
+          if (mistakes >= failureAt) {
+            finished = true;
+            announce(`${first.text} e ${second.text} não formam par. Limite de erros atingido. Missão encerrada sem pontos.`);
+            onAnswer(false);
+            return;
+          }
+          waiting = true;
           next.hidden = false;
           announce(`${first.text} e ${second.text} não formam par. Leia as duas cartas e acione Virar as cartas quando quiser continuar.`);
           next.focus();
