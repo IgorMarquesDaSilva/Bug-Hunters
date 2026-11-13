@@ -18,6 +18,20 @@ programação relacionadas à BNCC de Computação, com foco em:
 
 ## Mecânica principal
 
+No primeiro acesso, o tutorial é seguido por uma apresentação da própria
+Bug Hunter, explicando a missão de restaurar os quatro setores até a
+Central de Controle. O personagem e seu balão de fala aparecem no canto
+inferior esquerdo, sobre o cenário escurecido. A fala surge letra por
+letra, com som discreto de tecla que respeita os volumes dos efeitos.
+O texto completo fica disponível aos leitores de tela desde o início.
+Enter no texto revela tudo imediatamente. A preferência de movimento
+reduzido desativa a flutuação e o cursor piscante. O jogo só retoma ao acionar Vamos
+nessa, acessível por Tab e Enter. Os apoios continuam disponíveis e
+pausam a digitação durante a consulta. A apresentação é marcada em `bh_story_seen` no
+armazenamento local e não reaparece em novas partidas nem ao reabrir o
+tutorial. Quem já havia concluído o tutorial antes da atualização segue
+diretamente para o jogo.
+
 Cada partida possui quatro salas com cinco missões cada. Ao aproximar o
 personagem de um objeto destacado, o jogador abre uma questão de múltipla
 escolha, uma atividade de ligar pares ou um jogo da memória. Cada resposta recebe feedback e
@@ -252,6 +266,7 @@ dificuldades, erros, reinícios, associações com Tab/Enter e acessibilidade:
 
 ```powershell
 node tests/keyboard-navigation.cjs
+node tests/story-intro.cjs
 node tests/matching-challenge.cjs
 node tests/game-support-memory.cjs
 node tests/results-memory.cjs

@@ -125,6 +125,7 @@ const TutorialSystem = (() => {
 
   let currentSlide = 0;
   let isOpen = false;
+  let introduceAfterClose = false;
 
   function open(fromMenu = false) {
     if (window.UI?.getActiveScreen() === "screen-tutorial") return;
@@ -132,14 +133,18 @@ const TutorialSystem = (() => {
 
     currentSlide = 0;
     isOpen = true;
+    if (!fromMenu) introduceAfterClose = !StoryIntro.hasBeenSeen();
 
-    if (window.UI?.openSupport) UI.openSupport("screen-tutorial");
+    // O tutorial inicial é a atividade de origem: consultar um apoio volta a ele.
+    if (!fromMenu && window.UI?.showScreen) UI.showScreen("screen-tutorial");
+    else if (window.UI?.openSupport) UI.openSupport("screen-tutorial");
     else if (typeof GameState !== "undefined") GameState.isPaused = true;
 
     render();
   }
 
   function close() {
+    if (!isActive()) return;
     isOpen = false;
     localStorage.setItem("bh_tutorial_done", "1");
 
@@ -150,6 +155,9 @@ const TutorialSystem = (() => {
       if (typeof GameState !== "undefined") GameState.isPaused = false;
     }
 
+    const showIntroduction = introduceAfterClose;
+    introduceAfterClose = false;
+    if (showIntroduction && StoryIntro.open()) return;
     announce("Tutorial fechado. Atividade retomada.", false);
   }
 

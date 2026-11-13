@@ -122,6 +122,11 @@ const assert = require('node:assert/strict');
         await key(' ');
         assert.equal(await evaluate("document.getElementById('tut-step-counter').textContent"), '01/11', 'Espaço aciona Anterior');
         await key('Escape');
+        assert.equal(await evaluate('UI.getActiveScreen()'), 'screen-intro', 'Primeiro tutorial apresenta a história antes da exploração');
+        assert.equal(await focus(), 'intro-message');
+        await key('Tab');
+        assert.equal(await focus(), 'btn-intro-start');
+        await key('Enter');
       }
       assert.equal(await focus(), 'gameCanvas');
       if (difficulty === 0) {

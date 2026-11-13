@@ -156,6 +156,7 @@
       "screen-settings": "Você está nas configurações de som. Use Tab para navegar pelos controles de volume e pelos botões que ativam ou removem o som de fundo e os sons dos botões.",
       "screen-difficulty": "Escolha a dificuldade. Use Tab para navegar e Enter para selecionar fácil, médio ou difícil.",
       "screen-tutorial": "Tutorial aberto. Use Próximo para avançar, Anterior para voltar, ou o botão Ler Etapa para ouvir a explicação atual.",
+      "screen-intro": "A Bug Hunter está apresentando sua missão. O texto aparece aos poucos. Enter no texto revela a mensagem completa. Use Tab para chegar a Vamos nessa e Enter para iniciar a exploração. O jogo permanece pausado até essa escolha.",
       "screen-bug-popup": "Bug detectado. Pressione Enter para iniciar a missão ou afaste-se para continuar no mapa.",
       "screen-mission": "Missão aberta. Escolha uma alternativa, ligue os pares ou encontre os pares no jogo da memória. Use Tab para navegar e Enter para escolher. Tutorial, glossário, atalhos e configurações continuam disponíveis; ao voltar, a atividade permanece como estava.",
       "screen-room-clear": "Setor limpo. Libere a porta e vá até ela para avançar.",

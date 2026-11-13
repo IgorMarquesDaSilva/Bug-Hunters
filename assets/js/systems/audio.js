@@ -590,6 +590,14 @@ window.GameAudio = (() => {
       duration: total ? 0.35 : 0.07, type: 'triangle', volume: total ? 0.16 : 0.07 });
   }
 
+  function playDialogueKey() {
+    if (!state.buttonsEnabled || !state.master || !state.buttons) return;
+    const ctx = ensureContext();
+    if (!ctx || ctx.state !== 'running') return;
+    playTone({ frequency: 760 + Math.random() * 160, endFrequency: 360,
+      duration: 0.025, type: 'square', volume: 0.025 });
+  }
+
   function playGameOver() {
     state.currentName = "gameover";
 
@@ -1385,6 +1393,7 @@ window.GameAudio = (() => {
     playRoom,
     playVictory,
     playResultReveal,
+    playDialogueKey,
     playGameOver,
     playClick,
     playConfirm,

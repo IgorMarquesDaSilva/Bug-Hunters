@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="assets/css/memory.css?v=2">
   <link rel="stylesheet" href="assets/css/support.css?v=3">
   <link rel="stylesheet" href="assets/css/results.css?v=1">
+  <link rel="stylesheet" href="assets/css/intro.css?v=3">
 </head>
 
 <body>
@@ -1012,6 +1013,32 @@
         </div>
 
         <!-- =========================================================
+             APRESENTAÇÃO DA HISTÓRIA — PRIMEIRO ACESSO
+        ========================================================== -->
+
+        <div id="screen-intro" class="overlay" style="display:none;"
+          role="dialog" aria-labelledby="intro-title">
+          <div class="intro-panel">
+              <div class="intro-portrait">
+                <div class="intro-avatar" role="img"
+                  aria-label="A Bug Hunter do jogo, de capuz escuro e visor azul, pronta para a missão."></div>
+              </div>
+              <div class="intro-dialogue">
+                <p id="intro-title" class="intro-speaker">BUG HUNTER</p>
+                <p id="intro-message" class="intro-message" tabindex="0" aria-live="off"><span
+                  id="intro-complete-text" class="intro-complete-text" aria-hidden="true">Oi! Você agora faz parte dos Bug Hunters! Bugs bagunçaram os quatro setores deste mundo digital, e preciso da sua ajuda.
+
+Explore os laboratórios comigo, encontre as falhas e use a lógica de programação para corrigi-las. Juntos, vamos chegar à Central de Controle e fazer o sistema funcionar de novo. Vamos nessa?</span><span
+                  id="intro-typed-text" class="intro-typed-text" aria-hidden="true"></span></p>
+                <div class="intro-actions">
+                  <button id="btn-intro-start" class="intro-action intro-continue" type="button"
+                    onclick="StoryIntro.close()">VAMOS NESSA! ▶</button>
+                </div>
+              </div>
+          </div>
+        </div>
+
+        <!-- =========================================================
              DIFICULDADE
         ========================================================== -->
 
@@ -1236,7 +1263,7 @@
              SETOR LIMPO
         ========================================================== -->
 
-        Entendido perfeitamente! A mensagem que Estava a ver era o aviso de "SETOR LIMPO" (#screen-room-clear), que surge logo que resolve a última missão da sala.   Ela devia ser apenas uma notificação discreta no canto da tela (sem exibir os blocos de pontuação) para liberar a porta e permitir que o jogador continue a andar até ela.   Abaixo estão as modificações necessárias no index.html, no main.css e no evento de teclado para atender a todas as solicitações:   1. No index.htmlSubstitua a div do #screen-room-clear por esta estrutura enxuta (com a classe de toast de canto, sem os parágrafos de score e com o badge do Enter igual ao modal de bug):   HTML<!-- =========================================================
+        <!-- =========================================================
      SETOR LIMPO (NOTIFICAÇÃO DISCRETA NO CANTO COM ATALHO)
 ========================================================== -->
 
@@ -1636,23 +1663,24 @@
   <script src="assets/js/systems/renderer.js?v=16"></script>
   <script src="assets/js/systems/transition.js?v=19"></script>
   
-  <script src="assets/js/ui/ui.js?v=9"></script>
+  <script src="assets/js/ui/ui.js?v=10"></script>
   <script src="assets/js/ui/mobile-controls.js?v=2"></script>
   <script src="assets/js/ui/hud.js?v=1"></script>
   <script src="assets/js/ui/matching.js?v=2"></script>
   <script src="assets/js/ui/memory.js?v=3"></script>
   <script src="assets/js/ui/mission.js?v=10"></script>
   <script src="assets/js/ui/results.js?v=1"></script>
-  <script src="assets/js/ui/tutorial.js?v=8"></script>
+  <script src="assets/js/ui/intro.js?v=2"></script>
+  <script src="assets/js/ui/tutorial.js?v=9"></script>
   <script src="assets/js/ui/glossary.js?v=7"></script>
   <script src="assets/js/ui/shortcuts.js?v=4"></script>
   <script src="assets/js/ui/responsive.js?v=10"></script>
-  <script src="assets/js/systems/audio.js?v=1"></script>
+  <script src="assets/js/systems/audio.js?v=2"></script>
   
-  <script src="assets/js/ui/keyboard.js?v=7"></script>
+  <script src="assets/js/ui/keyboard.js?v=9"></script>
   <script src="assets/js/core/game.js?v=7"></script>
   <script src="assets/js/ui/tela_inicial.js?v=18"></script>
-  <script src="assets/js/ui/accessibility.js?v=23"></script>
+  <script src="assets/js/ui/accessibility.js?v=25"></script>
 </body>
 
 </html>

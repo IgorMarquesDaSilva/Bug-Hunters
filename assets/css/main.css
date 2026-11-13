@@ -2239,7 +2239,7 @@
 .bug-toast-actions .menu-key-badge {
   position: absolute !important;
   top: auto !important;
-  bottom: calc(100% + 6px) !important;
+  bottom: 35px !important;
   right: -9px !important;
   
   /* Ajuste justo do container ao texto */

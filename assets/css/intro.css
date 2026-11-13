@@ -1,0 +1,190 @@
+/* A camada escurece o cenário inteiro, incluindo reator e telas decorativas. */
+body[data-active-screen="screen-intro"] #game-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  z-index: 260;
+  pointer-events: none;
+}
+
+body[data-active-screen="screen-intro"] .hud-panel { filter: brightness(0.58); }
+
+/* Personagem e balão ficam acima do escurecimento, no canto da tela. */
+body #screen-intro {
+  --intro-available-height: calc(var(--game-stage-height, 600px) - 32px);
+  position: absolute;
+  inset: auto;
+  left: 16px;
+  bottom: 16px;
+  width: min(660px, calc(100% - 32px));
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  backdrop-filter: none;
+  overflow: visible;
+  pointer-events: none;
+  animation: none;
+  scrollbar-gutter: auto;
+  z-index: 350;
+}
+
+.intro-panel {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  align-items: end;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.intro-portrait {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
+
+/* Primeiro quadro idle, com o mesmo recorte 200 × 332 usado pelo Player. */
+.intro-avatar {
+  --intro-sprite-scale: 0.7;
+  width: calc(200px * var(--intro-sprite-scale));
+  height: calc(332px * var(--intro-sprite-scale));
+  background-image: url('../img/player3.png');
+  background-repeat: no-repeat;
+  background-size: calc(800px * var(--intro-sprite-scale)) calc(1700px * var(--intro-sprite-scale));
+  background-position: 0 calc(-1328px * var(--intro-sprite-scale));
+  image-rendering: pixelated;
+  filter: drop-shadow(0 6px 10px #00d9ee30);
+  animation: intro-float 3s ease-in-out infinite;
+}
+
+.intro-dialogue {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  max-height: min(420px, var(--intro-available-height));
+  padding: 14px 16px 8px;
+  background: #10273b;
+  border: 3px solid #7ecbdc;
+  box-shadow: 5px 5px 0 #030c14;
+  pointer-events: auto;
+}
+
+.intro-dialogue::before {
+  content: '';
+  position: absolute;
+  bottom: 110px;
+  left: -12px;
+  width: 19px;
+  height: 19px;
+  border-left: 3px solid #7ecbdc;
+  border-bottom: 3px solid #7ecbdc;
+  background: #10273b;
+  transform: rotate(45deg);
+}
+
+.intro-speaker {
+  color: #78efd5;
+  font-size: calc(12px * var(--game-font-scale, 0.75));
+  line-height: 1.7;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+  flex: 0 0 auto;
+}
+
+.intro-message {
+  position: relative;
+  color: #f0f7ff;
+  font-size: calc(15px * var(--game-font-scale, 0.75));
+  line-height: 1.8;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  min-height: 0;
+  max-height: 280px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+
+/* O texto completo reserva o espaço para que o balão não salte ao digitar. */
+.intro-complete-text { visibility: hidden; display: block; }
+.intro-typed-text { position: absolute; top: 0; left: 0; width: 100%; }
+.intro-message.is-typing .intro-typed-text::after {
+  content: '▌';
+  color: #ffcf7d;
+  font-size: 0.8em;
+  animation: intro-caret 700ms steps(2, end) infinite;
+}
+
+@keyframes intro-caret { 50% { opacity: 0; } }
+
+.intro-message:focus-visible { outline: 2px solid #ffcf7d; outline-offset: 3px; }
+.intro-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 12px;
+  margin-top: 8px;
+  flex: 0 0 auto;
+}
+
+.intro-action {
+  min-width: 0;
+  min-height: 36px;
+  padding: 6px 2px;
+  background: transparent;
+  border: 0;
+  color: #cce7f2;
+  font-family: var(--game-font-family);
+  font-size: calc(14px * var(--game-font-scale, 0.75));
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.intro-continue { color: #ffcf7d; }
+.intro-action:hover { text-decoration: underline; }
+.intro-action:focus-visible { outline: 2px solid #ffcf7d; outline-offset: 2px; }
+
+@keyframes intro-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+  body #screen-intro {
+    --intro-available-height: calc(100dvh - var(--support-bar-height, 82px) - 30px);
+    position: fixed;
+    left: max(8px, env(safe-area-inset-left));
+    bottom: max(8px, env(safe-area-inset-bottom));
+    width: min(660px, calc(100% - 16px));
+    z-index: 1400;
+  }
+  body.mobile-force-landscape #screen-intro {
+    --intro-available-height: calc(var(--manual-landscape-height) - var(--support-bar-height, 82px) - 30px);
+  }
+  .intro-action { min-height: 44px; }
+}
+
+@media (max-width: 600px) {
+  .intro-panel { grid-template-columns: 88px minmax(0, 1fr); gap: 8px; }
+  .intro-avatar { --intro-sprite-scale: 0.44; }
+  .intro-dialogue { padding: 12px 10px 6px; }
+  .intro-dialogue::before { bottom: 65px; }
+}
+
+body.high-contrast-on #screen-intro { background: transparent !important; }
+body.high-contrast-on .intro-dialogue,
+body.high-contrast-on .intro-dialogue::before { background: #000; border-color: #fff; }
+body.high-contrast-on :is(.intro-message, .intro-speaker, .intro-action) { color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-avatar { animation: none; }
+  .intro-message.is-typing .intro-typed-text::after { animation: none; }
+}

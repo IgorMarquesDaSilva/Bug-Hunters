@@ -53,6 +53,7 @@ window.UI = (() => {
       "gameplay-active",
       !screenId || opensProximityPrompt
     );
+    window.StoryIntro?.screenChanged(screenId);
 
     if (screenId && !opensProximityPrompt) {
       window.Player?.clearDirectionInput?.();
