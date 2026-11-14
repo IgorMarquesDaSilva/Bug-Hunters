@@ -62,7 +62,7 @@ const path = require('node:path');
     await fresh();
     await key('Enter');
     const slide=await evaluate("document.getElementById('tut-step-counter').textContent");
-    await tabTo('.hud-action-glossary');await key('Enter');await key('Escape');
+    await tabTo('.hud-action-shortcuts');await key('Enter');await key('Escape');
     assert.equal(await evaluate('UI.getActiveScreen()'),'screen-tutorial','Consultar apoio no primeiro tutorial retorna ao tutorial');
     assert.equal(await evaluate("document.getElementById('tut-step-counter').textContent"),slide);
     await tabTo('#tut-btn-next');
@@ -87,7 +87,7 @@ const path = require('node:path');
       const image=await send('Page.captureScreenshot',{format:'png'});
       fs.writeFileSync(path.join(process.env.BH_INTRO_SCREENSHOT_DIR,'story-intro-typing-1440.png'),Buffer.from(image.data,'base64'));
     }
-    await tabTo('.hud-action-glossary');await key('Enter');
+    await tabTo('.hud-action-shortcuts');await key('Enter');
     const pausedText=await evaluate("document.getElementById('intro-typed-text').textContent");
     const pausedSounds=await evaluate('introSounds');
     await wait(250);

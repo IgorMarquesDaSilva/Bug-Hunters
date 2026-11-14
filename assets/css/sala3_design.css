@@ -58,15 +58,13 @@
    /* Porta */
    .sala3 .door {
      display: block;
-     top: 58px;
-     right: 195px;
+     top: 34px;
+     right: 190px;
      width: 115px;
-     height: 135px;
+     height: 130px;
      background: #8f9ba8;
      border-color: #293544;
-     box-shadow:
-       inset -18px 0 0 rgba(0,0,0,0.16),
-       5px 5px 0 rgba(0,0,0,0.28);
+     
    }
    
    .sala3 .door::before {
@@ -428,9 +426,9 @@
      display: block;
      position: absolute;
      right: 58px;
-     top: 65px;
+     top: 40px;
      width: 115px;
-     height: 115px;
+     height: 70px;
      background: transparent;
      border-right: 8px solid #5d6770;
      border-bottom: 8px solid #5d6770;
@@ -456,8 +454,8 @@
    .sala3 .fire-extinguisher {
      display: block;
      position: absolute;
-     right: 166px;
-     top: 180px;
+     right: 146px;
+     top: 100px;
      width: 28px;
      height: 58px;
      background: #d63f3f;
@@ -574,12 +572,25 @@
 /* Paredes continuam parecidas com o visual original */
 #room-map.sala3 .map-wall {
   background:
-    linear-gradient(180deg, #33465f, #1d2a40);
-  border-color: #101a2b;
+    linear-gradient(180deg, #573376, #2b1642);
+  border-color: #231033;
   box-shadow:
-    inset 0 0 0 5px #526f8c,
-    inset 0 0 18px rgba(130, 180, 215, 0.22),
-    0 0 18px rgba(79,195,247,0.18);
+    inset 0 0 0 5px #79549a,
+    inset 0 0 18px rgba(168, 60, 255, 0.22);
+}
+
+#room-map.sala3 .map-top-wall {
+  position: absolute;
+  left: 34px;
+  top: 34px;
+  width: 932px;
+  height: 132px;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 114px, rgba(183, 139, 224, 0.12) 114px 118px),
+    linear-gradient(180deg, #573376, #2b1642);
+  border-bottom: 5px solid #79549a;
 }
 
 /* ========================= QUARENTENA COM VIDRO ========================= */
@@ -777,7 +788,7 @@
 /* ========================= BRILHO DAS TASKS ========================= */
 
 #room-map.sala3 .sala3-mission.mission-available {
-  outline: 3px solid #155e38;
+  outline: 3px solid #ff4141;
   outline-offset: 5px;
   animation: sala3-task-glow 1.05s infinite alternate;
 }
@@ -790,14 +801,14 @@
 
 @keyframes sala3-task-glow {
   from {
-    outline-color: #12472b;
-    filter: drop-shadow(0 0 4px rgba(21,94,56,0.6));
+    outline-color: #ef3030;
+    filter: drop-shadow(0 0 4px rgba(255,48,48,0.7));
   }
   to {
-    outline-color: #2e7549;
+    outline-color: #ff7777;
     filter:
-      drop-shadow(0 0 12px rgba(21,94,56,0.95))
-      drop-shadow(0 0 22px rgba(46,117,73,0.7));
+      drop-shadow(0 0 12px rgba(255,48,48,0.95))
+      drop-shadow(0 0 22px rgba(255,90,90,0.7));
   }
 }
 

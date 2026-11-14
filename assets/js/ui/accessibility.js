@@ -121,7 +121,7 @@
       "screen-tutorial": "Tutorial aberto. Use Próximo para avançar, Anterior para voltar, ou R para consultar a explicação atual com o leitor nativo.",
       "screen-intro": "A Bug Hunter está apresentando sua missão. O texto aparece aos poucos. Enter no texto revela a mensagem completa. Use Tab para chegar a Vamos nessa e Enter para iniciar a exploração. O jogo permanece pausado até essa escolha.",
       "screen-bug-popup": "Bug detectado. Pressione Enter para iniciar a missão ou afaste-se para continuar no mapa.",
-      "screen-mission": "Missão aberta. Escolha uma alternativa, ligue os pares ou encontre os pares no jogo da memória. Tab percorre somente a pergunta e Enter escolhe. O botão Consultar glossário permite revisar um termo e voltar à mesma atividade.",
+      "screen-mission": "Missão aberta. Escolha uma alternativa, ligue os pares ou encontre os pares no jogo da memória. Tab percorre somente a pergunta e Enter escolhe. Consultar glossário abre os termos e permite voltar à mesma atividade.",
       "screen-room-clear": "Setor limpo. Libere a porta e vá até ela para avançar.",
       "screen-next-level": "Acesso liberado. Pressione avançar para entrar no próximo setor.",
       "screen-win": "Missão concluída. O resumo revela os acertos por fase, o tempo total, o reinício e, por último, a pontuação total. Enter no título revela tudo. Use Tab para consultar os resultados e os botões Menu e Jogar novamente.",

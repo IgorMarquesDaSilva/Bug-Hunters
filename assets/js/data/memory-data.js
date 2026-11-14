@@ -1,37 +1,17 @@
-/* Pares de código e significado: revisão dos conteúdos da Central de Controle. */
+/* O mesmo tabuleiro de 16 peças em todos os níveis; muda apenas o limite de erros. */
+const MEMORY_PAIRS = [
+  ['Reutilizar uma função', 'Chamar a mesma ação novamente'],
+  ['pontos = 20', 'Guardar uma pontuação'],
+  ['função abrirPorta', 'Criar a ação abrirPorta'],
+  ['chamar abrirPorta', 'Executar a ação abrirPorta'],
+  ['nome = "Lia"', 'Guardar um nome'],
+  ['portaAberta = false', 'Guardar se a porta está aberta'],
+  ['energia = 50', 'Guardar a quantidade de energia'],
+  ['retorne energia', 'Devolver o valor da energia']
+];
+
 const MEMORY_DATA = {
-  facil: {
-    count: 3,
-    errorLimit: 4,
-    pairs: [
-      ['Reutilizar uma função', 'Chamar a mesma ação novamente'],
-      ['pontos = 20', 'Guardar uma pontuação'],
-      ['função abrirPorta', 'Criar a ação abrirPorta'],
-      ['chamar abrirPorta', 'Executar a ação abrirPorta'],
-      ['nome = "Lia"', 'Guardar um nome']
-    ]
-  },
-  medio: {
-    count: 4,
-    errorLimit: 2,
-    pairs: [
-      ['Reutilizar uma função', 'Chamar a mesma ação novamente'],
-      ['vidas = 3', 'Guardar a quantidade de vidas'],
-      ['função verificarEnergia', 'Criar a ação verificarEnergia'],
-      ['chamar verificarEnergia', 'Executar a ação verificarEnergia'],
-      ['nome = "Bug"', 'Guardar o nome do jogador']
-    ]
-  },
-  dificil: {
-    count: 5,
-    errorLimit: 0,
-    pairs: [
-      ['Reutilizar uma função', 'Executar a mesma ação em vários momentos'],
-      ['portaAberta = false', 'Guardar um estado booleano'],
-      ['pontos = 30', 'Guardar um número'],
-      ['nome = "energia"', 'Guardar um texto'],
-      ['função mostrarMensagem', 'Criar a ação mostrarMensagem'],
-      ['chamar mostrarMensagem', 'Executar a ação mostrarMensagem']
-    ]
-  }
+  facil: { count: 8, errorLimit: 6, pairs: MEMORY_PAIRS },
+  medio: { count: 8, errorLimit: 5, pairs: MEMORY_PAIRS },
+  dificil: { count: 8, errorLimit: 4, pairs: MEMORY_PAIRS }
 };

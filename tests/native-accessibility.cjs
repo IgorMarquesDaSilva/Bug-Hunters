@@ -57,7 +57,8 @@ const assert = require('node:assert/strict');
     await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Tab', windowsVirtualKeyCode: 9, modifiers: 8 });
     await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Tab', windowsVirtualKeyCode: 9, modifiers: 8 });
     assert.equal(await evaluate("!!document.activeElement.closest('#screen-mission')"), true, 'Tab reverso também permanece na pergunta');
-    const before = await evaluate("JSON.stringify({index:GameState.activeIdx,score:GameState.score,choices:document.getElementById('choices-container').innerHTML,memory:document.getElementById('memory-container').innerHTML,matching:document.getElementById('matching-container').innerHTML})");
+    assert.equal(await evaluate("document.querySelector('.hud-action-glossary')"), null, 'Glossário não aparece na barra lateral');
+    const before = await evaluate("JSON.stringify({index:GameState.activeIdx,score:GameState.score,memory:document.getElementById('memory-container').innerHTML,matching:document.getElementById('matching-container').innerHTML})");
     await tabTo('#btn-mission-glossary');
     await press('Enter');
     assert.equal(await evaluate('UI.getActiveScreen()'), 'screen-glossary');
@@ -65,7 +66,7 @@ const assert = require('node:assert/strict');
     await press('Enter');
     assert.equal(await evaluate('UI.getActiveScreen()'), 'screen-mission');
     assert.equal(await evaluate('document.activeElement.id'), 'btn-mission-glossary');
-    assert.equal(await evaluate("JSON.stringify({index:GameState.activeIdx,score:GameState.score,choices:document.getElementById('choices-container').innerHTML,memory:document.getElementById('memory-container').innerHTML,matching:document.getElementById('matching-container').innerHTML})"), before, 'Glossário interno preserva a atividade');
+    assert.equal(await evaluate("JSON.stringify({index:GameState.activeIdx,score:GameState.score,memory:document.getElementById('memory-container').innerHTML,matching:document.getElementById('matching-container').innerHTML})"), before);
   }
   async function accessible(selector) {
     const { root } = await send('DOM.getDocument');
@@ -147,7 +148,7 @@ const assert = require('node:assert/strict');
     assert.equal(await evaluate("document.activeElement.matches('.stat')"), true);
     await press('Escape');
     assert.equal(await evaluate('document.activeElement.id'), 'game-movement-input', 'Escape sai da consulta do painel e retoma o mapa');
-    for (const [open, screen] of [['openSettingsFromGame()', 'screen-settings'], ['Glossary.open()', 'screen-glossary'], ['ShortcutHelp.open()', 'screen-shortcuts'], ['TutorialSystem.open(true)', 'screen-tutorial']]) {
+    for (const [open, screen] of [['openSettingsFromGame()', 'screen-settings'], ['ShortcutHelp.open()', 'screen-shortcuts'], ['TutorialSystem.open(true)', 'screen-tutorial']]) {
       await evaluate(open);
       assert.equal(await evaluate('UI.getActiveScreen()'), screen);
       await press('Escape');
@@ -156,6 +157,8 @@ const assert = require('node:assert/strict');
       await press('d', 100);
       assert.ok(await evaluate('Player.state.x') > before, 'Movimento retorna sem clique');
     }
+    await evaluate('Glossary.open()');
+    assert.equal(await evaluate('UI.getActiveScreen()'), null, 'Glossário não abre fora das perguntas');
     assert.match((await accessible('.stat:has(#hud-score)')).name.value, /Pontuação: \d+ pontos/);
     assert.match((await accessible('.stat:has(#hud-time)')).name.value, /minutos.*segundos/);
     console.log('OK: WASD, quatro setas, retorno dos quatro apoios e estatísticas acessíveis');

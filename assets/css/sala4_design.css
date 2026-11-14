@@ -46,6 +46,16 @@
 }
 
 /* detalhe da porta inferior */
+#room-map.sala4 .map-top-wall {
+  position: absolute;
+  left: 44px;
+  top: 38px;
+  width: 912px;
+  height: 188px;
+  z-index: 1;
+  pointer-events: none;
+}
+
 #room-map.sala4::after {
   content: "";
   position: absolute;

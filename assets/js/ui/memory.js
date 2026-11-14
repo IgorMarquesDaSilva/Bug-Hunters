@@ -20,7 +20,7 @@ const MemoryChallenge = (() => {
     const instructions = document.createElement('p');
     instructions.className = 'memory-instructions';
     instructions.id = 'memory-instructions';
-    instructions.textContent = `Use Tab e Enter para virar duas cartas. Procure um código e seu significado. ${errorLimit === 0 ? 'No difícil, o primeiro erro encerra a missão.' : `A missão é considerada errada no ${errorLimit}º erro.`} Antes desse limite, acione Virar as cartas para continuar. As cartas não se escondem sozinhas.`;
+    instructions.textContent = `Use Tab e Enter para virar duas cartas. Procure um código e seu significado. Você tem ${errorLimit} chances: a missão termina no ${errorLimit}º erro. Antes desse limite, acione Virar as cartas para continuar. As cartas não se escondem sozinhas.`;
     const board = document.createElement('div');
     board.className = 'memory-board';
     board.setAttribute('role', 'group');
@@ -38,7 +38,7 @@ const MemoryChallenge = (() => {
     next.setAttribute('aria-describedby', 'memory-status');
 
     function announce(message) {
-      status.textContent = `${matched.size / 2} de ${mission.pairs.length} pares. ${attempts} tentativas. ${mistakes} ${mistakes === 1 ? 'erro' : 'erros'}. ${message}`;
+      status.textContent = `${matched.size / 2} de ${mission.pairs.length} pares. ${attempts} tentativas. ${mistakes} ${mistakes === 1 ? 'erro' : 'erros'}. ${Math.max(0, failureAt - mistakes)} chances restantes. ${message}`;
     }
 
     function hide(card) {

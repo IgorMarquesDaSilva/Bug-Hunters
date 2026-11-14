@@ -76,7 +76,7 @@ const QuestionBank = (() => {
         objective: replaced.objective,
         type: 'memory',
         title: 'Central de Controle — Jogo da memória',
-        desc: `Encontre ${data.count} pares de código e significado. Vire duas cartas por vez. ${data.errorLimit === 0 ? 'Nenhum erro permitido: o primeiro par incorreto encerra a missão.' : `A missão termina no ${data.errorLimit}º par incorreto.`} Não há limite de tempo.`,
+        desc: `Encontre ${data.count} pares de código e significado. Vire duas cartas por vez. Você tem ${data.errorLimit} chances: a missão termina no ${data.errorLimit}º par incorreto. Não há limite de tempo.`,
         errorLimit: data.errorLimit,
         code: '',
         pairs,

@@ -7,7 +7,7 @@
 const TutorialSystem = (() => {
   const IMAGE_BASE = "assets/img/tutorial/";
   const TERM_HELP = {
-    HUD: "É o painel do jogo que mostra pontos, tempo, progresso e botões de apoio, como Glossário e Configurações.",
+    HUD: "É o painel do jogo que mostra pontos, tempo, progresso e botões de apoio, como Tutorial e Configurações.",
     feedback: "É o retorno que o jogo dá à sua resposta: mostra se você acertou e explica a solução.",
     bug: "É uma falha que faz um programa funcionar de um jeito diferente do esperado.",
     bugs: "São falhas que fazem um programa funcionar de um jeito diferente do esperado.",
@@ -71,7 +71,7 @@ const TutorialSystem = (() => {
       image: "player-frente.png",
       imageAlt: "Personagem visto de frente, representando os recursos de apoio do jogo.",
       caption: "Use os recursos extras sempre que precisar.",
-      text: "Você pode abrir o glossário pelo HUD para consultar os termos e revisar o conteúdo. Durante uma pergunta, use Consultar glossário dentro da atividade. O painel também permite reabrir este tutorial e consultar os atalhos.",
+      text: "Durante uma pergunta, use o botão Consultar glossário para revisar os termos e voltar à mesma atividade. O HUD permite reabrir este tutorial, consultar os atalhos e ajustar as configurações.",
       extra: [
         { type: "tip", text: "Uma lâmpada ao lado de uma palavra explica seu significado. Passe o mouse ou use Tab e Enter para consultar. O Narrador do Windows lê os textos e controles. Pressione R para repetir a etapa pelo leitor nativo." }
       ]

@@ -2552,7 +2552,8 @@
   padding: 13px 18px !important;
   font-size: calc((16px) * var(--game-font-scale, 1)) !important;
   border-color: var(--px-amber) !important;
-  color: var(--px-amber) !important;
+  background: var(--px-amber) !important;
+  color: #000 !important;
   box-shadow:
     4px 4px 0 #000,
     0 0 12px rgba(255, 179, 71, 0.15);
@@ -2560,7 +2561,7 @@
 
 #screen-next-level .level-cleared-btn:hover {
   background: var(--px-amber);
-  color: #05080c !important;
+  color: #000 !important;
   box-shadow:
     4px 4px 0 #000,
     0 0 20px rgba(255, 179, 71, 0.4);

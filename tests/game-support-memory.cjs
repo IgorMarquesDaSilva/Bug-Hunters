@@ -40,19 +40,14 @@ const assert = require('node:assert/strict');
     assert.fail(`Controle não alcançável: ${expression}`);
   }
   const helpers = [
-    ['.hud-action-glossary','screen-glossary','.glossary-close'],
+    ['#btn-mission-glossary','screen-glossary','.glossary-close'],
     ['.hud-action-tutorial','screen-tutorial','.tut-skip-btn'],
     ['.hud-action-shortcuts','screen-shortcuts','#btn-shortcuts-close'],
     ['.hud-action-settings','screen-settings','[onclick="closeSettingsMenu()"]']
   ];
   async function openHelper(helper) {
     if (await evaluate("UI.getActiveScreen()==='screen-mission'")) {
-      if (helper[1] === 'screen-glossary') {
-        await tabTo("document.activeElement.id==='btn-mission-glossary'");
-        await key('Enter');
-      } else {
-        await evaluate(`document.querySelector(${JSON.stringify(helper[0])}).click()`);
-      }
+      if (helper[1]==='screen-glossary') { await tabTo("document.activeElement.id==='btn-mission-glossary'");await key('Enter'); } else await evaluate(`document.querySelector(${JSON.stringify(helper[0])}).click()`);
       assert.equal(await evaluate('UI.getActiveScreen()'), helper[1]);
       return;
     }
@@ -117,7 +112,7 @@ const assert = require('node:assert/strict');
 
     for (const difficulty of ['facil','medio','dificil']) {
       const memory = await missionFixture('memory',difficulty);
-      assert.equal(memory.cards.length,{facil:6,medio:8,dificil:10}[difficulty]);
+      assert.equal(memory.cards.length,16);
       assert.ok(await evaluate("[...document.querySelectorAll('.memory-card')].every(button=>button.textContent.startsWith('?'))"),'Cartas começam fechadas');
       const first = memory.cards[0];
       const wrong = memory.cards.find(card=>card.pairId!==first.pairId);
@@ -125,17 +120,6 @@ const assert = require('node:assert/strict');
       await checkHelpersPreserveMission();
       assert.equal(await evaluate("document.querySelectorAll('.memory-card.revealed').length"),1,'Carta aberta permanece após os apoios');
       await reveal(wrong);
-      if (difficulty === 'dificil') {
-        assert.equal(await evaluate('document.activeElement.id'),'btn-next');
-        assert.equal(await evaluate('GameState.score'),0,'Primeiro erro encerra a memória difícil');
-        await checkHelpersPreserveMission();
-        await missionFixture('memory',difficulty);
-        const freshMemory = await evaluate('GameState.currentMissions()[GameState.bugs[GameState.activeIdx].missionIdx]');
-        for (const pair of freshMemory.pairs) for (const card of freshMemory.cards.filter(card=>card.pairId===pair.id)) await reveal(card);
-        assert.equal(await evaluate('GameState.score'),5);
-        console.log('OK: memória difícil, primeiro erro e partida perfeita preservam acesso aos apoios');
-        continue;
-      }
       assert.equal(await evaluate('document.activeElement.id'),'btn-memory-cover');
       await wait(400);
       assert.equal(await evaluate("document.querySelectorAll('.memory-card.revealed').length"),2,'Leitura das cartas não depende de tempo');
@@ -157,7 +141,8 @@ const assert = require('node:assert/strict');
     await evaluate("selectDifficulty('facil');GameState.currentRoom='sala1';Renderer.loadRoomBackground();BugSystem.spawnBugs();CollisionSystem.loadZones();Player.resetToRoomStart();HUD.update();UI.showScreen(null)");
     const directions = [['w','y',-1],['a','x',-1],['s','y',1],['d','x',1],['ArrowUp','y',-1],['ArrowLeft','x',-1],['ArrowDown','y',1],['ArrowRight','x',1]];
     for (let i=0;i<directions.length;i++) {
-      const helper = helpers[i%helpers.length];
+      const mapHelpers=helpers.filter(item=>item[1]!=='screen-glossary');
+      const helper = mapHelpers[i%mapHelpers.length];
       await evaluate('Player.state.x=500;Player.state.y=420;GameState.popupCooldown=9999');
       await openHelper(helper);await closeHelper(helper);
       assert.equal(await evaluate('document.activeElement.id'), 'game-movement-input', 'Retorno ao mapa recebe as teclas de movimento');
@@ -174,8 +159,8 @@ const assert = require('node:assert/strict');
       await missionFixture('memory'); await wait(100);
       const buttons = await evaluate("[...document.querySelectorAll('.hud-action-btn')].map(button=>{const r=button.getBoundingClientRect();return {visible:r.width>=30&&r.height>=30&&!button.closest('[inert]'),top:document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)?.closest('.hud-action-btn')===button};})");
       assert.ok(buttons.every(button=>button.visible&&button.top),'Barra acessível e sem sobreposição durante a pergunta');
-      assert.equal(await evaluate("document.querySelectorAll('.hud-action-btn').length"),4);
-      if (viewport.width<=900) for (const helper of helpers) {
+      assert.equal(await evaluate("document.querySelectorAll('.hud-action-btn').length"),3);
+      if (viewport.width<=900) for (const helper of helpers.filter(item=>item[1]!=='screen-glossary')) {
         await openHelper(helper); await wait(120);
         assert.ok(await evaluate(`document.querySelector('#${helper[1]} .popup-content').getBoundingClientRect().top >= document.querySelector('.hud-panel').getBoundingClientRect().bottom`),`${helper[1]} fica abaixo da barra de apoios`);
         await closeHelper(helper);

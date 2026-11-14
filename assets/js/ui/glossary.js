@@ -10,7 +10,7 @@ window.Glossary = (() => {
   ];
 
   function open() {
-    if (window.UI?.getActiveScreen() === "screen-glossary") return;
+    if (window.UI?.getActiveScreen() !== "screen-mission") return;
     const screen = document.getElementById("screen-glossary");
 
     if (!screen) {

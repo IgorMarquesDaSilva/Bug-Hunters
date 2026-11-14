@@ -96,7 +96,8 @@ const path = require('node:path');
       await fixture(difficulty,'sala4');
       const index=await evaluate("GameState.bugs.findIndex(bug=>GameState.currentMissions()[bug.missionIdx].type==='memory')");
       const mission=await start(index);
-      const limit={facil:4,medio:2,dificil:1}[difficulty];
+      const limit={facil:6,medio:5,dificil:4}[difficulty];
+      assert.equal(mission.cards.length,16,'Todos os níveis têm 16 peças');
       for(let error=1;error<=limit;error++) {
         await wrongPair(mission);
         assert.equal(await evaluate('GameState.solvedCount'),error===limit?1:0,'Missão só termina ao atingir o limite');

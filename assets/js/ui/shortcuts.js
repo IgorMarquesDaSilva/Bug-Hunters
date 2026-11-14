@@ -4,9 +4,9 @@ window.ShortcutHelp = (() => {
     {
       title: 'Navegação e respostas',
       entries: [
-        ['Tab', 'Ir ao próximo controle. Durante uma pergunta, o foco permanece na atividade. Use Consultar glossário para revisar os termos.'],
+        ['Tab', 'Ir ao próximo controle. Durante uma pergunta, o foco permanece na atividade, incluindo o botão Consultar glossário.'],
         ['Enter', 'Acionar o botão focado ou escolher uma resposta. Nas associações, selecionar o item, ligar à resposta e confirmar.'],
-        ['Tab e Enter', 'No jogo da memória, virar duas cartas. Antes do limite de erros, acionar Virar as cartas para continuar. Fácil: a missão termina no 4º erro; médio: no 2º; difícil: no 1º.'],
+        ['Tab e Enter', 'No jogo da memória, virar duas cartas. Antes do limite de erros, acionar Virar as cartas para continuar. São 16 peças nos três níveis. Limite de erros: fácil 6, médio 5 e difícil 4.'],
         ['Enter no título do resumo', 'Revelar todos os resultados imediatamente. Depois, usar Tab para consultar cada estatística e chegar aos botões.'],
         ['Espaço', 'Também aciona um botão focado.'],
         ['Shift + Tab', 'Voltar ao controle anterior. Este atalho é opcional.'],
@@ -21,7 +21,7 @@ window.ShortcutHelp = (() => {
         ['Enter', 'Abrir a missão quando aparecer o aviso de bug.'],
         ['R', 'Ouvir novamente a distância e a direção do bug mais próximo.'],
         ['Escape no painel', 'Devolver o foco à área de movimento depois de consultar as informações da barra lateral.'],
-        ['Tab', 'No mapa, acessar Tutorial, Glossário, Atalhos e Configurações. Nas perguntas, o foco fica dentro da atividade; o botão Consultar glossário permite revisar os termos e voltar.']
+        ['Tab', 'No mapa, acessar Tutorial, Atalhos e Configurações. O glossário fica somente nas perguntas, pelo botão Consultar glossário.']
       ]
     },
     {
