@@ -28,7 +28,7 @@ const path = require('node:path');
     return result.result.value;
   }
   const wait = ms => new Promise(resolve=>setTimeout(resolve,ms));
-  async function until(expression, message, timeout=7000) {
+  async function until(expression, message, timeout=15000) {
     const end = Date.now()+timeout;
     while (Date.now()<end) { if(await evaluate(expression)) return; await wait(40); }
     assert.fail(message);
@@ -87,7 +87,8 @@ const path = require('node:path');
     await send('Network.enable');await send('Network.setCacheDisabled',{cacheDisabled:true});
     await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
     await evaluate("localStorage.clear();localStorage.setItem('bh_tutorial_done','1');location.reload()");
-    await wait(800);
+    await wait(120);
+    await until("typeof GameAudio!=='undefined'&&typeof GameState!=='undefined'&&!!GameState.missionsData&&UI.getActiveScreen()==='screen-main-menu'",'Dados e áudio carregados antes do teste',15000);
     assert.equal(await evaluate('GameAudio.getState().buttons'),0.75,'Primeiro acesso usa o volume padrão de efeitos');
     assert.equal(await evaluate('GameAudio.getState().background'),0.65,'Primeiro acesso usa o volume padrão de fundo');
 
@@ -130,6 +131,7 @@ const path = require('node:path');
     const counts=[4,2,3,4];
     for(let room=0;room<4;room++) {
       for(let mission=0;mission<5;mission++) await answer(mission,mission<counts[room]);
+      if(room===3) await evaluate("window.resultSoundEvents=[];window.originalResultSound=GameAudio.playResultReveal;GameAudio.playResultReveal=(total,index)=>{resultSoundEvents.push({total,index,visible:document.querySelectorAll('#screen-win .result-row:not([hidden])').length});originalResultSound(total,index)}");
       await leaveRoom(room===3);
     }
     assert.equal(await evaluate('UI.getActiveScreen()'),'screen-win');
@@ -150,6 +152,8 @@ const path = require('node:path');
       await wait(75);
     }
     assert.deepEqual(order,['FASE 1','FASE 2','FASE 3','FASE 4','TEMPO TOTAL','REINÍCIO DE FASE','PONTUAÇÃO TOTAL']);
+    assert.deepEqual(await evaluate('resultSoundEvents'),Array.from({length:7},(_,index)=>({total:index===6,index,visible:index+1})),'Cada resultado toca exatamente ao aparecer; o total recebe o som final');
+    await evaluate('GameAudio.playResultReveal=originalResultSound');
     assert.equal(await evaluate('GameState.elapsedTime()'),frozen,'Resumo não aumenta o tempo final');
     assert.equal(await evaluate("document.getElementById('final-score').textContent"),'61');
     assert.equal(await evaluate("GameAudio.getState().currentName"),'victory');

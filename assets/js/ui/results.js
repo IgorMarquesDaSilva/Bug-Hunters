@@ -143,7 +143,7 @@ const ResultsScreen = (() => {
     row.hidden = false;
     row.classList.add('result-revealed');
     if (session.follow) row.scrollIntoView({ block: 'nearest', behavior: 'instant' });
-    window.GameAudio?.playResultReveal(session.index === session.rows.length);
+    window.GameAudio?.playResultReveal(session.index === session.rows.length, session.index - 1);
     timer = setTimeout(revealNext, session.index === session.rows.length ? 950 : 1100);
   }
 

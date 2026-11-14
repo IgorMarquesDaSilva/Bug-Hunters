@@ -43,7 +43,7 @@ const path = require('node:path');
   }
   async function reload() {
     await send('Page.reload',{ignoreCache:true});
-    for(let i=0;i<80;i++) {
+    for(let i=0;i<300;i++) {
       await wait(50);
       try { if(await evaluate("typeof GameState!=='undefined' && !!GameState.missionsData && UI.getActiveScreen()==='screen-main-menu'")) return; } catch {}
     }

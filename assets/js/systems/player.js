@@ -82,7 +82,7 @@ window.Player = (() => {
   });
 
   function getCurrentRoomName() {
-    return window.GameState?.currentRoom || "sala1";
+    return typeof GameState !== 'undefined' ? GameState.currentRoom : 'sala1';
   }
 
   function stopWalkingAnimation() {

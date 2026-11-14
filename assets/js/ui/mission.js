@@ -335,7 +335,7 @@ const MissionSystem = (() => {
       GameState.roomScore += pts;
       feedback.textContent = `✓ CORRETO! +${pts} pts`;
       feedback.className = "feedback ok";
-      if (window.GameAudio) GameAudio.playConfirm();
+      if (window.GameAudio) GameAudio.playCorrectAnswer();
     } else {
       feedback.textContent = "✗ AINDA NÃO! +0 pts. Confira a explicação.";
       feedback.className = "feedback err";

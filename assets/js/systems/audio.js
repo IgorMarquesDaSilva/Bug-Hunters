@@ -15,9 +15,13 @@ window.GameAudio = (() => {
     backgroundEnabled: true,
     buttonsEnabled: true
   };
+  const MUSIC_LEVEL = 2.8;
+  const BUG_ALERT_LEVEL = 0.9;
+  const BUG_ALERT_MUSIC_FACTOR = 0.45;
 
   const TRACKS = {
     menu: {
+      bpm: 92,
       base: 98,
       filter: 1250,
       noise: 0.035,
@@ -26,6 +30,7 @@ window.GameAudio = (() => {
     },
 
     sala1: {
+      bpm: 96,
       base: 82,
       filter: 900,
       noise: 0.038,
@@ -34,6 +39,7 @@ window.GameAudio = (() => {
     },
 
     sala2: {
+      bpm: 104,
       base: 110,
       filter: 1150,
       noise: 0.034,
@@ -42,6 +48,7 @@ window.GameAudio = (() => {
     },
 
     sala3: {
+      bpm: 90,
       base: 65,
       filter: 760,
       noise: 0.046,
@@ -50,6 +57,7 @@ window.GameAudio = (() => {
     },
 
     sala4: {
+      bpm: 108,
       base: 132,
       filter: 1350,
       noise: 0.032,
@@ -58,7 +66,9 @@ window.GameAudio = (() => {
     },
 
     victory: {
-      base: 164,
+      bpm: 116,
+      base: 130.8128,
+      chord: [1, 2 ** (4 / 12), 2 ** (7 / 12), 2],
       filter: 1450,
       noise: 0.018,
       pulse: 0.12,
@@ -66,6 +76,7 @@ window.GameAudio = (() => {
     },
 
     gameover: {
+      bpm: 68,
       base: 55,
       filter: 520,
       noise: 0.040,
@@ -79,6 +90,10 @@ window.GameAudio = (() => {
     masterGain: null,
     musicGain: null,
     sfxGain: null,
+    outputNode: null,
+    celebration: null,
+    feedback: null,
+    hitBuffer: null,
     currentTrack: null,
     currentName: "menu",
     unlocked: false,
@@ -90,7 +105,9 @@ window.GameAudio = (() => {
     // Áudio externo do alerta de bug
     alertAudio: null,
     alertAudioSource: null,
-    alertAudioTimer: null,
+    alertGainNode: null,
+    alertActive: false,
+    alertRequest: 0,
 
     master: readNumber(STORAGE.master, DEFAULTS.master),
     background: readNumber(STORAGE.background, DEFAULTS.background),
@@ -147,7 +164,16 @@ window.GameAudio = (() => {
 
     state.musicGain.connect(state.masterGain);
     state.sfxGain.connect(state.masterGain);
-    state.masterGain.connect(ctx.destination);
+    // Mantém espaço para os ataques dos passos e os acordes da fanfarra.
+    const output = ctx.createDynamicsCompressor();
+    output.threshold.value = -6;
+    output.knee.value = 4;
+    output.ratio.value = 12;
+    output.attack.value = 0.003;
+    output.release.value = 0.16;
+    state.masterGain.connect(output);
+    output.connect(ctx.destination);
+    state.outputNode = output;
 
     applyVolumes(true);
 
@@ -206,7 +232,8 @@ window.GameAudio = (() => {
     set(
       state.musicGain,
       state.backgroundEnabled
-        ? state.background
+        ? state.background * MUSIC_LEVEL *
+          (state.alertActive && state.buttonsEnabled && state.buttons > 0 && state.master > 0 ? BUG_ALERT_MUSIC_FACTOR : 1)
         : 0,
       0.08
     );
@@ -241,6 +268,42 @@ window.GameAudio = (() => {
     return buffer;
   }
 
+  function watchSource(source, nodes, group = null) {
+    group?.sources.add(source);
+    source.onended = () => {
+      source.disconnect();
+      nodes.forEach(node => node.disconnect());
+      if (!group) return;
+      group.sources.delete(source);
+      if ((group.celebration || group.feedback) && !group.sources.size) {
+        group.gain.disconnect();
+        if (state.celebration === group) state.celebration = null;
+        if (state.feedback === group) state.feedback = null;
+      }
+    };
+  }
+
+  function stopCelebration() {
+    const group = state.celebration;
+    state.celebration = null;
+    fadeOutSoundGroup(group);
+  }
+
+  function stopFeedback() {
+    const group = state.feedback;
+    state.feedback = null;
+    fadeOutSoundGroup(group);
+  }
+
+  function fadeOutSoundGroup(group) {
+    if (!group || !state.ctx) return;
+    const now = state.ctx.currentTime;
+    group.gain.gain.cancelScheduledValues(now);
+    group.gain.gain.setValueAtTime(group.gain.gain.value, now);
+    group.gain.gain.linearRampToValueAtTime(0, now + 0.04);
+    group.sources.forEach(source => { try { source.stop(now + 0.05); } catch {} });
+  }
+
   function stopTrack(fade = 0.18) {
     if (state.melodyTimer) {
       clearInterval(state.melodyTimer);
@@ -271,7 +334,7 @@ window.GameAudio = (() => {
     } catch (_) {}
 
     window.setTimeout(() => {
-      track.sources.forEach(source => {
+      [...track.continuousSources, ...track.sources].forEach(source => {
         try {
           source.stop();
         } catch (_) {}
@@ -290,6 +353,8 @@ window.GameAudio = (() => {
   }
 
   function startTrack(name = "menu") {
+    stopCelebration();
+    stopFeedback();
     state.currentName = name;
 
     const ctx = ensureContext();
@@ -333,7 +398,7 @@ window.GameAudio = (() => {
     filter.connect(trackGain);
 
     const sources = [];
-    const chord = [1, 1.25, 1.5, 2];
+    const chord = data.chord || [1, 1.25, 1.5, 2];
 
     chord.forEach((ratio, index) => {
       const osc = ctx.createOscillator();
@@ -358,7 +423,7 @@ window.GameAudio = (() => {
       );
 
       gain.gain.setValueAtTime(
-        0.050 / (index + 1),
+        0.065 / (index + 1),
         ctx.currentTime
       );
 
@@ -370,7 +435,7 @@ window.GameAudio = (() => {
       );
 
       lfoGain.gain.setValueAtTime(
-        0.012,
+        0.008,
         ctx.currentTime
       );
 
@@ -394,7 +459,7 @@ window.GameAudio = (() => {
     noise.loop = true;
 
     noiseGain.gain.setValueAtTime(
-      data.noise,
+      data.noise * 0.7,
       ctx.currentTime
     );
 
@@ -420,77 +485,76 @@ window.GameAudio = (() => {
 
     state.currentTrack = {
       gain: trackGain,
-      sources
+      continuousSources: sources,
+      sources: new Set()
     };
 
     applyVolumes();
 
-    startMelodyLoop(data);
+    startMelodyLoop(data, state.currentTrack);
   }
 
-  function startMelodyLoop(data) {
-    if (state.melodyTimer) {
-      clearInterval(state.melodyTimer);
-    }
-
+  function startMelodyLoop(data, track) {
+    clearInterval(state.melodyTimer);
     state.melodyIndex = 0;
-
-    const playOneNote = () => {
-      if (
-        !state.ctx ||
-        !state.backgroundEnabled ||
-        !state.currentTrack
-      ) {
-        return;
+    const subdivision = 60 / data.bpm / 2;
+    let nextTime = state.ctx.currentTime + 0.12;
+    let step = 0;
+    // Agenda um pouco à frente no relógio de áudio para manter o pulso estável.
+    const schedule = () => {
+      if (state.currentTrack !== track || !state.backgroundEnabled) return;
+      const now = state.ctx.currentTime;
+      if (state.ctx.state !== 'running') { nextTime = now + 0.12; return; }
+      if (nextTime < now) nextTime = now + 0.03;
+      while (nextTime < now + 0.15) {
+        const melodyIndex = Math.floor(step / 2) % data.melody.length;
+        const phrase = step % 16;
+        if (step % 2 === 0) {
+          playMusicNote(data.melody[melodyIndex], subdivision * 1.15,
+            phrase === 0 ? 0.074 : 0.062, { when: nextTime, track });
+          state.melodyIndex++;
+        } else if (phrase % 4 === 3) {
+          playMusicNote(data.melody[melodyIndex] / 2, subdivision * 0.55, 0.022,
+            { when: nextTime, track, type: 'triangle' });
+        }
+        if (phrase % 4 === 0) {
+          const bass = data.base * (phrase === 8 ? 1.5 : 1);
+          playMusicNote(bass, subdivision * 0.9, 0.075,
+            { when: nextTime, track, type: 'triangle', cutoff: 700 });
+        }
+        if (step % 2 === 1) {
+          playNoiseBurst({ when: nextTime, duration: 0.045, volume: 0.03,
+            cutoff: 3300, filterType: 'highpass', target: track.gain, group: track });
+        }
+        if (phrase === 4 || phrase === 12) {
+          playNoiseBurst({ when: nextTime, duration: 0.085, volume: 0.065,
+            cutoff: 1300, target: track.gain, group: track });
+        }
+        step++;
+        nextTime += subdivision;
       }
-
-      if (state.ctx.state !== "running") return;
-
-      const melody =
-        data.melody || TRACKS.menu.melody;
-
-      const frequency =
-        melody[
-          state.melodyIndex % melody.length
-        ];
-
-      state.melodyIndex++;
-
-      playMusicNote(
-        frequency,
-        0.18,
-        0.035
-      );
     };
-
-    state.melodyTimer =
-      window.setInterval(
-        playOneNote,
-        620
-      );
-
-    window.setTimeout(
-      playOneNote,
-      220
-    );
+    schedule();
+    state.melodyTimer = window.setInterval(schedule, 50);
   }
 
   function playMusicNote(
     frequency,
     duration = 0.16,
-    volume = 0.035
+    volume = 0.062,
+    { when, track = state.currentTrack, type = 'square', cutoff = 1450 } = {}
   ) {
     const ctx = state.ctx;
 
-    if (!ctx || !state.currentTrack) return;
+    if (!ctx || !track) return;
 
-    const now = ctx.currentTime;
+    const now = when ?? ctx.currentTime;
 
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     const filter = ctx.createBiquadFilter();
 
-    osc.type = "square";
+    osc.type = type;
 
     osc.frequency.setValueAtTime(
       frequency,
@@ -500,7 +564,7 @@ window.GameAudio = (() => {
     filter.type = "lowpass";
 
     filter.frequency.setValueAtTime(
-      1450,
+      cutoff,
       now
     );
 
@@ -521,7 +585,8 @@ window.GameAudio = (() => {
 
     osc.connect(filter);
     filter.connect(gain);
-    gain.connect(state.currentTrack.gain);
+    gain.connect(track.gain);
+    watchSource(osc, [filter, gain], track);
 
     osc.start(now);
 
@@ -531,10 +596,7 @@ window.GameAudio = (() => {
   }
 
   function getCurrentRoomName() {
-    return (
-      window.GameState?.currentRoom ||
-      "sala1"
-    );
+    return typeof GameState !== 'undefined' ? GameState.currentRoom : 'sala1';
   }
 
   function ensureGameAmbient() {
@@ -559,7 +621,7 @@ window.GameAudio = (() => {
     state.currentName = "menu";
 
     unlock().then(() => {
-      startTrack("menu");
+      if (state.currentName === 'menu') startTrack("menu");
     });
   }
 
@@ -571,23 +633,97 @@ window.GameAudio = (() => {
     state.currentName = room;
 
     unlock().then(() => {
-      startTrack(room);
+      if (state.currentName === room) startTrack(room);
     });
   }
 
   function playVictory() {
     state.currentName = "victory";
-
     unlock().then(() => {
+      if (state.currentName !== 'victory') return;
       startTrack("victory");
+      playVictoryFanfare();
     });
-
-    playLevelComplete();
   }
 
-  function playResultReveal(total = false) {
-    playTone({ frequency: total ? 1046 : 740, endFrequency: total ? 1568 : 880,
-      duration: total ? 0.35 : 0.07, type: 'triangle', volume: total ? 0.16 : 0.07 });
+  function playVictoryFanfare() {
+    if (!state.buttonsEnabled || !state.buttons || !state.master) return;
+    const ctx = ensureContext();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const group = { gain: ctx.createGain(), sources: new Set(), celebration: true };
+    group.gain.connect(state.sfxGain);
+    state.celebration = group;
+    // A trilha acompanha a entrada da fanfarra e cresce depois do acorde final.
+    const music = state.currentTrack?.gain.gain;
+    if (music) {
+      music.cancelScheduledValues(now);
+      music.setValueAtTime(0.0001, now);
+      music.linearRampToValueAtTime(0.4, now + 0.1);
+      music.setValueAtTime(0.4, now + 2.25);
+      music.linearRampToValueAtTime(1, now + 3);
+    }
+    const melody = [
+      [0, 523, 0.13], [0.16, 523, 0.13], [0.32, 659, 0.16],
+      [0.52, 784, 0.22], [0.8, 1046, 0.42], [1.28, 784, 0.16],
+      [1.48, 880, 0.16], [1.7, 988, 0.16], [1.95, 1046, 0.72]
+    ];
+    melody.forEach(([offset, frequency, duration]) => {
+      playTone({ frequency, duration, volume: 0.24, type: 'triangle', when: now + offset, group });
+      playTone({ frequency: frequency / 2, duration, volume: 0.075, type: 'square', when: now + offset, group });
+    });
+    [523, 659, 784].forEach(frequency => {
+      playTone({ frequency, duration: 0.78, volume: 0.12, type: 'triangle', when: now + 1.95, group });
+    });
+    [0, 0.52, 0.8, 1.95].forEach(offset => {
+      playTone({ frequency: 150, endFrequency: 50, duration: 0.18,
+        volume: 0.28, type: 'sine', when: now + offset, group });
+    });
+    playNoiseBurst({ when: now + 0.8, duration: 0.25, volume: 0.23,
+      cutoff: 2100, filterType: 'highpass', target: group.gain, group });
+    playNoiseBurst({ when: now + 1.95, duration: 0.65, volume: 0.32,
+      cutoff: 2300, filterType: 'highpass', target: group.gain, group });
+  }
+
+  function playResultReveal(total = false, index = 0) {
+    const ctx = ensureContext();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    if (!total) {
+      const note = [784, 880, 988, 1046, 1174, 1318][Math.min(index, 5)];
+      playTone({ frequency: note, duration: 0.065, type: 'square', volume: 0.2, when: now });
+      playTone({ frequency: note * 1.5, duration: 0.16, type: 'triangle', volume: 0.23, when: now + 0.07 });
+      return;
+    }
+    [784, 988, 1046].forEach((frequency, step) => {
+      playTone({ frequency, duration: step === 2 ? 0.44 : 0.1,
+        type: 'triangle', volume: 0.28, when: now + step * 0.09 });
+    });
+    [523, 659, 784].forEach(frequency => {
+      playTone({ frequency, duration: 0.42, type: 'triangle', volume: 0.12, when: now + 0.18 });
+    });
+  }
+
+  function playNoiseBurst({ when, duration, volume, cutoff, filterType = 'bandpass', target, group }) {
+    const ctx = ensureContext();
+    if (!ctx) return;
+    const source = ctx.createBufferSource();
+    const filter = ctx.createBiquadFilter();
+    const gain = ctx.createGain();
+    state.hitBuffer ||= createNoiseBuffer(ctx, 0.8);
+    source.buffer = state.hitBuffer;
+    filter.type = filterType;
+    filter.frequency.setValueAtTime(cutoff, when);
+    filter.Q.value = 0.7;
+    gain.gain.setValueAtTime(0.0001, when);
+    gain.gain.linearRampToValueAtTime(volume, when + 0.005);
+    gain.gain.exponentialRampToValueAtTime(0.0001, when + duration);
+    source.connect(filter);
+    filter.connect(gain);
+    gain.connect(target);
+    watchSource(source, [filter, gain], group);
+    source.start(when);
+    source.stop(when + duration + 0.02);
   }
 
   function playDialogueKey() {
@@ -595,7 +731,7 @@ window.GameAudio = (() => {
     const ctx = ensureContext();
     if (!ctx || ctx.state !== 'running') return;
     playTone({ frequency: 760 + Math.random() * 160, endFrequency: 360,
-      duration: 0.025, type: 'square', volume: 0.025 });
+      duration: 0.025, type: 'square', volume: 0.06 });
   }
 
   function playGameOver() {
@@ -613,7 +749,10 @@ window.GameAudio = (() => {
     duration = 0.08,
     type = "square",
     volume = 0.18,
-    endFrequency = null
+    endFrequency = null,
+    when = null,
+    group = null,
+    hold = 0
   } = {}) {
     const ctx = ensureContext();
 
@@ -624,7 +763,7 @@ window.GameAudio = (() => {
       return;
     }
 
-    const now = ctx.currentTime;
+    const now = when ?? ctx.currentTime;
 
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
@@ -652,6 +791,9 @@ window.GameAudio = (() => {
       volume,
       now + 0.012
     );
+    if (hold > 0) {
+      gain.gain.setValueAtTime(volume, now + Math.min(duration - 0.001, 0.012 + hold));
+    }
 
     gain.gain.exponentialRampToValueAtTime(
       0.0001,
@@ -659,7 +801,8 @@ window.GameAudio = (() => {
     );
 
     osc.connect(gain);
-    gain.connect(state.sfxGain);
+    gain.connect(group?.gain || state.sfxGain);
+    watchSource(osc, [gain], group);
 
     osc.start(now);
 
@@ -701,15 +844,56 @@ window.GameAudio = (() => {
     }, 90);
   }
 
-  function playError() {
-    unlock();
+  function makeRoomForFeedback(now, duration) {
+    const music = state.currentTrack?.gain.gain;
+    if (!music) return;
+    const current = music.value;
+    music.cancelScheduledValues(now);
+    music.setValueAtTime(current, now);
+    music.linearRampToValueAtTime(BUG_ALERT_MUSIC_FACTOR, now + 0.025);
+    music.setValueAtTime(BUG_ALERT_MUSIC_FACTOR, now + duration);
+    music.linearRampToValueAtTime(1, now + duration + 0.28);
+  }
 
-    playTone({
-      frequency: 180,
-      endFrequency: 90,
-      duration: 0.18,
-      type: "sawtooth",
-      volume: 0.13
+  function beginFeedback(now, duration) {
+    stopFeedback();
+    const group = { gain: state.ctx.createGain(), sources: new Set(), feedback: true };
+    group.gain.connect(state.sfxGain);
+    state.feedback = group;
+    makeRoomForFeedback(now, duration);
+    return group;
+  }
+
+  // Respostas têm corpo e duração próprios; os pequenos cliques de menu usam playConfirm.
+  function playCorrectAnswer() {
+    unlock().then(ready => {
+      if (!ready || !state.buttonsEnabled || !state.buttons || !state.master) return;
+      const now = state.ctx.currentTime;
+      const group = beginFeedback(now, 0.74);
+      playTone({ frequency: 660, duration: 0.34, hold: 0.21,
+        type: 'triangle', volume: 0.6, when: now, group });
+      playTone({ frequency: 330, duration: 0.34, hold: 0.19,
+        type: 'sine', volume: 0.16, when: now, group });
+      playTone({ frequency: 990, duration: 0.5, hold: 0.32,
+        type: 'triangle', volume: 0.6, when: now + 0.24, group });
+      playTone({ frequency: 1980, duration: 0.4, hold: 0.22,
+        type: 'sine', volume: 0.12, when: now + 0.24, group });
+    });
+  }
+
+  function playError() {
+    unlock().then(ready => {
+      if (!ready || !state.buttonsEnabled || !state.buttons || !state.master) return;
+      const now = state.ctx.currentTime;
+      const group = beginFeedback(now, 0.75);
+      playTone({ frequency: 330, endFrequency: 220, duration: 0.32, hold: 0.2,
+        type: 'square', volume: 0.42, when: now, group });
+      playTone({ frequency: 165, endFrequency: 110, duration: 0.32, hold: 0.18,
+        type: 'triangle', volume: 0.22, when: now, group });
+      playTone({ frequency: 247, endFrequency: 147, duration: 0.48, hold: 0.32,
+        type: 'square', volume: 0.42, when: now + 0.27, group });
+      playTone({ frequency: 123.5, endFrequency: 73.5, duration: 0.48, hold: 0.3,
+        type: 'triangle', volume: 0.24, when: now + 0.27, group });
     });
   }
 
@@ -718,12 +902,22 @@ window.GameAudio = (() => {
 
     if (
       !ctx ||
-      !state.buttonsEnabled
+      !state.buttonsEnabled || !state.buttons || !state.master
     ) {
       return;
     }
+    if (state.alertActive && state.alertAudio && !state.alertAudio.paused) return;
+    const request = ++state.alertRequest;
+    state.alertActive = true;
+    applyVolumes();
+    const fail = error => {
+      if (request !== state.alertRequest) return;
+      stopBugAlert();
+      console.warn('[GameAudio] Não foi possível reproduzir o alerta:', error);
+    };
 
     const playAudio = () => {
+      if (!state.alertActive || request !== state.alertRequest) return;
       // Cria o áudio e o nó de controle de volume na primeira vez
       if (!state.alertAudio) {
         state.alertAudio = new Audio(
@@ -751,19 +945,15 @@ window.GameAudio = (() => {
             state.sfxGain
           );
         } catch (error) {
-          console.warn(
-            "[GameAudio] Não foi possível conectar o alerta ao Web Audio:",
-            error
-          );
+          fail(error);
+          return;
         }
       }
 
-      // ==========================================================
-      // AJUSTE O VOLUME AQUI:
-      // 0.25 = 25% do volume original (ajuste como preferir)
-      // ==========================================================
+      // Dá presença ao alerta com margem para os picos do arquivo. Os
+      // controles de efeitos e volume geral continuam aplicados depois.
       if (state.alertGainNode) {
-        state.alertGainNode.gain.setValueAtTime(0.04, ctx.currentTime);
+        state.alertGainNode.gain.setValueAtTime(BUG_ALERT_LEVEL, ctx.currentTime);
       }
 
       if (!state.alertAudio.paused) return;
@@ -777,17 +967,12 @@ window.GameAudio = (() => {
         playPromise &&
         typeof playPromise.catch === "function"
       ) {
-        playPromise.catch(error => {
-          console.warn(
-            "[GameAudio] Não foi possível reproduzir o alerta:",
-            error
-          );
-        });
+        playPromise.catch(fail);
       }
     };
 
     if (ctx.state === "suspended") {
-      ctx.resume().then(playAudio);
+      ctx.resume().then(playAudio).catch(fail);
 
       return;
     }
@@ -796,10 +981,13 @@ window.GameAudio = (() => {
   }
 
   function stopBugAlert() {
-    if (state.alertAudio && !state.alertAudio.paused) {
+    state.alertActive = false;
+    state.alertRequest++;
+    if (state.alertAudio) {
       state.alertAudio.pause();
       state.alertAudio.currentTime = 0;
     }
+    applyVolumes();
   }
 
   function playLevelComplete() {
@@ -899,6 +1087,8 @@ window.GameAudio = (() => {
 
     const noiseFilter =
       ctx.createBiquadFilter();
+    const impact = ctx.createOscillator();
+    const impactGain = ctx.createGain();
 
     state.stepSide =
       state.stepSide === 0
@@ -911,13 +1101,14 @@ window.GameAudio = (() => {
     );
 
     stepGain.gain.linearRampToValueAtTime(
-      0.22,
+      0.65,
       now + 0.012
     );
 
+    stepGain.gain.exponentialRampToValueAtTime(0.12, now + 0.07);
     stepGain.gain.exponentialRampToValueAtTime(
       0.0001,
-      now + 0.115
+      now + 0.15
     );
 
     osc.type = "triangle";
@@ -945,7 +1136,7 @@ window.GameAudio = (() => {
     noise.loop = false;
 
     noiseGain.gain.setValueAtTime(
-      roomStep.noise,
+      roomStep.noise * 5,
       now
     );
 
@@ -954,10 +1145,10 @@ window.GameAudio = (() => {
       now + 0.09
     );
 
-    noiseFilter.type = "lowpass";
+    noiseFilter.type = "bandpass";
 
     noiseFilter.frequency.setValueAtTime(
-      roomStep.filter,
+      roomStep.filter * 2.5,
       now
     );
 
@@ -967,6 +1158,13 @@ window.GameAudio = (() => {
     );
 
     osc.connect(stepGain);
+    // Ataque médio dá definição ao contato do pé, inclusive em alto-falantes pequenos.
+    impact.type = 'sine';
+    impact.frequency.setValueAtTime(roomStep.base * 2.6, now);
+    impactGain.gain.setValueAtTime(0.24, now);
+    impactGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+    impact.connect(impactGain);
+    impactGain.connect(stepGain);
 
     noise.connect(noiseFilter);
     noiseFilter.connect(noiseGain);
@@ -977,15 +1175,20 @@ window.GameAudio = (() => {
     );
 
     osc.start(now);
+    impact.start(now);
     noise.start(now);
 
     osc.stop(
-      now + 0.12
+      now + 0.16
     );
 
     noise.stop(
-      now + 0.12
+      now + 0.16
     );
+    impact.stop(now + 0.06);
+    impact.onended = () => { impact.disconnect(); impactGain.disconnect(); };
+    noise.onended = () => { noise.disconnect(); noiseFilter.disconnect(); noiseGain.disconnect(); };
+    osc.onended = () => { osc.disconnect(); stepGain.disconnect(); };
   }
 
   function updateFootsteps(isMoving) {
@@ -1397,6 +1600,7 @@ window.GameAudio = (() => {
     playGameOver,
     playClick,
     playConfirm,
+    playCorrectAnswer,
     playError,
     playBugAlert,
     stopBugAlert,

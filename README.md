@@ -159,6 +159,25 @@ jogador escolhe a dificuldade na tela inicial.
 Pontos excedentes das salas anteriores podem compensar erros nas salas
 seguintes, conforme a proposta do jogo.
 
+## Áudio
+
+O áudio mantém as melodias de cada sala com baixo pulsante e percussão
+discreta. A mixagem interna dá mais presença à trilha e aos passos,
+preservando os volumes escolhidos e as opções de silenciar. Os passos
+acompanham o piso da sala atual. A vitória final usa uma fanfarra própria,
+com acordes, baixo e ataques de percussão; cada resultado revelado toca
+um sinal ascendente, e o total tem um destaque sonoro maior. Voltar ao
+menu ou iniciar outra partida encerra as notas pendentes da fanfarra.
+O aviso de erro tem mais presença e reduz brevemente a trilha durante o
+sinal, restaurando-a em seguida sem mudar os controles de volume.
+Erro e acerto das perguntas usam sinais sustentados, com camadas de timbre
+e volume comparável ao alerta de bug. O erro tem dois tons descendentes;
+o acerto tem dois tons ascendentes. Os cliques de configuração mantêm
+seu sinal curto, e a vitória final conserva a fanfarra própria.
+O alerta BUG DETECTADO usa o arquivo de atenção em primeiro plano,
+com a música reduzida enquanto o aviso estiver aberto. Entrar na missão
+ou afastar-se do objeto interrompe o alerta e restaura a trilha.
+
 ## Integração com a plataforma
 
 Ao concluir a partida ou atingir Game Over, o jogo envia uma única mensagem
@@ -270,6 +289,7 @@ node tests/story-intro.cjs
 node tests/matching-challenge.cjs
 node tests/game-support-memory.cjs
 node tests/results-memory.cjs
+node tests/audio-feedback.cjs
 node tests/room-transitions.cjs
 node tests/font-scaling.cjs
 ```
