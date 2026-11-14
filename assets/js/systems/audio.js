@@ -1515,12 +1515,6 @@ window.GameAudio = (() => {
     });
     document.getElementById("toggle-effects-sound")?.addEventListener("click", toggleEffects);
     document.getElementById("test-effects-sound")?.addEventListener("click", playCorrectAnswer);
-    document.querySelectorAll("[data-effects-step]").forEach(button => {
-      button.addEventListener("click", () => {
-        setEffectsVolume((Math.round(state.effects * 100) + Number(button.dataset.effectsStep)) / 100);
-      });
-    });
-
     const master =
       document.getElementById(
         "master-volume-control"

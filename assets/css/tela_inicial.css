@@ -488,28 +488,6 @@ body.font-size-large {
     0 0 14px rgba(0, 229, 255, 0.75);
 }
 
-.audio-volume-stepper {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) 44px;
-  align-items: center;
-  gap: 12px;
-}
-
-.audio-step-btn {
-  min-height: 44px;
-  border: 2px solid var(--px-blue-bright);
-  background: #020a12;
-  color: var(--px-blue-bright);
-  font-family: Arial, sans-serif;
-  font-size: 26px;
-  cursor: pointer;
-  box-shadow: 2px 2px 0 #000;
-}
-
-.audio-step-btn:hover {
-  background: #124459;
-}
-
 .audio-effects-actions {
   display: flex;
   flex-wrap: wrap;

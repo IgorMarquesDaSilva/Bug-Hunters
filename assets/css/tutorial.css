@@ -45,6 +45,11 @@
     0 0 10px rgba(105, 255, 71, 0.8);
 }
 
+.tutorial-topbar > span:last-child {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 .tutorial-title {
   margin-bottom: 0;
 }
@@ -154,13 +159,69 @@
   min-height: 245px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: stretch;
   margin: 0;
   padding: 16px;
   background: rgba(0, 0, 0, 0.22);
   border: 2px solid rgba(79, 195, 247, 0.34);
   box-shadow: 4px 4px 0 #000;
+  max-height: clamp(180px, 38dvh, 320px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--px-amber) #020a12;
+}
+
+.tutorial-panel .tut-text-wrap > * {
+  flex-shrink: 0;
+}
+
+.tutorial-term-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  min-height: 26px;
+  margin: 0 3px;
+  padding: 2px;
+  vertical-align: middle;
+  border: 1px solid var(--px-amber);
+  background: #13202a;
+  color: var(--px-amber);
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  cursor: help;
+}
+
+.tutorial-term-help:hover,
+.tutorial-term-help[aria-expanded="true"] {
+  background: #37421c;
+}
+
+.tutorial-term-tooltip {
+  position: fixed;
+  z-index: 100000;
+  width: min(360px, calc(100vw - 16px));
+  max-height: calc(100dvh - 16px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 2px solid var(--px-amber);
+  background: #071724;
+  color: var(--px-white);
+  font-family: var(--game-font-family);
+  font-size: calc(16px * var(--game-font-scale, 1));
+  font-weight: normal;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+  box-shadow: 4px 4px 0 #000, 0 0 16px rgba(255, 179, 71, 0.3);
+}
+
+.tutorial-term-tooltip[hidden] {
+  display: none;
 }
 
 .tutorial-panel .tut-text {
@@ -169,6 +230,12 @@
   font-size: calc(16px * var(--game-font-scale, 1));
   color: var(--px-white);
   margin: 0;
+}
+
+.tutorial-panel .tut-text,
+.tutorial-extra,
+.tutorial-image-caption {
+  overflow-wrap: anywhere;
 }
 
 .tutorial-extra {
@@ -277,6 +344,10 @@
 
   .tutorial-body {
     grid-template-columns: 1fr;
+    grid-auto-rows: max-content;
+    align-content: start;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .tutorial-media,
@@ -286,6 +357,11 @@
 
   .tutorial-image {
     max-height: 120px;
+  }
+
+  .tutorial-content,
+  .tutorial-panel .tut-text-wrap {
+    min-height: 180px;
   }
 
   .tutorial-controls {

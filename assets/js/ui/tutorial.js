@@ -6,13 +6,28 @@
 
 const TutorialSystem = (() => {
   const IMAGE_BASE = "assets/img/tutorial/";
+  const TERM_HELP = {
+    HUD: "É o painel do jogo que mostra pontos, tempo, progresso e botões de apoio, como Glossário e Configurações.",
+    feedback: "É o retorno que o jogo dá à sua resposta: mostra se você acertou e explica a solução.",
+    bug: "É uma falha que faz um programa funcionar de um jeito diferente do esperado.",
+    bugs: "São falhas que fazem um programa funcionar de um jeito diferente do esperado.",
+    terminais: "São os computadores e painéis da sala. Aproxime o personagem de um terminal destacado para encontrar um desafio.",
+    "valores lógicos": "São valores com apenas duas possibilidades: verdadeiro (true) ou falso (false).",
+    variáveis: "São espaços com nome que guardam informações, como a quantidade de energia. O valor guardado pode mudar.",
+    operadores: "São símbolos ou palavras que fazem cálculos e comparações, como +, −, maior que e igual a.",
+    "estruturas de controle": "São instruções que organizam o caminho do programa, como escolher o que fazer quando uma condição é verdadeira ou falsa.",
+    "condições encadeadas": "São verificações feitas em sequência: se a primeira não for atendida, o programa verifica a próxima.",
+    funções: "São conjuntos de instruções com um nome. Chamar uma função faz o programa executar essas instruções."
+  };
+  const TERM_PATTERN = new RegExp(`\\b(${Object.keys(TERM_HELP).sort((a, b) => b.length - a.length).join("|")})\\b`, "gi");
+  const termDefinitions = new Map(Object.entries(TERM_HELP).map(([term, definition]) => [term.toLowerCase(), definition]));
 
   const SLIDES = [
     {
       title: "BEM-VINDO(A), OPERADOR(A)!",
       image: "player-frente.png",
       imageAlt: "Personagem do jogo visto de frente, usando roupa escura tecnológica com visor azul.",
-      caption: "Você controla uma Bug Hunter dentro de um sistema digital.",
+      caption: "Você controla um personagem Bug Hunter dentro de um sistema digital.",
       text: "Em Bug Hunters, sua missão é explorar o sistema, encontrar falhas e corrigir bugs usando lógica de programação.",
       extra: [
         { type: "tip", text: "O jogo foi pensado para ensinar programação de forma visual: você observa o problema, interpreta o código e escolhe a solução correta." }
@@ -49,6 +64,16 @@ const TutorialSystem = (() => {
       text: "O jogo possui 4 fases. Em cada fase você precisa concluir os 5 desafios do setor para liberar a porta e seguir para a próxima área.",
       extra: [
         { type: "tip", text: "Quando todos os bugs de uma sala forem resolvidos, a tela Setor Limpo aparece. Depois disso, libere a porta e vá até ela para avançar." }
+      ]
+    },
+    {
+      title: "RECURSOS DE APOIO",
+      image: "player-frente.png",
+      imageAlt: "Personagem visto de frente, representando os recursos de apoio do jogo.",
+      caption: "Use os recursos extras sempre que precisar.",
+      text: "Você pode abrir o glossário pelo HUD para consultar os termos e revisar o conteúdo, inclusive durante uma pergunta. O painel também permite reabrir este tutorial e consultar os atalhos.",
+      extra: [
+        { type: "tip", text: "Uma lâmpada ao lado de uma palavra explica seu significado. Passe o mouse ou use Tab para chegar à lâmpada e Enter para consultar. Pressione R para ouvir a etapa ou ative o leitor na tela de acessibilidade." }
       ]
     },
     {
@@ -102,17 +127,7 @@ const TutorialSystem = (() => {
       ]
     },
     {
-      title: "RECURSOS DE APOIO",
-      image: "player-frente.png",
-      imageAlt: "Personagem visto de frente, representando os recursos de apoio do jogo.",
-      caption: "Use os recursos extras sempre que precisar.",
-      text: "Você pode abrir o glossário para revisar o conteúdo, usar o tutorial novamente pelo HUD e ativar recursos de acessibilidade no menu inicial.",
-      extra: [
-        { type: "tip", text: "O leitor de tela do jogo pode narrar as etapas do tutorial. Use o botão Ler Etapa ou ative o leitor na tela de acessibilidade." }
-      ]
-    },
-    {
-      title: "PRONTA PARA CAÇAR BUGS!",
+      title: "PRONTO(A) PARA CAÇAR BUGS!",
       image: "player-frente.png",
       imageAlt: "Personagem do jogo visto de frente, pronto para iniciar a missão.",
       caption: "Agora você já sabe como jogar.",
@@ -126,12 +141,19 @@ const TutorialSystem = (() => {
   let currentSlide = 0;
   let isOpen = false;
   let introduceAfterClose = false;
+  let imageRevision = 0;
+  let termTooltip = null;
+  let activeTermButton = null;
+  let tooltipPinned = false;
+  let hideTooltipTimer = null;
 
   function open(fromMenu = false) {
     if (window.UI?.getActiveScreen() === "screen-tutorial") return;
     if (!fromMenu && localStorage.getItem("bh_tutorial_done") === "1") return;
 
     currentSlide = 0;
+    // Uma versão por abertura mantém as imagens novas sem exigir limpar o cache.
+    imageRevision = Math.max(Date.now(), imageRevision + 1);
     isOpen = true;
     if (!fromMenu) introduceAfterClose = !StoryIntro.hasBeenSeen();
 
@@ -145,6 +167,7 @@ const TutorialSystem = (() => {
 
   function close() {
     if (!isActive()) return;
+    hideTermHelp();
     isOpen = false;
     localStorage.setItem("bh_tutorial_done", "1");
 
@@ -188,6 +211,7 @@ const TutorialSystem = (() => {
   }
 
   function render() {
+    hideTermHelp();
     const slide = SLIDES[currentSlide];
     const total = SLIDES.length;
     const isLast = currentSlide === total - 1;
@@ -197,7 +221,8 @@ const TutorialSystem = (() => {
 
     if (!window.UI?.showScreen) overlay.style.display = "flex";
 
-    setText("tut-title", slide.title);
+    const title = document.getElementById("tut-title");
+    if (title) title.innerHTML = formatText(slide.title);
     setText("tut-step-counter", `${String(currentSlide + 1).padStart(2, "0")}/${String(total).padStart(2, "0")}`);
 
     const textEl = document.getElementById("tut-text");
@@ -206,6 +231,10 @@ const TutorialSystem = (() => {
     renderExtra(slide.extra || []);
     renderMedia(slide);
     renderDots(total);
+    const textArea = document.querySelector("#screen-tutorial .tut-text-wrap");
+    if (textArea) textArea.scrollTop = 0;
+    const body = document.querySelector("#screen-tutorial .tutorial-body");
+    if (body) body.scrollTop = 0;
 
     const prevBtn = document.getElementById("tut-btn-prev");
     if (prevBtn) {
@@ -233,11 +262,11 @@ const TutorialSystem = (() => {
         <div class="tutorial-image-grid" role="img" aria-label="Três posições do personagem: esquerda, frente e direita.">
           ${slide.imageGrid.map(item => `
             <span class="tutorial-image-card">
-              <img src="${IMAGE_BASE + escapeAttr(item.src)}" alt="${escapeAttr(item.alt)}">
+              <img src="${imageUrl(item.src)}" alt="${escapeAttr(item.alt)}">
             </span>
           `).join("")}
         </div>
-        <figcaption id="tut-image-caption" class="tutorial-image-caption">${escapeHtml(slide.caption || "")}</figcaption>
+        <figcaption id="tut-image-caption" class="tutorial-image-caption">${formatText(slide.caption || "")}</figcaption>
       `;
       return;
     }
@@ -245,11 +274,15 @@ const TutorialSystem = (() => {
     media.innerHTML = `
       <img
         id="tut-image"
-        src="${IMAGE_BASE + escapeAttr(slide.image || "player-frente.png") }"
+        src="${imageUrl(slide.image || "player-frente.png") }"
         alt="${escapeAttr(slide.imageAlt || slide.caption || "Imagem do tutorial") }"
         class="tutorial-image">
-      <figcaption id="tut-image-caption" class="tutorial-image-caption">${escapeHtml(slide.caption || "")}</figcaption>
+      <figcaption id="tut-image-caption" class="tutorial-image-caption">${formatText(slide.caption || "")}</figcaption>
     `;
+  }
+
+  function imageUrl(filename) {
+    return `${IMAGE_BASE}${escapeAttr(filename)}?v=${imageRevision}`;
   }
 
   function renderExtra(items) {
@@ -297,8 +330,92 @@ const TutorialSystem = (() => {
   }
 
   function formatText(text) {
-    return escapeHtml(text).replace(/\n/g, "<br>");
+    return String(text).split(TERM_PATTERN).map((part, index) => {
+      if (index % 2 === 0) return escapeHtml(part).replace(/\n/g, "<br>");
+      return `<span class="tutorial-term">${escapeHtml(part)}<button type="button"
+        class="tutorial-term-help" data-tutorial-term="${escapeAttr(part.toLowerCase())}"
+        aria-label="O que significa ${escapeAttr(part)}?" aria-expanded="false">
+        <span aria-hidden="true">💡</span></button></span>`;
+    }).join("");
   }
+
+  function ensureTermTooltip() {
+    if (termTooltip) return;
+    termTooltip = document.createElement("div");
+    termTooltip.id = "tutorial-term-tooltip";
+    termTooltip.className = "tutorial-term-tooltip";
+    termTooltip.setAttribute("role", "tooltip");
+    termTooltip.hidden = true;
+    document.body.append(termTooltip);
+    termTooltip.addEventListener("pointerenter", () => clearTimeout(hideTooltipTimer));
+    termTooltip.addEventListener("pointerleave", scheduleHideTermHelp);
+  }
+
+  function positionTermHelp() {
+    if (!activeTermButton || !termTooltip || termTooltip.hidden) return;
+    const anchor = activeTermButton.getBoundingClientRect();
+    const box = termTooltip.getBoundingClientRect();
+    const left = Math.max(8, Math.min(anchor.left, window.innerWidth - box.width - 8));
+    const below = anchor.bottom + 8;
+    const top = below + box.height <= window.innerHeight - 8
+      ? below : Math.max(8, anchor.top - box.height - 8);
+    termTooltip.style.left = `${left}px`;
+    termTooltip.style.top = `${top}px`;
+  }
+
+  function showTermHelp(button) {
+    if (!isActive()) return;
+    clearTimeout(hideTooltipTimer);
+    if (activeTermButton !== button) hideTermHelp();
+    ensureTermTooltip();
+    activeTermButton = button;
+    button.setAttribute("aria-describedby", termTooltip.id);
+    button.setAttribute("aria-expanded", "true");
+    termTooltip.textContent = termDefinitions.get(button.dataset.tutorialTerm);
+    termTooltip.hidden = false;
+    positionTermHelp();
+  }
+
+  function hideTermHelp() {
+    clearTimeout(hideTooltipTimer);
+    activeTermButton?.setAttribute("aria-expanded", "false");
+    activeTermButton?.removeAttribute("aria-describedby");
+    activeTermButton = null;
+    tooltipPinned = false;
+    if (termTooltip) termTooltip.hidden = true;
+  }
+
+  function scheduleHideTermHelp() {
+    clearTimeout(hideTooltipTimer);
+    hideTooltipTimer = setTimeout(() => {
+      if (tooltipPinned || activeTermButton === document.activeElement || activeTermButton?.matches(":hover") || termTooltip?.matches(":hover")) return;
+      hideTermHelp();
+    }, 150);
+  }
+
+  document.addEventListener("pointerover", event => {
+    const button = event.target.closest(".tutorial-term-help");
+    if (button && !button.contains(event.relatedTarget)) showTermHelp(button);
+  });
+  document.addEventListener("pointerout", event => {
+    const button = event.target.closest(".tutorial-term-help");
+    if (button && !button.contains(event.relatedTarget)) scheduleHideTermHelp();
+  });
+  document.addEventListener("focusin", event => {
+    const button = event.target.closest(".tutorial-term-help");
+    if (button) showTermHelp(button);
+    else hideTermHelp();
+  });
+  document.addEventListener("click", event => {
+    const button = event.target.closest(".tutorial-term-help");
+    if (button) {
+      showTermHelp(button);
+      tooltipPinned = true;
+      announce(termTooltip.textContent, false);
+    } else if (!termTooltip?.contains(event.target)) hideTermHelp();
+  });
+  document.addEventListener("scroll", positionTermHelp, true);
+  window.addEventListener("resize", positionTermHelp);
 
   function escapeHtml(text) {
     return String(text)
@@ -313,6 +430,13 @@ const TutorialSystem = (() => {
 
   document.addEventListener("keydown", event => {
     if (!isActive() || event.defaultPrevented || event.ctrlKey || event.altKey || event.metaKey) return;
+
+    if (activeTermButton === document.activeElement && ["ArrowUp", "ArrowDown", "PageUp", "PageDown"].includes(event.key) && termTooltip.scrollHeight > termTooltip.clientHeight) {
+      event.preventDefault();
+      const direction = ["ArrowUp", "PageUp"].includes(event.key) ? -1 : 1;
+      termTooltip.scrollTop += direction * (event.key.startsWith("Page") ? termTooltip.clientHeight * 0.8 : 40);
+      return;
+    }
 
     if (event.key === "ArrowRight") {
       event.preventDefault();
@@ -334,6 +458,10 @@ const TutorialSystem = (() => {
 
     if (event.key === "Escape") {
       event.preventDefault();
+      if (activeTermButton) {
+        hideTermHelp();
+        return;
+      }
       close();
     }
   });
