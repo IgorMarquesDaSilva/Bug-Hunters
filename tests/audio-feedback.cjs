@@ -54,8 +54,10 @@ const path = require('node:path');
       audio.setMaster(kind === 'muted' ? 0 : maximum ? 1 : 0.8);
       audio.setBackgroundVolume(maximum ? 1 : 0.65);
       audio.setButtonVolume(maximum ? 1 : 0.75);
+      audio.setEffectsVolume?.(maximum ? 1 : 0.75);
       audio.setBackgroundEnabled(['music', 'mix', 'muted'].includes(kind) || errorMix || correctMix || alertMix);
       audio.setButtonsEnabled(!['error-disabled', 'correct-disabled', 'alert-disabled'].includes(kind));
+      audio.setEffectsEnabled?.(!['error-disabled', 'correct-disabled', 'alert-disabled'].includes(kind));
       const intervals = [], timeouts = [];
       let ctx;
       try {
@@ -224,7 +226,7 @@ const path = require('node:path');
         assert.fail(label);
       };
       await waitFor("typeof GameAudio!=='undefined'&&Number.isInteger(GameAudio.getState().alertRequest)&&typeof GameState!=='undefined'&&!!GameState.missionsData",'Versão atual do áudio carregada');
-      await evaluate("localStorage.setItem('bh_tutorial_done','1');selectDifficulty('facil');UI.showScreen(null);GameAudio.setMaster(0.8);GameAudio.setBackgroundVolume(0.65);GameAudio.setButtonVolume(0.75);GameAudio.setBackgroundEnabled(true);GameAudio.setButtonsEnabled(true);GameState.activeIdx=-1;GameState.popupCooldown=0;Player.state.x=-1000;Player.state.y=-1000;BugSystem.checkProximity();const target=GameState.bugs[0];window.alertSpot={x:target.x+target.w/2-Player.state.hitboxOffsetX,y:target.y+target.h/2-Player.state.hitboxOffsetY};Player.state.x=alertSpot.x;Player.state.y=alertSpot.y;BugSystem.checkProximity()");
+      await evaluate("localStorage.setItem('bh_tutorial_done','1');selectDifficulty('facil');UI.showScreen(null);GameAudio.setMaster(0.8);GameAudio.setBackgroundVolume(0.65);GameAudio.setButtonVolume(0.75);GameAudio.setBackgroundEnabled(true);GameAudio.setButtonsEnabled(true);GameAudio.setEffectsVolume(0.75);GameAudio.setEffectsEnabled(true);GameState.activeIdx=-1;GameState.popupCooldown=0;Player.state.x=-1000;Player.state.y=-1000;BugSystem.checkProximity();const target=GameState.bugs[0];window.alertSpot={x:target.x+target.w/2-Player.state.hitboxOffsetX,y:target.y+target.h/2-Player.state.hitboxOffsetY};Player.state.x=alertSpot.x;Player.state.y=alertSpot.y;BugSystem.checkProximity()");
       await waitFor("UI.getActiveScreen()==='screen-bug-popup'&&GameAudio.getState().alertAudio?.currentTime>0.3",'Alerta disparado por aproximação do personagem');
       assert.ok(Math.abs(await evaluate('GameAudio.getState().alertGainNode.gain.value')-0.9)<0.001);
       assert.equal(await evaluate('GameAudio.getState().alertActive'),true);
@@ -295,7 +297,7 @@ const path = require('node:path');
         await new Promise(resolve => setTimeout(resolve, 80));
       }
       assert.ok(loaded, 'Versão atual de missão e áudio carregada');
-      await evaluate("localStorage.setItem('bh_tutorial_done','1');selectDifficulty('facil');UI.showScreen(null);GameAudio.setMaster(0.8);GameAudio.setBackgroundVolume(0.65);GameAudio.setBackgroundEnabled(true);GameAudio.setButtonVolume(0.75);GameAudio.setButtonsEnabled(true);window.feedbackCalls=[];window.actualCorrectSound=GameAudio.playCorrectAnswer;window.actualErrorSound=GameAudio.playError;GameAudio.playCorrectAnswer=()=>{feedbackCalls.push('correct');actualCorrectSound()};GameAudio.playError=()=>{feedbackCalls.push('error');actualErrorSound()};window.feedbackMissions=GameState.bugs.map((bug,index)=>({bug,index})).filter(({bug})=>GameState.currentMissions()[bug.missionIdx].type==='choice').slice(0,2).map(item=>item.index)");
+      await evaluate("localStorage.setItem('bh_tutorial_done','1');selectDifficulty('facil');UI.showScreen(null);GameAudio.setMaster(0.8);GameAudio.setBackgroundVolume(0.65);GameAudio.setBackgroundEnabled(true);GameAudio.setButtonVolume(0.75);GameAudio.setButtonsEnabled(true);GameAudio.setEffectsVolume(0.75);GameAudio.setEffectsEnabled(true);window.feedbackCalls=[];window.actualCorrectSound=GameAudio.playCorrectAnswer;window.actualErrorSound=GameAudio.playError;GameAudio.playCorrectAnswer=()=>{feedbackCalls.push('correct');actualCorrectSound()};GameAudio.playError=()=>{feedbackCalls.push('error');actualErrorSound()};window.feedbackMissions=GameState.bugs.map((bug,index)=>({bug,index})).filter(({bug})=>GameState.currentMissions()[bug.missionIdx].type==='choice').slice(0,2).map(item=>item.index)");
       const enter = async () => {
         await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',text:'\r',windowsVirtualKeyCode:13});
         await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',windowsVirtualKeyCode:13});

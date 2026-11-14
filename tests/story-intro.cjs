@@ -111,9 +111,9 @@ const path = require('node:path');
     await evaluate('GameAudio.playDialogueKey=originalIntroKey');
     await key('a',100);assert.ok(await evaluate('Player.state.x')<x,'Movimento volta sem clique');
 
-    await evaluate("GameAudio.setBackgroundEnabled(false);window.introOscillators=0;window.introAudioContext=GameAudio.getState().ctx;window.originalIntroOscillator=introAudioContext.createOscillator;introAudioContext.createOscillator=function(...args){introOscillators++;return originalIntroOscillator.apply(this,args)};GameAudio.setButtonsEnabled(false);GameAudio.playDialogueKey()");
+    await evaluate("GameAudio.setBackgroundEnabled(false);window.introOscillators=0;window.introAudioContext=GameAudio.getState().ctx;window.originalIntroOscillator=introAudioContext.createOscillator;introAudioContext.createOscillator=function(...args){introOscillators++;return originalIntroOscillator.apply(this,args)};GameAudio.setEffectsEnabled(false);GameAudio.playDialogueKey()");
     assert.equal(await evaluate('introOscillators'),0,'Efeitos desativados não geram tecla');
-    await evaluate('GameAudio.setButtonsEnabled(true);GameAudio.setMaster(0);GameAudio.playDialogueKey()');
+    await evaluate('GameAudio.setEffectsEnabled(true);GameAudio.setMaster(0);GameAudio.playDialogueKey()');
     assert.equal(await evaluate('introOscillators'),0,'Volume zero é respeitado');
     await evaluate('GameAudio.setMaster(0.8);GameAudio.playDialogueKey()');
     assert.equal(await evaluate('introOscillators'),1,'Efeito de tecla gera o oscilador quando habilitado');

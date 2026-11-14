@@ -12,7 +12,7 @@
 
   <link rel="stylesheet" href="assets/css/main.css?v=20">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="assets/css/tela_inicial.css?v=18">
+  <link rel="stylesheet" href="assets/css/tela_inicial.css?v=19">
   <link rel="stylesheet" href="assets/css/tutorial.css?v=17">
   <link rel="stylesheet" href="assets/css/dificil_mission.css?v=18">
   <link rel="stylesheet" href="assets/css/sala1_design.css?v=16">
@@ -440,7 +440,7 @@
             </div>
 
             <p class="mission-desc settings-intro">
-              Ajuste o áudio e a posição do controle móvel antes de iniciar a caçada aos bugs.
+              Ajuste os volumes e os controles do jogo. Suas preferências são salvas automaticamente.
             </p>
 
             <div class="settings-list">
@@ -456,7 +456,7 @@
                     <div>
                       <span class="settings-label">VOLUME GERAL</span>
                       <p class="settings-help">
-                        Controla todo o áudio do jogo: ambiente das fases e efeitos dos botões.
+                        Controla a música, os efeitos sonoros e os cliques dos botões.
                       </p>
                     </div>
                   </div>
@@ -491,7 +491,7 @@
                     </div>
                   </div>
 
-                  <strong id="background-volume-value" class="settings-value">45%</strong>
+                  <strong id="background-volume-value" class="settings-value">65%</strong>
                 </div>
 
                 <input
@@ -500,7 +500,7 @@
                   type="range"
                   min="0"
                   max="100"
-                  value="45"
+                  value="65"
                   aria-label="Volume do som de fundo">
 
                 <button
@@ -518,18 +518,57 @@
                 <div class="settings-card-header">
                   <div class="settings-card-title-wrap">
                     <span class="settings-card-icon">
+                      <i class="bi bi-bell" aria-hidden="true"></i>
+                    </span>
+
+                    <div>
+                      <label for="effects-volume-control" class="settings-label">EFEITOS SONOROS</label>
+                      <p id="effects-volume-help" class="settings-help">
+                        Ajuste os passos, o alerta de bug, os acertos, os erros e as comemorações. Use − e + para ajustar com Tab e Enter.
+                      </p>
+                    </div>
+                  </div>
+
+                  <strong id="effects-volume-value" class="settings-value">75%</strong>
+                </div>
+
+                <div class="audio-volume-stepper">
+                  <button class="audio-step-btn" type="button" data-effects-step="-10" aria-label="Diminuir efeitos sonoros em 10 pontos percentuais">−</button>
+                  <input
+                    id="effects-volume-control"
+                    class="settings-range"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="75"
+                    aria-describedby="effects-volume-help">
+                  <button class="audio-step-btn" type="button" data-effects-step="10" aria-label="Aumentar efeitos sonoros em 10 pontos percentuais">+</button>
+                </div>
+
+                <div class="audio-effects-actions">
+                  <button id="toggle-effects-sound" class="cyber-btn audio-toggle-btn" type="button" aria-pressed="true">DESLIGAR EFEITOS</button>
+                  <button id="test-effects-sound" class="cyber-btn" type="button">TESTAR EFEITO</button>
+                </div>
+
+              </section>
+
+              <section class="settings-card music-card audio-card">
+
+                <div class="settings-card-header">
+                  <div class="settings-card-title-wrap">
+                    <span class="settings-card-icon">
                       <i class="bi bi-mouse2" aria-hidden="true"></i>
                     </span>
 
                     <div>
                       <span class="settings-label">SOM DOS BOTÕES</span>
                       <p class="settings-help">
-                        Efeitos curtos para cliques, confirmação, erro e troca de telas do jogo.
+                        Ajuste apenas os cliques e as confirmações dos menus, separadamente dos efeitos do jogo.
                       </p>
                     </div>
                   </div>
 
-                  <strong id="button-volume-value" class="settings-value">70%</strong>
+                  <strong id="button-volume-value" class="settings-value">75%</strong>
                 </div>
 
                 <input
@@ -538,7 +577,7 @@
                   type="range"
                   min="0"
                   max="100"
-                  value="70"
+                  value="75"
                   aria-label="Volume dos sons dos botões">
 
                 <button
@@ -1675,7 +1714,7 @@ Explore os laboratórios comigo, encontre as falhas e use a lógica de programa�
   <script src="assets/js/ui/glossary.js?v=7"></script>
   <script src="assets/js/ui/shortcuts.js?v=4"></script>
   <script src="assets/js/ui/responsive.js?v=10"></script>
-  <script src="assets/js/systems/audio.js?v=7"></script>
+  <script src="assets/js/systems/audio.js?v=8"></script>
   
   <script src="assets/js/ui/keyboard.js?v=9"></script>
   <script src="assets/js/core/game.js?v=7"></script>

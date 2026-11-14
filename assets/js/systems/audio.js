@@ -3,21 +3,26 @@ window.GameAudio = (() => {
   const STORAGE = {
     master: "bugHunters.audio.master",
     background: "bugHunters.audio.background",
+    effects: "bugHunters.audio.effects",
     buttons: "bugHunters.audio.buttons",
     backgroundEnabled: "bugHunters.audio.backgroundEnabled",
+    effectsEnabled: "bugHunters.audio.effectsEnabled",
     buttonsEnabled: "bugHunters.audio.buttonsEnabled"
   };
 
   const DEFAULTS = {
     master: 0.85,
     background: 0.65,
+    effects: 0.75,
     buttons: 0.75,
     backgroundEnabled: true,
+    effectsEnabled: true,
     buttonsEnabled: true
   };
   const MUSIC_LEVEL = 2.8;
   const BUG_ALERT_LEVEL = 0.9;
   const BUG_ALERT_MUSIC_FACTOR = 0.45;
+  const volumeTargets = new WeakMap();
 
   const TRACKS = {
     menu: {
@@ -90,6 +95,7 @@ window.GameAudio = (() => {
     masterGain: null,
     musicGain: null,
     sfxGain: null,
+    buttonsGain: null,
     outputNode: null,
     celebration: null,
     feedback: null,
@@ -111,7 +117,12 @@ window.GameAudio = (() => {
 
     master: readNumber(STORAGE.master, DEFAULTS.master),
     background: readNumber(STORAGE.background, DEFAULTS.background),
+    effects: readNumber(STORAGE.effects, readNumber(STORAGE.buttons, DEFAULTS.effects)),
     buttons: readNumber(STORAGE.buttons, DEFAULTS.buttons),
+    effectsEnabled: readBoolean(
+      STORAGE.effectsEnabled,
+      readBoolean(STORAGE.buttonsEnabled, DEFAULTS.effectsEnabled)
+    ),
     backgroundEnabled: readBoolean(
       STORAGE.backgroundEnabled,
       DEFAULTS.backgroundEnabled
@@ -121,6 +132,14 @@ window.GameAudio = (() => {
       DEFAULTS.buttonsEnabled
     )
   };
+
+  // O controle antigo dos botões também afetava os efeitos. Preserva essa
+  // preferência uma única vez antes de tornar os dois ajustes independentes.
+  for (const key of ['effects', 'effectsEnabled']) {
+    if (localStorage.getItem(STORAGE[key]) === null) {
+      localStorage.setItem(STORAGE[key], String(state[key]));
+    }
+  }
 
   function readNumber(key, fallback) {
     const stored = localStorage.getItem(key);
@@ -161,9 +180,11 @@ window.GameAudio = (() => {
     state.masterGain = ctx.createGain();
     state.musicGain = ctx.createGain();
     state.sfxGain = ctx.createGain();
+    state.buttonsGain = ctx.createGain();
 
     state.musicGain.connect(state.masterGain);
     state.sfxGain.connect(state.masterGain);
+    state.buttonsGain.connect(state.masterGain);
     // Mantém espaço para os ataques dos passos e os acordes da fanfarra.
     const output = ctx.createDynamicsCompressor();
     output.threshold.value = -6;
@@ -219,6 +240,10 @@ window.GameAudio = (() => {
 
     const set = (gain, value, time) => {
       if (!gain) return;
+      // Desbloquear o áudio a cada tecla não deve reiniciar a suavização,
+      // sobretudo quando um efeito começa depois de um período de silêncio.
+      if (!immediate && volumeTargets.get(gain) === value) return;
+      volumeTargets.set(gain, value);
 
       if (immediate) {
         gain.gain.setValueAtTime(value, now);
@@ -233,13 +258,21 @@ window.GameAudio = (() => {
       state.musicGain,
       state.backgroundEnabled
         ? state.background * MUSIC_LEVEL *
-          (state.alertActive && state.buttonsEnabled && state.buttons > 0 && state.master > 0 ? BUG_ALERT_MUSIC_FACTOR : 1)
+          (state.alertActive && state.effectsEnabled && state.effects > 0 && state.master > 0 ? BUG_ALERT_MUSIC_FACTOR : 1)
         : 0,
       0.08
     );
 
     set(
       state.sfxGain,
+      state.effectsEnabled
+        ? state.effects
+        : 0,
+      0.02
+    );
+
+    set(
+      state.buttonsGain,
       state.buttonsEnabled
         ? state.buttons
         : 0,
@@ -647,7 +680,7 @@ window.GameAudio = (() => {
   }
 
   function playVictoryFanfare() {
-    if (!state.buttonsEnabled || !state.buttons || !state.master) return;
+    if (!state.effectsEnabled || !state.effects || !state.master) return;
     const ctx = ensureContext();
     if (!ctx) return;
     const now = ctx.currentTime;
@@ -727,7 +760,7 @@ window.GameAudio = (() => {
   }
 
   function playDialogueKey() {
-    if (!state.buttonsEnabled || !state.master || !state.buttons) return;
+    if (!state.effectsEnabled || !state.master || !state.effects) return;
     const ctx = ensureContext();
     if (!ctx || ctx.state !== 'running') return;
     playTone({ frequency: 760 + Math.random() * 160, endFrequency: 360,
@@ -752,13 +785,14 @@ window.GameAudio = (() => {
     endFrequency = null,
     when = null,
     group = null,
+    channel = "effects",
     hold = 0
   } = {}) {
     const ctx = ensureContext();
 
     if (
       !ctx ||
-      !state.buttonsEnabled
+      !(channel === "buttons" ? state.buttonsEnabled : state.effectsEnabled)
     ) {
       return;
     }
@@ -801,7 +835,7 @@ window.GameAudio = (() => {
     );
 
     osc.connect(gain);
-    gain.connect(group?.gain || state.sfxGain);
+    gain.connect(group?.gain || (channel === "buttons" ? state.buttonsGain : state.sfxGain));
     watchSource(osc, [gain], group);
 
     osc.start(now);
@@ -815,6 +849,7 @@ window.GameAudio = (() => {
     unlock();
 
     playTone({
+      channel: "buttons",
       frequency: 520,
       endFrequency: 920,
       duration: 0.055,
@@ -827,6 +862,7 @@ window.GameAudio = (() => {
     unlock();
 
     playTone({
+      channel: "buttons",
       frequency: 660,
       endFrequency: 990,
       duration: 0.12,
@@ -836,6 +872,7 @@ window.GameAudio = (() => {
 
     window.setTimeout(() => {
       playTone({
+        channel: "buttons",
         frequency: 990,
         duration: 0.10,
         type: "triangle",
@@ -867,7 +904,7 @@ window.GameAudio = (() => {
   // Respostas têm corpo e duração próprios; os pequenos cliques de menu usam playConfirm.
   function playCorrectAnswer() {
     unlock().then(ready => {
-      if (!ready || !state.buttonsEnabled || !state.buttons || !state.master) return;
+      if (!ready || !state.effectsEnabled || !state.effects || !state.master) return;
       const now = state.ctx.currentTime;
       const group = beginFeedback(now, 0.74);
       playTone({ frequency: 660, duration: 0.34, hold: 0.21,
@@ -883,7 +920,7 @@ window.GameAudio = (() => {
 
   function playError() {
     unlock().then(ready => {
-      if (!ready || !state.buttonsEnabled || !state.buttons || !state.master) return;
+      if (!ready || !state.effectsEnabled || !state.effects || !state.master) return;
       const now = state.ctx.currentTime;
       const group = beginFeedback(now, 0.75);
       playTone({ frequency: 330, endFrequency: 220, duration: 0.32, hold: 0.2,
@@ -902,7 +939,7 @@ window.GameAudio = (() => {
 
     if (
       !ctx ||
-      !state.buttonsEnabled || !state.buttons || !state.master
+      !state.effectsEnabled || !state.effects || !state.master
     ) {
       return;
     }
@@ -1035,7 +1072,7 @@ window.GameAudio = (() => {
 
     if (
       !ctx ||
-      !state.buttonsEnabled ||
+      !state.effectsEnabled ||
       ctx.state !== "running"
     ) {
       return;
@@ -1274,6 +1311,26 @@ window.GameAudio = (() => {
     syncControls();
   }
 
+  function setEffectsVolume(value) {
+    const level = Number(value);
+    if (!Number.isFinite(level)) return;
+    state.effects = Math.min(1, Math.max(0, level));
+    localStorage.setItem(STORAGE.effects, String(state.effects));
+    applyVolumes();
+    syncControls();
+  }
+
+  function setEffectsEnabled(enabled) {
+    state.effectsEnabled = Boolean(enabled);
+    localStorage.setItem(STORAGE.effectsEnabled, String(state.effectsEnabled));
+    applyVolumes();
+    syncControls();
+  }
+
+  function toggleEffects() {
+    setEffectsEnabled(!state.effectsEnabled);
+  }
+
   function setBackgroundEnabled(enabled) {
     state.backgroundEnabled =
       Boolean(enabled);
@@ -1365,6 +1422,15 @@ window.GameAudio = (() => {
   }
 
   function syncControls() {
+    const effects = document.getElementById("effects-volume-control");
+    if (effects) {
+      effects.value = Math.round(state.effects * 100);
+      effects.setAttribute("aria-valuetext", pct(state.effects));
+    }
+    setText("effects-volume-value", pct(state.effects));
+    setText("toggle-effects-sound", state.effectsEnabled ? "DESLIGAR EFEITOS" : "ATIVAR EFEITOS");
+    setPressed("toggle-effects-sound", state.effectsEnabled);
+
     const master =
       document.getElementById(
         "master-volume-control"
@@ -1443,6 +1509,17 @@ window.GameAudio = (() => {
 
   function setupControls() {
     syncControls();
+
+    document.getElementById("effects-volume-control")?.addEventListener("input", event => {
+      setEffectsVolume(Number(event.target.value) / 100);
+    });
+    document.getElementById("toggle-effects-sound")?.addEventListener("click", toggleEffects);
+    document.getElementById("test-effects-sound")?.addEventListener("click", playCorrectAnswer);
+    document.querySelectorAll("[data-effects-step]").forEach(button => {
+      button.addEventListener("click", () => {
+        setEffectsVolume((Math.round(state.effects * 100) + Number(button.dataset.effectsStep)) / 100);
+      });
+    });
 
     const master =
       document.getElementById(
@@ -1610,10 +1687,13 @@ window.GameAudio = (() => {
     ensureGameAmbient,
     setMaster,
     setBackgroundVolume,
+    setEffectsVolume,
     setButtonVolume,
     setBackgroundEnabled,
+    setEffectsEnabled,
     setButtonsEnabled,
     toggleBackground,
+    toggleEffects,
     toggleButtons,
     syncControls,
 
