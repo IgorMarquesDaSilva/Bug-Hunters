@@ -1222,6 +1222,11 @@ Explore os laboratórios comigo, encontre as falhas e use a lógica de programa�
             <div id="choices-container"></div>
             <div id="matching-container" hidden></div>
             <div id="memory-container" hidden></div>
+            <p id="mission-keyboard-help" class="sr-only">Tab percorre somente os controles desta pergunta. Use Consultar glossário para revisar um termo e voltar à mesma atividade.</p>
+
+            <div class="popup-actions">
+              <button id="btn-mission-glossary" class="cyber-btn secondary" type="button" onclick="Glossary.open()">CONSULTAR GLOSSÁRIO</button>
+            </div>
 
             <div
               id="explanation-box"
@@ -1285,14 +1290,15 @@ Explore os laboratórios comigo, encontre as falhas e use a lógica de programa�
       <span class="room-clear-toast-title">SETOR LIMPO!</span>
     </div>
 
-    <p class="mission-desc room-clear-toast-desc">
-      A porta foi liberada. Vá até ela para avançar.
+    <p id="room-clear-instructions" class="mission-desc room-clear-toast-desc">
+      Conclua este setor acionando Liberar porta. Depois, vá até a saída para avançar.
     </p>
 
     <div class="popup-actions room-clear-toast-actions">
 
       <button
         id="btn-room-clear-open"
+        aria-label="Liberar porta" aria-describedby="room-clear-instructions"
         class="cyber-btn room-clear-btn"
         onclick="MissionSystem.openPortal()">
 
@@ -1664,8 +1670,8 @@ Explore os laboratórios comigo, encontre as falhas e use a lógica de programa�
   <script src="assets/js/core/platform.js"></script>
   
   <script src="assets/js/systems/collision.js?v=2"></script>
-  <script src="assets/js/systems/player.js?v=8"></script>
-  <script src="assets/js/systems/bugs.js?v=8"></script>
+  <script src="assets/js/systems/player.js?v=9"></script>
+  <script src="assets/js/systems/bugs.js?v=9"></script>
   <script src="assets/js/systems/renderer.js?v=16"></script>
   <script src="assets/js/systems/transition.js?v=20"></script>
   
@@ -1674,19 +1680,19 @@ Explore os laboratórios comigo, encontre as falhas e use a lógica de programa�
   <script src="assets/js/ui/hud.js?v=2"></script>
   <script src="assets/js/ui/matching.js?v=3"></script>
   <script src="assets/js/ui/memory.js?v=4"></script>
-  <script src="assets/js/ui/mission.js?v=12"></script>
+  <script src="assets/js/ui/mission.js?v=13"></script>
   <script src="assets/js/ui/results.js?v=3"></script>
   <script src="assets/js/ui/intro.js?v=4"></script>
-  <script src="assets/js/ui/tutorial.js?v=11"></script>
+  <script src="assets/js/ui/tutorial.js?v=12"></script>
   <script src="assets/js/ui/glossary.js?v=8"></script>
-  <script src="assets/js/ui/shortcuts.js?v=5"></script>
+  <script src="assets/js/ui/shortcuts.js?v=6"></script>
   <script src="assets/js/ui/responsive.js?v=10"></script>
-  <script src="assets/js/systems/audio.js?v=9"></script>
+  <script src="assets/js/systems/audio.js?v=10"></script>
   
-  <script src="assets/js/ui/keyboard.js?v=11"></script>
+  <script src="assets/js/ui/keyboard.js?v=12"></script>
   <script src="assets/js/core/game.js?v=7"></script>
   <script src="assets/js/ui/tela_inicial.js?v=18"></script>
-  <script src="assets/js/ui/accessibility.js?v=27"></script>
+  <script src="assets/js/ui/accessibility.js?v=28"></script>
 </body>
 
 </html>

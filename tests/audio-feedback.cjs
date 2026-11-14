@@ -4,6 +4,7 @@
 // BH_AUDIO_FOCUS=error verifica apenas o destaque do erro sobre a música.
 // BH_AUDIO_FOCUS=alert verifica o arquivo e o popup real BUG DETECTADO.
 // BH_AUDIO_FOCUS=feedback compara erro/acerto ao alerta e responde perguntas reais.
+// BH_AUDIO_FOCUS=gameplay confere os passos e a comemoração de acerto.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -47,7 +48,8 @@ const path = require('node:path');
       win.GameState = { currentRoom: 'sala1' };
       win.eval(script);
       const audio = win.GameAudio;
-      const maximum = kind === 'mix' || kind === 'error-max' || kind === 'alert-max' || kind === 'correct-max';
+      const maximum = kind === 'mix' || kind === 'error-max' || kind === 'alert-max' || kind === 'correct-max' || kind === 'steps-max';
+      const stepMix = ['steps-mix', 'steps-max'].includes(kind);
       const errorMix = ['error-mix', 'error-max', 'error-disabled'].includes(kind);
       const correctMix = ['correct-mix', 'correct-max', 'correct-disabled'].includes(kind);
       const alertMix = ['alert-mix', 'alert-max', 'alert-disabled'].includes(kind);
@@ -55,7 +57,7 @@ const path = require('node:path');
       audio.setBackgroundVolume(maximum ? 1 : 0.65);
       audio.setButtonVolume(maximum ? 1 : 0.75);
       audio.setEffectsVolume?.(maximum ? 1 : 0.75);
-      audio.setBackgroundEnabled(['music', 'mix', 'muted'].includes(kind) || errorMix || correctMix || alertMix);
+      audio.setBackgroundEnabled(['music', 'mix', 'muted'].includes(kind) || errorMix || correctMix || alertMix || stepMix);
       audio.setButtonsEnabled(!['error-disabled', 'correct-disabled', 'alert-disabled'].includes(kind));
       audio.setEffectsEnabled?.(!['error-disabled', 'correct-disabled', 'alert-disabled'].includes(kind));
       const intervals = [], timeouts = [];
@@ -71,7 +73,7 @@ const path = require('node:path');
         const fxSamples = new Float32Array(1024), musicSamples = new Float32Array(1024);
         let fxPower = 0, musicPower = 0, meterFrames = 0, minimumMusicGain = 1;
         let normalMusicGain;
-        if (errorMix || alertMix) {
+        if (errorMix || alertMix || stepMix) {
           audio.getState().sfxGain.connect(fxMeter);
           audio.getState().musicGain.connect(musicMeter);
         }
@@ -90,7 +92,8 @@ const path = require('node:path');
         fxRecorder.start();
         recorder.start();
         if (kind === 'music') audio.playRoom('sala1');
-        if (kind === 'steps' || kind === 'mix') {
+        if (stepMix) audio.playRoom('sala1');
+        if (kind === 'steps' || kind === 'mix' || stepMix) {
           audio.playFootstep('sala1');
           intervals.push(setInterval(() => audio.playFootstep('sala1'), 333));
         }
@@ -106,7 +109,7 @@ const path = require('node:path');
           timeouts.push(setTimeout(() => audio.playBugAlert(), 500));
           timeouts.push(setTimeout(() => audio.stopBugAlert(), 1900));
         }
-        if (errorMix || alertMix) {
+        if (errorMix || alertMix || stepMix) {
           if (errorMix) {
             audio.playRoom('sala1');
             timeouts.push(setTimeout(() => audio.playError(), 500));
@@ -114,12 +117,12 @@ const path = require('node:path');
           const start = performance.now();
           intervals.push(setInterval(() => {
             const elapsed = performance.now() - start;
-            if (elapsed < (alertMix ? 900 : 525) || elapsed > (alertMix ? 1750 : 700)) return;
+            if (elapsed < (stepMix ? 500 : alertMix ? 900 : 525) || elapsed > (stepMix ? duration - 200 : alertMix ? 1750 : 700)) return;
             fxMeter.getFloatTimeDomainData(fxSamples); musicMeter.getFloatTimeDomainData(musicSamples);
             fxPower += fxSamples.reduce((sum, sample) => sum + sample * sample, 0) / 1024;
             musicPower += musicSamples.reduce((sum, sample) => sum + sample * sample, 0) / 1024;
             meterFrames++;
-            const level = alertMix ? audio.getState().musicGain.gain.value / normalMusicGain
+            const level = alertMix || stepMix ? audio.getState().musicGain.gain.value / normalMusicGain
               : audio.getState().currentTrack.gain.gain.value;
             minimumMusicGain = Math.min(minimumMusicGain, level);
           }, 10));
@@ -174,8 +177,8 @@ const path = require('node:path');
         return { rms, db: rms ? 20 * Math.log10(rms) : -120, peak,
           fxWindowDb: highestPower > 0 ? 10 * Math.log10(highestPower) : -120,
           fxActiveSeconds: fxActiveSamples / fxDecoded.sampleRate,
-          ...(errorMix || alertMix ? { emphasisDb: fxPower ? 10 * Math.log10(fxPower / musicPower) : -120,
-            meterFrames, minimumMusicGain, restoredMusicGain: alertMix
+          ...(errorMix || alertMix || stepMix ? { emphasisDb: fxPower ? 10 * Math.log10(fxPower / musicPower) : -120,
+            meterFrames, minimumMusicGain, restoredMusicGain: alertMix || stepMix
               ? audio.getState().musicGain.gain.value / normalMusicGain : audio.getState().currentTrack.gain.gain.value } : {}),
           ...(alertMix ? { alertLevel: audio.getState().alertGainNode?.gain.value ?? null,
             alertStopped: audio.getState().alertAudio?.paused ?? true } : {}),
@@ -197,6 +200,26 @@ const path = require('node:path');
   try {
     await send('Network.enable'); await send('Network.setCacheDisabled', { cacheDisabled: true });
     await evaluate("GameAudio.setMaster(0);localStorage.setItem('bh_tutorial_done','1')");
+    if (process.env.BH_AUDIO_FOCUS === 'gameplay') {
+      for (const [version, script] of versions) await record(version, script, 'steps', 2200);
+      await record('after', source, 'steps-mix', 2500);
+      await record('after', source, 'steps-max', 2500);
+      await record('after', source, 'correct-mix', 2600);
+      await record('after', source, 'correct-max', 2600);
+      await record('after', source, 'muted', 700);
+      if (captures['before-steps']) {
+        const increase = captures['after-steps'].db - captures['before-steps'].db;
+        assert.ok(increase > 3, `Passos mais presentes: +${increase.toFixed(1)} dB`);
+        console.log(`OK: passos +${increase.toFixed(1)} dB com os mesmos controles de volume`);
+      }
+      assert.ok(captures['after-steps-mix'].emphasisDb > -6, `Passos audíveis junto à música: ${captures['after-steps-mix'].emphasisDb.toFixed(1)} dB`);
+      assert.ok(captures['after-correct-mix'].fxActiveSeconds > 0.9, 'Acerto tem uma comemoração completa');
+      for (const kind of ['steps-max', 'correct-max']) assert.ok(captures[`after-${kind}`].peak < 0.99, 'Som no máximo não satura');
+      assert.ok(captures['after-muted'].peak < 0.0001, 'Volume zero continua silenciando tudo');
+      if (process.env.BH_AUDIO_OUTPUT) fs.writeFileSync(path.join(process.env.BH_AUDIO_OUTPUT, 'gameplay-metrics.json'), JSON.stringify(captures, null, 2));
+      console.log(`OK: passos com música ${captures['after-steps-mix'].emphasisDb.toFixed(1)} dB, acerto ${captures['after-correct-mix'].fxActiveSeconds.toFixed(2)} s, volume máximo e silêncio`);
+      return;
+    }
     if (process.env.BH_AUDIO_FOCUS === 'alert') {
       for (const [version, script] of versions) await record(version, script, 'alert-mix', 2600);
       await record('after', source, 'alert-max', 2600);

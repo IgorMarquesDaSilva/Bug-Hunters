@@ -71,7 +71,7 @@ const TutorialSystem = (() => {
       image: "player-frente.png",
       imageAlt: "Personagem visto de frente, representando os recursos de apoio do jogo.",
       caption: "Use os recursos extras sempre que precisar.",
-      text: "Você pode abrir o glossário pelo HUD para consultar os termos e revisar o conteúdo, inclusive durante uma pergunta. O painel também permite reabrir este tutorial e consultar os atalhos.",
+      text: "Você pode abrir o glossário pelo HUD para consultar os termos e revisar o conteúdo. Durante uma pergunta, use Consultar glossário dentro da atividade. O painel também permite reabrir este tutorial e consultar os atalhos.",
       extra: [
         { type: "tip", text: "Uma lâmpada ao lado de uma palavra explica seu significado. Passe o mouse ou use Tab e Enter para consultar. O Narrador do Windows lê os textos e controles. Pressione R para repetir a etapa pelo leitor nativo." }
       ]

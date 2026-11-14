@@ -906,15 +906,22 @@ window.GameAudio = (() => {
     unlock().then(ready => {
       if (!ready || !state.effectsEnabled || !state.effects || !state.master) return;
       const now = state.ctx.currentTime;
-      const group = beginFeedback(now, 0.74);
-      playTone({ frequency: 660, duration: 0.34, hold: 0.21,
-        type: 'triangle', volume: 0.6, when: now, group });
-      playTone({ frequency: 330, duration: 0.34, hold: 0.19,
-        type: 'sine', volume: 0.16, when: now, group });
-      playTone({ frequency: 990, duration: 0.5, hold: 0.32,
-        type: 'triangle', volume: 0.6, when: now + 0.24, group });
-      playTone({ frequency: 1980, duration: 0.4, hold: 0.22,
-        type: 'sine', volume: 0.12, when: now + 0.24, group });
+      const group = beginFeedback(now, 1.12);
+      // Arpejo maior ascendente e acorde final: uma pequena comemoração do acerto.
+      [523.25, 659.25, 783.99].forEach((frequency, index) => {
+        playTone({ frequency, duration: 0.22, hold: 0.10, type: 'triangle',
+          volume: 0.55, when: now + index * 0.14, group });
+        playTone({ frequency: frequency / 2, duration: 0.20, hold: 0.08, type: 'sine',
+          volume: 0.14, when: now + index * 0.14, group });
+      });
+      playTone({ frequency: 1046.5, duration: 0.68, hold: 0.38,
+        type: 'triangle', volume: 0.48, when: now + 0.44, group });
+      [[523.25, 0.23], [659.25, 0.22], [783.99, 0.20]].forEach(([frequency, volume]) => {
+        playTone({ frequency, duration: 0.64, hold: 0.32,
+          type: 'triangle', volume, when: now + 0.44, group });
+      });
+      playNoiseBurst({ when: now + 0.44, duration: 0.12, volume: 0.1,
+        cutoff: 3500, filterType: 'highpass', target: group.gain, group });
     });
   }
 
@@ -1082,25 +1089,25 @@ window.GameAudio = (() => {
 
     const roomStep = {
       sala1: {
-        base: 145,
+        base: 185,
         noise: 0.055,
         filter: 420
       },
 
       sala2: {
-        base: 175,
+        base: 215,
         noise: 0.050,
         filter: 520
       },
 
       sala3: {
-        base: 120,
+        base: 170,
         noise: 0.060,
         filter: 360
       },
 
       sala4: {
-        base: 160,
+        base: 200,
         noise: 0.052,
         filter: 470
       }
@@ -1138,14 +1145,14 @@ window.GameAudio = (() => {
     );
 
     stepGain.gain.linearRampToValueAtTime(
-      0.65,
+      0.95,
       now + 0.012
     );
 
-    stepGain.gain.exponentialRampToValueAtTime(0.12, now + 0.07);
+    stepGain.gain.exponentialRampToValueAtTime(0.30, now + 0.09);
     stepGain.gain.exponentialRampToValueAtTime(
       0.0001,
-      now + 0.15
+      now + 0.19
     );
 
     osc.type = "triangle";
@@ -1167,19 +1174,19 @@ window.GameAudio = (() => {
     noise.buffer =
       createNoiseBuffer(
         ctx,
-        0.15
+        0.20
       );
 
     noise.loop = false;
 
     noiseGain.gain.setValueAtTime(
-      roomStep.noise * 5,
+      roomStep.noise * 8,
       now
     );
 
     noiseGain.gain.exponentialRampToValueAtTime(
       0.0001,
-      now + 0.09
+      now + 0.12
     );
 
     noiseFilter.type = "bandpass";
@@ -1197,9 +1204,10 @@ window.GameAudio = (() => {
     osc.connect(stepGain);
     // Ataque médio dá definição ao contato do pé, inclusive em alto-falantes pequenos.
     impact.type = 'sine';
-    impact.frequency.setValueAtTime(roomStep.base * 2.6, now);
-    impactGain.gain.setValueAtTime(0.24, now);
-    impactGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+    impact.frequency.setValueAtTime(850 + (state.stepSide ? 70 : -70), now);
+    impact.frequency.exponentialRampToValueAtTime(420, now + 0.07);
+    impactGain.gain.setValueAtTime(0.55, now);
+    impactGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.07);
     impact.connect(impactGain);
     impactGain.connect(stepGain);
 
@@ -1216,13 +1224,13 @@ window.GameAudio = (() => {
     noise.start(now);
 
     osc.stop(
-      now + 0.16
+      now + 0.20
     );
 
     noise.stop(
-      now + 0.16
+      now + 0.20
     );
-    impact.stop(now + 0.06);
+    impact.stop(now + 0.08);
     impact.onended = () => { impact.disconnect(); impactGain.disconnect(); };
     noise.onended = () => { noise.disconnect(); noiseFilter.disconnect(); noiseGain.disconnect(); };
     osc.onended = () => { osc.disconnect(); stepGain.disconnect(); };

@@ -46,6 +46,16 @@ const assert = require('node:assert/strict');
     ['.hud-action-settings','screen-settings','[onclick="closeSettingsMenu()"]']
   ];
   async function openHelper(helper) {
+    if (await evaluate("UI.getActiveScreen()==='screen-mission'")) {
+      if (helper[1] === 'screen-glossary') {
+        await tabTo("document.activeElement.id==='btn-mission-glossary'");
+        await key('Enter');
+      } else {
+        await evaluate(`document.querySelector(${JSON.stringify(helper[0])}).click()`);
+      }
+      assert.equal(await evaluate('UI.getActiveScreen()'), helper[1]);
+      return;
+    }
     await tabTo(`document.activeElement.matches(${JSON.stringify(helper[0])})`);
     await key('Enter');
     assert.equal(await evaluate('UI.getActiveScreen()'), helper[1]);

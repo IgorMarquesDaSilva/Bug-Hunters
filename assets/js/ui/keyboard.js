@@ -14,11 +14,17 @@ window.KeyboardNavigation = (() => {
   function currentItems() {
     const items = activeScreen ? focusable(activeScreen) : [];
     const hud = document.querySelector('.hud-panel');
-    if (hud && !hud.inert) items.push(...focusable(hud));
+    if (hud && !hud.inert && activeScreen?.id !== 'screen-mission') items.push(...focusable(hud));
     return items;
   }
 
   document.addEventListener('focusin', event => {
+    if (activeScreen?.id === 'screen-mission' && !activeScreen.contains(event.target)) {
+      const previous = screenFocus.get(activeScreen.id);
+      const items = currentItems();
+      (items.includes(previous) ? previous : items[0])?.focus();
+      return;
+    }
     const screen = event.target.closest('.overlay');
     if (screen) screenFocus.set(screen.id, event.target);
   });

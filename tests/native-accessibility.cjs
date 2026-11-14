@@ -44,6 +44,29 @@ const assert = require('node:assert/strict');
     }
     assert.fail(`Controle alcançável por Tab: ${selector}`);
   }
+  async function checkQuestionFocus() {
+    await evaluate("document.getElementById('mission-desc').focus()");
+    await evaluate("document.querySelector('.hud-action-settings').focus()");
+    assert.equal(await evaluate("!!document.activeElement.closest('#screen-mission')"), true, 'Foco externo volta à pergunta');
+    const total = await evaluate("[...document.querySelectorAll('#screen-mission button:not(:disabled),#screen-mission [tabindex=\"0\"]')].filter(el=>el.getClientRects().length).length");
+    for (let i = 0; i < total * 2 + 2; i++) {
+      await press('Tab');
+      assert.equal(await evaluate("!!document.activeElement.closest('#screen-mission')"), true, 'Tab permanece dentro da pergunta');
+    }
+    await evaluate("document.getElementById('mission-desc').focus()");
+    await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Tab', windowsVirtualKeyCode: 9, modifiers: 8 });
+    await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Tab', windowsVirtualKeyCode: 9, modifiers: 8 });
+    assert.equal(await evaluate("!!document.activeElement.closest('#screen-mission')"), true, 'Tab reverso também permanece na pergunta');
+    const before = await evaluate("JSON.stringify({index:GameState.activeIdx,score:GameState.score,choices:document.getElementById('choices-container').innerHTML,memory:document.getElementById('memory-container').innerHTML,matching:document.getElementById('matching-container').innerHTML})");
+    await tabTo('#btn-mission-glossary');
+    await press('Enter');
+    assert.equal(await evaluate('UI.getActiveScreen()'), 'screen-glossary');
+    await tabTo('.glossary-close');
+    await press('Enter');
+    assert.equal(await evaluate('UI.getActiveScreen()'), 'screen-mission');
+    assert.equal(await evaluate('document.activeElement.id'), 'btn-mission-glossary');
+    assert.equal(await evaluate("JSON.stringify({index:GameState.activeIdx,score:GameState.score,choices:document.getElementById('choices-container').innerHTML,memory:document.getElementById('memory-container').innerHTML,matching:document.getElementById('matching-container').innerHTML})"), before, 'Glossário interno preserva a atividade');
+  }
   async function accessible(selector) {
     const { root } = await send('DOM.getDocument');
     const { nodeId } = await send('DOM.querySelector', { nodeId: root.nodeId, selector });
@@ -99,12 +122,15 @@ const assert = require('node:assert/strict');
     console.log('OK: somente leitor nativo, menu, tutorial, apresentação e foco na aplicação de movimento');
 
     await evaluate("GameState.bugs=[];GameState.activeIdx=-1;GameState.collisionZones=[];Player.state.x=450;Player.state.y=250;AccessibilitySystem.clearAnnouncements()");
+    await evaluate('window.actualFootstep=GameAudio.playFootstep;window.stepCalls=0;GameAudio.playFootstep=(...args)=>{stepCalls++;return actualFootstep(...args)}');
     assert.equal(await evaluate(`(() => {
       const input=document.getElementById('game-movement-input'), before=Player.state.x;
       input.dispatchEvent(new KeyboardEvent('keydown',{key:'d',bubbles:true,cancelable:true}));
       input.dispatchEvent(new KeyboardEvent('keyup',{key:'d',bubbles:true}));
       return Player.state.x>before;
     })()`), true, 'Toque completo entre dois quadros também move');
+    assert.equal(await evaluate('stepCalls'), 1, 'Toque curto toca um passo imediatamente');
+    await evaluate('GameAudio.playFootstep=actualFootstep');
     await send('Input.insertText', { text: 'teste' });
     await press('x');
     assert.equal(await evaluate("document.getElementById('game-movement-input').value"), '', 'Controle não acumula texto ou abre escrita no mapa');
@@ -154,6 +180,8 @@ const assert = require('node:assert/strict');
     assert.equal(question.role.value, 'group');
     assert.match(question.name.value, /^Pergunta: /);
     assert.equal(await evaluate('document.activeElement.id'), 'mission-desc');
+    await checkQuestionFocus();
+    await evaluate("document.getElementById('mission-desc').focus()");
     if (await evaluate("!document.getElementById('mission-code').parentElement.hidden")) {
       await press('Tab');
       assert.match((await accessible('#mission-code')).name.value, /Código da missão\. Linha 1:/);
@@ -167,6 +195,8 @@ const assert = require('node:assert/strict');
     const continueButton = await accessible('#btn-next');
     assert.equal(continueButton.name.value, 'Continuar');
     assert.match(continueButton.description.value, /Resposta correta.*pontos/);
+    await checkQuestionFocus();
+    await evaluate("document.getElementById('btn-next').focus()");
     const beforeConsultation = await evaluate("document.getElementById('explanation-box').textContent");
     await evaluate('openSettingsFromGame()');
     await press('Escape');
@@ -188,6 +218,7 @@ const assert = require('node:assert/strict');
       } else {
         assert.match(await evaluate("document.getElementById('matching-status').textContent"), /selecionado/);
       }
+      await checkQuestionFocus();
       assert.equal(await evaluate("document.getElementById('game-live-region').textContent"), '', 'Atividade usa seu próprio status, sem anúncio duplicado');
     }
     await evaluate('Player.clearDirectionInput();Player.state.x=100;Player.state.y=100;GameState.activeIdx=-1;UI.showScreen(null);GameState.solvedCount=5;GameState.bugs.forEach(bug=>bug.solved=true);GameState.portal.visible=true');
@@ -215,6 +246,21 @@ const assert = require('node:assert/strict');
     assert.ok(await evaluate("[...document.querySelectorAll('.result-row')].every(row=>!!row.getAttribute('aria-label'))"));
     assert.equal(await evaluate('browserSpeechCalls'), 0);
     console.log('OK: memória, associação, orientação para a saída, alerta de bug e resumo acessível sem voz própria');
+
+    for (const room of ['sala1','sala2','sala3','sala4']) {
+      await evaluate(`selectDifficulty('facil');GameState.currentRoom='${room}';Renderer.loadRoomBackground();BugSystem.spawnBugs();CollisionSystem.loadZones();Player.resetToRoomStart();GameState.solvedCount=5;GameState.bugs.forEach(bug=>bug.solved=true);GameState.score=25;GameState.roomScore=25;(()=>{const door=GameState.collisionZones.find(zone=>/\\bdoor\\b/.test(zone.id));Player.state.x=door.x+door.w/2-Player.state.hitboxOffsetX-Player.state.hitboxW/2;Player.state.y=door.y-Player.state.hitboxOffsetY-Player.state.hitboxH-6})();UI.showScreen('screen-room-clear')`);
+      await press('Enter');
+      await wait(120);
+      assert.equal(await evaluate('GameState.portal.visible'), true);
+      assert.equal(await evaluate('UI.getActiveScreen()'), null, 'Porta não pula o aviso enquanto o jogador está parado');
+      assert.equal(await evaluate('document.activeElement.id'), 'game-movement-input');
+      assert.match(await evaluate("document.getElementById('game-alert-region').textContent"), /A porta foi aberta\. Dirija-se à porta de saída/);
+      assert.equal(await evaluate("document.getElementById('game-live-region').textContent"), '', 'Orientação antiga não encobre o aviso de abertura');
+      await press('ArrowDown');
+      await wait(120);
+      assert.equal(await evaluate('UI.getActiveScreen()'), 'screen-next-level', 'Um toque em direção à porta permite avançar');
+    }
+    console.log('OK: aviso explícito e prioritário da porta nas quatro fases, seguido de avanço por teclado');
   } finally {
     if (injected) await send('Page.removeScriptToEvaluateOnNewDocument', { identifier: injected.identifier });
     socket.close();

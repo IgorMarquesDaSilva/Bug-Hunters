@@ -188,7 +188,7 @@ const MissionSystem = (() => {
     document.getElementById("mission-desc").textContent = mission.desc;
     const description = document.getElementById("mission-desc");
     description.setAttribute("aria-label", `Pergunta: ${mission.desc}`);
-    description.setAttribute("aria-describedby", isMemory ? "memory-instructions" : isMatching ? "matching-instructions" : "question-label");
+    description.setAttribute("aria-describedby", `${isMemory ? "memory-instructions" : isMatching ? "matching-instructions" : "question-label"} mission-keyboard-help`);
 
     const missionCode = document.getElementById("mission-code");
 
@@ -435,6 +435,7 @@ const MissionSystem = (() => {
   function openPortal() {
     // 1. Ativa a visibilidade da porta no mapa
     GameState.portal.visible = true;
+    GameState.portal.openedAt = performance.now();
 
     // 2. Garante o envio dos dados de pontuação da sala para a modal da porta
     const roomScoreVal = GameState.roomScore ?? GameState.lastRoomScore ?? 0;
@@ -453,6 +454,7 @@ const MissionSystem = (() => {
 
     // 3. Fecha a notificação de setor limpo e libera a movimentação
     UI.showScreen(null);
+    BugSystem.announcePortalOpened();
   }
 
   function getNextRoom() {

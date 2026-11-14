@@ -63,8 +63,25 @@ const BugSystem = (() => {
     lastGuidanceX = player.x;
     lastGuidanceY = player.y;
     window.AccessibilitySystem?.announce?.(
-      `${force ? `Setor ${GameState.currentRoom.replace('sala', '')}. ${GameState.solvedCount} de ${GameState.currentMissions().length} desafios respondidos. ` : ''}${title}: ${distance} pixels em linha reta, ${direction}.${force ? ' Use WASD ou as setas para andar. R repete a orientação.' : ''}`,
+      `${force ? `Setor ${GameState.currentRoom.replace('sala', '')}. ${GameState.solvedCount} de ${GameState.currentMissions().length} desafios respondidos. ` : ''}${exit && force ? 'Dirija-se à porta de saída para continuar. ' : ''}${title}: ${distance} pixels em linha reta, ${direction}.${force ? ' Use WASD ou as setas para andar. R repete a orientação.' : ''}`,
       { key: 'guidance', cooldown: force ? 0 : 2500 }
+    );
+  }
+
+  function announcePortalOpened() {
+    const player = Player.state;
+    const door = GameState.collisionZones.find(zone => /\bdoor\b/.test(zone.id));
+    const directions = [];
+    if (door) {
+      const dx = door.x + door.w / 2 - (player.x + player.hitboxOffsetX + player.hitboxW / 2);
+      const dy = door.y + door.h / 2 - (player.y + player.hitboxOffsetY + player.hitboxH / 2);
+      if (Math.abs(dy) > 15) directions.push(dy < 0 ? 'acima' : 'abaixo');
+      if (Math.abs(dx) > 15) directions.push(dx < 0 ? 'à esquerda' : 'à direita');
+    }
+    const location = door ? ` A porta está ${directions.length ? directions.join(' e ') : 'bem perto'}.` : '';
+    window.AccessibilitySystem?.announce?.(
+      `A porta foi aberta. Dirija-se à porta de saída para continuar.${location} Use W, A, S, D ou as setas para andar. R repete a orientação.`,
+      { priority: 'assertive' }
     );
   }
 
@@ -347,6 +364,9 @@ const BugSystem = (() => {
       return;
     }
 
+    // Abrir a porta não deve trocar de tela antes de o jogador começar a andar.
+    if (GameState.portal.openedAt !== undefined && Player.state.lastMoveIntentAt <= GameState.portal.openedAt) return;
+
     const door = document.querySelector("#room-map .door");
     const canvas = document.getElementById("gameCanvas");
     const roomMap = document.getElementById("room-map");
@@ -390,6 +410,7 @@ const BugSystem = (() => {
     spawnBugs,
     draw,
     checkProximity,
+    announcePortalOpened,
     markSolved
   };
 

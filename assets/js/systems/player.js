@@ -50,11 +50,13 @@ window.Player = (() => {
     walkTimer: 0,
     isMoving: false,
     blocked: false,
+    lastMoveIntentAt: -Infinity,
     lastStepFrame: -1
   };
 
   const keys = {};
   let lastContact = '';
+  let lastStepSoundTime = -Infinity;
   const movementInput = document.getElementById('game-movement-input');
 
   function focusMovement() {
@@ -119,10 +121,11 @@ window.Player = (() => {
     }
   }
 
-  function playStepIfNeeded(previousFrame) {
-    if (!STEP_FRAMES.has(state.frame)) return;
-    if (state.frame === previousFrame) return;
-    if (state.lastStepFrame === state.frame) return;
+  function playStepIfNeeded(previousFrame, starting = false) {
+    if (!starting && (!STEP_FRAMES.has(state.frame) || state.frame === previousFrame || state.lastStepFrame === state.frame)) return;
+    const now = performance.now();
+    if (now - lastStepSoundTime < 180) return;
+    lastStepSoundTime = now;
 
     state.lastStepFrame = state.frame;
 
@@ -182,6 +185,8 @@ window.Player = (() => {
       wantsToMove = true;
     }
 
+    if (wantsToMove) state.lastMoveIntentAt = performance.now();
+
     const resolved = CollisionSystem.resolve(
       nx,
       ny,
@@ -212,10 +217,12 @@ window.Player = (() => {
     }
     lastContact = contactKey;
 
+    const wasMoving = state.isMoving;
     const actuallyMoved = wantsToMove && (state.x !== prevX || state.y !== prevY);
     state.isMoving = actuallyMoved;
 
     if (actuallyMoved) {
+      if (!wasMoving) playStepIfNeeded(-1, true);
       updateWalkingAnimation();
     } else {
       stopWalkingAnimation();
@@ -243,6 +250,8 @@ window.Player = (() => {
     state.lastStepFrame = -1;
     state.blocked = false;
     lastContact = '';
+    lastStepSoundTime = -Infinity;
+    state.lastMoveIntentAt = -Infinity;
   }
 
   function setDirectionInput(direction, isPressed) {

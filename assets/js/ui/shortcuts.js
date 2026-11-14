@@ -4,7 +4,7 @@ window.ShortcutHelp = (() => {
     {
       title: 'Navegação e respostas',
       entries: [
-        ['Tab', 'Ir ao próximo controle. Use Tab e Enter para navegar e escolher, uma tecla de cada vez.'],
+        ['Tab', 'Ir ao próximo controle. Durante uma pergunta, o foco permanece na atividade. Use Consultar glossário para revisar os termos.'],
         ['Enter', 'Acionar o botão focado ou escolher uma resposta. Nas associações, selecionar o item, ligar à resposta e confirmar.'],
         ['Tab e Enter', 'No jogo da memória, virar duas cartas. Antes do limite de erros, acionar Virar as cartas para continuar. Fácil: a missão termina no 4º erro; médio: no 2º; difícil: no 1º.'],
         ['Enter no título do resumo', 'Revelar todos os resultados imediatamente. Depois, usar Tab para consultar cada estatística e chegar aos botões.'],
@@ -21,7 +21,7 @@ window.ShortcutHelp = (() => {
         ['Enter', 'Abrir a missão quando aparecer o aviso de bug.'],
         ['R', 'Ouvir novamente a distância e a direção do bug mais próximo.'],
         ['Escape no painel', 'Devolver o foco à área de movimento depois de consultar as informações da barra lateral.'],
-        ['Tab', 'Acessar Tutorial, Glossário, Atalhos e Configurações. Os apoios também ficam disponíveis nas perguntas; ao fechar, a atividade continua de onde parou.']
+        ['Tab', 'No mapa, acessar Tutorial, Glossário, Atalhos e Configurações. Nas perguntas, o foco fica dentro da atividade; o botão Consultar glossário permite revisar os termos e voltar.']
       ]
     },
     {
