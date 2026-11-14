@@ -49,10 +49,30 @@ window.Player = (() => {
     frame: 0,
     walkTimer: 0,
     isMoving: false,
+    blocked: false,
     lastStepFrame: -1
   };
 
   const keys = {};
+  let lastContact = '';
+  const movementInput = document.getElementById('game-movement-input');
+
+  function focusMovement() {
+    movementInput?.focus({ preventScroll: true });
+  }
+
+  // Um campo editável real faz o Narrador entregar as teclas ao navegador.
+  // Ele é um controle do jogo: nenhum caractere deve permanecer digitado.
+  movementInput?.addEventListener('beforeinput', event => event.preventDefault());
+  movementInput?.addEventListener('input', () => { movementInput.value = ''; });
+  movementInput?.addEventListener('paste', event => event.preventDefault());
+  movementInput?.addEventListener('drop', event => event.preventDefault());
+  document.addEventListener('pointerdown', event => {
+    if (!GameState.difficulty || GameState.isPaused || GameState.isGameOver) return;
+    if (!event.target.closest?.('#game-container') || event.target.closest('.overlay')) return;
+    event.preventDefault();
+    focusMovement();
+  });
   const directionalInput = {
     up: false,
     down: false,
@@ -65,11 +85,14 @@ window.Player = (() => {
     if (!GameState.difficulty || GameState.isGameOver) return;
     const key = e.key.toLowerCase();
     if (!["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright"].includes(key)) return;
-    if (e.target.closest?.('input, textarea, select, [contenteditable="true"]')) return;
+    if (e.target !== movementInput && e.target.closest?.('input, textarea, select, [contenteditable="true"]')) return;
     e.preventDefault();
     // Focar antes de registrar a tecla evita que focusin apague o movimento.
-    document.getElementById("gameCanvas")?.focus();
+    focusMovement();
+    const firstPress = !keys[key];
     keys[key] = true;
+    // Toques curtos também andam, mesmo que soltar a tecla ocorra antes do próximo quadro.
+    if (firstPress && !e.repeat) update();
   });
 
   document.addEventListener("keyup", e => {
@@ -126,6 +149,8 @@ window.Player = (() => {
 
   function update() {
     if (GameState.isPaused) {
+      lastContact = '';
+      state.blocked = false;
       stopWalkingAnimation();
       return;
     }
@@ -171,6 +196,22 @@ window.Player = (() => {
     state.x = Math.max(0, Math.min(CONFIG.canvas.width - DRAW_W, resolved.x));
     state.y = Math.max(0, Math.min(CONFIG.canvas.height - DRAW_H, resolved.y));
 
+    const contacts = resolved.contacts || [];
+    if (wantsToMove && (state.x !== resolved.x || state.y !== resolved.y)) {
+      const direction = nx < prevX ? 'à esquerda' : nx > prevX ? 'à direita' : ny < prevY ? 'acima' : 'abaixo';
+      contacts.push({ key: 'map-edge', label: 'o limite da sala', direction });
+    }
+    state.blocked = contacts.length > 0;
+    const contact = contacts[0];
+    const contactKey = contact ? `${GameState.currentRoom}:${contact.key || contact.id}:${contact.direction}` : '';
+    if (contact && contactKey !== lastContact) {
+      window.AccessibilitySystem?.announce?.(
+        `Colisão encontrada com ${contact.label || 'um objeto'}, ${contact.direction}. Tente outra direção.`,
+        { key: 'collision', cooldown: 900 }
+      );
+    }
+    lastContact = contactKey;
+
     const actuallyMoved = wantsToMove && (state.x !== prevX || state.y !== prevY);
     state.isMoving = actuallyMoved;
 
@@ -200,6 +241,8 @@ window.Player = (() => {
     state.walkTimer = 0;
     state.isMoving = false;
     state.lastStepFrame = -1;
+    state.blocked = false;
+    lastContact = '';
   }
 
   function setDirectionInput(direction, isPressed) {
@@ -240,6 +283,7 @@ window.Player = (() => {
     draw,
     resetToRoomStart,
     setDirectionInput,
-    clearDirectionInput
+    clearDirectionInput,
+    focusMovement
   };
 })();

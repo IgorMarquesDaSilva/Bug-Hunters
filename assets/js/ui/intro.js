@@ -93,8 +93,7 @@ window.StoryIntro = (() => {
     message.classList.remove('is-typing');
     UI.showScreen(null);
     GameState.popupCooldown = 90;
-    document.getElementById('gameCanvas')?.focus();
-    window.AccessibilitySystem?.speak?.('Missão iniciada! Explore o setor e encontre os objetos com bugs.');
+    window.Player?.focusMovement();
   }
 
   message.addEventListener('keydown', event => {

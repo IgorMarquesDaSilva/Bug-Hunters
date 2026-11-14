@@ -204,7 +204,7 @@ const crypto = require('node:crypto');
     assert.equal(await evaluate('document.activeElement.id'), 'btn-intro-start');
     await key('Enter');
     assert.equal(await evaluate('UI.getActiveScreen()'), null, 'Começar pelo teclado retoma o jogo');
-    assert.equal(await evaluate('document.activeElement.id'), 'gameCanvas');
+    assert.equal(await evaluate('document.activeElement.id'), 'game-movement-input');
     console.log('OK: primeira entrada, apresentação e retorno ao jogo com Tab e Enter');
   } finally {
     await send('Emulation.clearDeviceMetricsOverride');

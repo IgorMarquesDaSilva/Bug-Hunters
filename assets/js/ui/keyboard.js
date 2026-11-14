@@ -2,7 +2,6 @@
 window.KeyboardNavigation = (() => {
   const selector = 'button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), a[href], [tabindex="0"]';
   let activeScreen = null;
-  let returnTarget = null;
   const screenFocus = new Map();
 
   function focusable(root) {
@@ -28,11 +27,8 @@ window.KeyboardNavigation = (() => {
     const previous = activeScreen;
     const screen = screenId ? document.getElementById(screenId) : null;
     const modal = Boolean(screen && screenId !== 'screen-bug-popup');
-    if ((!previous || previous.id === 'screen-bug-popup') && screen && !document.activeElement.closest('.overlay')) {
-      returnTarget = document.activeElement;
-    }
     activeScreen = screen;
-    document.querySelectorAll('#room-map, #mobile-controls, #gameCanvas').forEach(element => {
+    document.querySelectorAll('#room-map, #mobile-controls, #gameCanvas, #game-movement-region').forEach(element => {
       element.inert = modal;
     });
     const inGame = Boolean(window.UI?.isInGameSession());
@@ -51,18 +47,19 @@ window.KeyboardNavigation = (() => {
           ? screen.querySelector('#mission-desc') : null;
       (preferred || focusable(screen)[0] || screen).focus();
     } else if (!screen && (previous || preferredFocus)) {
-      const target = preferredFocus || returnTarget;
-      returnTarget = null;
-      if (target?.isConnected && !target.closest('.overlay, [inert]') && target.matches(selector) && target.getClientRects().length) {
-        target.focus();
-      } else {
-        document.getElementById('gameCanvas')?.focus();
-      }
+      // Retomar o mapa devolve o foco à aplicação que recebe WASD e setas.
+      // Nas perguntas, o ramo modal acima preserva o controle de origem.
+      window.Player?.focusMovement();
     }
   }
 
   document.addEventListener('keydown', event => {
     if (event.defaultPrevented || event.ctrlKey || event.altKey || event.metaKey) return;
+    if (event.key === 'Escape' && !activeScreen && window.UI?.isInGameSession()) {
+      event.preventDefault();
+      window.Player?.focusMovement();
+      return;
+    }
     const modal = activeScreen && activeScreen.id !== 'screen-bug-popup';
     if (modal && event.key === 'Tab') {
       const items = currentItems();
@@ -93,7 +90,7 @@ window.KeyboardNavigation = (() => {
       return;
     }
     // A notificação não rouba o foco nem interrompe a exploração.
-    if (event.key === 'Enter' && !event.repeat && activeScreen?.id === 'screen-bug-popup' && event.target.id === 'gameCanvas') {
+    if (event.key === 'Enter' && !event.repeat && activeScreen?.id === 'screen-bug-popup' && event.target.id === 'game-movement-input') {
       event.preventDefault();
       MissionSystem.startMission();
     }

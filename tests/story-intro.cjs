@@ -104,7 +104,7 @@ const path = require('node:path');
     assert.equal(await evaluate("document.getElementById('intro-typed-text').textContent"),fullText,'Enter no texto revela a fala inteira');
     assert.equal(await evaluate('GameState.isPaused'),true,'Terminar a fala mantém o jogo pausado');
     await tabTo('#btn-intro-start');await key('Enter');
-    assert.equal(await focus(),'gameCanvas');
+    assert.equal(await focus(),'game-movement-input');
     assert.equal(await evaluate('GameState.isPaused'),false);
     const finalSounds=await evaluate('introSounds');await wait(180);
     assert.equal(await evaluate('introSounds'),finalSounds,'Som não continua após Vamos nessa');
@@ -134,7 +134,7 @@ const path = require('node:path');
     await fresh();await key('Escape');
     assert.equal(await evaluate('UI.getActiveScreen()'),'screen-intro','Pular tutorial também leva à missão apresentada pelo personagem');
     await key('Escape');assert.equal(await evaluate('UI.getActiveScreen()'),'screen-intro');
-    await tabTo('#btn-intro-start');await key('Enter');assert.equal(await focus(),'gameCanvas');
+    await tabTo('#btn-intro-start');await key('Enter');assert.equal(await focus(),'game-movement-input');
     console.log('OK: visitantes antigos, tutorial pulado e encerramento pelo botão');
 
     for(const viewport of [{width:1440,height:900},{width:390,height:844},{width:844,height:390},{width:320,height:568}]) {
@@ -153,14 +153,14 @@ const path = require('node:path');
           const image=await send('Page.captureScreenshot',{format:'png'});
           fs.writeFileSync(path.join(process.env.BH_INTRO_SCREENSHOT_DIR,`story-intro-${viewport.width}.png`),Buffer.from(image.data,'base64'));
         }
-        await tabTo('#btn-intro-start');await key('Enter');assert.equal(await focus(),'gameCanvas');
+        await tabTo('#btn-intro-start');await key('Enter');assert.equal(await focus(),'game-movement-input');
       }
       console.log(`OK: apresentação em ${viewport.width}x${viewport.height}, duas fontes e três tamanhos`);
     }
     await evaluate("localStorage.removeItem('bh_story_seen');AccessibilitySystem.setHighContrast(true,false);StoryIntro.open()");
     assert.equal(await evaluate("getComputedStyle(document.getElementById('screen-intro')).backgroundColor"),'rgba(0, 0, 0, 0)','Alto contraste preserva a transparência ao redor do personagem');
     assert.equal(await evaluate("getComputedStyle(document.querySelector('.intro-dialogue')).borderTopColor"),'rgb(255, 255, 255)');
-    await tabTo('#btn-intro-start');await key('Enter');assert.equal(await focus(),'gameCanvas');
+    await tabTo('#btn-intro-start');await key('Enter');assert.equal(await focus(),'game-movement-input');
     console.log('OK: balão com alto contraste e cenário visível');
 
     await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});

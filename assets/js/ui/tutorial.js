@@ -73,7 +73,7 @@ const TutorialSystem = (() => {
       caption: "Use os recursos extras sempre que precisar.",
       text: "Você pode abrir o glossário pelo HUD para consultar os termos e revisar o conteúdo, inclusive durante uma pergunta. O painel também permite reabrir este tutorial e consultar os atalhos.",
       extra: [
-        { type: "tip", text: "Uma lâmpada ao lado de uma palavra explica seu significado. Passe o mouse ou use Tab para chegar à lâmpada e Enter para consultar. Pressione R para ouvir a etapa ou ative o leitor na tela de acessibilidade." }
+        { type: "tip", text: "Uma lâmpada ao lado de uma palavra explica seu significado. Passe o mouse ou use Tab e Enter para consultar. O Narrador do Windows lê os textos e controles. Pressione R para repetir a etapa pelo leitor nativo." }
       ]
     },
     {
@@ -181,7 +181,6 @@ const TutorialSystem = (() => {
     const showIntroduction = introduceAfterClose;
     introduceAfterClose = false;
     if (showIntroduction && StoryIntro.open()) return;
-    announce("Tutorial fechado. Atividade retomada.", false);
   }
 
   function isActive() {
@@ -207,7 +206,7 @@ const TutorialSystem = (() => {
   }
 
   function readCurrent() {
-    announce(slideToSpeech(SLIDES[currentSlide]), true);
+    announce(slideToSpeech(SLIDES[currentSlide]));
   }
 
   function render() {
@@ -232,7 +231,10 @@ const TutorialSystem = (() => {
     renderMedia(slide);
     renderDots(total);
     const textArea = document.querySelector("#screen-tutorial .tut-text-wrap");
-    if (textArea) textArea.scrollTop = 0;
+    if (textArea) {
+      textArea.scrollTop = 0;
+      textArea.setAttribute("aria-label", `Texto da etapa ${currentSlide + 1}. ${slide.text} ${(slide.extra || []).map(item => item.text).join(' ')}`);
+    }
     const body = document.querySelector("#screen-tutorial .tutorial-body");
     if (body) body.scrollTop = 0;
 
@@ -250,7 +252,7 @@ const TutorialSystem = (() => {
 
     document.getElementById("tut-btn-next")?.focus();
 
-    announce(slideToSpeech(slide), false);
+    announce(slideToSpeech(slide));
   }
 
   function renderMedia(slide) {
@@ -316,11 +318,11 @@ const TutorialSystem = (() => {
       .trim();
   }
 
-  function announce(message, forceVoice = false) {
+  function announce(message) {
     const clean = String(message || "").replace(/\s+/g, " ").trim();
 
-    if (window.AccessibilitySystem?.speak) {
-      AccessibilitySystem.speak(clean, forceVoice);
+    if (window.AccessibilitySystem?.announce) {
+      AccessibilitySystem.announce(clean);
     }
   }
 
@@ -411,7 +413,7 @@ const TutorialSystem = (() => {
     if (button) {
       showTermHelp(button);
       tooltipPinned = true;
-      announce(termTooltip.textContent, false);
+      announce(termTooltip.textContent);
     } else if (!termTooltip?.contains(event.target)) hideTermHelp();
   });
   document.addEventListener("scroll", positionTermHelp, true);

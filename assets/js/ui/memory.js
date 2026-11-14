@@ -6,6 +6,7 @@ const MemoryChallenge = (() => {
 
   function render(container, mission, onAnswer) {
     clear();
+    const describe = text => window.AccessibilitySystem?.readableCode(text) || text;
     const buttons = new Map();
     const matched = new Set();
     let revealed = [];
@@ -38,7 +39,6 @@ const MemoryChallenge = (() => {
 
     function announce(message) {
       status.textContent = `${matched.size / 2} de ${mission.pairs.length} pares. ${attempts} tentativas. ${mistakes} ${mistakes === 1 ? 'erro' : 'erros'}. ${message}`;
-      window.AccessibilitySystem?.speak?.(status.textContent);
     }
 
     function hide(card) {
@@ -64,9 +64,9 @@ const MemoryChallenge = (() => {
         button.textContent = card.text;
         button.classList.add('revealed');
         button.setAttribute('aria-pressed', 'true');
-        button.setAttribute('aria-label', `Carta ${index + 1}: ${card.text}`);
+        button.setAttribute('aria-label', `Carta ${index + 1}: ${describe(card.text)}`);
         if (revealed.length === 1) {
-          announce(`Carta ${index + 1}: ${card.text}. Escolha outra carta.`);
+          announce(`Carta ${index + 1}: ${describe(card.text)}. Escolha outra carta.`);
           return;
         }
 
@@ -79,10 +79,10 @@ const MemoryChallenge = (() => {
             found.disabled = true;
             found.classList.add('paired');
             found.textContent = `✓ ${item.text}`;
-            found.setAttribute('aria-label', `Par encontrado: ${item.text}`);
+            found.setAttribute('aria-label', `Par encontrado: ${describe(item.text)}`);
           }
           revealed = [];
-          announce(`Par encontrado: ${first.text} e ${second.text}.`);
+          announce(`Par encontrado: ${describe(first.text)} e ${describe(second.text)}.`);
           if (matched.size === mission.cards.length) {
             finished = true;
             onAnswer(true);
@@ -95,13 +95,13 @@ const MemoryChallenge = (() => {
           buttons.forEach(item => { item.disabled = true; });
           if (mistakes >= failureAt) {
             finished = true;
-            announce(`${first.text} e ${second.text} não formam par. Limite de erros atingido. Missão encerrada sem pontos.`);
+            announce(`${describe(first.text)} e ${describe(second.text)} não formam par. Limite de erros atingido. Missão encerrada sem pontos.`);
             onAnswer(false);
             return;
           }
           waiting = true;
           next.hidden = false;
-          announce(`${first.text} e ${second.text} não formam par. Leia as duas cartas e acione Virar as cartas quando quiser continuar.`);
+          announce(`${describe(first.text)} e ${describe(second.text)} não formam par. Leia as duas cartas e acione Virar as cartas quando quiser continuar.`);
           next.focus();
         }
       };

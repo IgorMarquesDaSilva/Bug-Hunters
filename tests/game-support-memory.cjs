@@ -85,7 +85,7 @@ const assert = require('node:assert/strict');
 
     await missionFixture('choice');
     assert.equal(await evaluate("document.querySelector('.hud-panel').inert"), false);
-    assert.equal(await evaluate("document.getElementById('gameCanvas').inert"), true);
+    assert.equal(await evaluate("document.getElementById('game-movement-region').inert"), true);
     assert.equal(await evaluate("document.getElementById('screen-mission').getAttribute('aria-modal')"),'false','Leitores de tela também alcançam os apoios');
     await checkHelpersPreserveMission();
     const originalIdx = await evaluate('GameState.activeIdx');
@@ -150,12 +150,12 @@ const assert = require('node:assert/strict');
       const helper = helpers[i%helpers.length];
       await evaluate('Player.state.x=500;Player.state.y=420;GameState.popupCooldown=9999');
       await openHelper(helper);await closeHelper(helper);
-      assert.ok(await evaluate(`document.activeElement.matches(${JSON.stringify(helper[0])})`));
+      assert.equal(await evaluate('document.activeElement.id'), 'game-movement-input', 'Retorno ao mapa recebe as teclas de movimento');
       const [direction,axis,sign]=directions[i];
       const before=await evaluate(`Player.state.${axis}`);
       await key(direction,100);
       assert.ok((await evaluate(`Player.state.${axis}`)-before)*sign>0,`${direction} retoma o movimento sem clique`);
-      assert.equal(await evaluate('document.activeElement.id'),'gameCanvas');
+      assert.equal(await evaluate('document.activeElement.id'),'game-movement-input');
     }
     console.log('OK: todos os apoios fecham por Tab/Enter e WASD/setas retomam o movimento');
 

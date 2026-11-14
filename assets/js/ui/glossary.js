@@ -61,6 +61,8 @@ window.Glossary = (() => {
 
     renderSideMenu();
     content.innerHTML = renderContent(data);
+    content.setAttribute('role', 'group');
+    content.setAttribute('aria-label', content.textContent.replace(/\s+/g, ' ').trim());
     content.scrollTop = 0;
     if (wasMenuFocused) {
       const target = wasSubcategory
@@ -84,6 +86,7 @@ window.Glossary = (() => {
             return `
               <button
                 class="glossary-subtab ${index === currentCategoryIndex ? "active" : ""}"
+                aria-pressed="${index === currentCategoryIndex}"
                 onclick="Glossary.show('${item.key}', ${index})">
                 ▸ ${escapeHtml(category.title)}
               </button>
@@ -95,6 +98,7 @@ window.Glossary = (() => {
         <div class="glossary-menu-group ${isActive ? "active" : ""}">
           <button
             class="glossary-tab ${isActive ? "active" : ""}"
+            aria-pressed="${isActive}"
             onclick="Glossary.show('${item.key}', 0)">
             ${item.label}
           </button>

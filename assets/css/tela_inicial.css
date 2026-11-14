@@ -725,7 +725,6 @@ body.font-size-large {
   box-shadow: 3px 3px 0 #000;
 }
 
-body.access-screen-reader-on #btn-screen-reader,
 body.high-contrast-on #btn-high-contrast {
   background: rgba(105, 255, 71, 0.18);
   border-color: var(--px-green);

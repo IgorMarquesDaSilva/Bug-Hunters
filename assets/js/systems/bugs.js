@@ -23,16 +23,31 @@ const BugSystem = (() => {
   }
 
   function announceNearestBug(force = false) {
-    if (GameState.isPaused || document.activeElement?.id !== "gameCanvas") return;
+    if (GameState.isPaused || document.activeElement?.id !== "game-movement-input") return;
 
     const player = Player.state;
     const now = Date.now();
-    if (!force && (!player.isMoving || now - lastGuidanceTime < 2500 ||
+    if (!force && (player.blocked || !player.isMoving || now - lastGuidanceTime < 2500 ||
       Math.hypot(player.x - lastGuidanceX, player.y - lastGuidanceY) < 24)) return;
 
     refreshMissionPositions();
-    const nearest = nearestBug();
-    if (!nearest) return;
+    let nearest = nearestBug();
+    let exit = false;
+    if (!nearest && GameState.portal.visible) {
+      const door = GameState.collisionZones.find(zone => /\bdoor\b/.test(zone.id));
+      if (door) {
+        const x = player.x + player.hitboxOffsetX + player.hitboxW / 2;
+        const y = player.y + player.hitboxOffsetY + player.hitboxH / 2;
+        const distance = Math.round(Math.hypot(Math.max(door.x, Math.min(x, door.x + door.w)) - x,
+          Math.max(door.y, Math.min(y, door.y + door.h)) - y));
+        nearest = { bug: door, distance, x, y };
+        exit = true;
+      }
+    }
+    if (!nearest) {
+      if (force) window.AccessibilitySystem?.announce?.('Todos os desafios foram respondidos. Libere a porta na tela Setor limpo para continuar.');
+      return;
+    }
 
     const { bug, distance, x, y } = nearest;
     const dx = bug.x + bug.w / 2 - x;
@@ -42,22 +57,23 @@ const BugSystem = (() => {
     if (Math.abs(dx) > 15) directions.push(dx < 0 ? "à esquerda" : "à direita");
     const direction = directions.length ? directions.join(" e ") : "bem perto";
     const mission = GameState.currentMissions()[bug.missionIdx];
-    const title = mission?.title?.split("—").slice(1).join("—").trim() || mission?.title || "bug";
+    const title = exit ? 'Porta de saída liberada' : mission?.title?.split("—").slice(1).join("—").trim() || mission?.title || "Bug mais próximo";
 
     lastGuidanceTime = now;
     lastGuidanceX = player.x;
     lastGuidanceY = player.y;
-    window.AccessibilitySystem?.speak?.(
-      `${title}: ${distance} pixels em linha reta, ${direction}. Pressione R para repetir a distância.`
+    window.AccessibilitySystem?.announce?.(
+      `${force ? `Setor ${GameState.currentRoom.replace('sala', '')}. ${GameState.solvedCount} de ${GameState.currentMissions().length} desafios respondidos. ` : ''}${title}: ${distance} pixels em linha reta, ${direction}.${force ? ' Use WASD ou as setas para andar. R repete a orientação.' : ''}`,
+      { key: 'guidance', cooldown: force ? 0 : 2500 }
     );
   }
 
   document.addEventListener("focusin", event => {
-    if (event.target.id === "gameCanvas") announceNearestBug(true);
+    if (event.target.id === "game-movement-input") announceNearestBug(true);
   });
 
   document.addEventListener("keydown", event => {
-    if (event.target.id !== "gameCanvas" || event.key.toLowerCase() !== "r" ||
+    if (event.target.id !== "game-movement-input" || event.key.toLowerCase() !== "r" ||
       event.repeat || event.ctrlKey || event.altKey || event.metaKey) return;
     event.preventDefault();
     announceNearestBug(true);
@@ -271,8 +287,9 @@ const BugSystem = (() => {
         }
 
         UI.showScreen("screen-bug-popup");
-        window.AccessibilitySystem?.speak?.(
-          `${document.getElementById("popup-bug-desc")?.textContent || "Bug detectado."} Pressione Enter para abrir a missão.`
+        window.AccessibilitySystem?.announce?.(
+          `${document.getElementById("popup-bug-desc")?.textContent || "Bug detectado."} Pressione Enter para abrir a missão.`,
+          { priority: 'assertive' }
         );
         break;
       }

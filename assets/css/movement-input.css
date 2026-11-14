@@ -1,0 +1,32 @@
+/* O campo nativo recebe as teclas; a imagem do jogo continua no canvas. */
+.game-movement-region {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.game-movement-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  resize: none;
+  overflow: hidden;
+  opacity: 0;
+  caret-color: transparent;
+  font-size: 16px;
+  pointer-events: auto;
+}
+
+.game-movement-region:focus-within::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  outline: 3px solid var(--px-amber);
+  outline-offset: -3px;
+  pointer-events: none;
+}

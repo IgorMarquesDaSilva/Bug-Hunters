@@ -186,16 +186,21 @@ const MissionSystem = (() => {
 
     document.getElementById("mission-title").textContent = mission.title;
     document.getElementById("mission-desc").textContent = mission.desc;
+    const description = document.getElementById("mission-desc");
+    description.setAttribute("aria-label", `Pergunta: ${mission.desc}`);
+    description.setAttribute("aria-describedby", isMemory ? "memory-instructions" : isMatching ? "matching-instructions" : "question-label");
 
     const missionCode = document.getElementById("mission-code");
 
     if (missionCode) {
       if (isHardMode) renderPortugolCode(missionCode, mission.code);
       else missionCode.textContent = mission.code;
+      missionCode.setAttribute("aria-label", `Código da missão. ${window.AccessibilitySystem?.readableCode(mission.code, true) || mission.code || ''}`);
     }
 
     const feedback = document.getElementById("feedback-msg");
     feedback.textContent = "";
+    setText("feedback-readable", "");
     feedback.className = "feedback";
 
     const expBox = document.getElementById("explanation-box");
@@ -264,8 +269,8 @@ const MissionSystem = (() => {
       btn.setAttribute(
         "aria-label",
         isCodeChoice
-          ? `Opcao ${choiceLetter}, bloco de codigo: ${choice}`
-          : `Opcao ${choiceLetter}: ${choice}`
+          ? `Opção ${choiceLetter}, bloco de código: ${window.AccessibilitySystem?.readableCode(choice, true) || choice}`
+          : `Opção ${choiceLetter}: ${window.AccessibilitySystem?.readableCode(choice) || choice}`
       );
 
       btn.onclick = () => selectAnswer(i, btn);
@@ -274,16 +279,6 @@ const MissionSystem = (() => {
     });
 
     UI.showScreen("screen-mission");
-    const options = isMemory
-      ? `Use Tab e Enter para virar duas cartas e encontrar os pares. ${mission.errorLimit === 0 ? 'O primeiro erro encerra a missão.' : `A missão termina no ${mission.errorLimit}º erro.`} Não há limite de tempo. As cartas incorretas permanecem abertas para leitura.`
-      : isMatching
-      ? `Itens: ${mission.pairs.map(pair => pair.left).join('; ')}. Respostas: ${mission.targets.join('; ')}. Use Tab e Enter para selecionar um item, ligar à resposta e confirmar. Uma resposta pode receber mais de um item.`
-      : mission.choices.map((choice, i) =>
-      `Opção ${String.fromCharCode(65 + i)}: ${choice}`
-    ).join(". ");
-    window.AccessibilitySystem?.speak?.(
-      `${mission.title}. ${mission.desc} ${mission.code ? `Blocos: ${mission.code}. ` : ''}${options}. Use Tab para navegar e Enter para escolher.`
-    );
   }
 
   function selectAnswer(idx, btn) {
@@ -351,7 +346,9 @@ const MissionSystem = (() => {
     btnNext.style.display = "inline-block";
     btnNext.textContent = "▶ CONTINUAR";
     btnNext.onclick = () => closeMission();
-    btnNext.setAttribute("aria-describedby", "feedback-msg explanation-box");
+    setText("feedback-readable", answeredCorrectly ? `Resposta correta. Você ganhou ${earnedPoints} pontos.` : 'Resposta incorreta. Nenhum ponto nesta missão.');
+    btnNext.setAttribute("aria-describedby", "feedback-readable explanation-box");
+    btnNext.setAttribute("aria-label", 'Continuar');
     btnNext.focus();
   }
 

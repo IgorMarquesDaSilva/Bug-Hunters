@@ -187,7 +187,7 @@ const path = require('node:path');
     assert.equal(await evaluate('GameState.totalRoomRestarts()'),0);
     assert.ok(await evaluate('GameState.run.startedAt')>oldStartedAt);
     assert.ok(await evaluate('GameState.elapsedTime()')<4000,'Nova partida conta apenas o tempo desde a nova escolha de dificuldade');
-    assert.equal(await evaluate('document.activeElement.id'),'gameCanvas');
+    assert.equal(await evaluate('document.activeElement.id'),'game-movement-input');
     console.log('OK: reinício único global, Game Over com resumo, Menu e Jogar novamente por teclado com efeito de TV e relógio novo');
   } finally {socket.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

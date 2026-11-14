@@ -120,7 +120,7 @@
             fullCanvas.hidden = true;
             gameRoot.inert = previousInert;
             window.KeyboardNavigation?.screenChanged(UI.getActiveScreen(), {
-              preferredFocus: UI.getActiveScreen() ? null : document.getElementById('gameCanvas')
+              preferredFocus: UI.getActiveScreen() ? null : document.getElementById('game-movement-input')
             });
           }
           // Uma janela pode ter sido aberta durante a animação. Nesse caso,

@@ -53,6 +53,8 @@ const ResultsScreen = (() => {
       list.append(node);
       rows.push(node);
       announcements.push(`${label}: ${value}. ${detail}`);
+      node.setAttribute('role', 'group');
+      node.setAttribute('aria-label', announcements[announcements.length - 1]);
       return node;
     }
 
@@ -66,7 +68,9 @@ const ResultsScreen = (() => {
       }
       row(`FASE ${number}`, `${room.correct} / ${room.total} acertos`, detail);
     }
-    row('TEMPO TOTAL', HUD.formatTime(summary.elapsed), 'Inclui perguntas, consultas e reinício de fase.');
+    const timeRow = row('TEMPO TOTAL', HUD.formatTime(summary.elapsed), 'Inclui perguntas, consultas e reinício de fase.');
+    announcements[announcements.length - 1] = `Tempo total: ${HUD.describeTime(summary.elapsed)}. Inclui perguntas, consultas e reinício de fase.`;
+    timeRow.setAttribute('aria-label', announcements[announcements.length - 1]);
     const restarted = summary.rooms.filter(room => room.restarts).map(room => `fase ${room.id.replace('sala', '')}`).join(', ');
     row('REINÍCIO DE FASE', summary.restarts ? `${summary.restarts} de 1 utilizado` : 'Nenhum',
       summary.restarts ? `Reinício utilizado na ${restarted}.` : 'Você manteve a primeira tentativa em todas as fases jogadas.');
@@ -76,6 +80,7 @@ const ResultsScreen = (() => {
     score.id = `${prefix}-score`;
     value.append(score, element('span', 'result-score-max', ' / 100'));
     announcements[announcements.length - 1] = `Pontuação total: ${summary.score} de 100 pontos.`;
+    total.setAttribute('aria-label', announcements[announcements.length - 1]);
 
     const actions = element('div', 'popup-actions results-actions');
     actions.hidden = true;
@@ -125,10 +130,6 @@ const ResultsScreen = (() => {
     session.hint.textContent = 'Resumo completo. Use Tab para consultar os resultados e os botões.';
     session.status.textContent = 'Resumo completo. Menu e Jogar novamente estão disponíveis.';
     if (session.follow) session.actions.scrollIntoView({ block: 'nearest', behavior: 'instant' });
-    // A narração completa evita que uma estatística interrompa a leitura da anterior.
-    if (UI.getActiveScreen() === session.screenId) {
-      window.AccessibilitySystem?.speak?.(session.announcements.join(' '));
-    }
   }
 
   function revealNext() {
@@ -142,6 +143,7 @@ const ResultsScreen = (() => {
     const row = session.rows[session.index++];
     row.hidden = false;
     row.classList.add('result-revealed');
+    session.status.textContent = session.announcements[session.index - 1];
     if (session.follow) row.scrollIntoView({ block: 'nearest', behavior: 'instant' });
     window.GameAudio?.playResultReveal(session.index === session.rows.length, session.index - 1);
     timer = setTimeout(revealNext, session.index === session.rows.length ? 950 : 1100);

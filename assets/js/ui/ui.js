@@ -8,6 +8,7 @@ window.UI = (() => {
   let supportReturn = null;
 
   function displayScreen(screenId, preferredFocus = null) {
+    window.AccessibilitySystem?.clearAnnouncements();
     const proximityPrompt = document.getElementById("screen-bug-popup");
     const wasProximityPromptOpen =
       proximityPrompt && getComputedStyle(proximityPrompt).display !== "none";

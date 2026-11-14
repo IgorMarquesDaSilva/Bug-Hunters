@@ -10,6 +10,7 @@ const MatchingChallenge = (() => {
 
   function render(container, mission, onAnswer) {
     clear();
+    const describe = text => window.AccessibilitySystem?.readableCode(text) || text;
     const answers = new Map();
     const sources = new Map();
     const targets = new Map();
@@ -78,14 +79,14 @@ const MatchingChallenge = (() => {
       button.textContent = pair.left;
       button.setAttribute('aria-pressed', 'false');
       button.setAttribute('aria-describedby', 'matching-instructions');
+      button.setAttribute('aria-label', `Item: ${describe(pair.left)}`);
       button.onclick = () => {
         if (submitted) return;
         selected = pair.id;
         sources.forEach((source, id) => source.setAttribute('aria-pressed', String(id === selected)));
-        updateStatus(`Selecione a resposta para ${pair.left}.`);
+        updateStatus(`Item ${describe(pair.left)} selecionado. Selecione a resposta com Tab e Enter.`);
         // O foco entra nas respostas sem exigir teclas simultâneas.
         targets.values().next().value?.focus();
-        window.AccessibilitySystem?.speak?.(`Item ${pair.left} selecionado. Use Tab e Enter para escolher a resposta.`);
       };
       sources.set(pair.id, button);
       sourceList.appendChild(button);
@@ -97,7 +98,7 @@ const MatchingChallenge = (() => {
       button.className = 'matching-item matching-target';
       button.dataset.target = target;
       button.textContent = target;
-      button.setAttribute('aria-label', `Ligar o item selecionado a ${target}`);
+      button.setAttribute('aria-label', `Ligar o item selecionado a ${describe(target)}`);
       button.onclick = () => {
         if (submitted) return;
         if (selected === null) {
@@ -109,15 +110,14 @@ const MatchingChallenge = (() => {
         answers.set(selected, target);
         const source = sources.get(selected);
         source.textContent = `${pair.left} → ${target}`;
-        source.setAttribute('aria-label', `${pair.left}, ligado a ${target}. Enter para trocar a ligação.`);
+        source.setAttribute('aria-label', `${describe(pair.left)}, ligado a ${describe(target)}. Enter para trocar a ligação.`);
         source.classList.add('linked');
         source.setAttribute('aria-pressed', 'false');
         selected = null;
-        updateStatus(answers.size === mission.pairs.length ? 'Confira as ligações e confirme.' : 'Escolha o próximo item.');
+        updateStatus(`${describe(pair.left)} ligado a ${describe(target)}. ${answers.size === mission.pairs.length ? 'Confira as ligações e confirme.' : 'Escolha o próximo item.'}`);
         drawLines();
         const next = mission.pairs.find(pair => !answers.has(pair.id));
         (next ? sources.get(next.id) : confirm).focus();
-        window.AccessibilitySystem?.speak?.(`${pair.left} ligado a ${target}. ${status.textContent}`);
       };
       targets.set(target, button);
       targetList.appendChild(button);
@@ -131,6 +131,7 @@ const MatchingChallenge = (() => {
         const correct = answers.get(pair.id) === pair.right;
         source.classList.add(correct ? 'correct' : 'wrong');
         source.textContent = `${correct ? '✓' : '✗'} ${pair.left} → ${answers.get(pair.id)}`;
+        source.setAttribute('aria-label', `${correct ? 'Ligação correta' : 'Ligação incorreta'}: ${describe(pair.left)} ligado a ${describe(answers.get(pair.id))}.`);
         source.disabled = true;
       });
       targets.forEach(button => { button.disabled = true; });

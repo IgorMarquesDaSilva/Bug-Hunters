@@ -89,7 +89,7 @@ const assert = require('node:assert/strict');
   try {
     await evaluate("localStorage.clear(); location.reload()");
     await wait(700);
-    assert.equal(await evaluate("document.getElementById('gameCanvas').getAttribute('role')"), 'application');
+    assert.equal(await evaluate("document.getElementById('game-movement-region').getAttribute('role')"), 'application');
     assert.equal(await evaluate("document.getElementById('game-live-region').getAttribute('aria-live')"), 'polite');
     assert.equal(await focus(), 'btn-main-play');
     assert.equal(await evaluate("document.querySelector('.main-menu-shortcuts')"), null, 'Painel antigo de atalhos removido');
@@ -97,7 +97,7 @@ const assert = require('node:assert/strict');
     assert.equal(await focus(), 'btn-main-accessibility');
     await key(' ');
     await wait(100);
-    assert.equal(await focus(), 'btn-screen-reader');
+    assert.equal(await focus(), 'btn-high-contrast');
     await key('Escape');
     await key('w');
     assert.equal(await focus(), 'master-volume-control');
@@ -128,7 +128,7 @@ const assert = require('node:assert/strict');
         assert.equal(await focus(), 'btn-intro-start');
         await key('Enter');
       }
-      assert.equal(await focus(), 'gameCanvas');
+      assert.equal(await focus(), 'game-movement-input');
       if (difficulty === 0) {
         await key('r');
         await wait(40);
@@ -139,16 +139,15 @@ const assert = require('node:assert/strict');
       await wait(80);
       await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'a', windowsVirtualKeyCode: 65 });
       assert.ok(await evaluate('Player.state.x') < x, 'Movimento por teclado');
-      await key('Tab');
-      await key('Tab');
+      await tabUntil("document.activeElement.matches('.hud-action-glossary')");
       await key('Enter');
       assert.ok((await focus()).includes('glossary-tab'));
       await key('Tab');
       await key('Enter');
       assert.ok((await focus()).includes('glossary-subtab'), 'Glossário preserva o foco ao reconstruir menu');
       await key('Escape');
-      assert.ok((await focus()).includes('hud-action-glossary'), 'Foco retorna ao botão que abriu o glossário');
-      await key('Tab');
+      assert.equal(await focus(), 'game-movement-input', 'Foco retorna à área de movimento');
+      await tabUntil("document.activeElement.id === 'btn-hud-shortcuts'");
       assert.equal(await focus(), 'btn-hud-shortcuts');
       await key('Enter');
       assert.equal(await focus(), 'shortcuts-content', 'Lista de atalhos recebe foco para rolagem');
@@ -157,21 +156,22 @@ const assert = require('node:assert/strict');
       for (const command of ['Tab', 'Enter', 'Espaço', 'Shift + Tab', 'Home', 'End', 'W A S D', 'Escape', 'Narrador', 'Acessibilidade']) {
         assert.ok(shortcuts.includes(command), `Ajuda inclui ${command}`);
       }
-      await key('Tab');
+      await tabUntil("document.activeElement.id === 'btn-shortcuts-close'");
       assert.equal(await focus(), 'btn-shortcuts-close');
-      await key('Tab');
+      await tabUntil("document.activeElement.matches('.hud-action-tutorial')");
       assert.ok((await focus()).includes('hud-action-tutorial'), 'Atalhos mantém a barra lateral acessível');
-      for (let button=0; button<4; button++) await key('Tab');
+      await tabUntil("document.activeElement.id === 'shortcuts-content'");
       assert.equal(await focus(), 'shortcuts-content', 'Tab permanece na janela de atalhos');
       await key('Escape');
-      assert.equal(await focus(), 'btn-hud-shortcuts', 'Escape devolve foco ao botão Atalhos');
+      assert.equal(await focus(), 'game-movement-input', 'Escape devolve foco ao mapa');
+      await tabUntil("document.activeElement.id === 'btn-hud-shortcuts'");
       await key('Enter');
-      await key('Tab');
+      await tabUntil("document.activeElement.id === 'btn-shortcuts-close'");
       await key('Enter');
-      assert.equal(await focus(), 'btn-hud-shortcuts', 'Atalhos também fecha somente com Tab e Enter');
+      assert.equal(await focus(), 'game-movement-input', 'Atalhos também fecha somente com Tab e Enter');
       // Posições são fixtures: respostas e progressão são acionadas por teclas reais.
       for (let room = 0; room < 4; room++) {
-        await evaluate("UI.showScreen(null); document.getElementById('gameCanvas').focus()");
+        await evaluate("UI.showScreen(null); document.getElementById('game-movement-input').focus()");
         for (let mission = 0; mission < 5; mission++) {
           await evaluate(`GameState.activeIdx = ${mission}; Player.state.x = GameState.bugs[${mission}].x - Player.state.hitboxOffsetX; Player.state.y = GameState.bugs[${mission}].y - Player.state.hitboxOffsetY; UI.showScreen('screen-bug-popup')`);
           await key('Enter');
@@ -179,7 +179,7 @@ const assert = require('node:assert/strict');
           await answerMission();
           await key('Enter');
           await wait(140);
-          if (mission < 4) assert.equal(await focus(), 'gameCanvas', 'Missão devolve foco ao mapa');
+          if (mission < 4) assert.equal(await focus(), 'game-movement-input', 'Missão devolve foco ao mapa');
         }
         assert.equal(await focus(), 'btn-room-clear-open');
         await evaluate('Player.resetToRoomStart()');

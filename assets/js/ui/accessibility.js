@@ -1,12 +1,10 @@
 /* ============================================================
    assets/js/ui/accessibility.js
-   Acessibilidade — leitor de tela do jogo com voz do navegador,
-   alto contraste, fonte ampliada, atalhos e aria-live.
+   Acessibilidade para leitores nativos, alto contraste, fontes e teclado.
 ============================================================ */
 
 (() => {
   const STORAGE_KEYS = {
-    screenReader: "bugHunters.accessibility.screenReader",
     highContrast: "bugHunters.accessibility.highContrast",
     fontSize: "bugHunters.fontSize",
     fontFamily: "bugHunters.fontFamily"
@@ -20,19 +18,14 @@
   };
 
   const state = {
-    screenReader: false,
     highContrast: false,
     fontSize: "normal",
     fontFamily: "default",
     initialized: false
   };
 
-  const speech = {
-    token: 0,
-    voices: [],
-    lastText: "",
-    lastTime: 0
-  };
+  const pending = new Map();
+  const lastAnnouncements = new Map();
 
   function getById(id) {
     return document.getElementById(id);
@@ -43,93 +36,56 @@
     if (el) el.textContent = value;
   }
 
-  function canSpeak() {
-    return "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
-  }
-
-  function refreshVoices() {
-    if (!canSpeak()) return;
-    speech.voices = window.speechSynthesis.getVoices() || [];
-  }
-
-  function bestVoice() {
-    refreshVoices();
-    return (
-      speech.voices.find(v => v.lang && v.lang.toLowerCase() === "pt-br") ||
-      speech.voices.find(v => v.lang && v.lang.toLowerCase().startsWith("pt")) ||
-      speech.voices[0] ||
-      null
-    );
-  }
-
-  function stopBrowserVoice() {
-    speech.token++;
-
-    if (!canSpeak()) return;
-
-    window.speechSynthesis.cancel();
-    window.setTimeout(() => window.speechSynthesis.cancel(), 30);
-    window.setTimeout(() => window.speechSynthesis.cancel(), 120);
-    window.setTimeout(() => window.speechSynthesis.cancel(), 300);
-  }
-
-  function updateLiveRegion(message) {
-    const clean = String(message || "").replace(/\s+/g, " ").trim();
-    const live = getById("game-live-region");
-    if (live) {
-      live.textContent = "";
-      window.setTimeout(() => { live.textContent = clean; }, 20);
-    }
-
-    setText("accessibility-status", clean);
-  }
-
-  function speak(message, force = false) {
+  // Apenas expõe texto ao leitor nativo. O jogo não gera voz própria.
+  function announce(message, { priority = "polite", key = "", cooldown = 0 } = {}) {
     const clean = String(message || "").replace(/\s+/g, " ").trim();
     if (!clean) return;
-
-    updateLiveRegion(clean);
-
-    if (!force && !state.screenReader) {
-      stopBrowserVoice();
-      return;
-    }
-
-    if (!canSpeak()) {
-      updateLiveRegion("Este navegador não liberou a voz automática. O texto foi enviado para a região acessível da tela.");
-      return;
-    }
-
     const now = Date.now();
-    if (speech.lastText === clean && now - speech.lastTime < 400) return;
-    speech.lastText = clean;
-    speech.lastTime = now;
+    if (key && now - (lastAnnouncements.get(key) ?? -Infinity) < cooldown) return;
+    if (key) lastAnnouncements.set(key, now);
+    const id = priority === "assertive" ? "game-alert-region" : "game-live-region";
+    const live = getById(id);
+    if (!live) return;
+    clearTimeout(pending.get(id));
+    live.textContent = "";
+    pending.set(id, setTimeout(() => {
+      live.textContent = clean;
+      pending.delete(id);
+    }, 40));
+  }
 
-    stopBrowserVoice();
-    const token = speech.token;
-
-    const utterance = new SpeechSynthesisUtterance(clean);
-    const voice = bestVoice();
-
-    if (voice) {
-      utterance.voice = voice;
-      utterance.lang = voice.lang || "pt-BR";
-    } else {
-      utterance.lang = "pt-BR";
+  function clearAnnouncements() {
+    pending.forEach(clearTimeout);
+    pending.clear();
+    for (const id of ["game-live-region", "game-alert-region"]) {
+      const live = getById(id);
+      if (live) live.textContent = "";
     }
+  }
 
-    utterance.rate = 0.92;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-
-    window.setTimeout(() => {
-      if (token !== speech.token) return;
-      if (!force && !state.screenReader) return;
-      window.speechSynthesis.speak(utterance);
-    }, 30);
+  function readableCode(source, numberedLines = false) {
+    const symbols = { "<-": "recebe", "===": "estritamente igual a", "!==": "estritamente diferente de", "==": "igual a", "=": "igual a", "!=": "diferente de",
+      "&&": "e lógico", "||": "ou lógico", "!": "não", "++": "mais um", "--": "menos um",
+      "<>": "diferente de", ">=": "maior ou igual a", "<=": "menor ou igual a",
+      ">": "maior que", "<": "menor que", "+": "mais", "-": "menos", "*": "vezes",
+      "/": "dividido por", "%": "resto da divisão", "(": "abre parênteses", ")": "fecha parênteses",
+      "{": "abre chaves", "}": "fecha chaves", "[": "abre colchetes", "]": "fecha colchetes",
+      ":": "dois pontos", ";": "ponto e vírgula" };
+    const words = { true: "true, verdadeiro", false: "false, falso", logico: "lógico",
+      senao: "senão", funcao: "função", entao: "então", nao: "não" };
+    return String(source ?? "").split(/\r?\n/).map((line, index) => {
+      const tokens = line.match(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\/\/[^\r\n]*|===|!==|<-|==|!=|>=|<=|<>|&&|\|\||\+\+|--|[\p{L}_][\p{L}\p{N}_]*|\d+(?:[.,]\d+)?|[^\s]/gu) || [];
+      const text = tokens.map(token => {
+        if (token.startsWith('//')) return `comentário: ${token.slice(2)}`;
+        if (/^["']/.test(token)) return `texto entre aspas: ${token.slice(1, -1) || "vazio"}`;
+        return symbols[token] || words[token.toLowerCase()] || token.replaceAll("_", " sublinhado ");
+      }).join(" ");
+      return text ? `${numberedLines ? `Linha ${index + 1}: ` : ""}${text}` : "";
+    }).filter(Boolean).join(". ");
   }
 
   function isTypingTarget(target) {
+    if (target?.id === 'game-movement-input') return false;
     const tag = target?.tagName?.toLowerCase();
     return tag === "input" || tag === "textarea" || tag === "select" || target?.isContentEditable;
   }
@@ -153,9 +109,9 @@
 
     const instructions = {
       "screen-accessibility": "Você está na tela de acessibilidade. Para usar o Narrador do Windows no mapa, pressione Narrador mais Espaço para sair do modo de varredura. Use Tab para navegar pelas opções e Escape para voltar.",
-      "screen-settings": "Você está nas configurações de som. Use Tab para navegar pelos controles de volume e pelos botões que ativam ou removem o som de fundo e os sons dos botões.",
+      "screen-settings": "Você está nas configurações de som. Use Tab para navegar pelos controles de volume e pelos botões que ativam ou removem o som de fundo, os efeitos sonoros e os sons dos botões.",
       "screen-difficulty": "Escolha a dificuldade. Use Tab para navegar e Enter para selecionar fácil, médio ou difícil.",
-      "screen-tutorial": "Tutorial aberto. Use Próximo para avançar, Anterior para voltar, ou o botão Ler Etapa para ouvir a explicação atual.",
+      "screen-tutorial": "Tutorial aberto. Use Próximo para avançar, Anterior para voltar, ou R para consultar a explicação atual com o leitor nativo.",
       "screen-intro": "A Bug Hunter está apresentando sua missão. O texto aparece aos poucos. Enter no texto revela a mensagem completa. Use Tab para chegar a Vamos nessa e Enter para iniciar a exploração. O jogo permanece pausado até essa escolha.",
       "screen-bug-popup": "Bug detectado. Pressione Enter para iniciar a missão ou afaste-se para continuar no mapa.",
       "screen-mission": "Missão aberta. Escolha uma alternativa, ligue os pares ou encontre os pares no jogo da memória. Use Tab para navegar e Enter para escolher. Tutorial, glossário, atalhos e configurações continuam disponíveis; ao voltar, a atividade permanece como estava.",
@@ -168,41 +124,6 @@
     };
 
     return instructions[active.id] || "Use Tab para navegar, Enter para selecionar e Escape para voltar quando disponível.";
-  }
-
-  function updateScreenReaderButton() {
-    const button = getById("btn-screen-reader");
-    const text = button?.querySelector(".access-btn-text");
-
-    document.body.classList.toggle("access-screen-reader-on", state.screenReader);
-    setText("screen-reader-value", state.screenReader ? "LIGADO" : "DESLIGADO");
-
-    if (button) {
-      button.setAttribute("aria-pressed", String(state.screenReader));
-      button.setAttribute("aria-label", state.screenReader ? "Desativar leitor de tela do jogo" : "Ativar leitor de tela do jogo");
-    }
-
-    if (text) text.textContent = state.screenReader ? "DESATIVAR LEITOR" : "ATIVAR LEITOR";
-  }
-
-  function setScreenReader(enabled, shouldSpeak = true) {
-    state.screenReader = Boolean(enabled);
-    localStorage.setItem(STORAGE_KEYS.screenReader, state.screenReader ? "1" : "0");
-    updateScreenReaderButton();
-
-    if (!state.screenReader) {
-      stopBrowserVoice();
-      updateLiveRegion("Leitor de tela do jogo desativado.");
-      return;
-    }
-
-    const msg = "Narração do jogo ativada. Desative esta opção se estiver usando o Narrador do Windows para não ouvir duas vozes. " + getCurrentInstruction();
-    if (shouldSpeak) speak(msg, true);
-    else updateLiveRegion(msg);
-  }
-
-  function toggleScreenReader() {
-    setScreenReader(!state.screenReader, true);
   }
 
   function updateContrastButton() {
@@ -220,14 +141,13 @@
     if (text) text.textContent = state.highContrast ? "DESATIVAR CONTRASTE" : "ATIVAR CONTRASTE";
   }
 
-  function setHighContrast(enabled, shouldSpeak = true) {
+  function setHighContrast(enabled, shouldAnnounce = true) {
     state.highContrast = Boolean(enabled);
     localStorage.setItem(STORAGE_KEYS.highContrast, state.highContrast ? "1" : "0");
     updateContrastButton();
 
     const msg = state.highContrast ? "Alto contraste ativado." : "Alto contraste desativado.";
-    if (shouldSpeak) speak(msg);
-    else updateLiveRegion(msg);
+    if (shouldAnnounce) announce(msg);
   }
 
   function toggleHighContrast() {
@@ -255,7 +175,7 @@
     window.ResponsiveLayout?.update?.();
   }
 
-  function setFontSize(size, shouldSpeak = true) {
+  function setFontSize(size, shouldAnnounce = true) {
     const selected = FONT_ORDER.includes(size) ? size : "normal";
     state.fontSize = selected;
     updateFontScale();
@@ -266,11 +186,10 @@
     syncFontLabels(selected);
 
     const msg = `Tamanho da fonte alterado para ${FONT_LABEL[selected].toLowerCase()}.`;
-    if (shouldSpeak) speak(msg);
-    else updateLiveRegion(msg);
+    if (shouldAnnounce) announce(msg);
   }
 
-  function setFontFamily(family, shouldSpeak = true) {
+  function setFontFamily(family, shouldAnnounce = true) {
     const selected = family === "arial" ? "arial" : "default";
     state.fontFamily = selected;
     updateFontScale();
@@ -283,7 +202,7 @@
       button.setAttribute("aria-pressed", String(active));
     });
     const message = selected === "arial" ? "Fonte Arial ativada." : "Fonte padrão do jogo ativada.";
-    if (shouldSpeak) speak(message);
+    if (shouldAnnounce) announce(message);
   }
 
   function changeFont(step) {
@@ -294,36 +213,14 @@
   }
 
   function readCurrentInstructions() {
-    speak(getCurrentInstruction(), true);
-  }
-
-  function describeFocusedElement(event) {
-    if (!state.screenReader) return;
-
-    const target = event.target;
-    if (!target) return;
-
-    const insideUsefulArea = target.closest?.(".overlay") || target.closest?.(".hud-panel");
-    if (!insideUsefulArea) return;
-
-    const label =
-      target.getAttribute?.("aria-label") ||
-      target.innerText ||
-      target.textContent ||
-      target.title ||
-      "Elemento focado";
-
-    const clean = String(label).replace(/\s+/g, " ").trim();
-    if (clean) speak(clean);
+    announce(getCurrentInstruction());
   }
 
   function setupButtons() {
     document.querySelectorAll("[data-font-family]").forEach(button => {
       button.addEventListener("click", () => setFontFamily(button.dataset.fontFamily));
     });
-    getById("btn-screen-reader")?.addEventListener("click", toggleScreenReader);
     getById("btn-high-contrast")?.addEventListener("click", toggleHighContrast);
-    getById("btn-read-current")?.addEventListener("click", readCurrentInstructions);
 
     document.querySelectorAll(".font-option-btn[data-font-size]").forEach(btn => {
       btn.addEventListener("click", () => setFontSize(btn.dataset.fontSize, true));
@@ -336,12 +233,6 @@
       if (isTypingTarget(event.target)) return;
 
       const key = event.key.toLowerCase();
-
-      if (key === "l") {
-        event.preventDefault();
-        toggleScreenReader();
-        return;
-      }
 
       if (key === "c") {
         event.preventDefault();
@@ -368,35 +259,11 @@
     });
   }
 
-  function patchOpeners() {
-    const originalOpen = window.openAccessibilityMenu;
-    window.openAccessibilityMenu = function patchedOpenAccessibilityMenu() {
-      if (typeof originalOpen === "function") originalOpen();
-      else if (window.UI?.showScreen) UI.showScreen("screen-accessibility");
-      else if (getById("screen-accessibility")) getById("screen-accessibility").style.display = "flex";
-
-      window.setTimeout(() => {
-        getById("btn-screen-reader")?.focus();
-        speak(getCurrentInstruction());
-      }, 80);
-    };
-
-    const originalBack = window.backToMainMenu;
-    window.backToMainMenu = function patchedBackToMainMenu() {
-      if (typeof originalBack === "function") originalBack();
-      else if (window.UI?.showScreen) UI.showScreen("screen-main-menu");
-
-      speak("Menu inicial aberto. Use Tab para escolher uma opção.");
-    };
-  }
-
   function loadSavedSettings() {
     setFontFamily(localStorage.getItem(STORAGE_KEYS.fontFamily), false);
-    state.screenReader = localStorage.getItem(STORAGE_KEYS.screenReader) === "1";
     state.highContrast = localStorage.getItem(STORAGE_KEYS.highContrast) === "1";
     state.fontSize = localStorage.getItem(STORAGE_KEYS.fontSize) || "normal";
 
-    updateScreenReaderButton();
     setHighContrast(state.highContrast, false);
     setFontSize(state.fontSize, false);
   }
@@ -405,15 +272,14 @@
     if (state.initialized) return;
     state.initialized = true;
 
-    refreshVoices();
-    if (canSpeak()) window.speechSynthesis.onvoiceschanged = refreshVoices;
-
     setupButtons();
     setupKeyboardShortcuts();
-    patchOpeners();
     loadSavedSettings();
-
-    document.addEventListener("focusin", describeFocusedElement);
+    const instructions = getById('reader-instructions');
+    if (instructions) {
+      instructions.setAttribute('role', 'group');
+      instructions.setAttribute('aria-label', instructions.textContent.replace(/\s+/g, ' ').trim());
+    }
   }
 
   if (document.readyState === "loading") {
@@ -423,15 +289,13 @@
   }
 
   window.AccessibilitySystem = {
-    speak,
-    stopBrowserVoice,
-    toggleScreenReader,
-    setScreenReader,
+    announce,
+    clearAnnouncements,
+    readableCode,
     toggleHighContrast,
     setHighContrast,
     setFontSize,
     setFontFamily,
-    readCurrentInstructions,
-    isScreenReaderEnabled: () => state.screenReader
+    readCurrentInstructions
   };
 })();

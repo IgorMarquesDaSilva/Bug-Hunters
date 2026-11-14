@@ -1,4 +1,4 @@
-/* Ajuda de teclado compartilhada pela barra lateral e pelo leitor do jogo. */
+/* Ajuda de teclado compartilhada pela barra lateral e pelos leitores nativos. */
 window.ShortcutHelp = (() => {
   const groups = [
     {
@@ -20,6 +20,7 @@ window.ShortcutHelp = (() => {
         ['W A S D / setas', 'Mover o personagem no mapa. Depois de fechar um apoio, essas teclas retomam o movimento sem precisar clicar no mapa.'],
         ['Enter', 'Abrir a missão quando aparecer o aviso de bug.'],
         ['R', 'Ouvir novamente a distância e a direção do bug mais próximo.'],
+        ['Escape no painel', 'Devolver o foco à área de movimento depois de consultar as informações da barra lateral.'],
         ['Tab', 'Acessar Tutorial, Glossário, Atalhos e Configurações. Os apoios também ficam disponíveis nas perguntas; ao fechar, a atividade continua de onde parou.']
       ]
     },
@@ -43,11 +44,10 @@ window.ShortcutHelp = (() => {
     {
       title: 'Acessibilidade',
       entries: [
-        ['L', 'Ativar ou desativar a narração do jogo.'],
         ['C', 'Ativar ou desativar o alto contraste.'],
         ['+ / =', 'Aumentar o tamanho da fonte.'],
         ['−', 'Diminuir o tamanho da fonte. Use a tecla de menos.'],
-        ['Narrador + Espaço', 'Se usar o Narrador do Windows, sair do modo de varredura para mover o personagem no mapa.']
+        ['Caps Lock + Espaço / Insert + Espaço', 'No Narrador do Windows, alternar o modo de varredura. Se WASD ou as setas estiverem lendo a página, desligue esse modo para mover o personagem no mapa.']
       ]
     }
   ];
@@ -58,6 +58,9 @@ window.ShortcutHelp = (() => {
     groups.forEach(group => {
       const section = document.createElement('section');
       section.className = 'shortcuts-group';
+      section.tabIndex = 0;
+      section.setAttribute('role', 'group');
+      section.setAttribute('aria-label', `${group.title}. ${group.entries.map(([keys, description]) => `${keys}: ${description}`).join(' ')}`);
       const heading = document.createElement('h3');
       heading.textContent = group.title;
       const list = document.createElement('dl');
@@ -83,7 +86,7 @@ window.ShortcutHelp = (() => {
     render();
     document.getElementById('shortcuts-content').scrollTop = 0;
     UI.openSupport('screen-shortcuts');
-    window.AccessibilitySystem?.speak?.('Atalhos do jogo. Use as setas para rolar a lista. Tab leva ao botão Voltar; Enter ou Escape fecha a janela.');
+    window.AccessibilitySystem?.announce?.('Atalhos do jogo. Use as setas para rolar a lista. Tab leva ao botão Voltar; Enter ou Escape fecha a janela.');
   }
 
   function close() {
