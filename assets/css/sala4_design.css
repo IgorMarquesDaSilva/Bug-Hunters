@@ -569,7 +569,7 @@ img.ship-diagram {
 /* ========================= BRILHO DAS TASKS ========================= */
 
 #room-map.sala4 .sala4-mission.mission-available {
-  outline: 3px solid rgba(101, 240, 255, 0.40);
+  outline: 3px solid #ff4141;
   outline-offset: 5px;
   animation: sala4-task-glow 1.05s infinite alternate;
 }
@@ -582,12 +582,14 @@ img.ship-diagram {
 
 @keyframes sala4-task-glow {
   from {
-    filter: drop-shadow(0 0 4px rgba(101, 240, 255, 0.34));
+    outline-color: #ef3030;
+    filter: drop-shadow(0 0 4px rgba(255,48,48,0.7));
   }
   to {
+    outline-color: #ff7777;
     filter:
-      drop-shadow(0 0 12px rgba(101, 240, 255, 0.88))
-      drop-shadow(0 0 24px rgba(255, 210, 76, 0.36));
+      drop-shadow(0 0 12px rgba(255,48,48,0.95))
+      drop-shadow(0 0 22px rgba(255,90,90,0.7));
   }
 }
 

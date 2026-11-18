@@ -685,6 +685,7 @@ window.GameAudio = (() => {
     if (!ctx) return;
     const now = ctx.currentTime;
     const group = { gain: ctx.createGain(), sources: new Set(), celebration: true };
+    group.gain.gain.setValueAtTime(1.65, now);
     group.gain.connect(state.sfxGain);
     state.celebration = group;
     // A trilha acompanha a entrada da fanfarra e cresce depois do acorde final.
@@ -692,9 +693,9 @@ window.GameAudio = (() => {
     if (music) {
       music.cancelScheduledValues(now);
       music.setValueAtTime(0.0001, now);
-      music.linearRampToValueAtTime(0.4, now + 0.1);
-      music.setValueAtTime(0.4, now + 2.25);
-      music.linearRampToValueAtTime(1, now + 3);
+      music.linearRampToValueAtTime(0.12, now + 0.06);
+      music.setValueAtTime(0.12, now + 2.85);
+      music.linearRampToValueAtTime(1, now + 3.4);
     }
     const melody = [
       [0, 523, 0.13], [0.16, 523, 0.13], [0.32, 659, 0.16],
@@ -856,6 +857,12 @@ window.GameAudio = (() => {
       type: "square",
       volume: 0.11
     });
+  }
+
+  function playAnswerFocus() {
+    unlock();
+    playTone({ frequency: 740, endFrequency: 880, duration: 0.065,
+      type: 'triangle', volume: 0.24 });
   }
 
   function playConfirm() {
@@ -1036,40 +1043,16 @@ window.GameAudio = (() => {
 
   function playLevelComplete() {
     unlock();
-
-    playTone({
-      frequency: 523,
-      duration: 0.12,
-      type: "square",
-      volume: 0.16
+    const ctx = ensureContext();
+    if (!ctx || !state.effectsEnabled || !state.effects || !state.master) return;
+    const now = ctx.currentTime;
+    const group = beginFeedback(now, 0.85);
+    [523.25, 659.25, 783.99].forEach((frequency, index) => {
+      playTone({ frequency, duration: 0.3, hold: 0.04, type: 'triangle',
+        volume: 0.2, when: now + index * 0.12, group });
+      playTone({ frequency, duration: 0.42, hold: 0.08, type: 'sine',
+        volume: 0.1, when: now + 0.4, group });
     });
-
-    window.setTimeout(() => {
-      playTone({
-        frequency: 659,
-        duration: 0.12,
-        type: "square",
-        volume: 0.16
-      });
-    }, 100);
-
-    window.setTimeout(() => {
-      playTone({
-        frequency: 784,
-        duration: 0.18,
-        type: "square",
-        volume: 0.18
-      });
-    }, 200);
-
-    window.setTimeout(() => {
-      playTone({
-        frequency: 1046,
-        duration: 0.30,
-        type: "triangle",
-        volume: 0.20
-      });
-    }, 300);
   }
 
   function playFootstep(
@@ -1678,6 +1661,7 @@ window.GameAudio = (() => {
     playDialogueKey,
     playGameOver,
     playClick,
+    playAnswerFocus,
     playConfirm,
     playCorrectAnswer,
     playError,

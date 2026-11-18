@@ -146,6 +146,7 @@ const TutorialSystem = (() => {
   let activeTermButton = null;
   let tooltipPinned = false;
   let hideTooltipTimer = null;
+  let announcementTimer = null;
 
   function open(fromMenu = false) {
     if (window.UI?.getActiveScreen() === "screen-tutorial") return;
@@ -167,6 +168,8 @@ const TutorialSystem = (() => {
 
   function close() {
     if (!isActive()) return;
+    clearTimeout(announcementTimer);
+    setText('tutorial-live-region', '');
     hideTermHelp();
     isOpen = false;
     localStorage.setItem("bh_tutorial_done", "1");
@@ -233,7 +236,7 @@ const TutorialSystem = (() => {
     const textArea = document.querySelector("#screen-tutorial .tut-text-wrap");
     if (textArea) {
       textArea.scrollTop = 0;
-      textArea.setAttribute("aria-label", `Texto da etapa ${currentSlide + 1}. ${slide.text} ${(slide.extra || []).map(item => item.text).join(' ')}`);
+      textArea.setAttribute("aria-label", `Etapa ${currentSlide + 1} de ${total}. ${slideToSpeech(slide)}`);
     }
     const body = document.querySelector("#screen-tutorial .tutorial-body");
     if (body) body.scrollTop = 0;
@@ -250,9 +253,12 @@ const TutorialSystem = (() => {
       nextBtn.setAttribute("aria-label", isLast ? "Fechar tutorial e iniciar missão" : "Avançar para a próxima etapa do tutorial");
     }
 
-    document.getElementById("tut-btn-next")?.focus();
-
-    announce(slideToSpeech(slide));
+    clearTimeout(announcementTimer);
+    setText('tutorial-live-region', '');
+    // O foco no conteúdo expõe a etapa inteira ao Narrador, inclusive em diálogo modal.
+    // Desfoca primeiro para que voltar/avançar pelo teclado também releia a etapa.
+    if (document.activeElement === textArea) textArea.blur();
+    textArea?.focus({ preventScroll: true });
   }
 
   function renderMedia(slide) {
@@ -320,8 +326,14 @@ const TutorialSystem = (() => {
 
   function announce(message) {
     const clean = String(message || "").replace(/\s+/g, " ").trim();
-
-    if (window.AccessibilitySystem?.announce) {
+    const live = document.getElementById('tutorial-live-region');
+    if (isActive() && live) {
+      clearTimeout(announcementTimer);
+      live.textContent = '';
+      announcementTimer = setTimeout(() => {
+        if (isActive()) live.textContent = clean;
+      }, 40);
+    } else if (window.AccessibilitySystem?.announce) {
       AccessibilitySystem.announce(clean);
     }
   }

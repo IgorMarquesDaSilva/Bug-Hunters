@@ -376,6 +376,7 @@ const MissionSystem = (() => {
       setText("room-clear-score", GameState.score);
       setText("room-clear-required", requiredScore);
       UI.showScreen("screen-room-clear");
+      window.GameAudio?.playLevelComplete();
       return;
     }
 

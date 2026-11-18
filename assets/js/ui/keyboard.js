@@ -3,6 +3,12 @@ window.KeyboardNavigation = (() => {
   const selector = 'button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), a[href], [tabindex="0"]';
   let activeScreen = null;
   const screenFocus = new Map();
+  let tabNavigation = false;
+  document.addEventListener('keydown', event => {
+    tabNavigation = event.key === 'Tab' && !event.ctrlKey && !event.altKey && !event.metaKey;
+  }, true);
+  document.addEventListener('keyup', () => { tabNavigation = false; }, true);
+  document.addEventListener('pointerdown', () => { tabNavigation = false; }, true);
 
   function focusable(root) {
     return Array.from(root.querySelectorAll(selector)).filter(element =>
@@ -19,6 +25,12 @@ window.KeyboardNavigation = (() => {
   }
 
   document.addEventListener('focusin', event => {
+    const fromTab = tabNavigation;
+    tabNavigation = false;
+    if (fromTab && activeScreen?.id === 'screen-mission' &&
+        event.target.matches('.choice-btn:not(:disabled), .matching-item:not(:disabled), .memory-card:not(:disabled)')) {
+      window.GameAudio?.playAnswerFocus();
+    }
     if (activeScreen?.id === 'screen-mission' && !activeScreen.contains(event.target)) {
       const previous = screenFocus.get(activeScreen.id);
       const items = currentItems();
@@ -50,7 +62,8 @@ window.KeyboardNavigation = (() => {
       screen.tabIndex = -1;
       const preferred = preferredFocus && currentItems().includes(preferredFocus)
         ? preferredFocus : screenId === 'screen-mission'
-          ? screen.querySelector('#mission-desc') : null;
+          ? screen.querySelector('#mission-desc') : screenId === 'screen-tutorial'
+            ? screen.querySelector('.tut-text-wrap') : null;
       (preferred || focusable(screen)[0] || screen).focus();
     } else if (!screen && (previous || preferredFocus)) {
       // Retomar o mapa devolve o foco à aplicação que recebe WASD e setas.

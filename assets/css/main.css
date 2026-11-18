@@ -2668,7 +2668,7 @@
   justify-content: flex-end !important;
   width: 100% !important;
   margin-top: 10px !important;
-  padding: 0 !important;
+  padding: calc(26px * var(--game-font-scale, 1) + 12px) 0 0 !important;
 }
 
 .overlay.room-clear-toast-overlay .room-clear-btn {
@@ -2696,7 +2696,8 @@
 /* Badge do ENTER no canto do botão */
 .room-clear-toast-actions .menu-key-badge {
   position: absolute !important;
-  top: -9px !important;
+  bottom: calc(100%) !important;
+  top: auto !important;
   right: -4px !important;
   display: inline-flex !important;
   align-items: center !important;
