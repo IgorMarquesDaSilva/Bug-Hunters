@@ -12,6 +12,26 @@
 
 .matching-instructions { font-size: calc(13px * var(--game-font-scale, 1)); }
 
+.matching-help { text-align: right; }
+.matching-help-button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 2px solid #6484a8;
+  background: #0a1729;
+  color: #fff;
+  font: 28px/1 Arial, sans-serif;
+  cursor: pointer;
+}
+.matching-help-button:hover { border-color: #ffd47e; }
+.matching-help-button:focus-visible { outline: 3px solid #ffd47e; outline-offset: 3px; }
+.matching-help-button[aria-expanded="true"] + .matching-instructions {
+  margin: 8px 0;
+  padding: 12px;
+  border: 2px solid #6484a8;
+  background: #0a1729;
+}
+body.high-contrast-on .matching-help-button { background: #000; border-color: #fff; color: #fff; }
+
 .matching-board {
   position: relative;
   display: grid;

@@ -40,7 +40,7 @@
      ResultsScreen.cancel();
      GameState.resetFull();
      GameState.difficulty  = selectedDifficulty;
-     GameState.currentRoom = "sala3";
+     GameState.currentRoom = "sala1";
      
    
      Renderer.loadRoomBackground();

@@ -19,8 +19,31 @@ const MatchingChallenge = (() => {
 
     const instructions = document.createElement('p');
     instructions.id = 'matching-instructions';
-    instructions.className = 'matching-instructions';
+    instructions.className = 'matching-instructions sr-only';
     instructions.textContent = 'Use Tab para navegar e Enter para ligar um item à sua resposta. Repita e confirme. Para trocar uma ligação, selecione o item de novo.';
+    const help = document.createElement('div');
+    help.className = 'matching-help';
+    const helpButton = document.createElement('button');
+    helpButton.type = 'button';
+    helpButton.className = 'matching-help-button';
+    helpButton.textContent = '⋯';
+    helpButton.setAttribute('aria-label', 'Como ligar os pares');
+    helpButton.setAttribute('aria-expanded', 'false');
+    helpButton.setAttribute('aria-controls', instructions.id);
+    function toggleHelp(expanded) {
+      helpButton.setAttribute('aria-expanded', String(expanded));
+      // Oculto apenas visualmente: a orientação continua disponível ao Narrador.
+      instructions.classList.toggle('sr-only', !expanded);
+    }
+    helpButton.onclick = () => toggleHelp(helpButton.getAttribute('aria-expanded') !== 'true');
+    help.addEventListener('keydown', event => {
+      if (event.key !== 'Escape' || helpButton.getAttribute('aria-expanded') !== 'true') return;
+      event.preventDefault();
+      event.stopPropagation();
+      toggleHelp(false);
+      helpButton.focus();
+    });
+    help.append(helpButton, instructions);
 
     const board = document.createElement('div');
     board.className = 'matching-board';
@@ -148,7 +171,7 @@ const MatchingChallenge = (() => {
     sourceList.prepend(itemHeading);
     targetList.prepend(targetHeading);
     board.append(lines, sourceList, targetList);
-    container.append(instructions, board, status, confirm);
+    container.append(help, board, status, confirm);
     updateStatus('Escolha um item para começar.');
     observer = new ResizeObserver(drawLines);
     observer.observe(board);

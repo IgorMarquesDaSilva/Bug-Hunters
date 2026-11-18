@@ -71,7 +71,7 @@
   }
 
   function readableCode(source, numberedLines = false) {
-    const symbols = { "<-": "recebe", "===": "estritamente igual a", "!==": "estritamente diferente de", "==": "igual a", "=": "igual a", "!=": "diferente de",
+    const symbols = { "<-": "recebe", "===": "estritamente igual a", "!==": "estritamente diferente de", "==": "igual a", "=": "recebe", "!=": "diferente de",
       "&&": "e lógico", "||": "ou lógico", "!": "não", "++": "mais um", "--": "menos um",
       "<>": "diferente de", ">=": "maior ou igual a", "<=": "menor ou igual a",
       ">": "maior que", "<": "menor que", "+": "mais", "-": "menos", "*": "vezes",

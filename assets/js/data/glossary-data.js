@@ -100,7 +100,7 @@ const GLOSSARY_DATA = {
             text: "Nos blocos deste jogo, = guarda um valor. Para perguntar se dois valores são iguais, use ==.",
             code: 'energia = 8\nenergia == 10 → false\nenergia < 10 → true',
             wrong: "energia = 10 muda o valor guardado; energia == 10 verifica se o valor já é 10.",
-            tip: "Leia pontos > 20 ou pontos == 20 como: pontos é maior que 20 ou é exatamente 20."
+            tip: "pontos >= 20 aceita 20 e qualquer número maior. pontos > 20 não aceita o próprio 20."
           }
         ]
       }
@@ -200,6 +200,13 @@ const GLOSSARY_DATA = {
             code: 'pontos = 20\nfunção abrirPorta\nchamar abrirPorta',
             output: 'pontos = 20: guardar dado. função abrirPorta: criar ação. chamar abrirPorta: executar ação.',
             tip: "Pergunte o que o bloco faz: guarda, cria ou executa?"
+          },
+          {
+            title: "Retornar um valor",
+            text: "Dentro de uma função, retorne devolve um resultado para quem chamou essa função. É diferente de guardar um valor em uma variável.",
+            code: 'retorne energia',
+            output: 'A função devolve o valor que está guardado em energia.',
+            tip: "No jogo da memória, ligue retorne energia a Devolver o valor da energia."
           },
           {
             title: "Organizar os blocos",
