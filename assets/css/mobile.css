@@ -34,6 +34,7 @@
   body.overlay-open #game-container {
     overflow: visible;
     contain: none;
+    touch-action: auto;
   }
 
   body.overlay-open .overlay {
@@ -66,6 +67,7 @@
     order: 1;
     touch-action: none;
   }
+
 
   .mobile-controls {
     order: 4;
@@ -647,7 +649,7 @@
 }
 /* Paisagem manual enquanto o navegador permanece travado em retrato. */
 @media (orientation: portrait) {
-  body.mobile-force-landscape { width: 100vw; height: 100dvh; min-height: 0; padding: 0; overflow: hidden; }
+  body.mobile-force-landscape { width: 100vw; height: 100dvh; min-height: 0; padding: 0; overflow: hidden; touch-action: auto; }
   body.mobile-force-landscape > .game-container {
     position: fixed; top: 0; left: 0;
     width: var(--manual-landscape-width, 100dvh);
@@ -714,6 +716,7 @@
   body.mobile-force-landscape.overlay-open .overlay {
     width: var(--manual-landscape-width, 100dvh);
     height: var(--manual-landscape-height, 100vw);
+    touch-action: none;
   }
 
   body.mobile-force-landscape.overlay-open .popup-content,
@@ -725,10 +728,26 @@
     );
   }
 
-  body.mobile-force-landscape #screen-settings .settings-panel,
   body.mobile-force-landscape #screen-settings .settings-range {
     touch-action: none;
   }
+
+  body.mobile-force-landscape .glossary-layout {
+    display: grid;
+    grid-template-columns: minmax(130px, 30%) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  body.mobile-force-landscape .glossary-sidebar {
+    display: block;
+    width: auto;
+    min-width: 0;
+    max-height: none;
+  }
+
+  body.mobile-force-landscape .glossary-content { min-height: 0; }
 }
 
 /* O Chrome/WebView de alguns aparelhos mantém a media query de retrato por

@@ -81,6 +81,11 @@ body {
   margin-block: auto;
 }
 
+.main-menu-panel {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 .popup-content,
 .settings-panel,
 .accessibility-panel,
@@ -179,7 +184,8 @@ body {
   max-height: calc(100% - 2px);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 900px),
+       (hover: none) and (pointer: coarse) and (orientation: portrait) {
   body {
     padding: clamp(6px, 2vw, 12px);
   }
@@ -227,20 +233,43 @@ body {
 
   .glossary-layout {
     min-height: 0;
+    display: grid;
+    grid-template-rows: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 12px;
+    overflow: hidden;
   }
 
   .glossary-sidebar {
-    max-height: min(150px, 36%);
+    max-height: 100%;
+    min-height: 0;
     flex: 0 0 auto;
   }
 
   .glossary-content {
-    min-height: 90px;
+    min-height: 0;
   }
 
   .tutorial-panel {
     overflow-y: auto;
   }
+}
+
+@media (max-width: 900px) and (orientation: landscape),
+       (hover: none) and (pointer: coarse) and (orientation: landscape) {
+  .glossary-layout {
+    display: grid;
+    grid-template-columns: minmax(130px, 30%) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .glossary-sidebar {
+    display: block;
+    width: auto;
+    min-width: 0;
+    max-height: none;
+  }
+
+  .glossary-content { min-height: 0; }
 }
 
 @media (max-width: 560px) {

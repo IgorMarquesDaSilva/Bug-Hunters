@@ -5,6 +5,8 @@
 window.MobileControls = (() => {
   let initialized = false;
   const activePointers = new Map();
+  let scrollGesture = null;
+  let suppressedClick = null;
 
   function setPressed(button, isPressed) {
     const direction = button?.dataset.direction;
@@ -28,6 +30,7 @@ window.MobileControls = (() => {
   }
 
   function releaseAll() {
+    scrollGesture = null;
     activePointers.forEach(button => setPressed(button, false));
     activePointers.clear();
 
@@ -36,6 +39,67 @@ window.MobileControls = (() => {
     });
 
     window.Player?.clearDirectionInput?.();
+  }
+
+  function bindRotatedScrolling() {
+    // Em paisagem manual, o eixo vertical do conteúdo aparece na horizontal
+    // da tela física. O gesto também pode começar sobre uma carta ou botão.
+    document.addEventListener("pointerdown", event => {
+      if (!document.body.classList.contains("mobile-force-landscape") ||
+          !["touch", "pen"].includes(event.pointerType) || !event.isPrimary ||
+          event.target.closest("input, textarea, select, [contenteditable='true']")) return;
+      const overlay = event.target.closest(".overlay");
+      if (!overlay) return;
+      const containers = [];
+      for (let node = event.target; node && overlay.contains(node); node = node.parentElement) {
+        if (node.scrollHeight > node.clientHeight + 1 && /auto|scroll/.test(getComputedStyle(node).overflowY)) {
+          containers.push(node);
+        }
+      }
+      if (containers.length) scrollGesture = {
+        id: event.pointerId, startX: event.clientX, lastX: event.clientX,
+        overlay, containers, dragging: false
+      };
+    });
+
+    document.addEventListener("pointermove", event => {
+      const gesture = scrollGesture;
+      if (!gesture || event.pointerId !== gesture.id) return;
+      if (!gesture.dragging && Math.abs(event.clientX - gesture.startX) < 8) return;
+      if (!gesture.dragging) {
+        gesture.dragging = true;
+        gesture.overlay.setPointerCapture?.(event.pointerId);
+      }
+      let delta = event.clientX - gesture.lastX;
+      gesture.lastX = event.clientX;
+      for (const node of gesture.containers) {
+        const previous = node.scrollTop;
+        node.scrollTop += delta;
+        delta -= node.scrollTop - previous;
+        if (Math.abs(delta) < 1) break;
+      }
+      event.preventDefault();
+    }, { passive: false });
+
+    for (const eventName of ["pointerup", "pointercancel"]) {
+      document.addEventListener(eventName, event => {
+        if (event.pointerId !== scrollGesture?.id) return;
+        if (scrollGesture.dragging) suppressedClick = {
+          id: event.pointerId, overlay: scrollGesture.overlay, until: performance.now() + 400
+        };
+        scrollGesture = null;
+      });
+    }
+
+    document.addEventListener("click", event => {
+      if (suppressedClick && performance.now() < suppressedClick.until &&
+          suppressedClick.overlay.contains(event.target) && event.detail !== 0 &&
+          event.pointerId === suppressedClick.id) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+      suppressedClick = null;
+    }, true);
   }
 
   function bindButton(button) {
@@ -63,6 +127,7 @@ window.MobileControls = (() => {
   function init() {
     if (initialized) return;
     initialized = true;
+    bindRotatedScrolling();
 
     document.querySelectorAll(".mobile-dpad-btn[data-direction]")
       .forEach(bindButton);

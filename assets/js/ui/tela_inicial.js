@@ -317,35 +317,6 @@
       });
     });
 
-    const settingsPanel = document.querySelector("#screen-settings .settings-panel");
-    if (!settingsPanel) return;
-
-    let scrollPointer = null;
-    let lastPointerX = 0;
-
-    settingsPanel.addEventListener("pointerdown", event => {
-      if (!document.body.classList.contains("mobile-force-landscape")) return;
-      if (event.target.closest("button, input, a, [role='button']")) return;
-
-      scrollPointer = event.pointerId;
-      lastPointerX = event.clientX;
-      settingsPanel.setPointerCapture?.(event.pointerId);
-    });
-
-    settingsPanel.addEventListener("pointermove", event => {
-      if (event.pointerId !== scrollPointer) return;
-
-      const delta = lastPointerX - event.clientX;
-      lastPointerX = event.clientX;
-      settingsPanel.scrollTop += delta;
-      event.preventDefault();
-    });
-
-    ["pointerup", "pointercancel", "lostpointercapture"].forEach(eventName => {
-      settingsPanel.addEventListener(eventName, event => {
-        if (event.pointerId === scrollPointer) scrollPointer = null;
-      });
-    });
   }
 
   function syncMobileOrientation() {
