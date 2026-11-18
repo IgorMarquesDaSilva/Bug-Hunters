@@ -138,9 +138,7 @@ const BugSystem = (() => {
       Array.from(document.querySelectorAll(missionSelector))
     );
 
-    const mapRect = roomMap.getBoundingClientRect();
-    const scaleX = canvas.width / mapRect.width;
-    const scaleY = canvas.height / mapRect.height;
+    const project = CollisionSystem.createMapProjection();
 
     GameState.bugs = missions.map((mission, i) => {
       const el = points[i];
@@ -162,13 +160,8 @@ const BugSystem = (() => {
         reactorOverlay?.classList.add("mission-available");
       }
 
-      const rect = el.getBoundingClientRect();
-
       return {
-        x: Math.round((rect.left - mapRect.left) * scaleX),
-        y: Math.round((rect.top - mapRect.top) * scaleY),
-        w: Math.round(rect.width * scaleX),
-        h: Math.round(rect.height * scaleY),
+        ...project(el),
         solved: false,
         missionIdx: i,
         el
@@ -182,19 +175,12 @@ const BugSystem = (() => {
 
     if (!roomMap || !canvas || !GameState.bugs.length) return;
 
-    const mapRect = roomMap.getBoundingClientRect();
-    const scaleX = canvas.width / mapRect.width;
-    const scaleY = canvas.height / mapRect.height;
+    const project = CollisionSystem.createMapProjection();
 
     GameState.bugs.forEach(bug => {
       if (!bug.el) return;
 
-      const rect = bug.el.getBoundingClientRect();
-
-      bug.x = Math.round((rect.left - mapRect.left) * scaleX);
-      bug.y = Math.round((rect.top - mapRect.top) * scaleY);
-      bug.w = Math.round(rect.width * scaleX);
-      bug.h = Math.round(rect.height * scaleY);
+      Object.assign(bug, project(bug.el));
     });
   }
 
@@ -373,17 +359,13 @@ const BugSystem = (() => {
 
     if (!door || !canvas || !roomMap) return;
 
-    const mapRect = roomMap.getBoundingClientRect();
-    const doorRect = door.getBoundingClientRect();
-
-    const scaleX = canvas.width / mapRect.width;
-    const scaleY = canvas.height / mapRect.height;
+    const doorRect = CollisionSystem.createMapProjection()(door);
 
     const doorBox = {
-      x: Math.round((doorRect.left - mapRect.left) * scaleX) - 45,
-      y: Math.round((doorRect.top - mapRect.top) * scaleY) - 45,
-      w: Math.round(doorRect.width * scaleX) + 90,
-      h: Math.round(doorRect.height * scaleY) + 90
+      x: doorRect.x - 45,
+      y: doorRect.y - 45,
+      w: doorRect.w + 90,
+      h: doorRect.h + 90
     };
 
     const p = Player.state;

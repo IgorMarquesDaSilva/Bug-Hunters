@@ -27,6 +27,27 @@
       return labels.find(([selector]) => element.closest(selector))?.[1] || 'um objeto';
     }
 
+    function createMapProjection() {
+      const canvas = document.getElementById("gameCanvas");
+      const mapRect = document.getElementById("room-map").getBoundingClientRect();
+      const rotated = document.body.classList.contains("mobile-force-landscape") &&
+        window.matchMedia("(orientation: portrait)").matches;
+      const scaleX = canvas.width / (rotated ? mapRect.height : mapRect.width);
+      const scaleY = canvas.height / (rotated ? mapRect.width : mapRect.height);
+
+      // A rotação de 90 graus troca os eixos visuais. Colisões, objetivos e
+      // orientações continuam usando a mesma grade lógica de 1000 x 600.
+      return element => {
+        const rect = element.getBoundingClientRect();
+        return {
+          x: Math.round((rotated ? rect.top - mapRect.top : rect.left - mapRect.left) * scaleX),
+          y: Math.round((rotated ? mapRect.right - rect.right : rect.top - mapRect.top) * scaleY),
+          w: Math.round((rotated ? rect.height : rect.width) * scaleX),
+          h: Math.round((rotated ? rect.width : rect.height) * scaleY)
+        };
+      };
+    }
+
     function loadZones() {
       const canvas = document.getElementById("gameCanvas");
       const roomMap = document.getElementById("room-map");
@@ -36,24 +57,16 @@
         return;
       }
   
-      const mapRect = roomMap.getBoundingClientRect();
-  
-      const scaleX = canvas.width / mapRect.width;
-      const scaleY = canvas.height / mapRect.height;
+      const project = createMapProjection();
   
       const elements = document.querySelectorAll("#room-map .collision");
   
       GameState.collisionZones = Array.from(elements).map((el, index) => {
-        const rect = el.getBoundingClientRect();
-  
         return {
           id: el.className || `collision-${index}`,
           key: `collision-${index}`,
           label: obstacleLabel(el),
-          x: Math.round((rect.left - mapRect.left) * scaleX),
-          y: Math.round((rect.top - mapRect.top) * scaleY),
-          w: Math.round(rect.width * scaleX),
-          h: Math.round(rect.height * scaleY)
+          ...project(el)
         };
       }).filter(zone => zone.w > 0 && zone.h > 0);
     }
@@ -170,6 +183,7 @@
     }
   
     return {
+      createMapProjection,
       loadZones,
       resolve,
       drawDebug
